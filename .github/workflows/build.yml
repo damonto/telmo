@@ -51,14 +51,16 @@ jobs:
       - name: Building libqmi
         run: |
           # Remove this step once libqmi 1.36 is available in the Ubuntu repository.
-          sudo apt-get update -y
-          sudo apt-get -qq install -y meson ninja-build pkg-config libglib2.0-dev libgudev-1.0-dev libqrtr-glib-dev
-          # git clone https://gitlab.freedesktop.org/mobile-broadband/libqmi.git
-          git clone https://github.com/linux-mobile-broadband/libqmi.git
-          cd libqmi
-          meson setup build --prefix=/usr --buildtype=release -Dmbim_qmux=false -Dfirmware_update=false -Dudev=false -Dman=false -Dgtk_doc=false -Dintrospection=false -Dbash_completion=false
-          sudo ninja -j$(nproc) -C build
-          sudo ninja -C build install
+          version=1.35.6
+          arch=$(dpkg --print-architecture)
+
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/gir1.2-qmi-1.0_${version}-1_${arch}.deb -o gir1.2-qmi-1.0_${version}-1_${arch}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib-dev_${version}-1_${arch}.deb -o libqmi-glib-dev_${version}-1_${arch}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-utils_${version}-1_${arch}.deb -o libqmi-utils_${version}-1_${arch}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-proxy_${version}-1_${arch}.deb -o libqmi-proxy_${version}-1_${arch}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib5_${version}-1_amd64.deb -o libqmi-glib5_${version}-1_amd64.deb
+
+          sudo dpkg -i libqmi-*.deb
 
       - name: Build for ${{ matrix.target.name }}
         run: |
