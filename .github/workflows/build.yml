@@ -50,7 +50,7 @@ jobs:
 
       - name: Building libqmi
         run: |
-          sudo apt-get -qq --no-install-recommands install -y libqrtr-glib-dev
+          sudo apt-get -qq --no-install-recommends install -y libqrtr-glib-dev
 
           VERSION=1.35.6
           ARCH=$(dpkg --print-architecture)
