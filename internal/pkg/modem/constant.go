@@ -201,3 +201,27 @@ func (m ModemAccessTechnology) String() string {
 		return "Unknown"
 	}
 }
+
+type Modem3gppNetworkAvailability uint32
+
+const (
+	Modem3gppNetworkAvailabilityUnknown   Modem3gppNetworkAvailability = iota // Unknown.
+	Modem3gppNetworkAvailabilityAvailable                                     // Network available.
+	Modem3gppNetworkAvailabilityCurrent                                       // Network is the current one.
+	Modem3gppNetworkAvailabilityForbidden                                     // Network is forbidden.
+)
+
+func (m Modem3gppNetworkAvailability) String() string {
+	switch m {
+	case Modem3gppNetworkAvailabilityUnknown:
+		return "Unknown"
+	case Modem3gppNetworkAvailabilityAvailable:
+		return "Available"
+	case Modem3gppNetworkAvailabilityCurrent:
+		return "Current"
+	case Modem3gppNetworkAvailabilityForbidden:
+		return "Forbidden"
+	default:
+		return "Undefined"
+	}
+}
