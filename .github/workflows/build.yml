@@ -52,20 +52,19 @@ jobs:
         run: |
           sudo apt-get -qq --no-install-recommends install -y libqrtr-glib-dev
 
-          VERSION=1.35.6
-          ARCH=$(dpkg --print-architecture)
+          VERSION=1.35.6-1_$(dpkg --print-architecture)
 
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/gir1.2-qmi-1.0_${VERSION}-1_${ARCH}.deb -o gir1.2-qmi-1.0_${VERSION}-1_${ARCH}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib-dev_${VERSION}-1_${ARCH}.deb -o libqmi-glib-dev_${VERSION}-1_${ARCH}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-utils_${VERSION}-1_${ARCH}.deb -o libqmi-utils_${VERSION}-1_${ARCH}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-proxy_${VERSION}-1_${ARCH}.deb -o libqmi-proxy_${VERSION}-1_${ARCH}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib5_${VERSION}-1_${ARCH}.deb -o libqmi-glib5_${VERSION}-1_${ARCH}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/gir1.2-qmi-1.0_${VERSION}.deb -o gir1.2-qmi-1.0_${VERSION}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib-dev_${VERSION}.deb -o libqmi-glib-dev_${VERSION}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-utils_${VERSION}.deb -o libqmi-utils_${VERSION}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-proxy_${VERSION}.deb -o libqmi-proxy_${VERSION}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib5_${VERSION}.deb -o libqmi-glib5_${VERSION}.deb
 
-          sudo dpkg -i gir1.2-qmi-1.0_${VERSION}-1_${ARCH}.deb
-          sudo dpkg -i libqmi-glib-dev_${VERSION}-1_${ARCH}.deb
-          sudo dpkg -i libqmi-glib5_${VERSION}-1_${ARCH}.deb
-          sudo dpkg -i libqmi-utils_${VERSION}-1_${ARCH}.deb
-          sudo dpkg -i libqmi-proxy_${VERSION}-1_${ARCH}.deb
+          sudo dpkg -i libqmi-glib5_${VERSION}.deb
+          sudo dpkg -i gir1.2-qmi-1.0_${VERSION}.deb
+          sudo dpkg -i libqmi-glib-dev_${VERSION}.deb
+          sudo dpkg -i libqmi-utils_${VERSION}.deb
+          sudo dpkg -i libqmi-proxy_${VERSION}.deb
 
       - name: Build for ${{ matrix.target.name }}
         run: |
