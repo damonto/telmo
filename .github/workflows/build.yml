@@ -50,15 +50,15 @@ jobs:
 
       - name: Building libqmi
         run: |
-          # Remove this step once libqmi 1.36 is available in the Ubuntu repository.
-          version=1.35.6
-          arch=$(dpkg --print-architecture)
+          sudo apt-get -qq --no-install-recommands install -y libqrtr-glib-dev
 
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/gir1.2-qmi-1.0_${version}-1_${arch}.deb -o gir1.2-qmi-1.0_${version}-1_${arch}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib-dev_${version}-1_${arch}.deb -o libqmi-glib-dev_${version}-1_${arch}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-utils_${version}-1_${arch}.deb -o libqmi-utils_${version}-1_${arch}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-proxy_${version}-1_${arch}.deb -o libqmi-proxy_${version}-1_${arch}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib5_${version}-1_amd64.deb -o libqmi-glib5_${version}-1_amd64.deb
+          VERSION=1.35.6
+          ARCH=$(dpkg --print-architecture)
+
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib-dev_${VERSION}-1_${ARCH}.deb -o libqmi-glib-dev_${VERSION}-1_${ARCH}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-utils_${VERSION}-1_${ARCH}.deb -o libqmi-utils_${VERSION}-1_${ARCH}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-proxy_${VERSION}-1_${ARCH}.deb -o libqmi-proxy_${VERSION}-1_${ARCH}.deb
+          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib5_${VERSION}-1_${ARCH}.deb -o libqmi-glib5_${VERSION}-1_${ARCH}.deb
 
           sudo dpkg -i libqmi-*.deb
 
