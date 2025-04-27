@@ -77,7 +77,7 @@ If you wish to run the program in the background, you can utilize the `systemctl
 
 ```plaintext
 [Unit]
-Description=Telegram SMS Forwarder
+Description=Telegram Mobile
 After=network.target
 
 [Service]

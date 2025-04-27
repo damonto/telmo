@@ -47,7 +47,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	slog.Info("Starting telegram SMS bot", "version", Version)
+	slog.Info("Starting Telmo", "version", Version)
 
 	bot, err := telego.NewBot(config.C.BotToken,
 		telego.WithAPIServer(config.C.Endpoint),
@@ -80,7 +80,7 @@ func main() {
 		}
 	}()
 	<-ctx.Done()
-	slog.Info("Stopping telegram SMS bot")
+	slog.Info("Stopping Telmo")
 	app.Shutdown()
 	slog.Info("Goodbye!")
 }
