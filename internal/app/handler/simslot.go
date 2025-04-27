@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/damonto/telegram-sms/internal/app/state"
-	"github.com/damonto/telegram-sms/internal/pkg/modem"
-	"github.com/damonto/telegram-sms/internal/pkg/util"
+	"github.com/damonto/telmo/internal/app/state"
+	"github.com/damonto/telmo/internal/pkg/modem"
+	"github.com/damonto/telmo/internal/pkg/util"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
 	tu "github.com/mymmrac/telego/telegoutil"

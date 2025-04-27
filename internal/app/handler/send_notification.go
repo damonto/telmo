@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	sgp22 "github.com/damonto/euicc-go/v2"
-	"github.com/damonto/telegram-sms/internal/pkg/util"
+	"github.com/damonto/telmo/internal/pkg/util"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
 )

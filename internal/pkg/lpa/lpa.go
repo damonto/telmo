@@ -16,9 +16,9 @@ import (
 	"github.com/damonto/euicc-go/driver/qmi"
 	"github.com/damonto/euicc-go/lpa"
 	sgp22 "github.com/damonto/euicc-go/v2"
-	"github.com/damonto/telegram-sms/internal/pkg/config"
-	"github.com/damonto/telegram-sms/internal/pkg/modem"
-	"github.com/damonto/telegram-sms/internal/pkg/util"
+	"github.com/damonto/telmo/internal/pkg/config"
+	"github.com/damonto/telmo/internal/pkg/modem"
+	"github.com/damonto/telmo/internal/pkg/util"
 )
 
 type LPA struct {

@@ -1,12 +1,12 @@
 [Unit]
-Description=Telegram SMS
+Description=Telegram Mobile
 After=network.target
 
 [Service]
 Type=simple
 User=root
 Restart=on-failure
-ExecStart=/usr/local/bin/telegram-sms --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
+ExecStart=/usr/local/bin/telmo --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
 RestartSec=10s
 TimeoutStopSec=30s
 

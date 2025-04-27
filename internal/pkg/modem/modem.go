@@ -7,8 +7,8 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/damonto/telegram-sms/internal/pkg/config"
-	"github.com/damonto/telegram-sms/internal/pkg/util"
+	"github.com/damonto/telmo/internal/pkg/config"
+	"github.com/damonto/telmo/internal/pkg/util"
 	"github.com/godbus/dbus/v5"
 )
 

@@ -5,7 +5,7 @@ import (
 
 	"slices"
 
-	"github.com/damonto/telegram-sms/internal/pkg/config"
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
 )

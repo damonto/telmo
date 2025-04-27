@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/damonto/telegram-sms/internal/pkg/lpa"
-	"github.com/damonto/telegram-sms/internal/pkg/modem"
+	"github.com/damonto/telmo/internal/pkg/lpa"
+	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
 	tu "github.com/mymmrac/telego/telegoutil"

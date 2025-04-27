@@ -11,9 +11,9 @@ import (
 	th "github.com/mymmrac/telego/telegohandler"
 	tu "github.com/mymmrac/telego/telegoutil"
 
-	"github.com/damonto/telegram-sms/internal/pkg/lpa"
-	"github.com/damonto/telegram-sms/internal/pkg/modem"
-	"github.com/damonto/telegram-sms/internal/pkg/util"
+	"github.com/damonto/telmo/internal/pkg/lpa"
+	"github.com/damonto/telmo/internal/pkg/modem"
+	"github.com/damonto/telmo/internal/pkg/util"
 )
 
 const CallbackQueryAskModemPrefix = "ask_modem"

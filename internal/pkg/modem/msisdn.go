@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/damonto/telegram-sms/internal/pkg/util"
+	"github.com/damonto/telmo/internal/pkg/util"
 )
 
 func (m *Modem) SetMSISDN(name string, number string) error {

@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"sync"
 
-	"github.com/damonto/telegram-sms/internal/app/middleware"
+	"github.com/damonto/telmo/internal/app/middleware"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
 )

@@ -1,4 +1,7 @@
-# Telegram SMS
+# Telmo
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/damonto/telmo)](https://goreportcard.com/report/github.com/damonto/telmo)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### Advertisement
 
@@ -24,26 +27,26 @@ I have thoroughly tested this program and found it to work well. However, its co
 
 ### Installation & Usage
 
-You can obtain the latest release from the [releases page](https://github.com/damonto/telegram-sms/releases).
+You can obtain the latest release from the [releases page](https://github.com/damonto/telmo/releases).
 
 If you want to build it yourself, you can run the following commands:
 
 ```bash
-git clone git@github.com:damonto/telegram-sms.git
-cd telegram-sms
-go build -trimpath -ldflags="-w -s" -o telegram-sms main.go
+git clone git@github.com:damonto/telmo.git
+cd telmo
+go build -trimpath -ldflags="-w -s" -o telmo main.go
 ```
 
 Sometimes, you might need to set executable permissions for the binary file using the following command:
 
 ```bash
-chmod +x telegram-sms
+chmod +x telmo
 ```
 
 Once done, you can run the program with root privileges:
 
 ```bash
-sudo ./telegram-sms --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
+sudo ./telmo --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
 ```
 
 #### QMI
@@ -65,12 +68,12 @@ sudo ninja -C build install
 Once you have compiled and installed `libqmi`, you can run the program with the following command:
 
 ```bash
-sudo ./telegram-sms --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
+sudo ./telmo --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
 ```
 
 If you wish to run the program in the background, you can utilize the `systemctl` command. Here is an example of how to achieve this:
 
-1. Start by creating a service file in the `/etc/systemd/system` directory. For instance, you can name the file `telegram-sms.service` and include the following content:
+1. Start by creating a service file in the `/etc/systemd/system` directory. For instance, you can name the file `telmo.service` and include the following content:
 
 ```plaintext
 [Unit]
@@ -81,7 +84,7 @@ After=network.target
 Type=simple
 User=root
 Restart=on-failure
-ExecStart=/your/binary/path/here/telegram-sms --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
+ExecStart=/your/binary/path/here/telmo --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
 RestartSec=10s
 TimeoutStopSec=30s
 
@@ -92,11 +95,11 @@ WantedBy=multi-user.target
 2. Then, use the following command to start the service:
 
 ```bash
-sudo systemctl start telegram-sms
+sudo systemctl start telmo
 ```
 
 3. If you want the service to start automatically upon system boot, use the following command:
 
 ```bash
-sudo systemctl enable telegram-sms
+sudo systemctl enable telmo
 ```

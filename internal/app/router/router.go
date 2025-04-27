@@ -6,10 +6,10 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/damonto/telegram-sms/internal/app/handler"
-	"github.com/damonto/telegram-sms/internal/app/middleware"
-	"github.com/damonto/telegram-sms/internal/app/state"
-	"github.com/damonto/telegram-sms/internal/pkg/modem"
+	"github.com/damonto/telmo/internal/app/handler"
+	"github.com/damonto/telmo/internal/app/middleware"
+	"github.com/damonto/telmo/internal/app/state"
+	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
 )

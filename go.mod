@@ -1,4 +1,4 @@
-module github.com/damonto/telegram-sms
+module github.com/damonto/telmo
 
 go 1.24.1
 

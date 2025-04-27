@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/damonto/telegram-sms/internal/app/router"
-	"github.com/damonto/telegram-sms/internal/pkg/modem"
+	"github.com/damonto/telmo/internal/app/router"
+	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
 )
