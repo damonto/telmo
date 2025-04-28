@@ -1,6 +1,5 @@
 # Telmo
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/damonto/telmo)](https://goreportcard.com/report/github.com/damonto/telmo)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### Advertisement
