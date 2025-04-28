@@ -1,6 +1,7 @@
 [Unit]
 Description=Telegram Mobile
-After=network.target
+Requires=ModemManager.service
+After=network.target ModemManager.service
 
 [Service]
 Type=simple
