@@ -185,20 +185,18 @@ func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, 
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
 	slog.Info("Downloading profile", "activationCode", activationCode)
-	n, err := l.DownloadProfile(ctx, activationCode, handler)
-	if err != nil {
-		return err
-	}
-	// Some profiles may not have notifications
-	if n.Notification.SequenceNumber > 0 {
-		slog.Info("Sending download notification", "sequence", n.Notification.SequenceNumber)
-		ns, err := l.RetrieveNotificationList(n.Notification.SequenceNumber)
+	result, derr := l.DownloadProfile(ctx, activationCode, handler)
+	if result.Notification.SequenceNumber > 0 {
+		slog.Info("Sending download notification", "sequence", result.Notification.SequenceNumber)
+		n, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)
 		if err != nil {
-			return err
+			return errors.Join(derr, err)
 		}
-		if len(ns) > 0 {
-			return l.HandleNotification(ns[0])
+		if len(n) > 0 {
+			if err := l.HandleNotification(n[0]); err != nil {
+				return errors.Join(derr, err)
+			}
 		}
 	}
-	return nil
+	return derr
 }
