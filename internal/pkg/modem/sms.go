@@ -21,7 +21,7 @@ func (m *Modem) RetrieveSMS(objectPath dbus.ObjectPath) (*SMS, error) {
 	if err != nil {
 		return nil, err
 	}
-	sms := &SMS{objectPath: objectPath}
+	sms := SMS{objectPath: objectPath}
 	variant, err := dbusObject.GetProperty(ModemSMSInterface + ".State")
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func (m *Modem) RetrieveSMS(objectPath dbus.ObjectPath) (*SMS, error) {
 			return nil, err
 		}
 	}
-	return sms, nil
+	return &sms, nil
 }
 
 func (m *Modem) SendSMS(to string, text string) (*SMS, error) {

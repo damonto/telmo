@@ -11,15 +11,15 @@ import (
 const ModemMessagingInterface = ModemInterface + ".Messaging"
 
 func (m *Modem) ListMessages() ([]*SMS, error) {
-	messages := new([]dbus.ObjectPath)
-	err := m.dbusObject.Call(ModemMessagingInterface+".List", 0).Store(messages)
-	var s []*SMS
-	for _, message := range *messages {
-		sms, err := m.RetrieveSMS(message)
+	var messages []dbus.ObjectPath
+	var err error
+	err = m.dbusObject.Call(ModemMessagingInterface+".List", 0).Store(&messages)
+	s := make([]*SMS, len(messages))
+	for i, message := range messages {
+		s[i], err = m.RetrieveSMS(message)
 		if err != nil {
 			return nil, err
 		}
-		s = append(s, sms)
 	}
 	return s, err
 }
