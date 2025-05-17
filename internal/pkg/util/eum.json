@@ -3,6 +3,13 @@
     "eum": "89033023",
     "country": "FR",
     "manufacturer": "Thales",
+    "accreditations": [
+      { "prefix": "TS-CA-UP", "country": "MX" },
+      { "prefix": "TS-ME-UP", "country": "US" },
+      { "prefix": "TS-NA-UP", "country": "IN" },
+      { "prefix": "TS-PA-UP", "country": "FR" },
+      { "prefix": "TS-SI-UP", "country": "CN" }
+    ],
     "products": [
       { "prefix": "89033023424110", "name": "Amazfit" },
       { "prefix": "89033023424210", "name": "TicWatch" },
@@ -20,6 +27,10 @@
     "eum": "89033024",
     "country": "FR",
     "manufacturer": "IDEMIA",
+    "accreditations": [
+      { "prefix": "IA-VE-UP", "country": "FR" },
+      { "prefix": "ID-SN-UP", "country": "CN" }
+    ],
     "products": [
       { "prefix": "890330240681027499102", "chip": "ST33G1M2STL8EMQ4", "name": "AVNET eUICC" },
       { "prefix": "890330240681", "name": "AVNET eUICC" }
@@ -28,11 +39,19 @@
   {
     "eum": "89034011",
     "country": "ES",
+    "accreditations": [
+      { "prefix": "VD-MD-UP", "country": "ES" },
+      { "prefix": "VD-SU-UP", "country": "CN" }
+    ],
     "manufacturer": "Valid"
   },
   {
     "eum": "89043051",
     "country": "AT",
+    "accreditations": [
+      { "prefix": "NP-HG-UP", "country": "DE" },
+      { "prefix": "NP-TN-UP", "country": "CN" }
+    ],
     "manufacturer": "NXP"
   },
   {
@@ -44,6 +63,10 @@
     "eum": "89044045",
     "country": "GB",
     "manufacturer": "Kigen",
+    "accreditations": [
+      { "prefix": "KN-DN-UP", "country": "IE" },
+      { "prefix": "KN-NA-UP", "country": "IN" }
+    ],
     "products": [
       { "prefix": "890440451167274948", "name": "sysmoEUICC1-C2G" },
       { "prefix": "890440452167274948", "name": "9eSIM" }
@@ -58,6 +81,12 @@
     "eum": "89049032",
     "country": "DE",
     "manufacturer": "G+D",
+    "accreditations": [
+      { "prefix": "GD-BA-UP", "country": "ES" },
+      { "prefix": "GD-CI-UP", "country": "IN" },
+      { "prefix": "GD-MM-UP", "country": "CA" },
+      { "prefix": "GD-NG-UP", "country": "CN" }
+    ],
     "products": [
       { "prefix": "890490321030288823", "chip": "ST33G1M2LCL9EMM4", "name": "Entrust?" },
       { "prefix": "890490320030088823", "chip": "ST33G1M2STL8ENH0", "name": "Apple, 2017" },
@@ -80,11 +109,13 @@
     "eum": "89086001",
     "country": "CN",
     "manufacturer": "Hengbao",
+    "accreditations": [{ "prefix": "HO-DG-UP", "country": "CN" }],
     "products": [{ "prefix": "89086001202200101019000001", "name": "Abardeen" }]
   },
   {
     "eum": "89086029",
     "country": "CN",
+    "accreditations": [{ "prefix": "WN-HI-UP", "country": "CN" }],
     "manufacturer": "Wuhan Tianyu",
     "products": [
       { "prefix": "890860292022000001210107", "name": "TicWatch GTW" },
@@ -95,6 +126,7 @@
     "eum": "89086030",
     "country": "CN",
     "manufacturer": "Eastcompeace",
+    "accreditations": [{ "prefix": "ED-ZI-UP", "country": "CN" }],
     "products": [
       {
         "prefix": "89086030202200000024",
@@ -128,6 +160,7 @@
   {
     "eum": "35840574",
     "country": "CN",
+    "accreditations": [{ "prefix": "WD-BG-UP", "country": "CN" }],
     "manufacturer": "Beijing Watchdata"
   }
 ]

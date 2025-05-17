@@ -17,14 +17,12 @@ var eum []byte
 //go:embed ci.json
 var ci []byte
 
-//go:embed sas-up-accredited-sites.json
-var sasUpAccreditedSites []byte
-
 type EUM struct {
-	EUM          string    `json:"eum"`
-	Country      string    `json:"country"`
-	Manufacturer string    `json:"manufacturer"`
-	Products     []Product `json:"products"`
+	EUM            string          `json:"eum"`
+	Country        string          `json:"country"`
+	Manufacturer   string          `json:"manufacturer"`
+	Accreditations []Accreditation `json:"accreditations"`
+	Products       []Product       `json:"products"`
 }
 
 type Product struct {
@@ -40,18 +38,14 @@ type CertificateIssuer struct {
 	Name    string `json:"name"`
 }
 
-type SasUpAccreditedSite struct {
-	Supplier      string `json:"supplier"`
-	Site          string `json:"site"`
-	FirstYear     string `json:"first_year"`
-	ValidTo       string `json:"valid_to"`
-	CertificateNo string `json:"certificate_no"`
+type Accreditation struct {
+	Prefix  string `json:"prefix"`
+	Country string `json:"country"`
 }
 
 var (
-	certificateIssuers   []*CertificateIssuer
-	EUMs                 []*EUM
-	SasUpAccreditedSites []*SasUpAccreditedSite
+	certificateIssuers []CertificateIssuer
+	EUMs               []EUM
 )
 
 func init() {
@@ -61,22 +55,9 @@ func init() {
 	if err := json.Unmarshal(ci, &certificateIssuers); err != nil {
 		slog.Error("Failed to unmarshal certificate issuers", "error", err)
 	}
-	if err := json.Unmarshal(sasUpAccreditedSites, &SasUpAccreditedSites); err != nil {
-		slog.Error("Failed to unmarshal SAS UP accredited sites", "error", err)
-	}
 }
 
-func FindSasUpAccreditedSite(certificateNo string) *SasUpAccreditedSite {
-	prefix := certificateNo[:8]
-	for _, site := range SasUpAccreditedSites {
-		if strings.HasPrefix(site.CertificateNo, prefix) {
-			return site
-		}
-	}
-	return nil
-}
-
-func FindCertificateIssuer(keyID string) string {
+func LookupCertificateIssuer(keyID string) string {
 	for _, ci := range certificateIssuers {
 		if strings.HasPrefix(keyID, ci.KeyID) {
 			return ci.Name
@@ -85,11 +66,16 @@ func FindCertificateIssuer(keyID string) string {
 	return keyID
 }
 
-func LookupEUM(eid string) (country string, manufacturer string, brand string) {
+func LookupEUM(eid string, sasAccreditationNumber string) (country string, manufacturer string, brand string) {
 	for _, manifest := range EUMs {
 		if strings.HasPrefix(eid, manifest.EUM) {
 			country = manifest.Country
 			manufacturer = manifest.Manufacturer
+			for _, accreditation := range manifest.Accreditations {
+				if strings.HasPrefix(sasAccreditationNumber, accreditation.Prefix) {
+					country = accreditation.Country
+				}
+			}
 			for _, product := range manifest.Products {
 				if strings.HasPrefix(eid, product.Prefix) {
 					if product.InRange != nil {

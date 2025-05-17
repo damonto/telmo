@@ -27,12 +27,11 @@ type LPA struct {
 }
 
 type Info struct {
-	EID                   string
-	FreeSpace             int32
-	SasAcreditationNumber string
-	Manufacturer          string
-	Certificates          []string
-	Product               *Product
+	EID                    string
+	FreeSpace              int32
+	SasAccreditationNumber string
+	Certificates           []string
+	Product                Product
 }
 
 type Product struct {
@@ -111,22 +110,24 @@ func (l *LPA) Info() (*Info, error) {
 		return nil, err
 	}
 	info.EID = hex.EncodeToString(eid)
-	country, manufacturer, brand := util.LookupEUM(info.EID)
-	info.Product = &Product{Country: country, Manufacturer: manufacturer, Brand: brand}
 
 	tlv, err := l.EUICCInfo2()
 	if err != nil {
 		return nil, err
 	}
-	// sasAcreditationNumber
-	info.SasAcreditationNumber = string(tlv.First(bertlv.Universal.Primitive(12)).Value)
-	if site := util.FindSasUpAccreditedSite(info.SasAcreditationNumber); site != nil {
-		info.Manufacturer = site.Supplier
-	}
+
+	// sasAccreditationNumber
+	info.SasAccreditationNumber = string(tlv.First(bertlv.Universal.Primitive(12)).Value)
+
+	// eum
+	country, manufacturer, brand := util.LookupEUM(info.EID, info.SasAccreditationNumber)
+	info.Product = Product{Country: country, Manufacturer: manufacturer, Brand: brand}
+
 	// euiccCiPKIdListForSigning
 	for _, child := range tlv.First(bertlv.ContextSpecific.Constructed(10)).Children {
-		info.Certificates = append(info.Certificates, util.FindCertificateIssuer(hex.EncodeToString(child.Value)))
+		info.Certificates = append(info.Certificates, util.LookupCertificateIssuer(hex.EncodeToString(child.Value)))
 	}
+
 	// extResource.freeNonVolatileMemory
 	resource := tlv.First(bertlv.ContextSpecific.Primitive(4))
 	data, _ := resource.MarshalBinary()

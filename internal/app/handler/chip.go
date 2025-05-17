@@ -16,8 +16,8 @@ type ChipHandler struct {
 
 const ChipMessageTemplate = `
 EID: %s
-Brand: %s
 Manufacturer: %s
+SAS Accreditation Number: %s
 Free Space: %d KiB
 Sign Keys:
 %s
@@ -54,7 +54,7 @@ func (h *ChipHandler) message(info *lpa.Info) string {
 		ChipMessageTemplate,
 		fmt.Sprintf("`%s`", info.EID),
 		util.EscapeText(manufacturer),
-		util.EscapeText(util.If(info.Manufacturer != "", info.Manufacturer, info.SasAcreditationNumber)),
+		util.EscapeText(info.SasAccreditationNumber),
 		info.FreeSpace/1024,
 		util.EscapeText(strings.TrimRight(key, "\n")),
 	)
