@@ -29,7 +29,6 @@ const (
 
 	ProfileActionSetNickname state.State = "Set Nickname"
 	ProfileActionDelete      state.State = "Delete"
-	ProfileActionDisable     state.State = "Disable"
 	ProfileActionEnable      state.State = "Enable"
 )
 
@@ -68,13 +67,11 @@ func (h *ProfileHandler) sendActionMessage(ctx *th.Context, query telego.Callbac
 	if profile.ProfileState == sgp22.ProfileEnabled {
 		buttons = tu.KeyboardRow(
 			tu.KeyboardButton(string(ProfileActionSetNickname)),
-			tu.KeyboardButton(string(ProfileActionDisable)),
 		)
 	} else {
 		buttons = tu.KeyboardRow(
 			tu.KeyboardButton(string(ProfileActionSetNickname)),
 			tu.KeyboardButton(string(ProfileActionEnable)),
-			tu.KeyboardButton(string(ProfileActionDisable)),
 			tu.KeyboardButton(string(ProfileActionDelete)),
 		)
 	}
@@ -110,9 +107,6 @@ func (h *ProfileHandler) HandleMessage(ctx *th.Context, message telego.Message, 
 	}
 	if state.State(message.Text) == ProfileActionEnable {
 		return h.enableProfile(ctx, message, s)
-	}
-	if state.State(message.Text) == ProfileActionDisable {
-		return h.disableProfile(ctx, message, s)
 	}
 	if state.State(message.Text) == ProfileActionDelete {
 		return h.confirmDelete(ctx, message, s)
@@ -187,25 +181,6 @@ func (h *ProfileHandler) enableProfile(ctx *th.Context, message telego.Message, 
 		ctx,
 		message,
 		util.EscapeText("The profile has been enabled. It may take a few seconds to activate. /profiles"),
-		nil,
-	)
-	return err
-}
-
-func (h *ProfileHandler) disableProfile(ctx *th.Context, message telego.Message, s *state.ChatState) error {
-	value := s.Value.(*ProfileValue)
-	l, err := lpa.New(value.Modem)
-	if err != nil {
-		return err
-	}
-	defer l.Close()
-	if err := l.DisableProfile(value.ICCID, true); err != nil {
-		return err
-	}
-	_, err = h.ReplyMessage(
-		ctx,
-		message,
-		util.EscapeText("The profile has been disabled. /profiles"),
 		nil,
 	)
 	return err
