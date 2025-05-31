@@ -53,7 +53,7 @@ func (m *Manager) Modems() (map[dbus.ObjectPath]*Modem, error) {
 		if _, ok := data["org.freedesktop.ModemManager1.Modem"]; !ok {
 			continue
 		}
-		modem, err := m.createlmodem(objectPath, data["org.freedesktop.ModemManager1.Modem"])
+		modem, err := m.createModem(objectPath, data["org.freedesktop.ModemManager1.Modem"])
 		if err != nil {
 			slog.Error("Failed to create modem", "error", err)
 			continue
@@ -63,8 +63,8 @@ func (m *Manager) Modems() (map[dbus.ObjectPath]*Modem, error) {
 	return m.modems, nil
 }
 
-func (m *Manager) createlmodem(objectPath dbus.ObjectPath, data map[string]dbus.Variant) (*Modem, error) {
-	modem := &Modem{
+func (m *Manager) createModem(objectPath dbus.ObjectPath, data map[string]dbus.Variant) (*Modem, error) {
+	modem := Modem{
 		mmgr:                m,
 		objectPath:          objectPath,
 		dbusObject:          m.dbusConn.Object(ModemManagerInterface, objectPath),
@@ -77,6 +77,13 @@ func (m *Manager) createlmodem(objectPath dbus.ObjectPath, data map[string]dbus.
 		State:               ModemState(data["State"].Value().(int32)),
 		PrimaryPort:         fmt.Sprintf("/dev/%s", data["PrimaryPort"].Value().(string)),
 		PrimarySimSlot:      data["PrimarySimSlot"].Value().(uint32),
+	}
+	if modem.State == ModemStateDisabled {
+		slog.Info("Enabling modem", "path", objectPath)
+		if err := modem.Enable(); err != nil {
+			slog.Error("Failed to enable modem", "error", err)
+			return nil, err
+		}
 	}
 	var err error
 	modem.Sim, err = modem.SIM(data["Sim"].Value().(dbus.ObjectPath))
@@ -97,7 +104,7 @@ func (m *Manager) createlmodem(objectPath dbus.ObjectPath, data map[string]dbus.
 			modem.SimSlots = append(modem.SimSlots, slot)
 		}
 	}
-	return modem, nil
+	return &modem, nil
 }
 
 func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) error {
@@ -126,19 +133,12 @@ func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) e
 		if event.Name == ModemManagerInterfacesAdded {
 			slog.Info("New modem plugged in", "path", modemPath)
 			raw := event.Body[1].(map[string]map[string]dbus.Variant)
-			modem, err := m.createlmodem(modemPath, raw["org.freedesktop.ModemManager1.Modem"])
+			modem, err := m.createModem(modemPath, raw["org.freedesktop.ModemManager1.Modem"])
 			if err != nil {
 				slog.Error("Failed to create modem", "error", err)
 				continue
 			}
-			if modem.State == ModemStateDisabled {
-				slog.Info("Enabling modem", "path", modemPath)
-				if err := modem.Enable(); err != nil {
-					slog.Error("Failed to enable modem", "error", err)
-					continue
-				}
-			}
-			m.updatelmodem(modem)
+			m.updateModem(modem)
 		} else {
 			slog.Info("Modem unplugged", "path", modemPath)
 			delete(m.modems, modemPath)
@@ -149,7 +149,7 @@ func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) e
 	}
 }
 
-func (m *Manager) updatelmodem(modem *Modem) {
+func (m *Manager) updateModem(modem *Modem) {
 	// If user restart the ModemManager manually, Dbus will not send the InterfacesRemoved signal
 	// But it will send the InterfacesAdded signal again.
 	// So we need to remove the duplicate modem manually and update it.
