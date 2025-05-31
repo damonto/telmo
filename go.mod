@@ -8,7 +8,7 @@ require (
 	github.com/damonto/euicc-go/driver/mbim v0.0.6
 	github.com/damonto/euicc-go/driver/qmi v0.0.6
 	github.com/godbus/dbus/v5 v5.1.0
-	github.com/mymmrac/telego v1.1.0
+	github.com/mymmrac/telego v1.1.1
 	golang.org/x/sys v0.33.0
 )
 
