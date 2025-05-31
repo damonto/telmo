@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"strings"
 
+	sgp22 "github.com/damonto/euicc-go/v2"
 	"github.com/damonto/telmo/internal/pkg/lpa"
 	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/damonto/telmo/internal/pkg/util"
@@ -27,7 +28,6 @@ Operator: %s
 Number: %s
 Signal: %d%%
 ICCID: %s
-EID: %s
 `
 
 func NewListModemHandler(mm *modem.Manager) *ListModemHandler {
@@ -75,22 +75,34 @@ func (h *ListModemHandler) message(m *modem.Modem) string {
 		util.EscapeText(util.If(m.Sim.OperatorName != "", m.Sim.OperatorName, util.LookupCarrier(m.Sim.OperatorIdentifier))),
 		util.EscapeText(m.Number),
 		percent,
-		m.Sim.Identifier,
-		h.EID(m))
+		m.Sim.Identifier)
+
+	eid, profileName, err := h.euiccInfo(m, m.Sim.Identifier)
+	if err != nil {
+		slog.Warn("Unable to get EID and profile name, maybe it's not an eUICC", "error", err)
+		return message
+	}
+	message += fmt.Sprintf("Profile Name: %s\nEID: `%s`", util.EscapeText(profileName), eid)
 	return message
 }
 
-func (h *ListModemHandler) EID(m *modem.Modem) string {
+func (h *ListModemHandler) euiccInfo(m *modem.Modem, iccid string) (eid string, profileName string, err error) {
 	lpa, err := lpa.New(m)
 	if err != nil {
-		slog.Warn("Failed to create LPA", "error", err)
-		return ""
+		return "", "", err
 	}
 	defer lpa.Close()
 	info, err := lpa.Info()
 	if err != nil {
-		slog.Warn("Failed to get EID", "error", err)
-		return ""
+		return "", "", err
 	}
-	return info.EID
+	id, _ := sgp22.NewICCID(iccid)
+	profiles, err := lpa.ListProfile(id, nil)
+	if err != nil {
+		return "", "", err
+	}
+	if len(profiles) == 0 {
+		return "", "", nil
+	}
+	return info.EID, util.If(profiles[0].ProfileNickname != "", profiles[0].ProfileNickname, profiles[0].ProfileName), nil
 }
