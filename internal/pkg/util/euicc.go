@@ -2,10 +2,12 @@ package util
 
 //go:generate curl -o eum.json https://euicc-manual.osmocom.org/docs/pki/eum/manifest-v2.json
 //go:generate curl -o ci.json https://euicc-manual.osmocom.org/docs/pki/ci/manifest.json
+//go:generate curl -o accredited.json https://euicc-manual.osmocom.org/docs/pki/eum/accredited.json
 
 import (
 	_ "embed"
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"strconv"
 	"strings"
@@ -17,12 +19,15 @@ var eum []byte
 //go:embed ci.json
 var ci []byte
 
+//go:embed accredited.json
+var accredited []byte
+
 type EUM struct {
-	EUM            string          `json:"eum"`
-	Country        string          `json:"country"`
-	Manufacturer   string          `json:"manufacturer"`
-	Accreditations []Accreditation `json:"accreditations"`
-	Products       []Product       `json:"products"`
+	EUM            string    `json:"eum"`
+	Country        string    `json:"country"`
+	Manufacturer   string    `json:"manufacturer"`
+	Accreditations []string  `json:"accreditations"`
+	Products       []Product `json:"products"`
 }
 
 type Product struct {
@@ -32,18 +37,23 @@ type Product struct {
 	InRange [][]int `json:"in-range,omitempty"`
 }
 
+type Supplier struct {
+	Name    string `json:"name"`
+	Country string `json:"country"`
+}
+
+type Accredited struct {
+	Suppliers map[string]Supplier `json:"suppliers"`
+}
+
 type CertificateIssuer struct {
 	KeyID   string `json:"key-id"`
 	Country string `json:"country"`
 	Name    string `json:"name"`
 }
 
-type Accreditation struct {
-	Prefix  string `json:"prefix"`
-	Country string `json:"country"`
-}
-
 var (
+	accreditedSites    Accredited
 	certificateIssuers []CertificateIssuer
 	EUMs               []EUM
 )
@@ -54,6 +64,9 @@ func init() {
 	}
 	if err := json.Unmarshal(ci, &certificateIssuers); err != nil {
 		slog.Error("Failed to unmarshal certificate issuers", "error", err)
+	}
+	if err := json.Unmarshal(accredited, &accreditedSites); err != nil {
+		slog.Error("Failed to unmarshal accredited", "error", err)
 	}
 }
 
@@ -66,16 +79,11 @@ func LookupCertificateIssuer(keyID string) string {
 	return keyID
 }
 
-func LookupEUM(eid string, sasAccreditationNumber string) (country string, manufacturer string, brand string) {
+func LookupEUM(eid string) (country string, manufacturer string, brand string) {
 	for _, manifest := range EUMs {
 		if strings.HasPrefix(eid, manifest.EUM) {
 			country = manifest.Country
 			manufacturer = manifest.Manufacturer
-			for _, accreditation := range manifest.Accreditations {
-				if strings.HasPrefix(sasAccreditationNumber, accreditation.Prefix) {
-					country = accreditation.Country
-				}
-			}
 			for _, product := range manifest.Products {
 				if strings.HasPrefix(eid, product.Prefix) {
 					if product.InRange != nil {
@@ -92,4 +100,11 @@ func LookupEUM(eid string, sasAccreditationNumber string) (country string, manuf
 		}
 	}
 	return country, manufacturer, brand
+}
+
+func LookupAccredited(sasAccreditationNumber string) string {
+	if supplier, ok := accreditedSites.Suppliers[sasAccreditationNumber[:5]]; ok {
+		return fmt.Sprintf("%s %s (%s %s)", sasAccreditationNumber, supplier.Name, string(0x1F1E6+rune(supplier.Country[0])-'A')+string(0x1F1E6+rune(supplier.Country[1])-'A'), supplier.Country)
+	}
+	return sasAccreditationNumber
 }

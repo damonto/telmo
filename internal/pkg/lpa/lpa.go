@@ -117,10 +117,10 @@ func (l *LPA) Info() (*Info, error) {
 	}
 
 	// sasAccreditationNumber
-	info.SasAccreditationNumber = string(tlv.First(bertlv.Universal.Primitive(12)).Value)
+	info.SasAccreditationNumber = util.LookupAccredited(string(tlv.First(bertlv.Universal.Primitive(12)).Value))
 
 	// eum
-	country, manufacturer, brand := util.LookupEUM(info.EID, info.SasAccreditationNumber)
+	country, manufacturer, brand := util.LookupEUM(info.EID)
 	info.Product = Product{Country: country, Manufacturer: manufacturer, Brand: brand}
 
 	// euiccCiPKIdListForSigning
