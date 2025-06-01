@@ -3,10 +3,10 @@ module github.com/damonto/telmo
 go 1.24.3
 
 require (
-	github.com/damonto/euicc-go v0.0.12
-	github.com/damonto/euicc-go/driver/at v0.0.4
-	github.com/damonto/euicc-go/driver/mbim v0.0.7
-	github.com/damonto/euicc-go/driver/qmi v0.0.7
+	github.com/damonto/euicc-go v0.0.13
+	github.com/damonto/euicc-go/driver/at v0.0.5
+	github.com/damonto/euicc-go/driver/mbim v0.0.8
+	github.com/damonto/euicc-go/driver/qmi v0.0.8
 	github.com/godbus/dbus/v5 v5.1.0
 	github.com/mymmrac/telego v1.1.1
 	golang.org/x/sys v0.33.0
