@@ -187,7 +187,7 @@ func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, 
 	defer l.mutex.Unlock()
 	slog.Info("Downloading profile", "activationCode", activationCode)
 	result, derr := l.DownloadProfile(ctx, activationCode, handler)
-	if result.Notification.SequenceNumber > 0 {
+	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {
 		slog.Info("Sending download notification", "sequence", result.Notification.SequenceNumber)
 		n, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)
 		if err != nil {
