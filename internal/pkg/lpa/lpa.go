@@ -81,7 +81,9 @@ func (l *LPA) tryCreateClient(opt *lpa.Option) error {
 
 func (l *LPA) createChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
 	slot := uint8(util.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1))
-	var err error
+	if config.C.ForceAT {
+		return l.createATChannel(m)
+	}
 	switch m.PrimaryPortType() {
 	case modem.ModemPortTypeQmi:
 		slog.Info("Using QMI driver", "port", m.PrimaryPort, "slot", slot)
@@ -90,13 +92,17 @@ func (l *LPA) createChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
 		slog.Info("Using MBIM driver", "port", m.PrimaryPort, "slot", slot)
 		return mbim.New(m.PrimaryPort, slot, true)
 	default:
-		var port *modem.ModemPort
-		if port, err = m.Port(modem.ModemPortTypeAt); err != nil {
-			return nil, err
-		}
-		slog.Info("Using AT driver", "port", port.Device, "slot", slot)
-		return at.New(port.Device)
+		return l.createATChannel(m)
 	}
+}
+
+func (l *LPA) createATChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
+	port, err := m.Port(modem.ModemPortTypeAt)
+	if err != nil {
+		return nil, err
+	}
+	slog.Info("Using AT driver", "port", port.Device)
+	return at.New(port.Device)
 }
 
 func (l *LPA) Close() error {
