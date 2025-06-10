@@ -80,10 +80,10 @@ func (l *LPA) tryCreateClient(opt *lpa.Option) error {
 }
 
 func (l *LPA) createChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
-	slot := uint8(util.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1))
 	if config.C.ForceAT {
 		return l.createATChannel(m)
 	}
+	slot := uint8(util.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1))
 	switch m.PrimaryPortType() {
 	case modem.ModemPortTypeQmi:
 		slog.Info("Using QMI driver", "port", m.PrimaryPort, "slot", slot)
