@@ -19,7 +19,7 @@ EID: %s
 Manufacturer: %s
 SAS\-UP: %s
 Free Space: %d KiB
-Sign Keys:
+Signing Keys:
 %s
 `
 
