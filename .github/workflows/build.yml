@@ -52,7 +52,7 @@ jobs:
         run: |
           sudo apt-get -qq --no-install-recommends install -y libqrtr-glib-dev
 
-          VERSION=1.35.6-1_$(dpkg --print-architecture)
+          VERSION=1.36.0-1_$(dpkg --print-architecture)
 
           curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib5_${VERSION}.deb -o libqmi-glib5_${VERSION}.deb
           curl -L https://launchpad.net/ubuntu/+archive/primary/+files/gir1.2-qmi-1.0_${VERSION}.deb -o gir1.2-qmi-1.0_${VERSION}.deb
