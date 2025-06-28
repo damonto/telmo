@@ -103,6 +103,9 @@ func LookupEUM(eid string) (country string, manufacturer string, brand string) {
 }
 
 func LookupAccredited(sasAccreditationNumber string) string {
+	if len(sasAccreditationNumber) < 5 {
+		return sasAccreditationNumber
+	}
 	if supplier, ok := accreditedSites.Suppliers[sasAccreditationNumber[:5]]; ok {
 		return fmt.Sprintf("%s %s (%s %s)", sasAccreditationNumber, supplier.Name, string(0x1F1E6+rune(supplier.Country[0])-'A')+string(0x1F1E6+rune(supplier.Country[1])-'A'), supplier.Country)
 	}
