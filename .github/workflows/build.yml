@@ -19,18 +19,18 @@ permissions:
 jobs:
   build:
     name: Build for ${{ matrix.target.name }}
-    runs-on: ${{ matrix.target.runs-on }}
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         target:
-          - { runs-on: ubuntu-24.04, os: linux, arch: amd64, name: linux-amd64 }
-          - {
-              runs-on: ubuntu-24.04-arm,
-              os: linux,
-              arch: arm64,
-              name: linux-arm64,
-            }
+          - { arch: 386, name: linux-386 }
+          - { arch: amd64, name: linux-amd64 }
+          - { arch: arm, name: linux-arm }
+          - { arch: arm64, name: linux-arm64 }
+          - { arch: riscv64, name: linux-riscv64 }
+          - { arch: loong64, name: linux-loong64 }
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,34 +43,11 @@ jobs:
           go-version: 1.24
           cache: false
 
-      - name: Install libmbim
-        run: |
-          sudo apt-get update -y
-          sudo apt-get -qq --no-install-recommends install -y libmbim-glib-dev
-
-      - name: Install libqmi
-        run: |
-          sudo apt-get -qq --no-install-recommends install -y libqrtr-glib-dev
-
-          VERSION=1.36.0-1_$(dpkg --print-architecture)
-
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib5_${VERSION}.deb -o libqmi-glib5_${VERSION}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/gir1.2-qmi-1.0_${VERSION}.deb -o gir1.2-qmi-1.0_${VERSION}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-glib-dev_${VERSION}.deb -o libqmi-glib-dev_${VERSION}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-utils_${VERSION}.deb -o libqmi-utils_${VERSION}.deb
-          curl -L https://launchpad.net/ubuntu/+archive/primary/+files/libqmi-proxy_${VERSION}.deb -o libqmi-proxy_${VERSION}.deb
-
-          sudo dpkg -i libqmi-glib5_${VERSION}.deb
-          sudo dpkg -i gir1.2-qmi-1.0_${VERSION}.deb
-          sudo dpkg -i libqmi-glib-dev_${VERSION}.deb
-          sudo dpkg -i libqmi-utils_${VERSION}.deb
-          sudo dpkg -i libqmi-proxy_${VERSION}.deb
-
       - name: Build for ${{ matrix.target.name }}
         run: |
           go generate ./...
           BUILD_VERSION=$(git describe --always --tags --match "v*" --dirty="-dev")
-          CGO_ENABLED=1 GOARCH=${{ matrix.target.arch }} go build -trimpath -ldflags="-w -s -X main.Version=$BUILD_VERSION" -o telmo-${{ matrix.target.name }}
+          CGO_ENABLED=0 GOARCH=${{ matrix.target.arch }} go build -trimpath -ldflags="-w -s -X main.Version=$BUILD_VERSION" -o telmo-${{ matrix.target.name }}
 
       - name: Upload ${{ matrix.target.name }} to Artifact
         uses: actions/upload-artifact@v4

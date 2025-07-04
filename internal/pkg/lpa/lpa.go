@@ -87,10 +87,10 @@ func (l *LPA) createChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
 	switch m.PrimaryPortType() {
 	case modem.ModemPortTypeQmi:
 		slog.Info("Using QMI driver", "port", m.PrimaryPort, "slot", slot)
-		return qmi.New(m.PrimaryPort, slot, true)
+		return qmi.New(m.PrimaryPort, slot)
 	case modem.ModemPortTypeMbim:
 		slog.Info("Using MBIM driver", "port", m.PrimaryPort, "slot", slot)
-		return mbim.New(m.PrimaryPort, slot, true)
+		return mbim.New(m.PrimaryPort, slot)
 	default:
 		return l.createATChannel(m)
 	}
