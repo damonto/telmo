@@ -2,8 +2,6 @@ module github.com/damonto/telmo
 
 go 1.24.3
 
-replace github.com/damonto/euicc-go => ./../euicc-go
-
 require (
 	github.com/damonto/euicc-go v0.0.14-0.20250704125828-83d714d6405b
 	github.com/godbus/dbus/v5 v5.1.0
