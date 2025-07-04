@@ -3,7 +3,7 @@ module github.com/damonto/telmo
 go 1.24.3
 
 require (
-	github.com/damonto/euicc-go v0.0.14-0.20250704145423-7831ef679912
+	github.com/damonto/euicc-go v0.0.14-0.20250704164327-f947297c5cb6
 	github.com/godbus/dbus/v5 v5.1.0
 	github.com/mymmrac/telego v1.1.1
 	golang.org/x/sys v0.33.0
