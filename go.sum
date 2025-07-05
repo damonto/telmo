@@ -10,6 +10,8 @@ github.com/cloudwego/base64x v0.1.5/go.mod h1:0zlkT4Wn5C6NdauXdJRhSKRlJvmclQ1hhJ
 github.com/cloudwego/iasm v0.2.0/go.mod h1:8rXZaNYT2n95jn+zTI1sDr+IgcD2GVs0nlbbQPiEFhY=
 github.com/damonto/euicc-go v0.0.14-0.20250704164327-f947297c5cb6 h1:v/c8Vn7nDbItZerDzbY4PaEq5v/oLJHwwZl54MME6eE=
 github.com/damonto/euicc-go v0.0.14-0.20250704164327-f947297c5cb6/go.mod h1:myi/9yd3W0aCnincQDk8mAhn3HCcrx73XTFnOO7JfSs=
+github.com/damonto/euicc-go v0.0.14-0.20250705060728-c3facfafc3db h1:q9hovUmkd5sXxt9IEEmkHICzLqgkxGkZfR9Umt65uyM=
+github.com/damonto/euicc-go v0.0.14-0.20250705060728-c3facfafc3db/go.mod h1:myi/9yd3W0aCnincQDk8mAhn3HCcrx73XTFnOO7JfSs=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
