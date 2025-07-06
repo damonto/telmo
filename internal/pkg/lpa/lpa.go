@@ -55,26 +55,26 @@ func New(m *modem.Modem) (*LPA, error) {
 	if err != nil {
 		return nil, err
 	}
-	opt := &lpa.Option{
+	opts := &lpa.Options{
 		Channel:              ch,
 		AdminProtocolVersion: "2.2.0",
 		MSS:                  util.If(config.C.Slowdown, 120, 250),
 	}
-	if err := l.tryCreateClient(opt); err != nil {
+	if err := l.tryCreateClient(opts); err != nil {
 		return nil, err
 	}
 	return l, nil
 }
 
-func (l *LPA) tryCreateClient(opt *lpa.Option) error {
+func (l *LPA) tryCreateClient(opts *lpa.Options) error {
 	var err error
-	for _, opt.AID = range AIDs {
-		l.Client, err = lpa.New(opt)
+	for _, opts.AID = range AIDs {
+		l.Client, err = lpa.New(opts)
 		if err == nil {
-			slog.Info("LPA client created", "AID", fmt.Sprintf("%X", opt.AID))
+			slog.Info("LPA client created", "AID", fmt.Sprintf("%X", opts.AID))
 			return nil
 		}
-		slog.Warn("Failed to create LPA client", "AID", fmt.Sprintf("%X", opt.AID), "error", err)
+		slog.Warn("Failed to create LPA client", "AID", fmt.Sprintf("%X", opts.AID), "error", err)
 	}
 	return errors.New("no supported ISD-R AID found or it's not an eUICC")
 }
