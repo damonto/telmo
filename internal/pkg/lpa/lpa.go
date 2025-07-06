@@ -188,11 +188,11 @@ func (l *LPA) sendNotification(id sgp22.ICCID, event sgp22.NotificationEvent) (s
 	return 0, nil
 }
 
-func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, handler lpa.DownloadHandler) error {
+func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, opts *lpa.DownloadOptions) error {
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
 	slog.Info("Downloading profile", "activationCode", activationCode)
-	result, derr := l.DownloadProfile(ctx, activationCode, handler)
+	result, derr := l.DownloadProfile(ctx, activationCode, opts)
 	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {
 		slog.Info("Sending download notification", "sequence", result.Notification.SequenceNumber)
 		n, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)

@@ -12,6 +12,8 @@ github.com/damonto/euicc-go v0.0.14-0.20250704164327-f947297c5cb6 h1:v/c8Vn7nDbI
 github.com/damonto/euicc-go v0.0.14-0.20250704164327-f947297c5cb6/go.mod h1:myi/9yd3W0aCnincQDk8mAhn3HCcrx73XTFnOO7JfSs=
 github.com/damonto/euicc-go v0.0.14-0.20250705060728-c3facfafc3db h1:q9hovUmkd5sXxt9IEEmkHICzLqgkxGkZfR9Umt65uyM=
 github.com/damonto/euicc-go v0.0.14-0.20250705060728-c3facfafc3db/go.mod h1:myi/9yd3W0aCnincQDk8mAhn3HCcrx73XTFnOO7JfSs=
+github.com/damonto/euicc-go v0.0.14-0.20250706073205-26a8091f4919 h1:LByZ6q6I3ZD2BpccTG5vzD+9XIZUZGUzdyxIIMZlekY=
+github.com/damonto/euicc-go v0.0.14-0.20250706073205-26a8091f4919/go.mod h1:myi/9yd3W0aCnincQDk8mAhn3HCcrx73XTFnOO7JfSs=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

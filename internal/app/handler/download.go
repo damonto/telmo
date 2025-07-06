@@ -25,7 +25,7 @@ type DownloadHandler struct {
 	confirmationCode chan string
 }
 
-type profileDownload struct {
+type downloader struct {
 	h               *DownloadHandler
 	downloadCtx     context.Context
 	cancel          context.CancelFunc
@@ -100,14 +100,14 @@ func (h *DownloadHandler) downloadProfile(ctx *th.Context, message telego.Messag
 	return h.download(ctx, message, s, value)
 }
 
-func (d *profileDownload) Progress(progress lpa.DownloadProgress) {
-	percent := map[lpa.DownloadProgress]int{
-		lpa.DownloadProgressAuthenticateClient: 3,
-		lpa.DownloadProgressAuthenticateServer: 5,
-		lpa.DownloadProgressLoadBPP:            9,
+func (d *downloader) OnProgress(stage lpa.DownloadStage) {
+	percent := map[lpa.DownloadStage]int{
+		lpa.DownloadStageAuthenticateClient: 3,
+		lpa.DownloadStageAuthenticateServer: 5,
+		lpa.DownloadStageInstall:            9,
 	}
-	progressBar := strings.Repeat("⣿", percent[progress]) + strings.Repeat("⣀", 10-percent[progress])
-	progressBar = util.EscapeText("Your profile is being downloaded.\n ⏳ " + progressBar + fmt.Sprintf(" %d%%", percent[progress]*10))
+	progressBar := strings.Repeat("⣿", percent[stage]) + strings.Repeat("⣀", 10-percent[stage])
+	progressBar = util.EscapeText("Your profile is being downloaded.\n ⏳ " + progressBar + fmt.Sprintf(" %d%%", percent[stage]*10))
 	var err error
 	if d.progressMessage != nil {
 		_, err = d.ctx.Bot().EditMessageText(d.ctx, &telego.EditMessageTextParams{
@@ -124,7 +124,7 @@ func (d *profileDownload) Progress(progress lpa.DownloadProgress) {
 	}
 }
 
-func (d *profileDownload) Confirm(metadata *sgp22.ProfileInfo) chan bool {
+func (d *downloader) OnConfirm(metadata *sgp22.ProfileInfo) bool {
 	d.h.ReplyMessage(
 		d.ctx, d.message,
 		util.EscapeText(fmt.Sprintf(`
@@ -150,10 +150,10 @@ ICCID: %s
 		},
 	)
 	state.M.Current(d.message.From.ID, DownloadConfirm)
-	return d.h.confirmed
+	return <-d.h.confirmed
 }
 
-func (d *profileDownload) ConfirmationCode() chan string {
+func (d *downloader) OnEnterConfirmationCode() string {
 	defer func() {
 		d.ctx.Bot().DeleteMessage(d.ctx, &telego.DeleteMessageParams{
 			MessageID: d.progressMessage.GetMessageID(),
@@ -164,10 +164,10 @@ func (d *profileDownload) ConfirmationCode() chan string {
 	if _, err := d.h.ReplyMessage(d.ctx, d.message, util.EscapeText("Please send me the confirmation code."), nil); err != nil {
 		state.M.Exit(d.message.From.ID)
 		d.cancel()
-		return d.h.confirmationCode
+		return <-d.h.confirmationCode
 	}
 	state.M.Current(d.message.From.ID, DownloadAskConfirmationCodeInProgress)
-	return d.h.confirmationCode
+	return <-d.h.confirmationCode
 }
 
 func (h *DownloadHandler) download(ctx *th.Context, message telego.Message, _ *state.ChatState, value *DownloadValue) error {
@@ -175,13 +175,17 @@ func (h *DownloadHandler) download(ctx *th.Context, message telego.Message, _ *s
 	var downloadCtx context.Context
 	downloadCtx, value.cancel = context.WithTimeout(context.Background(), 10*time.Minute)
 	defer value.cancel()
-	d := &profileDownload{h: h, ctx: ctx, downloadCtx: downloadCtx, cancel: value.cancel, message: message}
+	d := &downloader{h: h, ctx: ctx, downloadCtx: downloadCtx, cancel: value.cancel, message: message}
 	l, err := tlpa.New(value.modem)
 	if err != nil {
 		return err
 	}
 	defer l.Close()
-	if err := l.Download(downloadCtx, value.activationCode, d); err != nil {
+	if err := l.Download(downloadCtx, value.activationCode, &lpa.DownloadOptions{
+		OnProgress:              d.OnProgress,
+		OnConfirm:               d.OnConfirm,
+		OnEnterConfirmationCode: d.OnEnterConfirmationCode,
+	}); err != nil {
 		h.ReplyMessage(ctx, message, util.EscapeText(err.Error()), nil)
 		if d.progressMessage != nil {
 			ctx.Bot().DeleteMessage(ctx, &telego.DeleteMessageParams{
