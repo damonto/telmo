@@ -4,7 +4,9 @@
 
 ### Advertisement
 
-If you are looking for a removable eUICC solution, such as eSIM.me or 5ber.eSIM, I recommend buying [eSTK.me](https://www.estk.me?aid=esim). It is more reliable and offers more features. You can purchase it [here](https://www.estk.me?aid=esim), and you can use the coupon code `eSIMCyou` to get a `10%` discount.
+If you don’t have an eUICC yet, you can purchase one from [eSTK.me](https://www.estk.me?aid=esim) and use the coupon code `eSIMCyou` to get 10% off. We recommend [eSTK.me](https://www.estk.me?aid=esim) if you need to perform profile downloads on iOS devices.
+
+If you require more than 1MB of storage to install multiple eSIM profiles, we recommend [9eSIM](https://www.9esim.com/?coupon=DAMON). Use the coupon code `DAMON` to also receive 10% off.
 
 ### Introduction
 
