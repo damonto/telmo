@@ -3,7 +3,6 @@ package handler
 import (
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/damonto/telmo/internal/app/state"
 	"github.com/damonto/telmo/internal/pkg/modem"
@@ -47,10 +46,9 @@ func (h *SIMSlotHandler) Handle() th.Handler {
 				return err
 			}
 			button, text := h.message(idx+1, sim)
-			message += text + "\n"
+			message += text
 			buttons = append(buttons, button)
 		}
-		message = strings.TrimRight(message, "\n")
 		_, err := h.Reply(ctx, update, message, func(message *telego.SendMessageParams) error {
 			message.ReplyMarkup = tu.InlineKeyboard(buttons...)
 			return nil
