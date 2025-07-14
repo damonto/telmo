@@ -6,7 +6,7 @@ require (
 	github.com/damonto/euicc-go v0.0.14-0.20250707022957-beab9351abcd
 	github.com/godbus/dbus/v5 v5.1.0
 	github.com/mymmrac/telego v1.1.1
-	golang.org/x/sys v0.33.0
+	golang.org/x/sys v0.34.0
 )
 
 require (
