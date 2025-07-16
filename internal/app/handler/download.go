@@ -59,11 +59,16 @@ func NewDownloadHandler() state.Handler {
 func (h *DownloadHandler) Handle() th.Handler {
 	return func(ctx *th.Context, update telego.Update) error {
 		m := h.Modem(ctx)
-		state.M.Enter(update.Message.Chat.ID, &state.ChatState{
+		value := &DownloadValue{modem: m}
+		s := &state.ChatState{
 			Handler: h,
 			State:   DownloadAskActivationCode,
-			Value:   &DownloadValue{modem: m},
-		})
+			Value:   value,
+		}
+		state.M.Enter(update.Message.Chat.ID, s)
+		if update.Message.Text != "" {
+			return h.downloadProfile(ctx, *update.Message, s, value)
+		}
 		_, err := h.Reply(ctx, update, util.EscapeText("Please send me the activation code."), nil)
 		return err
 	}

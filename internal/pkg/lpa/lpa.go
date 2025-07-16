@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"net/url"
 	"sync"
 
 	"github.com/damonto/euicc-go/apdu"
@@ -49,7 +50,12 @@ var AIDs = [][]byte{
 	{0xA0, 0x00, 0x00, 0x06, 0x28, 0x10, 0x10, 0xFF, 0xFF, 0xFF, 0xFF, 0x89, 0x00, 0x00, 0x01, 0x00}, // GlocalMe
 }
 
+var mutex sync.Mutex
+
 func New(m *modem.Modem) (*LPA, error) {
+	// We need to ensure that only one LPA client is created at a time
+	mutex.Lock()
+	defer mutex.Unlock()
 	var l = new(LPA)
 	ch, err := l.createChannel(m)
 	if err != nil {
@@ -206,4 +212,22 @@ func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, 
 		}
 	}
 	return derr
+}
+
+func (l *LPA) Discover(modem *modem.Modem) ([]*sgp22.EventEntry, error) {
+	var entries []*sgp22.EventEntry
+	addresses := []url.URL{
+		{Scheme: "https", Host: "lpa.ds.gsma.com"},
+		{Scheme: "https", Host: "lpa.live.esimdiscovery.com"},
+	}
+	imei, _ := sgp22.NewIMEI(modem.EquipmentIdentifier)
+	for _, address := range addresses {
+		slog.Info("Discovering profiles", "address", address.Host)
+		discovered, err := l.Discovery(&address, imei)
+		if err != nil {
+			return nil, err
+		}
+		entries = append(entries, discovered...)
+	}
+	return entries, nil
 }
