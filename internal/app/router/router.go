@@ -43,6 +43,7 @@ func (r *router) registerCommands() {
 		{Command: "msisdn", Description: "Update the MSISDN (phone number) on the SIM"},
 		{Command: "register_network", Description: "Register the modem to a network"},
 		{Command: "profiles", Description: "List all profiles on the eUICC"},
+		{Command: "discovery", Description: "Discover profiles from the SM-DS+ server"},
 		{Command: "download", Description: "Download a profile into the eUICC"},
 	}
 
@@ -76,10 +77,11 @@ func (r *router) registerHandlers() {
 	}
 
 	{
-		euicc := admin.Group(r.predicate([]string{"/chip", "/profiles", "/download", "/send_notification"}))
+		euicc := admin.Group(r.predicate([]string{"/chip", "/profiles", "/download", "/send_notification", "/discovery"}))
 		euicc.Use(modemRequiredMiddleware.Middleware(true))
 		euicc.Handle(handler.NewChipHandler().Handle(), th.CommandEqual("chip"))
 		euicc.Handle(handler.NewProfileHandler().Handle(), th.CommandEqual("profiles"))
+		euicc.Handle(handler.NewDiscoveryHandler().Handle(), th.CommandEqual("discovery"))
 		euicc.Handle(handler.NewDownloadHandler().Handle(), th.CommandEqual("download"))
 		euicc.Handle(handler.NewSendNotificationHandler().Handle(), th.CommandEqualArgc("send_notification", 1))
 	}

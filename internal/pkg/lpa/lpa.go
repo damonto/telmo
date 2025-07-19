@@ -214,13 +214,12 @@ func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, 
 	return derr
 }
 
-func (l *LPA) Discover(modem *modem.Modem) ([]*sgp22.EventEntry, error) {
+func (l *LPA) Discover(imei sgp22.IMEI) ([]*sgp22.EventEntry, error) {
 	var entries []*sgp22.EventEntry
 	addresses := []url.URL{
 		{Scheme: "https", Host: "lpa.ds.gsma.com"},
 		{Scheme: "https", Host: "lpa.live.esimdiscovery.com"},
 	}
-	imei, _ := sgp22.NewIMEI(modem.EquipmentIdentifier)
 	for _, address := range addresses {
 		slog.Info("Discovering profiles", "address", address.Host)
 		discovered, err := l.Discovery(&address, imei)

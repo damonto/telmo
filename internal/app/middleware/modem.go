@@ -4,7 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/godbus/dbus/v5"
 	"github.com/mymmrac/telego"
@@ -23,6 +25,14 @@ type ModemRequiredMiddleware struct {
 	mm    *modem.Manager
 	modem chan *modem.Modem
 }
+
+type session struct {
+	ch     chan *modem.Modem
+	ctx    *th.Context
+	update telego.Update
+}
+
+var sessions sync.Map
 
 func NewModemRequiredMiddleware(mm *modem.Manager, handler *th.BotHandler) *ModemRequiredMiddleware {
 	m := &ModemRequiredMiddleware{
@@ -73,19 +83,42 @@ func (m *ModemRequiredMiddleware) run(modems map[dbus.ObjectPath]*modem.Modem, c
 	if err := m.ask(ctx, update, modems); err != nil {
 		return err
 	}
-	modem := <-m.modem
-	ctx = ctx.WithValue("modem", modem)
-	return ctx.Next(update)
+
+	ch := make(chan *modem.Modem, 1)
+	sessions.Store(update.Message.GetMessageID(), &session{
+		ch:     ch,
+		ctx:    ctx,
+		update: update,
+	})
+
+	select {
+	case modem := <-ch:
+		sessions.Delete(update.Message.GetMessageID())
+		return ctx.WithValue("modem", modem).Next(update)
+	case <-ctx.Done():
+		sessions.Delete(update.Message.GetMessageID())
+		return ctx.Err()
+	}
 }
 
 func (m *ModemRequiredMiddleware) HandleModemSelectionCallbackQuery(ctx *th.Context, query telego.CallbackQuery) error {
-	objectPath := query.Data[len(CallbackQueryAskModemPrefix)+1:]
-	slog.Info("Using modem", "objectPath", objectPath)
+	parts := strings.Split(query.Data[len(CallbackQueryAskModemPrefix)+1:], ":")
+	messageId, _ := strconv.Atoi(parts[1])
+	slog.Info("Using modem", "objectPath", parts[0], "messageId", messageId)
+
 	modems, err := m.mm.Modems()
 	if err != nil {
 		return err
 	}
-	m.modem <- modems[dbus.ObjectPath(objectPath)]
+
+	s, ok := sessions.Load(messageId)
+	if !ok {
+		_, err := ctx.Bot().SendMessage(ctx, tu.Message(tu.ID(query.From.ID), "No pending command found"))
+		return err
+	}
+	s.(*session).ch <- modems[dbus.ObjectPath(parts[0])]
+	sessions.Delete(messageId)
+
 	if err := ctx.Bot().AnswerCallbackQuery(ctx, &telego.AnswerCallbackQueryParams{
 		CallbackQueryID: query.ID,
 	}); err != nil {
@@ -122,7 +155,7 @@ func (m *ModemRequiredMiddleware) ask(ctx *th.Context, update telego.Update, mod
 		modemName := util.If(ok, name, modem.Model)
 		buttons = append(buttons, tu.InlineKeyboardRow(telego.InlineKeyboardButton{
 			Text:         fmt.Sprintf("%s (%s)", modemName, modem.EquipmentIdentifier[len(modem.EquipmentIdentifier)-4:]),
-			CallbackData: fmt.Sprintf("%s:%s", CallbackQueryAskModemPrefix, path),
+			CallbackData: fmt.Sprintf("%s:%s:%d", CallbackQueryAskModemPrefix, path, update.Message.MessageID),
 		}))
 		message += fmt.Sprintf(`
 *%s*

@@ -236,6 +236,10 @@ func (h *ProfileHandler) Handle() th.Handler {
 		if err != nil {
 			return err
 		}
+		if len(profiles) == 0 {
+			_, err := h.Reply(ctx, update, util.EscapeText("No profiles were found."), nil)
+			return err
+		}
 		buttons, message := h.message(profiles)
 		_, err = h.Reply(ctx, update, message, func(message *telego.SendMessageParams) error {
 			message.WithReplyMarkup(buttons)
