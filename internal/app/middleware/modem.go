@@ -11,6 +11,7 @@ import (
 	th "github.com/mymmrac/telego/telegohandler"
 	tu "github.com/mymmrac/telego/telegoutil"
 
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/damonto/telmo/internal/pkg/lpa"
 	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/damonto/telmo/internal/pkg/util"
@@ -115,14 +116,14 @@ func (m *ModemRequiredMiddleware) sendErrorModemNotFound(ctx *th.Context, update
 func (m *ModemRequiredMiddleware) ask(ctx *th.Context, update telego.Update, modems map[dbus.ObjectPath]*modem.Modem) error {
 	var err error
 	var buttons [][]telego.InlineKeyboardButton
+	var message string
 	for path, modem := range modems {
+		name, ok := config.C.ModemName[modem.EquipmentIdentifier]
+		modemName := util.If(ok, name, modem.Model)
 		buttons = append(buttons, tu.InlineKeyboardRow(telego.InlineKeyboardButton{
-			Text:         fmt.Sprintf("%s (%s)", modem.Model, modem.EquipmentIdentifier[len(modem.EquipmentIdentifier)-4:]),
+			Text:         fmt.Sprintf("%s (%s)", modemName, modem.EquipmentIdentifier[len(modem.EquipmentIdentifier)-4:]),
 			CallbackData: fmt.Sprintf("%s:%s", CallbackQueryAskModemPrefix, path),
 		}))
-	}
-	var message string
-	for _, modem := range modems {
 		message += fmt.Sprintf(`
 *%s*
 Manufacturer: %s
@@ -131,7 +132,7 @@ Firmware revision: %s
 ICCID: %s
 Operator: %s
 Number: %s
-		`, util.EscapeText(modem.Model),
+		`, util.EscapeText(modemName),
 			util.EscapeText(modem.Manufacturer),
 			modem.EquipmentIdentifier,
 			util.EscapeText(modem.FirmwareRevision),
@@ -140,6 +141,7 @@ Number: %s
 			util.EscapeText(modem.Number),
 		)
 	}
+
 	_, err = ctx.Bot().SendMessage(ctx, tu.Message(
 		tu.ID(update.Message.From.ID),
 		strings.TrimRight(message, "\n"),

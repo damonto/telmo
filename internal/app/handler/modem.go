@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	sgp22 "github.com/damonto/euicc-go/v2"
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/damonto/telmo/internal/pkg/lpa"
 	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/damonto/telmo/internal/pkg/util"
@@ -19,8 +20,8 @@ type ListModemHandler struct {
 }
 
 const ModemMessageTemplate = `
+*%s*
 Manufacturer: %s
-Model: %s
 Firmware Revision: %s
 IMEI: %s
 Network: %s
@@ -65,9 +66,11 @@ func (h *ListModemHandler) message(m *modem.Modem) string {
 	for _, at := range accessTechnologies {
 		accessTech = append(accessTech, at.String())
 	}
+	name, ok := config.C.ModemName[m.EquipmentIdentifier]
+	modemName := util.If(ok, name, m.Model)
 	message := fmt.Sprintf(ModemMessageTemplate,
+		util.EscapeText(modemName),
 		util.EscapeText(m.Manufacturer),
-		util.EscapeText(m.Model),
 		util.EscapeText(m.FirmwareRevision),
 		m.EquipmentIdentifier,
 		util.EscapeText(

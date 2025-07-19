@@ -28,11 +28,14 @@ type Subscriber struct {
 }
 
 func init() {
+	config.Init()
+
 	flag.StringVar(&config.C.BotToken, "bot-token", "", "Telegram bot token")
-	flag.Var(&config.C.AdminId, "admin-id", "Admin user ID with bot management privileges")
+	flag.Var(&config.C.AdminId, "admin-id", "Admin user ID with bot management privileges (multiple allowed)")
 	flag.BoolVar(&config.C.Slowdown, "slowdown", false, "Enable slowdown mode (MSS: 120)")
 	flag.BoolVar(&config.C.ForceAT, "force-at", false, "Force the use of AT commands as the LPA driver")
 	flag.BoolVar(&config.C.Compatible, "compatible", false, "Enable if your modem does not support proactive refresh")
+	flag.Var(&config.C.ModemName, "modem-name", "Modem name IMEI:Name (multiple allowed)")
 	flag.StringVar(&config.C.Endpoint, "endpoint", "https://api.telegram.org", "Telegram Bot API endpoint")
 	flag.BoolVar(&config.C.Verbose, "verbose", false, "Enable verbose logging")
 	flag.Parse()

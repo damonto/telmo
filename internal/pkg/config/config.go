@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 	"strconv"
 	"strings"
@@ -31,9 +32,29 @@ func (a *AdminId) MarshalInt64() []int64 {
 	return ids
 }
 
+type ModemName map[string]string
+
+func (n *ModemName) String() string {
+	var names []string
+	for imei, name := range *n {
+		names = append(names, fmt.Sprintf("%s:%s", imei, name))
+	}
+	return strings.Join(names, ",")
+}
+
+func (n *ModemName) Set(value string) error {
+	parts := strings.Split(value, ":")
+	if len(parts) != 2 {
+		return errors.New("invalid format")
+	}
+	(*n)[parts[0]] = parts[1]
+	return nil
+}
+
 type Config struct {
 	BotToken   string
 	AdminId    AdminId
+	ModemName  ModemName
 	Endpoint   string
 	ForceAT    bool
 	Slowdown   bool
@@ -41,12 +62,17 @@ type Config struct {
 	Verbose    bool
 }
 
-var C = new(Config)
-
 var (
 	ErrBotTokenRequired = errors.New("bot token is required")
 	ErrAdminIdRequired  = errors.New("admin id is required")
 )
+
+var C *Config
+
+func Init() {
+	C = new(Config)
+	C.ModemName = make(ModemName)
+}
 
 func (c *Config) IsValid() error {
 	if c.BotToken == "" {
