@@ -40,6 +40,7 @@ type Product struct {
 type Supplier struct {
 	Name    string `json:"name"`
 	Country string `json:"country"`
+	Abbr    string `json:"abbr,omitempty"`
 }
 
 type Accredited struct {
@@ -107,7 +108,13 @@ func LookupAccredited(sasAccreditationNumber string) string {
 		return sasAccreditationNumber
 	}
 	if supplier, ok := accreditedSites.Suppliers[sasAccreditationNumber[:5]]; ok {
-		return fmt.Sprintf("%s %s (%s %s)", sasAccreditationNumber, supplier.Name, string(0x1F1E6+rune(supplier.Country[0])-'A')+string(0x1F1E6+rune(supplier.Country[1])-'A'), supplier.Country)
+		return fmt.Sprintf(
+			"%s %s (%s %s)",
+			sasAccreditationNumber,
+			If(supplier.Abbr != "", supplier.Abbr, supplier.Name),
+			string(0x1F1E6+rune(supplier.Country[0])-'A')+string(0x1F1E6+rune(supplier.Country[1])-'A'),
+			supplier.Country,
+		)
 	}
 	return sasAccreditationNumber
 }

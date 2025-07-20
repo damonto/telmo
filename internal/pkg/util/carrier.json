@@ -6168,15 +6168,6 @@
     }
   },
   {
-    "brand": "+4U Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "012 Mobile",
     "operator": "Partner Communications Company Ltd.",
     "mccmnc_tuple": {
@@ -6191,15 +6182,6 @@
     "mccmnc_tuple": {
       "IL": [
         "42519"
-      ]
-    }
-  },
-  {
-    "brand": "1Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
       ]
     }
   },
@@ -6227,15 +6209,6 @@
     "mccmnc_tuple": {
       "NZ": [
         "53024"
-      ]
-    }
-  },
-  {
-    "brand": "2s Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SN": [
-        "608299"
       ]
     }
   },
@@ -6390,33 +6363,6 @@
     }
   },
   {
-    "brand": "3S",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "3ton",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
-    "brand": "42 Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "4ka",
     "operator": "SWAN Mobile, a.s.",
     "mccmnc_tuple": {
@@ -6426,29 +6372,11 @@
     }
   },
   {
-    "brand": "5Tel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "7acht",
     "operator": "Salt Liechtenstein AG",
     "mccmnc_tuple": {
       "LI": [
         "29502"
-      ]
-    }
-  },
-  {
-    "brand": "88 mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
       ]
     }
   },
@@ -6476,15 +6404,6 @@
     "mccmnc_tuple": {
       "GE": [
         "28988"
-      ]
-    }
-  },
-  {
-    "brand": "A-Tono",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
       ]
     }
   },
@@ -6597,24 +6516,6 @@
     }
   },
   {
-    "brand": "ACMA",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AU": [
-        "505299"
-      ]
-    }
-  },
-  {
-    "brand": "ACN",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "ACS",
     "operator": "Amara Communication Co., Ltd",
     "mccmnc_tuple": {
@@ -6634,38 +6535,11 @@
     }
   },
   {
-    "brand": "Adamo Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Add-On Multimedia",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "ADIF",
     "operator": "Administrador de Infraestructuras Ferroviarias",
     "mccmnc_tuple": {
       "ES": [
         "21451"
-      ]
-    }
-  },
-  {
-    "brand": "Advoco",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -6705,24 +6579,6 @@
     "mccmnc_tuple": {
       "XX": [
         "90114"
-      ]
-    }
-  },
-  {
-    "brand": "Afinna One",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
-    "brand": "Afone Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -6770,15 +6626,6 @@
     "mccmnc_tuple": {
       "IT": [
         "22240"
-      ]
-    }
-  },
-  {
-    "brand": "AGMS",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
       ]
     }
   },
@@ -7049,15 +6896,6 @@
     "mccmnc_tuple": {
       "US": [
         "310034"
-      ]
-    }
-  },
-  {
-    "brand": "AirSom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SO": [
-        "637299"
       ]
     }
   },
@@ -7588,15 +7426,6 @@
     }
   },
   {
-    "brand": "Allo Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Alltel",
     "operator": "Public Service Cellular Inc.",
     "mccmnc_tuple": {
@@ -7615,24 +7444,6 @@
     }
   },
   {
-    "brand": "Alpha Technologies",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NG": [
-        "621299"
-      ]
-    }
-  },
-  {
-    "brand": "Alphalink",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "Alpmobil",
     "operator": "Alpcom AG",
     "mccmnc_tuple": {
@@ -7647,15 +7458,6 @@
     "mccmnc_tuple": {
       "MX": [
         "334140"
-      ]
-    }
-  },
-  {
-    "brand": "Altcel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
       ]
     }
   },
@@ -7698,15 +7500,6 @@
   },
   {
     "brand": "AMD Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GR": [
-        "202299"
-      ]
-    }
-  },
-  {
-    "brand": "AMD Telecom",
     "operator": "AMD Telecom S.A.",
     "mccmnc_tuple": {
       "PL": [
@@ -7742,15 +7535,6 @@
     }
   },
   {
-    "brand": "Anarestan",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IR": [
-        "432299"
-      ]
-    }
-  },
-  {
     "brand": "ANESRIF",
     "operator": "Anesrif",
     "mccmnc_tuple": {
@@ -7761,37 +7545,10 @@
   },
   {
     "brand": "Annatel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Annatel",
     "operator": "LB Annatel Ltd.",
     "mccmnc_tuple": {
       "IL": [
         "42526"
-      ]
-    }
-  },
-  {
-    "brand": "Annatel Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IL": [
-        "425299"
-      ]
-    }
-  },
-  {
-    "brand": "Antares",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -7807,29 +7564,11 @@
     }
   },
   {
-    "brand": "Antenna",
-    "operator": null,
-    "mccmnc_tuple": {
-      "HU": [
-        "216299"
-      ]
-    }
-  },
-  {
     "brand": "AnyNet",
     "operator": null,
     "mccmnc_tuple": {
       "XX": [
         "90182"
-      ]
-    }
-  },
-  {
-    "brand": "Apifon",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GR": [
-        "202299"
       ]
     }
   },
@@ -7842,15 +7581,6 @@
         "312910",
         "312120",
         "312130"
-      ]
-    }
-  },
-  {
-    "brand": "ApTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IR": [
-        "432299"
       ]
     }
   },
@@ -7900,65 +7630,11 @@
     }
   },
   {
-    "brand": "Argon Networks",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DE": [
-        "262299"
-      ]
-    }
-  },
-  {
-    "brand": "ArgoNET",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
     "brand": "ArgoNET",
     "operator": "ArgoNET GmbH",
     "mccmnc_tuple": {
       "AT": [
         "23292"
-      ]
-    }
-  },
-  {
-    "brand": "Arian Tel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IR": [
-        "432299"
-      ]
-    }
-  },
-  {
-    "brand": "Arktur",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Arna",
-    "operator": null,
-    "mccmnc_tuple": {
-      "KZ": [
-        "401299"
-      ]
-    }
-  },
-  {
-    "brand": "ARQIA",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BR": [
-        "724299"
       ]
     }
   },
@@ -7969,15 +7645,6 @@
       "IQ": [
         "41800",
         "41805"
-      ]
-    }
-  },
-  {
-    "brand": "Asistan Telekom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
       ]
     }
   },
@@ -8024,24 +7691,6 @@
     "mccmnc_tuple": {
       "AS": [
         "544780"
-      ]
-    }
-  },
-  {
-    "brand": "Astran",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "ASVT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -8142,24 +7791,6 @@
     }
   },
   {
-    "brand": "Atlas",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "ATnet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CO": [
-        "732299"
-      ]
-    }
-  },
-  {
     "brand": "ATUR 450",
     "operator": "Telekom Malaysia Bhd",
     "mccmnc_tuple": {
@@ -8198,33 +7829,6 @@
     }
   },
   {
-    "brand": "Auchan",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Aurea",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Aurora Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Avacell(HiWEB)",
     "operator": "Dadeh Dostar asr Novin p.j.s. co & Information Technology Company of Iran",
     "mccmnc_tuple": {
@@ -8248,15 +7852,6 @@
     "mccmnc_tuple": {
       "AF": [
         "41201"
-      ]
-    }
-  },
-  {
-    "brand": "Axialys",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -8351,15 +7946,6 @@
     }
   },
   {
-    "brand": "Bahnhof",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Bakcell",
     "operator": null,
     "mccmnc_tuple": {
@@ -8392,15 +7978,6 @@
     "mccmnc_tuple": {
       "CH": [
         "22852"
-      ]
-    }
-  },
-  {
-    "brand": "BasakCell",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
       ]
     }
   },
@@ -8448,15 +8025,6 @@
     }
   },
   {
-    "brand": "Bazile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "BBCOM",
     "operator": "Bell Benin Communications",
     "mccmnc_tuple": {
@@ -8471,15 +8039,6 @@
     "mccmnc_tuple": {
       "US": [
         "312810"
-      ]
-    }
-  },
-  {
-    "brand": "Bbs Options",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BR": [
-        "724299"
       ]
     }
   },
@@ -8574,24 +8133,6 @@
     }
   },
   {
-    "brand": "Belcentrale",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
-    "brand": "Beliton",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Bell",
     "operator": "Bell Mobility",
     "mccmnc_tuple": {
@@ -8660,24 +8201,6 @@
     }
   },
   {
-    "brand": "Benemen",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ],
-      "FI": [
-        "244299"
-      ],
-      "PL": [
-        "260299"
-      ],
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Bezeq",
     "operator": "Bezeq The Israeli Telecommunication Corp Ltd.",
     "mccmnc_tuple": {
@@ -8732,15 +8255,6 @@
     }
   },
   {
-    "brand": "bigblu",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ]
-    }
-  },
-  {
     "brand": "Bigfoot Cellular",
     "operator": "Cross Valiant Cellular Partnership",
     "mccmnc_tuple": {
@@ -8750,38 +8264,11 @@
     }
   },
   {
-    "brand": "Billing Financial",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Bip",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MG": [
-        "646299"
-      ]
-    }
-  },
-  {
     "brand": "BIP / blueline",
     "operator": "Gulfsat Madagascar S.A.",
     "mccmnc_tuple": {
       "MG": [
         "64605"
-      ]
-    }
-  },
-  {
-    "brand": "BIT-CENTR",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -8818,33 +8305,6 @@
     "mccmnc_tuple": {
       "LT": [
         "24602"
-      ]
-    }
-  },
-  {
-    "brand": "Bixia AB",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Biztel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "BJT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -8886,15 +8346,6 @@
     }
   },
   {
-    "brand": "Bluephone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "Bluesky",
     "operator": "Bluesky",
     "mccmnc_tuple": {
@@ -8918,15 +8369,6 @@
     "mccmnc_tuple": {
       "CK": [
         "54801"
-      ]
-    }
-  },
-  {
-    "brand": "BM Sverige",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -8958,33 +8400,6 @@
     }
   },
   {
-    "brand": "Boby",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "BodyTrace",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
-    "brand": "Bolignet-Aarhus",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "BOLT! 4G LTE",
     "operator": "PT Internux",
     "mccmnc_tuple": {
@@ -9010,15 +8425,6 @@
         "20820",
         "20821",
         "20888"
-      ]
-    }
-  },
-  {
-    "brand": "Bouygues Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "LU": [
-        "270299"
       ]
     }
   },
@@ -9068,50 +8474,11 @@
     }
   },
   {
-    "brand": "Bredband 2",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Bredbandsson",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "BREEZE",
     "operator": "Our Telekom",
     "mccmnc_tuple": {
       "SB": [
         "54001"
-      ]
-    }
-  },
-  {
-    "brand": "Bretagne Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "BSG",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ],
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -9136,15 +8503,6 @@
         "40538",
         "40558",
         "40559"
-      ]
-    }
-  },
-  {
-    "brand": "BT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IE": [
-        "272299"
       ]
     }
   },
@@ -9232,15 +8590,6 @@
     }
   },
   {
-    "brand": "Bynet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IL": [
-        "425299"
-      ]
-    }
-  },
-  {
     "brand": "C Spire Wireless",
     "operator": "Cellular South Inc.",
     "mccmnc_tuple": {
@@ -9305,15 +8654,6 @@
     }
   },
   {
-    "brand": "Caritas Laczy",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "Carolina West Wireless",
     "operator": "Carolina West Wireless",
     "mccmnc_tuple": {
@@ -9333,29 +8673,11 @@
     }
   },
   {
-    "brand": "CAT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "CAT CDMA",
     "operator": "CAT Telecom",
     "mccmnc_tuple": {
       "TH": [
         "52002"
-      ]
-    }
-  },
-  {
-    "brand": "CBB Mobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
       ]
     }
   },
@@ -9415,38 +8737,11 @@
     }
   },
   {
-    "brand": "CELESTE",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "celfon",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "Cell C",
     "operator": "Cell C (Pty) Ltd",
     "mccmnc_tuple": {
       "ZA": [
         "65507"
-      ]
-    }
-  },
-  {
-    "brand": "Cellact",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IL": [
-        "425299"
       ]
     }
   },
@@ -9732,15 +9027,6 @@
     }
   },
   {
-    "brand": "CellOPS",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
     "brand": "Cellular @Sea",
     "operator": "AT&T Mobility",
     "mccmnc_tuple": {
@@ -9786,24 +9072,6 @@
     }
   },
   {
-    "brand": "Center 2M",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "CEZ",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "CFL",
     "operator": "Soci\u00e9t\u00e9 Nationale des Chemins de Fer Luxembourgeois",
     "mccmnc_tuple": {
@@ -9818,15 +9086,6 @@
     "mccmnc_tuple": {
       "RO": [
         "22619"
-      ]
-    }
-  },
-  {
-    "brand": "CG Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NP": [
-        "429299"
       ]
     }
   },
@@ -9901,18 +9160,6 @@
     "mccmnc_tuple": {
       "MU": [
         "61703"
-      ]
-    }
-  },
-  {
-    "brand": "Chilimobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ],
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -10121,29 +9368,11 @@
     }
   },
   {
-    "brand": "Cifra 1",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Cincinnati Bell",
     "operator": "Cincinnati Bell Wireless",
     "mccmnc_tuple": {
       "US": [
         "310420"
-      ]
-    }
-  },
-  {
-    "brand": "Cinco",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BR": [
-        "724299"
       ]
     }
   },
@@ -10452,24 +9681,6 @@
     }
   },
   {
-    "brand": "CloudComms",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Cludo",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "CMCC HK",
     "operator": "China Mobile Hong Kong Company Limited",
     "mccmnc_tuple": {
@@ -10494,15 +9705,6 @@
     "mccmnc_tuple": {
       "DK": [
         "23888"
-      ]
-    }
-  },
-  {
-    "brand": "Codepi",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -10546,15 +9748,6 @@
     }
   },
   {
-    "brand": "Combird Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
     "brand": "Comium",
     "operator": "Comium",
     "mccmnc_tuple": {
@@ -10582,59 +9775,11 @@
     }
   },
   {
-    "brand": "Companymobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
-    "brand": "Compass Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NZ": [
-        "530299"
-      ]
-    }
-  },
-  {
-    "brand": "Compatel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
-      ],
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
     "brand": "Compatel",
     "operator": "Compatel Ltd",
     "mccmnc_tuple": {
       "FI": [
         "24426"
-      ]
-    }
-  },
-  {
-    "brand": "Comsys",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GH": [
-        "620299"
-      ]
-    }
-  },
-  {
-    "brand": "Comtalk",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
       ]
     }
   },
@@ -10653,24 +9798,6 @@
     "mccmnc_tuple": {
       "US": [
         "310460"
-      ]
-    }
-  },
-  {
-    "brand": "Connectel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Coolwave",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -10714,15 +9841,6 @@
     }
   },
   {
-    "brand": "Core Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Correios",
     "operator": "Correios Celular",
     "mccmnc_tuple": {
@@ -10751,42 +9869,6 @@
     }
   },
   {
-    "brand": "CountryCom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "CPRO",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "CRH",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "CRT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "CSTmovel",
     "operator": "Companhia Santomese de Telecomunica\u00e7\u00f4e",
     "mccmnc_tuple": {
@@ -10801,15 +9883,6 @@
     "mccmnc_tuple": {
       "US": [
         "313020"
-      ]
-    }
-  },
-  {
-    "brand": "CTExcel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -10861,15 +9934,6 @@
   },
   {
     "brand": "Cubic Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IE": [
-        "272299"
-      ]
-    }
-  },
-  {
-    "brand": "Cubic Telecom",
     "operator": "Cubic Telecom AG",
     "mccmnc_tuple": {
       "LI": [
@@ -10883,15 +9947,6 @@
     "mccmnc_tuple": {
       "PH": [
         "51518"
-      ]
-    }
-  },
-  {
-    "brand": "Cuuma",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FI": [
-        "244299"
       ]
     }
   },
@@ -10952,24 +10007,6 @@
     }
   },
   {
-    "brand": "Daily Telecom Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
-      ]
-    }
-  },
-  {
-    "brand": "Datamobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "LI": [
-        "295299"
-      ]
-    }
-  },
-  {
     "brand": "datora",
     "operator": "Datora (Vodafone)",
     "mccmnc_tuple": {
@@ -10996,33 +10033,6 @@
       ],
       "MQ": [
         "34008"
-      ]
-    }
-  },
-  {
-    "brand": "Dean Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
-    "brand": "Demshi",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NA": [
-        "649299"
-      ]
-    }
-  },
-  {
-    "brand": "Devoli",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NZ": [
-        "530299"
       ]
     }
   },
@@ -11059,33 +10069,6 @@
     "mccmnc_tuple": {
       "LK": [
         "41311"
-      ]
-    }
-  },
-  {
-    "brand": "DIALOG telekom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
-    "brand": "Dialoga",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "DIDWW",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
       ]
     }
   },
@@ -11159,9 +10142,6 @@
       "LC": [
         "358050",
         "35805"
-      ],
-      "MS": [
-        "354299"
       ],
       "TC": [
         "376050"
@@ -11475,24 +10455,6 @@
     }
   },
   {
-    "brand": "Digital Privacy",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
-    "brand": "Digitel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SS": [
-        "659299"
-      ]
-    }
-  },
-  {
     "brand": "Digitel",
     "operator": "Corporacion Digitel C.A.",
     "mccmnc_tuple": {
@@ -11511,41 +10473,11 @@
     }
   },
   {
-    "brand": "DIGIVOIP",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PG": [
-        "537299"
-      ]
-    }
-  },
-  {
-    "brand": "DIMOCO",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ],
-      "LI": [
-        "295299"
-      ]
-    }
-  },
-  {
     "brand": "DirecTV",
     "operator": "Galaxy Entertainment de Venezuela C.A.",
     "mccmnc_tuple": {
       "VE": [
         "73403"
-      ]
-    }
-  },
-  {
-    "brand": "DireQ",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
       ]
     }
   },
@@ -11623,23 +10555,11 @@
     }
   },
   {
-    "brand": "Doctolib",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "Dolphin",
     "operator": null,
     "mccmnc_tuple": {
       "IN": [
         "40569"
-      ],
-      "PE": [
-        "716299"
       ]
     }
   },
@@ -11662,38 +10582,11 @@
     }
   },
   {
-    "brand": "Dotcom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
     "brand": "dotmobile",
     "operator": "Data on Tap Inc.",
     "mccmnc_tuple": {
       "CA": [
         "302100"
-      ]
-    }
-  },
-  {
-    "brand": "Dragon",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
-    "brand": "Dragonet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
       ]
     }
   },
@@ -11779,15 +10672,6 @@
     }
   },
   {
-    "brand": "e-Telko",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "Eagle Mobile",
     "operator": "Albtelecom",
     "mccmnc_tuple": {
@@ -11815,33 +10699,6 @@
     }
   },
   {
-    "brand": "easy pbx",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "EasyTelecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Eazit",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
     "brand": "ECC",
     "operator": "East Caribbean Cellular",
     "mccmnc_tuple": {
@@ -11853,15 +10710,6 @@
       ],
       "SX": [
         "36254"
-      ]
-    }
-  },
-  {
-    "brand": "ECO Networks",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -11913,24 +10761,6 @@
     }
   },
   {
-    "brand": "educom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
-    "brand": "eferio",
-    "operator": null,
-    "mccmnc_tuple": {
-      "KE": [
-        "639299"
-      ]
-    }
-  },
-  {
     "brand": "Eir",
     "operator": "Eir Group plc",
     "mccmnc_tuple": {
@@ -11956,15 +10786,6 @@
     "mccmnc_tuple": {
       "SI": [
         "29386"
-      ]
-    }
-  },
-  {
-    "brand": "Elemte",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -11997,15 +10818,6 @@
     }
   },
   {
-    "brand": "Ellipsat",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
     "brand": "Elsacom",
     "operator": null,
     "mccmnc_tuple": {
@@ -12015,29 +10827,11 @@
     }
   },
   {
-    "brand": "Eltrona",
-    "operator": null,
-    "mccmnc_tuple": {
-      "LU": [
-        "270299"
-      ]
-    }
-  },
-  {
     "brand": "EMCALI",
     "operator": "Empresas Municipales de Cali",
     "mccmnc_tuple": {
       "CO": [
         "732099"
-      ]
-    }
-  },
-  {
-    "brand": "EMSAT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
       ]
     }
   },
@@ -12107,38 +10901,11 @@
     }
   },
   {
-    "brand": "ER-Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "EriMobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "Eritel",
     "operator": "Eritrea Telecommunications Services Corporation",
     "mccmnc_tuple": {
       "ER": [
         "65701"
-      ]
-    }
-  },
-  {
-    "brand": "Esendex",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
       ]
     }
   },
@@ -12314,15 +11081,6 @@
     }
   },
   {
-    "brand": "Evercall",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "EVNTelecom",
     "operator": "EVN Telecom",
     "mccmnc_tuple": {
@@ -12341,15 +11099,6 @@
     }
   },
   {
-    "brand": "Evolutio",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "Evolve Broadband",
     "operator": "Evolve Cellular Inc.",
     "mccmnc_tuple": {
@@ -12364,15 +11113,6 @@
     "mccmnc_tuple": {
       "CA": [
         "302340"
-      ]
-    }
-  },
-  {
-    "brand": "Express",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AR": [
-        "722299"
       ]
     }
   },
@@ -12404,717 +11144,11 @@
     }
   },
   {
-    "brand": "EziMobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
-    "brand": "Eztalk Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CO": [
-        "732299"
-      ]
-    }
-  },
-  {
     "brand": "Faiba 4G",
     "operator": "Jamii Telecommunications Limited",
     "mccmnc_tuple": {
       "KE": [
         "63910"
-      ]
-    }
-  },
-  {
-    "brand": "Failed Calls",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AD": [
-        "213299"
-      ],
-      "AE": [
-        "424299"
-      ],
-      "AF": [
-        "412299"
-      ],
-      "AG": [
-        "344299"
-      ],
-      "AI": [
-        "365299"
-      ],
-      "AL": [
-        "276299"
-      ],
-      "AM": [
-        "283299"
-      ],
-      "AN": [
-        "362299"
-      ],
-      "AO": [
-        "631299"
-      ],
-      "AR": [
-        "722299"
-      ],
-      "AS": [
-        "544299"
-      ],
-      "AT": [
-        "232299"
-      ],
-      "AU": [
-        "505299"
-      ],
-      "AW": [
-        "363299"
-      ],
-      "AZ": [
-        "400299"
-      ],
-      "BA": [
-        "218299"
-      ],
-      "BB": [
-        "342299"
-      ],
-      "BD": [
-        "470299"
-      ],
-      "BE": [
-        "206299"
-      ],
-      "BF": [
-        "613299"
-      ],
-      "BG": [
-        "284299"
-      ],
-      "BH": [
-        "426299"
-      ],
-      "BI": [
-        "642299"
-      ],
-      "BJ": [
-        "616299"
-      ],
-      "BM": [
-        "350299"
-      ],
-      "BN": [
-        "528299"
-      ],
-      "BO": [
-        "736299"
-      ],
-      "BR": [
-        "724299"
-      ],
-      "BS": [
-        "364299"
-      ],
-      "BT": [
-        "402299"
-      ],
-      "BW": [
-        "652299"
-      ],
-      "BY": [
-        "257299"
-      ],
-      "BZ": [
-        "702299"
-      ],
-      "CA": [
-        "302299"
-      ],
-      "CD": [
-        "630299"
-      ],
-      "CF": [
-        "623299"
-      ],
-      "CG": [
-        "629299"
-      ],
-      "CH": [
-        "228299"
-      ],
-      "CI": [
-        "612299"
-      ],
-      "CK": [
-        "548299"
-      ],
-      "CL": [
-        "730299"
-      ],
-      "CM": [
-        "624299"
-      ],
-      "CN": [
-        "460299"
-      ],
-      "CO": [
-        "732299"
-      ],
-      "CR": [
-        "712299"
-      ],
-      "CU": [
-        "368299"
-      ],
-      "CV": [
-        "625299"
-      ],
-      "CY": [
-        "280299"
-      ],
-      "CZ": [
-        "230299"
-      ],
-      "DE": [
-        "262299"
-      ],
-      "DG": [
-        "310299"
-      ],
-      "DJ": [
-        "638299"
-      ],
-      "DK": [
-        "238299"
-      ],
-      "DM": [
-        "366299"
-      ],
-      "DO": [
-        "370299"
-      ],
-      "DZ": [
-        "603299"
-      ],
-      "EC": [
-        "740299"
-      ],
-      "EE": [
-        "248299"
-      ],
-      "EG": [
-        "602299"
-      ],
-      "ER": [
-        "657299"
-      ],
-      "ES": [
-        "214299"
-      ],
-      "ET": [
-        "636299"
-      ],
-      "FI": [
-        "244299"
-      ],
-      "FJ": [
-        "542299"
-      ],
-      "FK": [
-        "750299"
-      ],
-      "FM": [
-        "550299"
-      ],
-      "FO": [
-        "288299"
-      ],
-      "FR": [
-        "208299"
-      ],
-      "GA": [
-        "628299"
-      ],
-      "GB": [
-        "234299"
-      ],
-      "GD": [
-        "352299"
-      ],
-      "GE": [
-        "282299",
-        "289299"
-      ],
-      "GF": [
-        "340299"
-      ],
-      "GH": [
-        "620299"
-      ],
-      "GI": [
-        "266299"
-      ],
-      "GL": [
-        "290299"
-      ],
-      "GM": [
-        "607299"
-      ],
-      "GN": [
-        "611299"
-      ],
-      "GQ": [
-        "627299"
-      ],
-      "GR": [
-        "202299"
-      ],
-      "GT": [
-        "704299"
-      ],
-      "GU": [
-        "310299"
-      ],
-      "GW": [
-        "632299"
-      ],
-      "GY": [
-        "738299"
-      ],
-      "HN": [
-        "708299"
-      ],
-      "HR": [
-        "219299"
-      ],
-      "HT": [
-        "372299"
-      ],
-      "HU": [
-        "216299"
-      ],
-      "ID": [
-        "510299"
-      ],
-      "IE": [
-        "272299"
-      ],
-      "IL": [
-        "425299"
-      ],
-      "IN": [
-        "404299"
-      ],
-      "IQ": [
-        "418299"
-      ],
-      "IR": [
-        "432299"
-      ],
-      "IS": [
-        "274299"
-      ],
-      "IT": [
-        "222299"
-      ],
-      "JM": [
-        "338299"
-      ],
-      "JO": [
-        "416299"
-      ],
-      "JP": [
-        "440299"
-      ],
-      "KE": [
-        "639299"
-      ],
-      "KG": [
-        "437299"
-      ],
-      "KH": [
-        "456299"
-      ],
-      "KI": [
-        "545299"
-      ],
-      "KM": [
-        "654299"
-      ],
-      "KN": [
-        "356299"
-      ],
-      "KP": [
-        "467299"
-      ],
-      "KR": [
-        "450299"
-      ],
-      "KW": [
-        "419299"
-      ],
-      "KY": [
-        "346299"
-      ],
-      "KZ": [
-        "401299"
-      ],
-      "LA": [
-        "457299"
-      ],
-      "LB": [
-        "415299"
-      ],
-      "LC": [
-        "358299"
-      ],
-      "LI": [
-        "295299"
-      ],
-      "LK": [
-        "413299"
-      ],
-      "LR": [
-        "618299"
-      ],
-      "LS": [
-        "651299"
-      ],
-      "LT": [
-        "246299"
-      ],
-      "LU": [
-        "270299"
-      ],
-      "LV": [
-        "247299"
-      ],
-      "LY": [
-        "606299"
-      ],
-      "MA": [
-        "604299"
-      ],
-      "MC": [
-        "212299"
-      ],
-      "MD": [
-        "259299"
-      ],
-      "ME": [
-        "297299"
-      ],
-      "MG": [
-        "646299"
-      ],
-      "MH": [
-        "551299"
-      ],
-      "MK": [
-        "294299"
-      ],
-      "ML": [
-        "610299"
-      ],
-      "MM": [
-        "414299"
-      ],
-      "MN": [
-        "428299"
-      ],
-      "MO": [
-        "455299"
-      ],
-      "MP": [
-        "534299"
-      ],
-      "MR": [
-        "609299"
-      ],
-      "MS": [
-        "354299"
-      ],
-      "MT": [
-        "278299"
-      ],
-      "MU": [
-        "617299"
-      ],
-      "MV": [
-        "472299"
-      ],
-      "MW": [
-        "650299"
-      ],
-      "MX": [
-        "334299"
-      ],
-      "MY": [
-        "502299"
-      ],
-      "MZ": [
-        "643299"
-      ],
-      "NA": [
-        "649299"
-      ],
-      "NC": [
-        "546299"
-      ],
-      "NE": [
-        "614299"
-      ],
-      "NG": [
-        "621299"
-      ],
-      "NI": [
-        "710299"
-      ],
-      "NL": [
-        "204299"
-      ],
-      "NO": [
-        "242299"
-      ],
-      "NP": [
-        "429299"
-      ],
-      "NR": [
-        "536299"
-      ],
-      "NU": [
-        "555299"
-      ],
-      "NZ": [
-        "530299"
-      ],
-      "OM": [
-        "422299"
-      ],
-      "PA": [
-        "714299"
-      ],
-      "PE": [
-        "716299"
-      ],
-      "PF": [
-        "547299"
-      ],
-      "PG": [
-        "537299"
-      ],
-      "PH": [
-        "515299"
-      ],
-      "PK": [
-        "410299"
-      ],
-      "PL": [
-        "260299"
-      ],
-      "PM": [
-        "308299"
-      ],
-      "PR": [
-        "330299"
-      ],
-      "PS": [
-        "425299"
-      ],
-      "PT": [
-        "268299"
-      ],
-      "PW": [
-        "552299"
-      ],
-      "PY": [
-        "744299"
-      ],
-      "QA": [
-        "427299"
-      ],
-      "RE": [
-        "647299"
-      ],
-      "RO": [
-        "226299"
-      ],
-      "RS": [
-        "220299"
-      ],
-      "RU": [
-        "250299"
-      ],
-      "RW": [
-        "635299"
-      ],
-      "SA": [
-        "420299"
-      ],
-      "SB": [
-        "540299"
-      ],
-      "SC": [
-        "633299"
-      ],
-      "SD": [
-        "634299"
-      ],
-      "SE": [
-        "240299"
-      ],
-      "SG": [
-        "525299"
-      ],
-      "SH": [
-        "658299"
-      ],
-      "SI": [
-        "293299"
-      ],
-      "SK": [
-        "231299"
-      ],
-      "SL": [
-        "619299"
-      ],
-      "SM": [
-        "292299"
-      ],
-      "SN": [
-        "608299"
-      ],
-      "SO": [
-        "637299"
-      ],
-      "SR": [
-        "746299"
-      ],
-      "SS": [
-        "659299"
-      ],
-      "ST": [
-        "626299"
-      ],
-      "SV": [
-        "706299"
-      ],
-      "SY": [
-        "417299"
-      ],
-      "SZ": [
-        "653299"
-      ],
-      "TC": [
-        "376299"
-      ],
-      "TD": [
-        "622299"
-      ],
-      "TG": [
-        "615299"
-      ],
-      "TH": [
-        "520299"
-      ],
-      "TJ": [
-        "436299"
-      ],
-      "TL": [
-        "514299"
-      ],
-      "TM": [
-        "438299"
-      ],
-      "TN": [
-        "605299"
-      ],
-      "TO": [
-        "539299"
-      ],
-      "TR": [
-        "286299"
-      ],
-      "TT": [
-        "374299"
-      ],
-      "TV": [
-        "553299"
-      ],
-      "TW": [
-        "466299"
-      ],
-      "TZ": [
-        "640299"
-      ],
-      "UA": [
-        "255299"
-      ],
-      "UG": [
-        "641299"
-      ],
-      "US": [
-        "310299"
-      ],
-      "UY": [
-        "748299"
-      ],
-      "UZ": [
-        "434299"
-      ],
-      "VA": [
-        "225299"
-      ],
-      "VC": [
-        "360299"
-      ],
-      "VE": [
-        "734299"
-      ],
-      "VG": [
-        "348299"
-      ],
-      "VI": [
-        "376299"
-      ],
-      "VN": [
-        "452299"
-      ],
-      "VU": [
-        "541299"
-      ],
-      "WF": [
-        "543299"
-      ],
-      "WS": [
-        "549299"
-      ],
-      "XK": [
-        "221299"
-      ],
-      "XX": [
-        "901299"
-      ],
-      "YE": [
-        "421299"
-      ],
-      "YT": [
-        "647299"
-      ],
-      "ZA": [
-        "655299"
-      ],
-      "ZM": [
-        "645299"
-      ],
-      "ZW": [
-        "648299"
       ]
     }
   },
@@ -13151,74 +11185,11 @@
     }
   },
   {
-    "brand": "Fastcom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Fastweb",
     "operator": "Fastweb S.p.A.",
     "mccmnc_tuple": {
       "IT": [
         "22208"
-      ]
-    }
-  },
-  {
-    "brand": "Fayn",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
-    "brand": "FEBO",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BE": [
-        "206299"
-      ]
-    }
-  },
-  {
-    "brand": "Febo Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Fello",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Fenix Telekom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
-    "brand": "Fibio",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -13241,32 +11212,11 @@
     }
   },
   {
-    "brand": "Firmafon",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "FIRST",
     "operator": "FIRST Networks Operations",
     "mccmnc_tuple": {
       "CA": [
         "302350"
-      ]
-    }
-  },
-  {
-    "brand": "Firstcom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ],
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -13308,708 +11258,11 @@
     }
   },
   {
-    "brand": "Fix Line",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AD": [
-        "213999"
-      ],
-      "AE": [
-        "424999"
-      ],
-      "AF": [
-        "412999"
-      ],
-      "AG": [
-        "344999"
-      ],
-      "AI": [
-        "365999"
-      ],
-      "AL": [
-        "276999"
-      ],
-      "AM": [
-        "283999"
-      ],
-      "AN": [
-        "362999"
-      ],
-      "AO": [
-        "631999"
-      ],
-      "AR": [
-        "722999"
-      ],
-      "AS": [
-        "544999"
-      ],
-      "AT": [
-        "232999"
-      ],
-      "AU": [
-        "505999"
-      ],
-      "AW": [
-        "363999"
-      ],
-      "AZ": [
-        "400999"
-      ],
-      "BA": [
-        "218999"
-      ],
-      "BB": [
-        "342999"
-      ],
-      "BD": [
-        "470999"
-      ],
-      "BE": [
-        "206999"
-      ],
-      "BF": [
-        "613999"
-      ],
-      "BG": [
-        "284999"
-      ],
-      "BH": [
-        "426999"
-      ],
-      "BI": [
-        "642999"
-      ],
-      "BJ": [
-        "616999"
-      ],
-      "BM": [
-        "350999"
-      ],
-      "BN": [
-        "528999"
-      ],
-      "BO": [
-        "736999"
-      ],
-      "BR": [
-        "724999"
-      ],
-      "BS": [
-        "364999"
-      ],
-      "BT": [
-        "402999"
-      ],
-      "BW": [
-        "652999"
-      ],
-      "BY": [
-        "257999"
-      ],
-      "BZ": [
-        "702999"
-      ],
-      "CA": [
-        "302999"
-      ],
-      "CD": [
-        "630999"
-      ],
-      "CF": [
-        "623999"
-      ],
-      "CG": [
-        "629999"
-      ],
-      "CH": [
-        "228999"
-      ],
-      "CI": [
-        "612999"
-      ],
-      "CK": [
-        "548999"
-      ],
-      "CL": [
-        "730999"
-      ],
-      "CM": [
-        "624999"
-      ],
-      "CN": [
-        "460999"
-      ],
-      "CO": [
-        "732999"
-      ],
-      "CR": [
-        "712999"
-      ],
-      "CU": [
-        "368999"
-      ],
-      "CV": [
-        "625999"
-      ],
-      "CY": [
-        "280999"
-      ],
-      "CZ": [
-        "230999"
-      ],
-      "DE": [
-        "262999"
-      ],
-      "DG": [
-        "310999"
-      ],
-      "DJ": [
-        "638999"
-      ],
-      "DK": [
-        "238999"
-      ],
-      "DM": [
-        "366999"
-      ],
-      "DO": [
-        "370999"
-      ],
-      "DZ": [
-        "603999"
-      ],
-      "EC": [
-        "740999"
-      ],
-      "EE": [
-        "248999"
-      ],
-      "EG": [
-        "602999"
-      ],
-      "ER": [
-        "657999"
-      ],
-      "ES": [
-        "214999"
-      ],
-      "ET": [
-        "636999"
-      ],
-      "FI": [
-        "244999"
-      ],
-      "FJ": [
-        "542999"
-      ],
-      "FK": [
-        "750999"
-      ],
-      "FM": [
-        "550999"
-      ],
-      "FO": [
-        "288999"
-      ],
-      "FR": [
-        "208999"
-      ],
-      "GA": [
-        "628999"
-      ],
-      "GB": [
-        "234999"
-      ],
-      "GD": [
-        "352999"
-      ],
-      "GE": [
-        "282999",
-        "289999"
-      ],
-      "GF": [
-        "340999"
-      ],
-      "GH": [
-        "620999"
-      ],
-      "GI": [
-        "266999"
-      ],
-      "GL": [
-        "290999"
-      ],
-      "GM": [
-        "607999"
-      ],
-      "GN": [
-        "611999"
-      ],
-      "GQ": [
-        "627999"
-      ],
-      "GR": [
-        "202999"
-      ],
-      "GT": [
-        "704999"
-      ],
-      "GU": [
-        "310999"
-      ],
-      "GW": [
-        "632999"
-      ],
-      "GY": [
-        "738999"
-      ],
-      "HK": [
-        "454999"
-      ],
-      "HN": [
-        "708999"
-      ],
-      "HR": [
-        "219999"
-      ],
-      "HT": [
-        "372999"
-      ],
-      "HU": [
-        "216999"
-      ],
-      "ID": [
-        "510999"
-      ],
-      "IE": [
-        "272999"
-      ],
-      "IL": [
-        "425999"
-      ],
-      "IN": [
-        "404999",
-        "405999"
-      ],
-      "IQ": [
-        "418999"
-      ],
-      "IR": [
-        "432999"
-      ],
-      "IS": [
-        "274999"
-      ],
-      "IT": [
-        "222999"
-      ],
-      "JM": [
-        "338999"
-      ],
-      "JO": [
-        "416999"
-      ],
-      "JP": [
-        "440999"
-      ],
-      "KE": [
-        "639999"
-      ],
-      "KG": [
-        "437999"
-      ],
-      "KH": [
-        "456999"
-      ],
-      "KI": [
-        "545999"
-      ],
-      "KM": [
-        "654999"
-      ],
-      "KN": [
-        "356999"
-      ],
-      "KP": [
-        "467999"
-      ],
-      "KR": [
-        "450999"
-      ],
-      "KW": [
-        "419999"
-      ],
-      "KY": [
-        "346999"
-      ],
-      "KZ": [
-        "401999"
-      ],
-      "LA": [
-        "457999"
-      ],
-      "LB": [
-        "415999"
-      ],
-      "LC": [
-        "358999"
-      ],
-      "LI": [
-        "246999",
-        "295999"
-      ],
-      "LK": [
-        "413999"
-      ],
-      "LR": [
-        "618999"
-      ],
-      "LS": [
-        "651999"
-      ],
-      "LU": [
-        "270999"
-      ],
-      "LV": [
-        "247999"
-      ],
-      "LY": [
-        "606999"
-      ],
-      "MA": [
-        "604999"
-      ],
-      "MC": [
-        "212999"
-      ],
-      "ME": [
-        "297999"
-      ],
-      "MG": [
-        "646999"
-      ],
-      "MH": [
-        "551999"
-      ],
-      "MK": [
-        "259999",
-        "294999"
-      ],
-      "ML": [
-        "610999"
-      ],
-      "MM": [
-        "414999"
-      ],
-      "MN": [
-        "428999"
-      ],
-      "MO": [
-        "455999"
-      ],
-      "MP": [
-        "534999"
-      ],
-      "MR": [
-        "609999"
-      ],
-      "MS": [
-        "354999"
-      ],
-      "MT": [
-        "278999"
-      ],
-      "MU": [
-        "617999"
-      ],
-      "MV": [
-        "472999"
-      ],
-      "MW": [
-        "650999"
-      ],
-      "MX": [
-        "334999"
-      ],
-      "MY": [
-        "502999"
-      ],
-      "MZ": [
-        "643999"
-      ],
-      "NA": [
-        "649999"
-      ],
-      "NC": [
-        "546999"
-      ],
-      "NE": [
-        "614999"
-      ],
-      "NG": [
-        "621999"
-      ],
-      "NI": [
-        "710999"
-      ],
-      "NL": [
-        "204999"
-      ],
-      "NO": [
-        "242999"
-      ],
-      "NP": [
-        "429999"
-      ],
-      "NR": [
-        "536999"
-      ],
-      "NU": [
-        "555999"
-      ],
-      "NZ": [
-        "530999"
-      ],
-      "OM": [
-        "422999"
-      ],
-      "PA": [
-        "714999"
-      ],
-      "PE": [
-        "716999"
-      ],
-      "PF": [
-        "547999"
-      ],
-      "PG": [
-        "537999"
-      ],
-      "PH": [
-        "515999"
-      ],
-      "PK": [
-        "410999"
-      ],
-      "PL": [
-        "260999"
-      ],
-      "PM": [
-        "308999"
-      ],
-      "PR": [
-        "330999"
-      ],
-      "PS": [
-        "425999"
-      ],
-      "PT": [
-        "268999"
-      ],
-      "PW": [
-        "552999"
-      ],
-      "PY": [
-        "744999"
-      ],
-      "QA": [
-        "427999"
-      ],
-      "RE": [
-        "647999"
-      ],
-      "RO": [
-        "226999"
-      ],
-      "RS": [
-        "220999"
-      ],
-      "RU": [
-        "250999"
-      ],
-      "RW": [
-        "635999"
-      ],
-      "SA": [
-        "420999"
-      ],
-      "SB": [
-        "540999"
-      ],
-      "SC": [
-        "633999"
-      ],
-      "SD": [
-        "634999"
-      ],
-      "SE": [
-        "240999"
-      ],
-      "SG": [
-        "525999"
-      ],
-      "SH": [
-        "658999"
-      ],
-      "SI": [
-        "293999"
-      ],
-      "SK": [
-        "231999"
-      ],
-      "SL": [
-        "619999"
-      ],
-      "SM": [
-        "292999"
-      ],
-      "SN": [
-        "608999"
-      ],
-      "SO": [
-        "637999"
-      ],
-      "SR": [
-        "746999"
-      ],
-      "SS": [
-        "659999"
-      ],
-      "ST": [
-        "626999"
-      ],
-      "SV": [
-        "706999"
-      ],
-      "SY": [
-        "417999"
-      ],
-      "SZ": [
-        "653999"
-      ],
-      "TC": [
-        "376999"
-      ],
-      "TD": [
-        "622999"
-      ],
-      "TG": [
-        "615999"
-      ],
-      "TH": [
-        "520999"
-      ],
-      "TJ": [
-        "436999"
-      ],
-      "TL": [
-        "514999"
-      ],
-      "TM": [
-        "438999"
-      ],
-      "TN": [
-        "605999"
-      ],
-      "TO": [
-        "539999"
-      ],
-      "TR": [
-        "286999"
-      ],
-      "TT": [
-        "374999"
-      ],
-      "TV": [
-        "553999"
-      ],
-      "TW": [
-        "466999"
-      ],
-      "TZ": [
-        "640999"
-      ],
-      "UA": [
-        "255999"
-      ],
-      "UG": [
-        "641999"
-      ],
-      "US": [
-        "310999"
-      ],
-      "UY": [
-        "748999"
-      ],
-      "UZ": [
-        "434999"
-      ],
-      "VA": [
-        "225999"
-      ],
-      "VC": [
-        "360999"
-      ],
-      "VE": [
-        "734999"
-      ],
-      "VG": [
-        "348999"
-      ],
-      "VI": [
-        "376999"
-      ],
-      "VN": [
-        "452999"
-      ],
-      "VU": [
-        "541999"
-      ],
-      "WF": [
-        "543999"
-      ],
-      "WS": [
-        "549999"
-      ],
-      "XK": [
-        "221999"
-      ],
-      "XX": [
-        "901999"
-      ],
-      "YE": [
-        "421999"
-      ],
-      "YT": [
-        "647999"
-      ],
-      "ZA": [
-        "655999"
-      ],
-      "ZM": [
-        "645999"
-      ],
-      "ZW": [
-        "648999"
-      ]
-    }
-  },
-  {
     "brand": "FL1",
     "operator": "Telecom Liechtenstein AG",
     "mccmnc_tuple": {
       "LI": [
         "29505"
-      ]
-    }
-  },
-  {
-    "brand": "Flexfone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
       ]
     }
   },
@@ -14143,15 +11396,6 @@
     }
   },
   {
-    "brand": "Foliateam",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "FonePlus",
     "operator": "Sure (Diego Garcia) Ltd",
     "mccmnc_tuple": {
@@ -14166,24 +11410,6 @@
     "mccmnc_tuple": {
       "AZ": [
         "40003"
-      ]
-    }
-  },
-  {
-    "brand": "Fonia",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Foniva",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
       ]
     }
   },
@@ -14278,15 +11504,6 @@
     }
   },
   {
-    "brand": "FreedomPop",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
-      ]
-    }
-  },
-  {
     "brand": "Fren/Hepi",
     "operator": "PT Mobile-8 Telecom",
     "mccmnc_tuple": {
@@ -14362,15 +11579,6 @@
     }
   },
   {
-    "brand": "Gazprom Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "GCI",
     "operator": "Alaska Communications",
     "mccmnc_tuple": {
@@ -14426,33 +11634,6 @@
     }
   },
   {
-    "brand": "Get SIM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AU": [
-        "505299"
-      ]
-    }
-  },
-  {
-    "brand": "GianCom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BE": [
-        "206299"
-      ]
-    }
-  },
-  {
-    "brand": "GibFibreSpeed",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GI": [
-        "266299"
-      ]
-    }
-  },
-  {
     "brand": "Gibfibrespeed",
     "operator": "GibFibre Ltd",
     "mccmnc_tuple": {
@@ -14498,38 +11679,11 @@
     }
   },
   {
-    "brand": "Global",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Global Access Services",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
     "brand": "Global Telecom",
     "operator": null,
     "mccmnc_tuple": {
       "RU": [
         "25048"
-      ]
-    }
-  },
-  {
-    "brand": "Global Telefoni",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -14543,26 +11697,11 @@
     }
   },
   {
-    "brand": "GlobalConnect",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ],
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Globalstar",
     "operator": null,
     "mccmnc_tuple": {
       "CA": [
         "302710"
-      ],
-      "XX": [
-        "901299"
       ]
     }
   },
@@ -14622,29 +11761,11 @@
     }
   },
   {
-    "brand": "GLONASS MOBILE",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Gmobile",
     "operator": "GTEL Mobile JSC",
     "mccmnc_tuple": {
       "VN": [
         "45207"
-      ]
-    }
-  },
-  {
-    "brand": "GNET",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
       ]
     }
   },
@@ -14673,24 +11794,6 @@
     "mccmnc_tuple": {
       "SO": [
         "63730"
-      ]
-    }
-  },
-  {
-    "brand": "GoMobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
-    "brand": "Gomobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CO": [
-        "732299"
       ]
     }
   },
@@ -14816,30 +11919,12 @@
     }
   },
   {
-    "brand": "GTD Movil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
     "brand": "Guinetel",
     "operator": "Guin\u00e9tel S.A.",
     "mccmnc_tuple": {
       "GW": [
         "63201",
         "63207"
-      ]
-    }
-  },
-  {
-    "brand": "ha-loo mobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
       ]
     }
   },
@@ -14862,15 +11947,6 @@
     }
   },
   {
-    "brand": "Happy Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "Hatef Libya",
     "operator": "Hatef Libya",
     "mccmnc_tuple": {
@@ -14885,15 +11961,6 @@
     "mccmnc_tuple": {
       "GB": [
         "23414"
-      ]
-    }
-  },
-  {
-    "brand": "Hexatel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -14970,15 +12037,6 @@
     }
   },
   {
-    "brand": "Horisen",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Hormuud",
     "operator": null,
     "mccmnc_tuple": {
@@ -15002,15 +12060,6 @@
     "mccmnc_tuple": {
       "SO": [
         "63767"
-      ]
-    }
-  },
-  {
-    "brand": "HOT mobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SI": [
-        "293299"
       ]
     }
   },
@@ -15079,39 +12128,12 @@
     }
   },
   {
-    "brand": "i-via",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "I.M. Consulting",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "IAM",
     "operator": "Ittissalat Al-Maghrib (Maroc Telecom)",
     "mccmnc_tuple": {
       "MA": [
         "60401",
         "60406"
-      ]
-    }
-  },
-  {
-    "brand": "Ibo Cell",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
       ]
     }
   },
@@ -15168,15 +12190,6 @@
     "mccmnc_tuple": {
       "IS": [
         "27407"
-      ]
-    }
-  },
-  {
-    "brand": "iCentrex",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -15513,15 +12526,6 @@
     }
   },
   {
-    "brand": "Imowi",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AR": [
-        "722299"
-      ]
-    }
-  },
-  {
     "brand": "IN&Phone",
     "operator": "IN&Phone SA",
     "mccmnc_tuple": {
@@ -15567,33 +12571,6 @@
     }
   },
   {
-    "brand": "Industel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "Inea",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "InfraCom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Infura",
     "operator": null,
     "mccmnc_tuple": {
@@ -15612,29 +12589,11 @@
     }
   },
   {
-    "brand": "Innsbrucker Kommunalbetriebe",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
     "brand": "Inovia",
     "operator": null,
     "mccmnc_tuple": {
       "CH": [
         "22866"
-      ]
-    }
-  },
-  {
-    "brand": "Integral",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -15657,21 +12616,6 @@
     }
   },
   {
-    "brand": "interactive digital media / IDM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BE": [
-        "206299"
-      ],
-      "FI": [
-        "244299"
-      ],
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
     "brand": "InterC",
     "operator": "InterC Network Ltd.",
     "mccmnc_tuple": {
@@ -15686,15 +12630,6 @@
     "mccmnc_tuple": {
       "NL": [
         "20417"
-      ]
-    }
-  },
-  {
-    "brand": "Interconnect",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GR": [
-        "202299"
       ]
     }
   },
@@ -15717,24 +12652,6 @@
     }
   },
   {
-    "brand": "Internod",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Intersvyaz-2",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Intertelecom",
     "operator": "Intertelecom",
     "mccmnc_tuple": {
@@ -15753,15 +12670,6 @@
     }
   },
   {
-    "brand": "intility",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ]
-    }
-  },
-  {
     "brand": "Intovoice",
     "operator": null,
     "mccmnc_tuple": {
@@ -15776,15 +12684,6 @@
     "mccmnc_tuple": {
       "XX": [
         "90124"
-      ]
-    }
-  },
-  {
-    "brand": "Invitech",
-    "operator": null,
-    "mccmnc_tuple": {
-      "HU": [
-        "216299"
       ]
     }
   },
@@ -15808,27 +12707,6 @@
     }
   },
   {
-    "brand": "IP Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "IPIFY",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FI": [
-        "244299"
-      ],
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "IPKO",
     "operator": "IPKO",
     "mccmnc_tuple": {
@@ -15838,56 +12716,11 @@
     }
   },
   {
-    "brand": "IPLAN",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AR": [
-        "722299"
-      ]
-    }
-  },
-  {
-    "brand": "ipnordic",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "IPSE 2000",
     "operator": null,
     "mccmnc_tuple": {
       "IT": [
         "22277"
-      ]
-    }
-  },
-  {
-    "brand": "IPTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SL": [
-        "619299"
-      ]
-    }
-  },
-  {
-    "brand": "Iptis",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Ipvision",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
       ]
     }
   },
@@ -15942,9 +12775,6 @@
     "mccmnc_tuple": {
       "NO": [
         "24216"
-      ],
-      "RO": [
-        "226299"
       ]
     }
   },
@@ -15954,15 +12784,6 @@
     "mccmnc_tuple": {
       "PH": [
         "51501"
-      ]
-    }
-  },
-  {
-    "brand": "IsNet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
       ]
     }
   },
@@ -16014,15 +12835,6 @@
     "mccmnc_tuple": {
       "US": [
         "310530"
-      ]
-    }
-  },
-  {
-    "brand": "IZZI",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
       ]
     }
   },
@@ -16086,24 +12898,6 @@
     "mccmnc_tuple": {
       "ES": [
         "21421"
-      ]
-    }
-  },
-  {
-    "brand": "Jetnet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "JetNett",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
       ]
     }
   },
@@ -16335,24 +13129,6 @@
     }
   },
   {
-    "brand": "JMDI J. Maleszko",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "JOi",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
     "brand": "JOIN",
     "operator": "JOIN Experience (Belgium)",
     "mccmnc_tuple": {
@@ -16373,15 +13149,6 @@
       ],
       "JE": [
         "23450"
-      ]
-    }
-  },
-  {
-    "brand": "Junyverse",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -16414,56 +13181,11 @@
     }
   },
   {
-    "brand": "kabelplus",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
-    "brand": "Kaleyra",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
-      ]
-    }
-  },
-  {
-    "brand": "Kallofer",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AR": [
-        "722299"
-      ]
-    }
-  },
-  {
-    "brand": "Kangsung Net",
-    "operator": null,
-    "mccmnc_tuple": {
-      "KP": [
-        "467299"
-      ]
-    }
-  },
-  {
     "brand": "Karabakh Telecom",
     "operator": "Karabakh Telecom",
     "mccmnc_tuple": {
       "AM": [
         "28304"
-      ]
-    }
-  },
-  {
-    "brand": "Karma Mobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -16486,15 +13208,6 @@
     }
   },
   {
-    "brand": "KeenMobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
     "brand": "Keewaytinook Mobile",
     "operator": "Keewaytinook Okimakanak Mobile",
     "mccmnc_tuple": {
@@ -16510,24 +13223,6 @@
     "mccmnc_tuple": {
       "IT": [
         "22207"
-      ]
-    }
-  },
-  {
-    "brand": "Kertel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Keyyo Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -16555,15 +13250,6 @@
     "mccmnc_tuple": {
       "KI": [
         "54509"
-      ]
-    }
-  },
-  {
-    "brand": "Klucz Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
       ]
     }
   },
@@ -16688,15 +13374,6 @@
     }
   },
   {
-    "brand": "KvatroPlus",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Kyivstar",
     "operator": "PRJSC \"Kyivstar\"",
     "mccmnc_tuple": {
@@ -16718,50 +13395,14 @@
     }
   },
   {
-    "brand": "L-mobi",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BE": [
-        "206299"
-      ]
-    }
-  },
-  {
-    "brand": "La Poste Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "lajt mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "Lancelot",
     "operator": null,
     "mccmnc_tuple": {
       "BE": [
         "20699"
       ],
-      "DK": [
-        "238299"
-      ],
-      "FI": [
-        "244299"
-      ],
       "NL": [
         "20498"
-      ],
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -16793,48 +13434,9 @@
     }
   },
   {
-    "brand": "Lardex",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "LASOTEL",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "LATRON",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MK": [
-        "294299"
-      ]
-    }
-  },
-  {
-    "brand": "Laudatio",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "Lebara",
     "operator": null,
     "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ],
       "FR": [
         "20838"
       ]
@@ -16846,15 +13448,6 @@
     "mccmnc_tuple": {
       "SA": [
         "42006"
-      ]
-    }
-  },
-  {
-    "brand": "Legos",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BE": [
-        "206299"
       ]
     }
   },
@@ -16873,24 +13466,6 @@
     "mccmnc_tuple": {
       "CY": [
         "28022"
-      ]
-    }
-  },
-  {
-    "brand": "Lemonvil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Lenovo Connect",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
       ]
     }
   },
@@ -17023,47 +13598,11 @@
     }
   },
   {
-    "brand": "LINK Mobility",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
     "brand": "LINKEM",
     "operator": "Linkem S.p.A.",
     "mccmnc_tuple": {
       "IT": [
         "22238"
-      ]
-    }
-  },
-  {
-    "brand": "Linkt",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "LinkTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NZ": [
-        "530299"
-      ]
-    }
-  },
-  {
-    "brand": "LITEYEAR",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -17149,33 +13688,6 @@
     }
   },
   {
-    "brand": "LotusTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IR": [
-        "432299"
-      ]
-    }
-  },
-  {
-    "brand": "LoVo",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "Loxysoft",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Lumitel",
     "operator": "Viettel Burundi",
     "mccmnc_tuple": {
@@ -17197,14 +13709,8 @@
     "brand": "Lycamobile",
     "operator": null,
     "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ],
       "TN": [
         "60506"
-      ],
-      "ZA": [
-        "655299"
       ]
     }
   },
@@ -17392,15 +13898,6 @@
     }
   },
   {
-    "brand": "M-STAT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GR": [
-        "202299"
-      ]
-    }
-  },
-  {
     "brand": "M1",
     "operator": "M1 Limited",
     "mccmnc_tuple": {
@@ -17473,15 +13970,6 @@
     "mccmnc_tuple": {
       "GE": [
         "28203"
-      ]
-    }
-  },
-  {
-    "brand": "Maingate",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -17579,33 +14067,6 @@
     }
   },
   {
-    "brand": "Mavi",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "Maxcom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
-      ]
-    }
-  },
-  {
-    "brand": "Maxiphone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
     "brand": "Maxis",
     "operator": "Maxis Communications Berhad",
     "mccmnc_tuple": {
@@ -17616,56 +14077,11 @@
     }
   },
   {
-    "brand": "Maxis Broadband",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MY": [
-        "502299"
-      ]
-    }
-  },
-  {
-    "brand": "Maxtel.dk",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "mCel",
     "operator": "Mocambique Celular S.A.",
     "mccmnc_tuple": {
       "MZ": [
         "64301"
-      ]
-    }
-  },
-  {
-    "brand": "MCNtelecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
-    "brand": "Me2",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SI": [
-        "293299"
-      ]
-    }
-  },
-  {
-    "brand": "Media-Market",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -17684,15 +14100,6 @@
     "mccmnc_tuple": {
       "SC": [
         "63302"
-      ]
-    }
-  },
-  {
-    "brand": "Medium Telekom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
       ]
     }
   },
@@ -17733,24 +14140,6 @@
     }
   },
   {
-    "brand": "Megaphone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "MegaTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
-      ]
-    }
-  },
-  {
     "brand": "Melita",
     "operator": "Melita",
     "mccmnc_tuple": {
@@ -17785,9 +14174,6 @@
     "mccmnc_tuple": {
       "NL": [
         "20463"
-      ],
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -17811,77 +14197,11 @@
     }
   },
   {
-    "brand": "Metro Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "Metro-Pei",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "METRONET",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "MEZON",
     "operator": "Lietuvos radijo ir televizijos centras",
     "mccmnc_tuple": {
       "LT": [
         "24608"
-      ]
-    }
-  },
-  {
-    "brand": "mGage",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
-    "brand": "MGTS",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "MI Carrier Services",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ],
-      "FI": [
-        "244299"
-      ]
-    }
-  },
-  {
-    "brand": "Miatel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -17932,33 +14252,6 @@
     }
   },
   {
-    "brand": "miniTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "MINTA",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MH": [
-        "551299"
-      ]
-    }
-  },
-  {
-    "brand": "MIO",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AW": [
-        "363299"
-      ]
-    }
-  },
-  {
     "brand": "MIO",
     "operator": "E.O.C.G. Wireless",
     "mccmnc_tuple": {
@@ -17979,27 +14272,6 @@
     "mccmnc_tuple": {
       "US": [
         "310630"
-      ]
-    }
-  },
-  {
-    "brand": "Mitto",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ],
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "MKN",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MY": [
-        "502299"
       ]
     }
   },
@@ -18040,38 +14312,11 @@
     }
   },
   {
-    "brand": "MOBIL21",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
-    "brand": "Mobil4",
-    "operator": null,
-    "mccmnc_tuple": {
-      "HU": [
-        "216299"
-      ]
-    }
-  },
-  {
     "brand": "Mobiland",
     "operator": "Servei De Tele. DAndorra",
     "mccmnc_tuple": {
       "AD": [
         "21303"
-      ]
-    }
-  },
-  {
-    "brand": "Mobile Vikings",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
       ]
     }
   },
@@ -18085,29 +14330,11 @@
     }
   },
   {
-    "brand": "Mobiledata",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "MobileNation",
     "operator": "SI Wireless LLC",
     "mccmnc_tuple": {
       "US": [
         "311910"
-      ]
-    }
-  },
-  {
-    "brand": "Mobilink",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
       ]
     }
   },
@@ -18126,15 +14353,6 @@
     "mccmnc_tuple": {
       "NC": [
         "54601"
-      ]
-    }
-  },
-  {
-    "brand": "Mobilisim",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
       ]
     }
   },
@@ -18230,27 +14448,6 @@
     }
   },
   {
-    "brand": "Mobiweb",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ],
-      "FI": [
-        "244299"
-      ]
-    }
-  },
-  {
-    "brand": "Moja GSM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "MOKOZE / AZU",
     "operator": "Mahanagar Telephone Mauritius Limited (MTML)",
     "mccmnc_tuple": {
@@ -18265,15 +14462,6 @@
     "mccmnc_tuple": {
       "MD": [
         "25902"
-      ]
-    }
-  },
-  {
-    "brand": "Molnstruktur",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -18341,15 +14529,6 @@
     }
   },
   {
-    "brand": "MOSTELECOM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "MOTIV",
     "operator": "EKATERINBURG-2000",
     "mccmnc_tuple": {
@@ -18359,29 +14538,11 @@
     }
   },
   {
-    "brand": "Motto",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
     "brand": "MOVICEL",
     "operator": "MOVICEL Telecommunications S.A.",
     "mccmnc_tuple": {
       "AO": [
         "63104"
-      ]
-    }
-  },
-  {
-    "brand": "Movil Exito",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CO": [
-        "732299"
       ]
     }
   },
@@ -18549,15 +14710,6 @@
     }
   },
   {
-    "brand": "MoviTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CU": [
-        "368299"
-      ]
-    }
-  },
-  {
     "brand": "Movitel",
     "operator": "Movitel, SA",
     "mccmnc_tuple": {
@@ -18575,24 +14727,6 @@
         "41401",
         "41402",
         "41404"
-      ]
-    }
-  },
-  {
-    "brand": "MPTC",
-    "operator": null,
-    "mccmnc_tuple": {
-      "KH": [
-        "456299"
-      ]
-    }
-  },
-  {
-    "brand": "MSN Telekom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -18790,15 +14924,6 @@
   },
   {
     "brand": "MTS",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XK": [
-        "221299"
-      ]
-    }
-  },
-  {
-    "brand": "MTS",
     "operator": "Bell MTS",
     "mccmnc_tuple": {
       "CA": [
@@ -18856,47 +14981,11 @@
     }
   },
   {
-    "brand": "MTX Connect",
-    "operator": null,
-    "mccmnc_tuple": {
-      "LU": [
-        "270299"
-      ]
-    }
-  },
-  {
-    "brand": "MultiCom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CR": [
-        "712299"
-      ]
-    }
-  },
-  {
-    "brand": "multiMOBILE",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "Mundio",
     "operator": null,
     "mccmnc_tuple": {
       "IT": [
         "22244"
-      ]
-    }
-  },
-  {
-    "brand": "Mundo Pacifico",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
       ]
     }
   },
@@ -18919,15 +15008,6 @@
     }
   },
   {
-    "brand": "My Beat",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "my.t",
     "operator": "Cellplus Mobile Communications Ltd.",
     "mccmnc_tuple": {
@@ -18942,15 +15022,6 @@
     "mccmnc_tuple": {
       "GE": [
         "28222"
-      ]
-    }
-  },
-  {
-    "brand": "MyRepublic",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SG": [
-        "525299"
       ]
     }
   },
@@ -19000,15 +15071,6 @@
     }
   },
   {
-    "brand": "Nasza Wizja",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "Natcom",
     "operator": "NATCOM S.A.",
     "mccmnc_tuple": {
@@ -19024,15 +15086,6 @@
       "SO": [
         "63710",
         "63760"
-      ]
-    }
-  },
-  {
-    "brand": "NAU Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
       ]
     }
   },
@@ -19065,15 +15118,6 @@
     }
   },
   {
-    "brand": "nc+ Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "NCC",
     "operator": "Nizhegorodskaya Cellular Communications",
     "mccmnc_tuple": {
@@ -19088,24 +15132,6 @@
     "mccmnc_tuple": {
       "NP": [
         "42902"
-      ]
-    }
-  },
-  {
-    "brand": "NCI",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Nej Mobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
       ]
     }
   },
@@ -19177,24 +15203,6 @@
     }
   },
   {
-    "brand": "Net at Once",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Net Feasa",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IE": [
-        "272299"
-      ]
-    }
-  },
-  {
     "brand": "Net*One",
     "operator": "Net*One Cellular (Pvt) Ltd",
     "mccmnc_tuple": {
@@ -19204,83 +15212,11 @@
     }
   },
   {
-    "brand": "NETBOX Mobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
-    "brand": "NETBYNET",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "NETCO",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SO": [
-        "637299"
-      ]
-    }
-  },
-  {
-    "brand": "Netcom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Netfone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "HU": [
-        "216299"
-      ]
-    }
-  },
-  {
-    "brand": "Netgsm",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
     "brand": "Netia",
     "operator": "Netia S.A.",
     "mccmnc_tuple": {
       "PL": [
         "26007"
-      ]
-    }
-  },
-  {
-    "brand": "Netsize",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "NetUno",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
       ]
     }
   },
@@ -19308,24 +15244,6 @@
     "mccmnc_tuple": {
       "FR": [
         "20839"
-      ]
-    }
-  },
-  {
-    "brand": "NEUS Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
-      ]
-    }
-  },
-  {
-    "brand": "New Mobile Communications",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -19375,15 +15293,6 @@
     }
   },
   {
-    "brand": "Next Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "Nextel",
     "operator": null,
     "mccmnc_tuple": {
@@ -19422,24 +15331,6 @@
     }
   },
   {
-    "brand": "NextGenTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ]
-    }
-  },
-  {
-    "brand": "NextM2M",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "Nexttel",
     "operator": "Viettel Cameroun",
     "mccmnc_tuple": {
@@ -19449,47 +15340,11 @@
     }
   },
   {
-    "brand": "Nexwave",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SG": [
-        "525299"
-      ]
-    }
-  },
-  {
-    "brand": "Nida",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
-    "brand": "NIMBOW",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "NITA",
     "operator": "National Information Technology Agency",
     "mccmnc_tuple": {
       "GH": [
         "62009"
-      ]
-    }
-  },
-  {
-    "brand": "NLT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BR": [
-        "724299"
       ]
     }
   },
@@ -19530,15 +15385,6 @@
     }
   },
   {
-    "brand": "Nodnett",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ]
-    }
-  },
-  {
     "brand": "Nokia",
     "operator": null,
     "mccmnc_tuple": {
@@ -19558,29 +15404,11 @@
     }
   },
   {
-    "brand": "Nord Connect",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BE": [
-        "206299"
-      ]
-    }
-  },
-  {
     "brand": "Nordisk Polska",
     "operator": "Nordisk Polska Sp. z o.o.",
     "mccmnc_tuple": {
       "PL": [
         "26011"
-      ]
-    }
-  },
-  {
-    "brand": "Nordnet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -19599,21 +15427,6 @@
     "mccmnc_tuple": {
       "NF": [
         "50510"
-      ]
-    }
-  },
-  {
-    "brand": "Northstar Technology",
-    "operator": null,
-    "mccmnc_tuple": {
-      "US": [
-        "310299",
-        "311299",
-        "312299",
-        "313299",
-        "314299",
-        "315299",
-        "316299"
       ]
     }
   },
@@ -19647,15 +15460,6 @@
   },
   {
     "brand": "Nova",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GR": [
-        "202299"
-      ]
-    }
-  },
-  {
-    "brand": "Nova",
     "operator": "Nova ehf",
     "mccmnc_tuple": {
       "IS": [
@@ -19669,24 +15473,6 @@
     "mccmnc_tuple": {
       "LR": [
         "61804"
-      ]
-    }
-  },
-  {
-    "brand": "Novatel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SI": [
-        "293299"
-      ]
-    }
-  },
-  {
-    "brand": "NOWO",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PT": [
-        "268299"
       ]
     }
   },
@@ -19732,15 +15518,6 @@
     "mccmnc_tuple": {
       "JP": [
         "44010"
-      ]
-    }
-  },
-  {
-    "brand": "Nuestro",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AR": [
-        "722299"
       ]
     }
   },
@@ -19825,33 +15602,6 @@
     }
   },
   {
-    "brand": "OBIT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Ocean Link",
-    "operator": null,
-    "mccmnc_tuple": {
-      "KI": [
-        "545299"
-      ]
-    }
-  },
-  {
-    "brand": "OCESB",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MY": [
-        "502299"
-      ]
-    }
-  },
-  {
     "brand": "Odido",
     "operator": "Odido",
     "mccmnc_tuple": {
@@ -19862,29 +15612,11 @@
     }
   },
   {
-    "brand": "Odorik",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "Office des Telephones",
     "operator": "Monaco Telecom",
     "mccmnc_tuple": {
       "MC": [
         "21210"
-      ]
-    }
-  },
-  {
-    "brand": "OGCIO",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IE": [
-        "272299"
       ]
     }
   },
@@ -19904,24 +15636,6 @@
       "BR": [
         "72430",
         "72431"
-      ]
-    }
-  },
-  {
-    "brand": "Okta8",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
-      ]
-    }
-  },
-  {
-    "brand": "Olephone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
       ]
     }
   },
@@ -19968,15 +15682,6 @@
     "mccmnc_tuple": {
       "IQ": [
         "41892"
-      ]
-    }
-  },
-  {
-    "brand": "On Movil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
       ]
     }
   },
@@ -20044,33 +15749,6 @@
     }
   },
   {
-    "brand": "Oni",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PT": [
-        "268299"
-      ]
-    }
-  },
-  {
-    "brand": "Oniti Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Onlime",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SL": [
-        "619299"
-      ]
-    }
-  },
-  {
     "brand": "Only",
     "operator": "Telco OI",
     "mccmnc_tuple": {
@@ -20106,12 +15784,6 @@
     "mccmnc_tuple": {
       "BE": [
         "20634"
-      ],
-      "FR": [
-        "208299"
-      ],
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -20180,24 +15852,6 @@
     }
   },
   {
-    "brand": "OpenIP",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "OperadorsCat",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "Optus",
     "operator": "Optus Mobile Pty. Ltd.",
     "mccmnc_tuple": {
@@ -20213,15 +15867,6 @@
       "AU": [
         "50590",
         "50502"
-      ]
-    }
-  },
-  {
-    "brand": "Ora",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PF": [
-        "547299"
       ]
     }
   },
@@ -20490,15 +16135,6 @@
     }
   },
   {
-    "brand": "Orange Business Services",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Orange GQ",
     "operator": "GETESA",
     "mccmnc_tuple": {
@@ -20536,38 +16172,11 @@
     }
   },
   {
-    "brand": "Oration Technologies",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
-    "brand": "Oris",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
     "brand": "Osnova Telecom",
     "operator": null,
     "mccmnc_tuple": {
       "RU": [
         "25018"
-      ]
-    }
-  },
-  {
-    "brand": "OTEGLOBE",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GR": [
-        "202299"
       ]
     }
   },
@@ -20586,15 +16195,6 @@
     "mccmnc_tuple": {
       "AU": [
         "50505"
-      ]
-    }
-  },
-  {
-    "brand": "Ozone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BB": [
-        "342299"
       ]
     }
   },
@@ -20640,15 +16240,6 @@
     "mccmnc_tuple": {
       "GB": [
         "23474"
-      ]
-    }
-  },
-  {
-    "brand": "Paritel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -20726,15 +16317,6 @@
     }
   },
   {
-    "brand": "Pelicell",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
     "brand": "PEOPLEnet",
     "operator": "PRJSC \"Telesystems of Ukraine\"",
     "mccmnc_tuple": {
@@ -20749,15 +16331,6 @@
     "mccmnc_tuple": {
       "US": [
         "310980"
-      ]
-    }
-  },
-  {
-    "brand": "Pepephone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
       ]
     }
   },
@@ -20826,15 +16399,6 @@
     }
   },
   {
-    "brand": "Phonegroup",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
     "brand": "PhoneNet",
     "operator": "PhoneNet Sp. z o.o.",
     "mccmnc_tuple": {
@@ -20849,15 +16413,6 @@
     "mccmnc_tuple": {
       "NO": [
         "24207"
-      ]
-    }
-  },
-  {
-    "brand": "PIN",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -20922,14 +16477,8 @@
     "brand": "Plintron",
     "operator": null,
     "mccmnc_tuple": {
-      "CO": [
-        "732299"
-      ],
       "IT": [
         "22254"
-      ],
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -20948,24 +16497,6 @@
     "mccmnc_tuple": {
       "AL": [
         "27604"
-      ]
-    }
-  },
-  {
-    "brand": "Plus Telekom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
-    "brand": "PM Factory",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BE": [
-        "206299"
       ]
     }
   },
@@ -21015,24 +16546,6 @@
     }
   },
   {
-    "brand": "Polvoice",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "Pomagacz",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "PORT-HABLE",
     "operator": "Hutchison Telecommunications Argentina S.A.",
     "mccmnc_tuple": {
@@ -21078,65 +16591,11 @@
     }
   },
   {
-    "brand": "Premium Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "Premium Net",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GR": [
-        "202299"
-      ]
-    }
-  },
-  {
     "brand": "Premium Numbers",
     "operator": null,
     "mccmnc_tuple": {
-      "AN": [
-        "362299"
-      ],
-      "ES": [
-        "214299"
-      ],
-      "FI": [
-        "244299"
-      ],
       "IT": [
         "222999"
-      ],
-      "LV": [
-        "247299"
-      ],
-      "NL": [
-        "204299"
-      ],
-      "PL": [
-        "260299"
-      ],
-      "PT": [
-        "410299"
-      ],
-      "SE": [
-        "240299"
-      ],
-      "TJ": [
-        "436299"
-      ]
-    }
-  },
-  {
-    "brand": "Premium Routing",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
       ]
     }
   },
@@ -21164,24 +16623,6 @@
     "mccmnc_tuple": {
       "GB": [
         "23419"
-      ]
-    }
-  },
-  {
-    "brand": "Prixtel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Promobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SN": [
-        "608299"
       ]
     }
   },
@@ -21253,29 +16694,11 @@
     }
   },
   {
-    "brand": "PTV Telecom movil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "Public Mobile",
     "operator": "Telus Mobility",
     "mccmnc_tuple": {
       "CA": [
         "302760"
-      ]
-    }
-  },
-  {
-    "brand": "Puzzel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
       ]
     }
   },
@@ -21286,15 +16709,6 @@
       "KH": [
         "45603",
         "45604"
-      ]
-    }
-  },
-  {
-    "brand": "QBOcel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
       ]
     }
   },
@@ -21326,42 +16740,6 @@
     }
   },
   {
-    "brand": "Quantax",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "Quantech",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Quattre",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "racsa",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CR": [
-        "712299"
-      ]
-    }
-  },
-  {
     "brand": "RAG",
     "operator": "R\u00e9seau de l\u2019Administration Gabonaise",
     "mccmnc_tuple": {
@@ -21376,15 +16754,6 @@
     "mccmnc_tuple": {
       "AU": [
         "50513"
-      ]
-    }
-  },
-  {
-    "brand": "RAILI",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FI": [
-        "244299"
       ]
     }
   },
@@ -21435,15 +16804,6 @@
     }
   },
   {
-    "brand": "RECONN",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "RED",
     "operator": "INTELFON, S.A. de C.V.",
     "mccmnc_tuple": {
@@ -21453,65 +16813,11 @@
     }
   },
   {
-    "brand": "Red Bull MOBILE",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SA": [
-        "420299"
-      ]
-    }
-  },
-  {
     "brand": "Reddi",
     "operator": null,
     "mccmnc_tuple": {
       "VN": [
         "45209"
-      ]
-    }
-  },
-  {
-    "brand": "redONE",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SG": [
-        "525299"
-      ]
-    }
-  },
-  {
-    "brand": "REDtone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MY": [
-        "502299"
-      ]
-    }
-  },
-  {
-    "brand": "REDtone Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MY": [
-        "502299"
-      ]
-    }
-  },
-  {
-    "brand": "RedVoiss",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "Redworks",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NL": [
-        "204299"
       ]
     }
   },
@@ -21769,24 +17075,6 @@
     }
   },
   {
-    "brand": "republic wireless",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
-    "brand": "Reteyl Innovatsii",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Revol Wireless",
     "operator": "Cleveland Unlimited, Inc.",
     "mccmnc_tuple": {
@@ -21862,15 +17150,6 @@
         "302820",
         "302920",
         "302721"
-      ]
-    }
-  },
-  {
-    "brand": "Roitel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
       ]
     }
   },
@@ -21989,9 +17268,6 @@
     "brand": "Salam",
     "operator": null,
     "mccmnc_tuple": {
-      "SA": [
-        "420299"
-      ],
       "TD": [
         "62204"
       ]
@@ -22052,15 +17328,6 @@
     }
   },
   {
-    "brand": "Sarenet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "Sasatel (Dovetel)",
     "operator": "Dovetel Limited",
     "mccmnc_tuple": {
@@ -22094,56 +17361,11 @@
     }
   },
   {
-    "brand": "SAT FILM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "Satel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DO": [
-        "370299"
-      ]
-    }
-  },
-  {
-    "brand": "Satsol",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SB": [
-        "540299"
-      ]
-    }
-  },
-  {
-    "brand": "SAZKA",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "SBB-CFF-FFS",
     "operator": "SBB AG",
     "mccmnc_tuple": {
       "CH": [
         "22806"
-      ]
-    }
-  },
-  {
-    "brand": "Sberbank-Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -22154,15 +17376,6 @@
       "PK": [
         "41005",
         "41008"
-      ]
-    }
-  },
-  {
-    "brand": "SCT TELECOM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -22185,24 +17398,6 @@
     }
   },
   {
-    "brand": "Servitron",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
-      ]
-    }
-  },
-  {
-    "brand": "SesNet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
     "brand": "SETAR",
     "operator": "Servicio di Telecomunicacion di Aruba",
     "mccmnc_tuple": {
@@ -22217,24 +17412,6 @@
     "mccmnc_tuple": {
       "RU": [
         "25033"
-      ]
-    }
-  },
-  {
-    "brand": "SEWAN",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Sewan Communications",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -22285,15 +17462,6 @@
     }
   },
   {
-    "brand": "SGT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "Shatel",
     "operator": "Arya Resaneh Tadbir",
     "mccmnc_tuple": {
@@ -22339,24 +17507,6 @@
     }
   },
   {
-    "brand": "Sierra Wireless",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ]
-    }
-  },
-  {
-    "brand": "SierraTel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SL": [
-        "619299"
-      ]
-    }
-  },
-  {
     "brand": "SierraTel",
     "operator": "Sierra Leone Telephony",
     "mccmnc_tuple": {
@@ -22375,57 +17525,12 @@
     }
   },
   {
-    "brand": "Sim Sim",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "SIMbioz",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Simple",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "Simple SMS",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
     "brand": "Simquadrat",
     "operator": "sipgate GmbH",
     "mccmnc_tuple": {
       "DE": [
         "26212",
         "26233"
-      ]
-    }
-  },
-  {
-    "brand": "SimService",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
       ]
     }
   },
@@ -22464,24 +17569,6 @@
     "mccmnc_tuple": {
       "SG": [
         "52502"
-      ]
-    }
-  },
-  {
-    "brand": "Sintonik",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Sipme",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
       ]
     }
   },
@@ -22532,24 +17619,6 @@
     }
   },
   {
-    "brand": "Sky Networks",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "SkyCall",
-    "operator": null,
-    "mccmnc_tuple": {
-      "LT": [
-        "246299"
-      ]
-    }
-  },
-  {
     "brand": "Skylink",
     "operator": "CJSC Saratov System of Cellular Communications",
     "mccmnc_tuple": {
@@ -22564,24 +17633,6 @@
     "mccmnc_tuple": {
       "RU": [
         "25009"
-      ]
-    }
-  },
-  {
-    "brand": "Skymond Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
-    "brand": "SkyNet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -22688,15 +17739,6 @@
     }
   },
   {
-    "brand": "Smart Pinoy",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SG": [
-        "525299"
-      ]
-    }
-  },
-  {
     "brand": "SmartCell",
     "operator": "Smart Telecom Pvt. Ltd. (STPL)",
     "mccmnc_tuple": {
@@ -22748,15 +17790,6 @@
     "mccmnc_tuple": {
       "RU": [
         "25007"
-      ]
-    }
-  },
-  {
-    "brand": "Smile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SB": [
-        "540299"
       ]
     }
   },
@@ -22824,24 +17857,6 @@
     }
   },
   {
-    "brand": "soatso",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Socatel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CF": [
-        "623299"
-      ]
-    }
-  },
-  {
     "brand": "SoftBank",
     "operator": "SoftBank Corp.",
     "mccmnc_tuple": {
@@ -22849,33 +17864,6 @@
         "44020",
         "44021",
         "44101"
-      ]
-    }
-  },
-  {
-    "brand": "Softelnet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "SoftNET",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SI": [
-        "293299"
-      ]
-    }
-  },
-  {
-    "brand": "Soluno",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -22898,15 +17886,6 @@
     }
   },
   {
-    "brand": "SomNetworks",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SO": [
-        "637299"
-      ]
-    }
-  },
-  {
     "brand": "Somtel",
     "operator": "Somtel",
     "mccmnc_tuple": {
@@ -22925,29 +17904,11 @@
     }
   },
   {
-    "brand": "Sonet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Sonic Duo",
     "operator": "Sonic Duo CJSC",
     "mccmnc_tuple": {
       "RU": [
         "25091"
-      ]
-    }
-  },
-  {
-    "brand": "SORACOM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "LI": [
-        "295299"
       ]
     }
   },
@@ -22992,20 +17953,8 @@
     "brand": "Sparkle",
     "operator": null,
     "mccmnc_tuple": {
-      "IT": [
-        "222299"
-      ],
       "XX": [
         "90178"
-      ]
-    }
-  },
-  {
-    "brand": "Spice Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "GD": [
-        "352299"
       ]
     }
   },
@@ -23015,15 +17964,6 @@
     "mccmnc_tuple": {
       "SE": [
         "24010"
-      ]
-    }
-  },
-  {
-    "brand": "Sprint",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -23066,15 +18006,6 @@
     }
   },
   {
-    "brand": "SSTNet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "StarHub",
     "operator": "StarHub Mobile",
     "mccmnc_tuple": {
@@ -23095,15 +18026,6 @@
     }
   },
   {
-    "brand": "Start",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "STC",
     "operator": "Saudi Telecom Company",
     "mccmnc_tuple": {
@@ -23118,15 +18040,6 @@
     "mccmnc_tuple": {
       "BH": [
         "42604"
-      ]
-    }
-  },
-  {
-    "brand": "STG",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SO": [
-        "637299"
       ]
     }
   },
@@ -23197,38 +18110,11 @@
     }
   },
   {
-    "brand": "SunSIM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Suop",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "Supercell",
     "operator": "Supercell SPRL",
     "mccmnc_tuple": {
       "CD": [
         "63005"
-      ]
-    }
-  },
-  {
-    "brand": "Sure",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DG": [
-        "310299"
       ]
     }
   },
@@ -23296,65 +18182,11 @@
     }
   },
   {
-    "brand": "Surgutneftegaz",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Svea",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ]
-    }
-  },
-  {
-    "brand": "Svea Billing Services",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Svensk Konsumentmobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Svyazresurs-Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Swazi MTN",
     "operator": "Swazi MTN Limited",
     "mccmnc_tuple": {
       "SZ": [
         "65310"
-      ]
-    }
-  },
-  {
-    "brand": "Swedcom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
       ]
     }
   },
@@ -23413,27 +18245,6 @@
     }
   },
   {
-    "brand": "Syma",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
-    "brand": "Symbio",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AU": [
-        "505299"
-      ],
-      "NZ": [
-        "530299"
-      ]
-    }
-  },
-  {
     "brand": "SyncSouth",
     "operator": "South Georgia Regional Information Technology Authority",
     "mccmnc_tuple": {
@@ -23457,15 +18268,6 @@
     "mccmnc_tuple": {
       "NO": [
         "24211"
-      ]
-    }
-  },
-  {
-    "brand": "SZDC",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
       ]
     }
   },
@@ -23619,15 +18421,6 @@
     }
   },
   {
-    "brand": "T2T",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IL": [
-        "425299"
-      ]
-    }
-  },
-  {
     "brand": "Taiwan Mobile",
     "operator": "Taiwan Mobile Co. Ltd",
     "mccmnc_tuple": {
@@ -23673,29 +18466,11 @@
     }
   },
   {
-    "brand": "Tander",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Tango",
     "operator": "Tango SA",
     "mccmnc_tuple": {
       "LU": [
         "27077"
-      ]
-    }
-  },
-  {
-    "brand": "TARR",
-    "operator": null,
-    "mccmnc_tuple": {
-      "HU": [
-        "216299"
       ]
     }
   },
@@ -23907,15 +18682,6 @@
     }
   },
   {
-    "brand": "Tatem",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CD": [
-        "630299"
-      ]
-    }
-  },
-  {
     "brand": "Tawali",
     "operator": "SotelTchad",
     "mccmnc_tuple": {
@@ -23948,15 +18714,6 @@
     "mccmnc_tuple": {
       "CF": [
         "62302"
-      ]
-    }
-  },
-  {
-    "brand": "TCDD",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
       ]
     }
   },
@@ -24003,27 +18760,6 @@
       "DK": [
         "23810",
         "23801"
-      ]
-    }
-  },
-  {
-    "brand": "TDF",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Telavox",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
-      ],
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -24099,24 +18835,6 @@
     "mccmnc_tuple": {
       "SO": [
         "63782"
-      ]
-    }
-  },
-  {
-    "brand": "Telcomax",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "Tele GO",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
       ]
     }
   },
@@ -24244,15 +18962,6 @@
     }
   },
   {
-    "brand": "Telecall",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BR": [
-        "724299"
-      ]
-    }
-  },
-  {
     "brand": "Telecel",
     "operator": "Alpha Telecommunication Mali S.A.",
     "mccmnc_tuple": {
@@ -24289,15 +18998,6 @@
     }
   },
   {
-    "brand": "Telecentro",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AR": [
-        "722299"
-      ]
-    }
-  },
-  {
     "brand": "Telecom",
     "operator": "Telecom New Zealand",
     "mccmnc_tuple": {
@@ -24317,74 +19017,11 @@
     }
   },
   {
-    "brand": "Telecom26",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
-    "brand": "Telecom3 Sverige AB",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Telecomunicaciones 360",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MX": [
-        "334299"
-      ]
-    }
-  },
-  {
-    "brand": "TeleCube",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
     "brand": "TeleCube.PL",
     "operator": "Claude ICT Poland Sp. z o.o.",
     "mccmnc_tuple": {
       "PL": [
         "26025"
-      ]
-    }
-  },
-  {
-    "brand": "Teledigit Scandinavia AB",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Telefonica Uno Uno Cuatro",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "Telekabel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MK": [
-        "294299"
       ]
     }
   },
@@ -24428,15 +19065,6 @@
     }
   },
   {
-    "brand": "Telekom Malaysia",
-    "operator": null,
-    "mccmnc_tuple": {
-      "XX": [
-        "901299"
-      ]
-    }
-  },
-  {
     "brand": "Telekom.al",
     "operator": "Telekom Albania",
     "mccmnc_tuple": {
@@ -24464,15 +19092,6 @@
     }
   },
   {
-    "brand": "Telekometen",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Telemach",
     "operator": "Tu\u0161mobil d.o.o.",
     "mccmnc_tuple": {
@@ -24487,24 +19106,6 @@
     "mccmnc_tuple": {
       "TL": [
         "51403"
-      ]
-    }
-  },
-  {
-    "brand": "Telenabler",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "TeleneT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SM": [
-        "292299"
       ]
     }
   },
@@ -24614,15 +19215,6 @@
     }
   },
   {
-    "brand": "Telenor Connexion",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
     "brand": "Telenor Hungary",
     "operator": "Telenor Magyarorsz\u00e1g Zrt.",
     "mccmnc_tuple": {
@@ -24669,47 +19261,11 @@
     }
   },
   {
-    "brand": "Teletel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "LT": [
-        "246299"
-      ]
-    }
-  },
-  {
-    "brand": "Television Interactiva",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "Telfoni",
-    "operator": null,
-    "mccmnc_tuple": {
-      "AT": [
-        "232299"
-      ]
-    }
-  },
-  {
     "brand": "Telfort",
     "operator": "KPN Mobile The Netherlands B.V.",
     "mccmnc_tuple": {
       "NL": [
         "20412"
-      ]
-    }
-  },
-  {
-    "brand": "TELGAM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
       ]
     }
   },
@@ -24851,15 +19407,6 @@
     }
   },
   {
-    "brand": "Tell it to Mi",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Telma",
     "operator": "Telma Mobile S.A.",
     "mccmnc_tuple": {
@@ -24878,39 +19425,12 @@
     }
   },
   {
-    "brand": "Telna",
-    "operator": null,
-    "mccmnc_tuple": {
-      "LI": [
-        "295299"
-      ]
-    }
-  },
-  {
     "brand": "telna Mobile",
     "operator": "Telecom North America Mobile, Inc.",
     "mccmnc_tuple": {
       "US": [
         "310840",
         "312300"
-      ]
-    }
-  },
-  {
-    "brand": "Telness",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Telsome",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
       ]
     }
   },
@@ -24999,15 +19519,6 @@
   },
   {
     "brand": "Tesco Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
-    "brand": "Tesco Mobile",
     "operator": "Liffey Telecom",
     "mccmnc_tuple": {
       "IE": [
@@ -25030,24 +19541,6 @@
     "mccmnc_tuple": {
       "FJ": [
         "54203"
-      ]
-    }
-  },
-  {
-    "brand": "The Cable",
-    "operator": null,
-    "mccmnc_tuple": {
-      "KN": [
-        "356299"
-      ]
-    }
-  },
-  {
-    "brand": "The Telecom Boutique",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
       ]
     }
   },
@@ -25201,28 +19694,10 @@
   },
   {
     "brand": "Tinkoff Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Tinkoff Mobile",
     "operator": "Tinkoff Mobile",
     "mccmnc_tuple": {
       "RU": [
         "25062"
-      ]
-    }
-  },
-  {
-    "brand": "Tiscali",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
       ]
     }
   },
@@ -25244,12 +19719,6 @@
       ],
       "CH": [
         "22870"
-      ],
-      "DE": [
-        "262299"
-      ],
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -25286,15 +19755,6 @@
     "mccmnc_tuple": {
       "TM": [
         "43802"
-      ]
-    }
-  },
-  {
-    "brand": "TMT",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -25344,15 +19804,6 @@
     }
   },
   {
-    "brand": "Tolv Mobil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Top Connect",
     "operator": "OY Top Connect",
     "mccmnc_tuple": {
@@ -25362,29 +19813,11 @@
     }
   },
   {
-    "brand": "TOPefekt",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "Touch",
     "operator": "MIC 2",
     "mccmnc_tuple": {
       "LB": [
         "41503"
-      ]
-    }
-  },
-  {
-    "brand": "TOYAmobilna",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
       ]
     }
   },
@@ -25416,56 +19849,11 @@
     }
   },
   {
-    "brand": "TransMobilCom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "TRASTEL",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "TravelSim",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FI": [
-        "244299"
-      ]
-    }
-  },
-  {
     "brand": "TRIATEL",
     "operator": "Telekom Baltija",
     "mccmnc_tuple": {
       "LV": [
         "24703"
-      ]
-    }
-  },
-  {
-    "brand": "Tripple Track",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
-    "brand": "TRN-telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
       ]
     }
   },
@@ -25502,15 +19890,6 @@
     "mccmnc_tuple": {
       "TH": [
         "52000"
-      ]
-    }
-  },
-  {
-    "brand": "Trunkline",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
       ]
     }
   },
@@ -25587,24 +19966,6 @@
     }
   },
   {
-    "brand": "TT dotCom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MY": [
-        "502299"
-      ]
-    }
-  },
-  {
-    "brand": "TT Quality",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "TTC",
     "operator": "Tuvalu Telecom",
     "mccmnc_tuple": {
@@ -25624,46 +19985,10 @@
   },
   {
     "brand": "TTK",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "TTK",
     "operator": "Tattelecom",
     "mccmnc_tuple": {
       "RU": [
         "25054"
-      ]
-    }
-  },
-  {
-    "brand": "TTK-Svyaz",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "TTM",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TR": [
-        "286299"
-      ]
-    }
-  },
-  {
-    "brand": "TuCEL",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CO": [
-        "732299"
       ]
     }
   },
@@ -25718,33 +20043,6 @@
     "mccmnc_tuple": {
       "PE": [
         "71630"
-      ]
-    }
-  },
-  {
-    "brand": "Tuyo Movil",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CR": [
-        "712299"
-      ]
-    }
-  },
-  {
-    "brand": "TVE",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Twilio",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FI": [
-        "244299"
       ]
     }
   },
@@ -25890,38 +20188,11 @@
     }
   },
   {
-    "brand": "Uni-tel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
-    "brand": "Unicorn Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "unifi",
     "operator": "Webe Digital Sdn Bhd",
     "mccmnc_tuple": {
       "MY": [
         "502153"
-      ]
-    }
-  },
-  {
-    "brand": "unifon",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NO": [
-        "242299"
       ]
     }
   },
@@ -26025,15 +20296,6 @@
     }
   },
   {
-    "brand": "Uniphone",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CZ": [
-        "230299"
-      ]
-    }
-  },
-  {
     "brand": "United Wireless",
     "operator": "United Wireless",
     "mccmnc_tuple": {
@@ -26082,15 +20344,6 @@
     }
   },
   {
-    "brand": "UnitTelecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Unit\u00e9",
     "operator": "Moldtelecom",
     "mccmnc_tuple": {
@@ -26116,33 +20369,6 @@
     "mccmnc_tuple": {
       "BN": [
         "52803"
-      ]
-    }
-  },
-  {
-    "brand": "unyc",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Unycel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "UPC",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
       ]
     }
   },
@@ -26221,24 +20447,6 @@
     }
   },
   {
-    "brand": "VA SOLUTIONS",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Vainah Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "Vainah Telecom",
     "operator": "CS \"VainahTelecom\"",
     "mccmnc_tuple": {
@@ -26253,15 +20461,6 @@
     "mccmnc_tuple": {
       "XK": [
         "22101"
-      ]
-    }
-  },
-  {
-    "brand": "Vecto Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BR": [
-        "724299"
       ]
     }
   },
@@ -26382,24 +20581,6 @@
     "mccmnc_tuple": {
       "FI": [
         "24430"
-      ]
-    }
-  },
-  {
-    "brand": "Vectra",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "Verbal",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -26613,15 +20794,6 @@
     }
   },
   {
-    "brand": "Vidanet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "HU": [
-        "216299"
-      ]
-    }
-  },
-  {
     "brand": "Videocon Datacom",
     "operator": "Assam",
     "mccmnc_tuple": {
@@ -26697,24 +20869,6 @@
     }
   },
   {
-    "brand": "ViKom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Vilacom Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CO": [
-        "732299"
-      ]
-    }
-  },
-  {
     "brand": "Vinaphone",
     "operator": "Vietnam Telecom Services Company",
     "mccmnc_tuple": {
@@ -26757,36 +20911,6 @@
     "mccmnc_tuple": {
       "RS": [
         "22005"
-      ]
-    }
-  },
-  {
-    "brand": "Viptel",
-    "operator": null,
-    "mccmnc_tuple": {
-      "DK": [
-        "238299"
-      ]
-    }
-  },
-  {
-    "brand": "Virgin Connect",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Virgin Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "KW": [
-        "419299"
-      ],
-      "ZA": [
-        "655299"
       ]
     }
   },
@@ -26940,15 +21064,6 @@
     }
   },
   {
-    "brand": "VivoBee",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SG": [
-        "525299"
-      ]
-    }
-  },
-  {
     "brand": "Viya",
     "operator": "Vitelcom Cellular Inc.",
     "mccmnc_tuple": {
@@ -26963,24 +21078,6 @@
     "mccmnc_tuple": {
       "TW": [
         "46609"
-      ]
-    }
-  },
-  {
-    "brand": "Vobbiz",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Vocus",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NZ": [
-        "530299"
       ]
     }
   },
@@ -27294,15 +21391,6 @@
     }
   },
   {
-    "brand": "Vodafone Enabler",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "Vodafone India",
     "operator": "Andhra Pradesh and Telangana",
     "mccmnc_tuple": {
@@ -27530,33 +21618,6 @@
     }
   },
   {
-    "brand": "Voentelecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
-    "brand": "Voice Integrate",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Voicetech",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "Voiceworks",
     "operator": "Voiceworks B.V.",
     "mccmnc_tuple": {
@@ -27584,50 +21645,11 @@
     }
   },
   {
-    "brand": "VOIP Analysis",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CL": [
-        "730299"
-      ]
-    }
-  },
-  {
-    "brand": "VOIP Telecom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "FR": [
-        "208299"
-      ]
-    }
-  },
-  {
-    "brand": "Vola",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
-      ]
-    }
-  },
-  {
     "brand": "Volna mobile",
     "operator": "KTK Telecom",
     "mccmnc_tuple": {
       "RU": [
         "25060"
-      ]
-    }
-  },
-  {
-    "brand": "Vonage",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ],
-      "SK": [
-        "231299"
       ]
     }
   },
@@ -27674,36 +21696,6 @@
     }
   },
   {
-    "brand": "Voxbone / Bandwidth",
-    "operator": null,
-    "mccmnc_tuple": {
-      "BE": [
-        "206299"
-      ],
-      "NZ": [
-        "530299"
-      ]
-    }
-  },
-  {
-    "brand": "Voyager Internet",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NZ": [
-        "530299"
-      ]
-    }
-  },
-  {
-    "brand": "VTB Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "RU": [
-        "250299"
-      ]
-    }
-  },
-  {
     "brand": "VTR M\u00f3vil",
     "operator": "VTR S.A.",
     "mccmnc_tuple": {
@@ -27713,38 +21705,11 @@
     }
   },
   {
-    "brand": "w naszej Rodzinie",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PL": [
-        "260299"
-      ]
-    }
-  },
-  {
-    "brand": "WanTok",
-    "operator": null,
-    "mccmnc_tuple": {
-      "TO": [
-        "539299"
-      ]
-    }
-  },
-  {
     "brand": "WanTok",
     "operator": "WanTok Vanuatu Ltd",
     "mccmnc_tuple": {
       "VU": [
         "54107"
-      ]
-    }
-  },
-  {
-    "brand": "Warid",
-    "operator": null,
-    "mccmnc_tuple": {
-      "PK": [
-        "410299"
       ]
     }
   },
@@ -27803,24 +21768,6 @@
     }
   },
   {
-    "brand": "Webcom",
-    "operator": null,
-    "mccmnc_tuple": {
-      "IT": [
-        "222299"
-      ]
-    }
-  },
-  {
-    "brand": "Weelia",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
     "brand": "West Central",
     "operator": "West Central Wireless",
     "mccmnc_tuple": {
@@ -27835,24 +21782,6 @@
     "mccmnc_tuple": {
       "US": [
         "311000"
-      ]
-    }
-  },
-  {
-    "brand": "Wifi.se",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Wifog Sverige",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
       ]
     }
   },
@@ -27940,15 +21869,6 @@
     }
   },
   {
-    "brand": "WXC",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NZ": [
-        "530299"
-      ]
-    }
-  },
-  {
     "brand": "x2one",
     "operator": "Free Telecom",
     "mccmnc_tuple": {
@@ -27985,24 +21905,6 @@
     }
   },
   {
-    "brand": "XPLORA",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SE": [
-        "240299"
-      ]
-    }
-  },
-  {
-    "brand": "Xplore Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "CA": [
-        "302299"
-      ]
-    }
-  },
-  {
     "brand": "Xplornet",
     "operator": "Xplornet Communications",
     "mccmnc_tuple": {
@@ -28027,15 +21929,6 @@
     "mccmnc_tuple": {
       "JP": [
         "44000"
-      ]
-    }
-  },
-  {
-    "brand": "Y-Max",
-    "operator": null,
-    "mccmnc_tuple": {
-      "MY": [
-        "502299"
       ]
     }
   },
@@ -28085,15 +21978,6 @@
     }
   },
   {
-    "brand": "You Mobile",
-    "operator": null,
-    "mccmnc_tuple": {
-      "ES": [
-        "214299"
-      ]
-    }
-  },
-  {
     "brand": "Youphone",
     "operator": "Alon Cellular Ltd.",
     "mccmnc_tuple": {
@@ -28135,9 +22019,6 @@
     "mccmnc_tuple": {
       "SD": [
         "63406"
-      ],
-      "XX": [
-        "901299"
       ]
     }
   },
@@ -28245,15 +22126,6 @@
     }
   },
   {
-    "brand": "Zero1",
-    "operator": null,
-    "mccmnc_tuple": {
-      "SG": [
-        "525299"
-      ]
-    }
-  },
-  {
     "brand": "ZET-Mobile",
     "operator": "Tacom",
     "mccmnc_tuple": {
@@ -28268,15 +22140,6 @@
     "mccmnc_tuple": {
       "NL": [
         "20415"
-      ]
-    }
-  },
-  {
-    "brand": "Zodafones",
-    "operator": null,
-    "mccmnc_tuple": {
-      "NG": [
-        "621299"
       ]
     }
   },
