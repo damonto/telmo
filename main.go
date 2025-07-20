@@ -134,7 +134,8 @@ func subscribeMessaging(bot *telego.Bot, modems map[dbus.ObjectPath]*modem.Modem
 
 func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 	template := `
-*\[%s\] \- %s*
+☎️ *%s*
+👤 *\[%s\] \- %s*
 >%s
 `
 	operatorName, err := modem.OperatorName()
@@ -142,8 +143,11 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 		slog.Error("Failed to get operator name", "error", err)
 		operatorName = "unknown"
 	}
+	name, ok := config.C.ModemName[modem.EquipmentIdentifier]
+	modemName := util.If(ok, name, modem.Model)
 	message := fmt.Sprintf(
 		template,
+		util.EscapeText(modemName),
 		util.EscapeText(operatorName),
 		util.EscapeText(messsage.Number),
 		fmt.Sprintf("`%s`", util.EscapeText(messsage.Text)),
@@ -153,7 +157,7 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 		if err != nil {
 			slog.Error("Failed to send message", "error", err, "to", adminId, "message", message)
 		} else {
-			slog.Info("Message sent", "id", msg.Chat.ID, "to", adminId)
+			slog.Info("Message sent", "id", msg.MessageID, "to", adminId)
 		}
 	}
 	return nil
