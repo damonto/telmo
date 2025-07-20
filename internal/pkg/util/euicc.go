@@ -38,13 +38,14 @@ type Product struct {
 }
 
 type Supplier struct {
-	Name    string `json:"name"`
-	Country string `json:"country"`
-	Abbr    string `json:"abbr,omitempty"`
+	Name      string `json:"name"`
+	Abbr      string `json:"abbr,omitempty"`
+	Location  string
+	Locations map[string]string `json:"locations"`
 }
 
 type Accredited struct {
-	Suppliers map[string]Supplier `json:"suppliers"`
+	Suppliers []Supplier `json:"suppliers"`
 }
 
 type CertificateIssuer struct {
@@ -54,7 +55,7 @@ type CertificateIssuer struct {
 }
 
 var (
-	accreditedSites    Accredited
+	accreditedSites    map[string]Supplier
 	certificateIssuers []CertificateIssuer
 	EUMs               []EUM
 )
@@ -66,8 +67,17 @@ func init() {
 	if err := json.Unmarshal(ci, &certificateIssuers); err != nil {
 		slog.Error("Failed to unmarshal certificate issuers", "error", err)
 	}
-	if err := json.Unmarshal(accredited, &accreditedSites); err != nil {
+
+	var sites Accredited
+	if err := json.Unmarshal(accredited, &sites); err != nil {
 		slog.Error("Failed to unmarshal accredited", "error", err)
+	}
+	accreditedSites = make(map[string]Supplier)
+	for _, site := range sites.Suppliers {
+		for prefix, location := range site.Locations {
+			site.Location = location
+			accreditedSites[prefix] = site
+		}
 	}
 }
 
@@ -107,13 +117,13 @@ func LookupAccredited(sasAccreditationNumber string) string {
 	if len(sasAccreditationNumber) < 5 {
 		return sasAccreditationNumber
 	}
-	if supplier, ok := accreditedSites.Suppliers[sasAccreditationNumber[:5]]; ok {
+	if supplier, ok := accreditedSites[sasAccreditationNumber[:5]]; ok {
 		return fmt.Sprintf(
 			"%s %s (%s %s)",
 			sasAccreditationNumber,
 			If(supplier.Abbr != "", supplier.Abbr, supplier.Name),
-			string(0x1F1E6+rune(supplier.Country[0])-'A')+string(0x1F1E6+rune(supplier.Country[1])-'A'),
-			supplier.Country,
+			string(0x1F1E6+rune(supplier.Location[0])-'A')+string(0x1F1E6+rune(supplier.Location[1])-'A'),
+			supplier.Location,
 		)
 	}
 	return sasAccreditationNumber

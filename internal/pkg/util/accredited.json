@@ -1,59 +1,262 @@
 {
-  "suppliers": {
-    "AM-BT": { "country": "BT", "name": "Arm Ltd.", "abbr": "ARM" },
-    "AM-LN": { "country": "GB", "name": "Arm Ltd.", "abbr": "ARM" },
-    "AR-TY": { "country": "TW", "name": "Amkor Technology Taiwan, Ltd.", "abbr": "Amkor Taiwan" },
-    "BM-SN": { "country": "CN", "name": "Beijing Tsingteng Microsystem Co. Ltd.", "abbr": "TMS" },
-    "CD-DN": { "country": "CN", "name": "Chutian Dragon Co. Ltd.", "abbr": "CTD" },
-    "ED-ZI": { "country": "CN", "name": "Eastcompeace Technology Co. Ltd.", "abbr": "ECP" },
-    "ET-IL": { "country": "IL", "name": "E-Kart Elektronik Kart Sistemleri", "abbr": "E-KART" },
-    "GD-BA": { "country": "ES", "name": "Giesecke+Devrient GmbH", "abbr": "G+D" },
-    "GD-CI": { "country": "IN", "name": "Giesecke+Devrient GmbH", "abbr": "G+D" },
-    "GD-MH": { "country": "DE", "name": "Giesecke+Devrient GmbH", "abbr": "G+D" },
-    "GD-MM": { "country": "CA", "name": "Giesecke+Devrient GmbH", "abbr": "G+D" },
-    "GD-NG": { "country": "ES", "name": "Giesecke+Devrient GmbH", "abbr": "G+D" },
-    "GE-CI": { "country": "IN", "name": "Giesecke+Devrient GmbH", "abbr": "G+D" },
-    "GI-BA": { "country": "ES", "name": "Giesecke+Devrient GmbH", "abbr": "G+D" },
-    "GO-CA": { "country": "MX", "name": "Gemalto" },
-    "GO-PA": { "country": "FR", "name": "Gemalto" },
-    "GO-SI": { "country": "CN", "name": "Gemalto" },
-    "HG-BG": { "country": "CN", "name": "Beijing Huahong IC Design Co., Ltd.", "abbr": "Beijing Huahong IC" },
-    "HO-DG": { "country": "CN", "name": "Hengbao Co. Ltd." },
-    "HS-ZI": { "country": "CN", "name": "Ho&Bros Information Technology Co Ltd", "abbr": "Ho&Bros IT Co., Ltd." },
-    "IA-FK": { "country": "DE", "name": "IDEMIA" },
-    "IA-VE": { "country": "FR", "name": "IDEMIA" },
-    "ID-NA": { "country": "IN", "name": "IDEMIA" },
-    "ID-SN": { "country": "CN", "name": "IDEMIA" },
-    "IF-CG": { "country": "CN", "name": "IF Weibinnai Technology Co. Ltd.", "abbr": "Weibinnai" },
-    "KN-DN": { "country": "GB", "name": "Kigen" },
-    "KN-NA": { "country": "IN", "name": "Kigen" },
-    "NC-GP": { "country": "DK", "name": "Nordic eSIM" },
-    "NE-GP": { "country": "DK", "name": "Nordic eSIM" },
-    "NP-HG": { "country": "DE", "name": "NXP Semiconductors", "abbr": "NXP" },
-    "NP-KG": { "country": "TW", "name": "NXP Semiconductors", "abbr": "NXP" },
-    "NP-TN": { "country": "CN", "name": "NXP Semiconductors", "abbr": "NXP" },
-    "OR-SN": { "country": "CN", "name": "Oberthur" },
-    "OS-SG": { "country": "FR", "name": "Oasis Smart SIM", "abbr": "Oasis" },
-    "SG-YN": { "country": "KR", "name": "Samsung Electronics Co., Ltd.", "abbr": "S\u039bMSUNG" },
-    "SI-RH": { "country": "SA", "name": "Saudi Telecom Company", "abbr": "STC" },
-    "SM-CA": { "country": "IT", "name": "STMicroelectronics", "abbr": "ST" },
-    "SM-CT": { "country": "IT", "name": "STMicroelectronics", "abbr": "ST" },
-    "TA-DI": { "country": "AE", "name": "Trasna Solutions" },
-    "TA-GA": { "country": "BA", "name": "Trasna Solutions" },
-    "TN-BG": { "country": "CN", "name": "Tongxin Microelectronics Co. Ltd.", "abbr": "Tongxin" },
-    "TS-CA": { "country": "MX", "name": "Thales" },
-    "TS-ME": { "country": "US", "name": "Thales" },
-    "TS-NA": { "country": "IN", "name": "Thales" },
-    "TS-PA": { "country": "FR", "name": "Thales" },
-    "TS-SI": { "country": "CN", "name": "Thales" },
-    "VD-MD": { "country": "ES", "name": "Valid" },
-    "VD-SU": { "country": "CN", "name": "Valid" },
-    "WD-BG": { "country": "CN", "name": "Beijing Watchdata Co. Ltd.", "abbr": "Watchdata" },
-    "WK-DI": { "country": "CN", "name": "Workz Media" },
-    "WN-HI": { "country": "CN", "name": "Wuhan Tianyu Information Industry Co. Ltd.", "abbr": "Tianyu Information" },
-    "WZ-DI": { "country": "AE", "name": "Workz Media" },
-    "XH-ZI": { "country": "CN", "name": "XH Smart Technology Co. Ltd.", "abbr": "XHSTC" }
-  },
+  "version": 1,
+  "suppliers": [
+    {
+      "name": "Giesecke+Devrient GmbH",
+      "abbr": "G+D",
+      "url": "https://www.gi-de.com",
+      "locations": {
+        "GD-MM": "CA",
+        "GD-NG": "CN",
+        "GD-MH": "DE",
+        "GD-BA": "ES",
+        "GI-BA": "ES",
+        "GD-CI": "IN",
+        "GE-CI": "IN"
+      }
+    },
+    {
+      "name": "Thales Group",
+      "abbr": "Thales",
+      "url": "https://www.thalesgroup.com",
+      "locations": {
+        "TS-SI": "CN",
+        "TS-PA": "FR",
+        "TS-NA": "IN",
+        "TS-CA": "MX",
+        "TS-ME": "US"
+      }
+    },
+    {
+      "name": "IDEMIA",
+      "url": "https://www.idemia.com",
+      "locations": {
+        "ID-SN": "CN",
+        "IA-FK": "DE",
+        "IA-VE": "FR",
+        "ID-NA": "IN"
+      }
+    },
+    {
+      "name": "Gemalto",
+      "url": "https://en.wikipedia.org/wiki/Gemalto",
+      "deprecated": "Gemalto is now part of Thales Group",
+      "locations": {
+        "GO-SI": "CN",
+        "GO-PA": "FR",
+        "GO-CA": "MX"
+      }
+    },
+    {
+      "name": "NXP Semiconductors",
+      "abbr": "NXP",
+      "url": "https://www.nxp.com",
+      "locations": {
+        "NP-TN": "CN",
+        "NP-HG": "DE",
+        "NP-KG": "TW"
+      }
+    },
+    {
+      "name": "Arm Kigen",
+      "abbr": "Kigen",
+      "url": "https://kigen.com",
+      "locations": {
+        "KN-DN": "GB",
+        "KN-NA": "IN"
+      }
+    },
+    {
+      "name": "Arm Ltd.",
+      "abbr": "ARM",
+      "url": "https://www.arm.com",
+      "deprecated": "Kigen is now part of Arm Ltd.",
+      "locations": {
+        "AM-BT": "BT",
+        "AM-LN": "GB"
+      }
+    },
+    {
+      "name": "Nordic eSIM",
+      "url": "https://nordicesim.com",
+      "locations": {
+        "NC-GP": "DK",
+        "NE-GP": "DK"
+      }
+    },
+    {
+      "name": "STMicroelectronics",
+      "abbr": "ST",
+      "url": "https://www.st.com",
+      "locations": {
+        "SM-CA": "IT",
+        "SM-CT": "IT"
+      }
+    },
+    {
+      "name": "TRASNA Solutions",
+      "abbr": "TRASNA",
+      "url": "https://www.trasna.io",
+      "locations": {
+        "TA-DI": "AE",
+        "TA-GA": "BA"
+      }
+    },
+    {
+      "name": "Valid S.A.",
+      "abbr": "Valid",
+      "url": "https://www.valid.com",
+      "locations": {
+        "VD-SU": "CN",
+        "VD-MD": "ES"
+      }
+    },
+    {
+      "name": "Workz Media FZ LLC",
+      "abbr": "Workz",
+      "url": "https://en.wikipedia.org/wiki/Workz",
+      "deprecated": "Workz is now part of TRASNA Solutions",
+      "locations": {
+        "WZ-DI": "AE",
+        "WK-DI": "CN"
+      }
+    },
+    {
+      "name": "Amkor Technology Taiwan, Ltd.",
+      "abbr": "Amkor Taiwan",
+      "url": "https://amkor.com",
+      "locations": {
+        "AR-TY": "TW"
+      }
+    },
+    {
+      "name": "Beijing Huahong IC Design Co., Ltd.",
+      "abbr": "BHDC",
+      "url": "https://en.bhdc.com.cn",
+      "locations": {
+        "HG-BG": "CN"
+      }
+    },
+    {
+      "name": "Beijing Tsingteng Microsystem Co. Ltd.",
+      "abbr": "TMS",
+      "url": "https://www.tsingtengms.com",
+      "locations": {
+        "BM-SN": "CN"
+      }
+    },
+    {
+      "name": "Beijing Watchdata Co. Ltd.",
+      "abbr": "Watchdata",
+      "url": "https://www.watchdata.com",
+      "locations": {
+        "WD-BG": "CN"
+      }
+    },
+    {
+      "name": "Chutian Dragon Co. Ltd.",
+      "abbr": "CTD",
+      "url": "https://www.ctdcn.com",
+      "locations": {
+        "CD-DN": "CN"
+      }
+    },
+    {
+      "name": "E-Kart Elektronik Kart Sistemleri",
+      "abbr": "E-KART",
+      "url": "https://www.ekart.com.tr",
+      "locations": {
+        "ET-IL": "IL"
+      }
+    },
+    {
+      "name": "Eastcompeace Technology Co. Ltd.",
+      "abbr": "ECP",
+      "url": "https://www.eastcompeace.com",
+      "locations": {
+        "ED-ZI": "CN"
+      }
+    },
+    {
+      "name": "Hengbao Co. Ltd.",
+      "url": "https://en.hengbao.com",
+      "locations": {
+        "HO-DG": "CN"
+      }
+    },
+    {
+      "name": "Ho&Bros Information Technology Co Ltd",
+      "abbr": "Ho&Bros IT Co., Ltd.",
+      "url": "https://www.ho-brostech.com",
+      "locations": {
+        "HS-ZI": "CN"
+      }
+    },
+    {
+      "name": "IF Weibinnai Technology Co. Ltd.",
+      "abbr": "Weibinnai",
+      "locations": {
+        "IF-CG": "CN"
+      }
+    },
+    {
+      "name": "Oasis Smart SIM",
+      "abbr": "Oasis",
+      "url": "https://www.oasis-smartsim.com",
+      "locations": {
+        "OS-SG": "FR"
+      }
+    },
+    {
+      "name": "Oberthur Technologies",
+      "abbr": "Oberthur",
+      "url": "https://en.wikipedia.org/wiki/Oberthur_Technologies",
+      "deprecated": "Oberthur is now part of IDEMIA",
+      "locations": {
+        "OR-SN": "CN"
+      }
+    },
+    {
+      "name": "Samsung Electronics Co., Ltd.",
+      "abbr": "S\u039bMSUNG",
+      "url": "https://semiconductor.samsung.com/security-solution/ese-esim/",
+      "locations": {
+        "SG-YN": "KR"
+      }
+    },
+    {
+      "name": "Saudi Telecom Company",
+      "abbr": "stc Group",
+      "url": "https://www.stc.com.sa",
+      "locations": {
+        "SI-RH": "SA"
+      }
+    },
+    {
+      "name": "Tongxin Microelectronics Co. Ltd.",
+      "abbr": "TMC",
+      "url": "https://www.tsinghuaic.com",
+      "locations": {
+        "TN-BG": "CN"
+      }
+    },
+    {
+      "name": "Wuhan Tianyu Information Industry Co. Ltd.",
+      "abbr": "Tianyu Information",
+      "url": "https://www.whtyglobal.com",
+      "locations": {
+        "WN-HI": "CN"
+      }
+    },
+    {
+      "name": "XH Smart Technology Co. Ltd.",
+      "abbr": "XHSTC",
+      "url": "https://www.xhsmartech.com",
+      "locations": {
+        "XH-ZI": "CN"
+      }
+    }
+  ],
   "certificates": {
     "AM-BT-0820": "https://web.archive.org/web/20250720044633if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2019/11/GSMA-SAS_UP-ARM-Belfast-Northern-Ireland-0820.pdf",
     "AM-LN-0820": "https://web.archive.org/web/20250720044642if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2020/03/GSMA-SAS_UP-Provisional-Arm-Ltd-London-0820.pdf",
