@@ -55,7 +55,6 @@ var mutex sync.Mutex
 func New(m *modem.Modem) (*LPA, error) {
 	// We need to ensure that only one LPA client is created at a time
 	mutex.Lock()
-	defer mutex.Unlock()
 	var l = new(LPA)
 	ch, err := l.createChannel(m)
 	if err != nil {
@@ -112,6 +111,7 @@ func (l *LPA) createATChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
 }
 
 func (l *LPA) Close() error {
+	defer mutex.Unlock()
 	return l.Client.Close()
 }
 
