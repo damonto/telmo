@@ -104,7 +104,7 @@ func (h *ListModemHandler) euiccInfo(m *modem.Modem, iccid string) (eid string, 
 		return "", "", err
 	}
 	if len(profiles) == 0 {
-		return "", "", nil
+		return info.EID, "", nil
 	}
 	return info.EID, util.If(profiles[0].ProfileNickname != "", profiles[0].ProfileNickname, profiles[0].ProfileName), nil
 }
