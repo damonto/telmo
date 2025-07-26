@@ -66,6 +66,7 @@ func (h *DownloadHandler) Handle() th.Handler {
 			Value:   value,
 		}
 		state.M.Enter(update.Message.Chat.ID, s)
+		update.Message.Text = strings.TrimSpace(strings.TrimPrefix(update.Message.Text, "/download"))
 		if update.Message.Text != "" {
 			return h.downloadProfile(ctx, *update.Message, s, value)
 		}
