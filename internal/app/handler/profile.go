@@ -22,11 +22,6 @@ type ProfileHandler struct {
 const (
 	ProfileActionCallbackDataPrefix = "profile"
 
-	ProfileMessageTemplate = `
-%s *%s*
-%s
-	`
-
 	ProfileActionSetNickname state.State = "Set Nickname"
 	ProfileActionDelete      state.State = "Delete"
 	ProfileActionEnable      state.State = "Enable"
@@ -81,7 +76,10 @@ func (h *ProfileHandler) sendActionMessage(ctx *th.Context, query telego.Callbac
 		profile.ServiceProviderName,
 		util.If(profile.ProfileNickname != "", profile.ProfileNickname, profile.ProfileName),
 	)
-	message += fmt.Sprintf(ProfileMessageTemplate,
+	message += fmt.Sprintf(`
+%s *%s*
+%s
+`,
 		util.If(profile.ProfileState == sgp22.ProfileEnabled, "✅", "🅾️"),
 		util.EscapeText(name),
 		profile.ICCID,
@@ -257,7 +255,10 @@ func (h *ProfileHandler) message(profiles []*sgp22.ProfileInfo) (*telego.InlineK
 			profile.ServiceProviderName,
 			util.If(profile.ProfileNickname != "", profile.ProfileNickname, profile.ProfileName),
 		)
-		message += fmt.Sprintf(ProfileMessageTemplate,
+		message += fmt.Sprintf(`
+%s *%s*
+%s
+`,
 			util.If(profile.ProfileState == sgp22.ProfileEnabled, "✅", "🅾️"),
 			util.EscapeText(name),
 			profile.ICCID,

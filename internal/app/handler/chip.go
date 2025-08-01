@@ -14,15 +14,6 @@ type ChipHandler struct {
 	*Handler
 }
 
-const ChipMessageTemplate = `
-EID: %s
-Manufacturer: %s
-SAS\-UP: %s
-Free Space: %d KiB
-Signing Keys:
-%s
-`
-
 func NewChipHandler() *ChipHandler {
 	h := new(ChipHandler)
 	return h
@@ -50,8 +41,14 @@ func (h *ChipHandler) message(info *lpa.Info) string {
 	for _, k := range info.Certificates {
 		key += k + "\n"
 	}
-	return fmt.Sprintf(
-		ChipMessageTemplate,
+	return fmt.Sprintf(`
+EID: %s
+Manufacturer: %s
+SAS\-UP: %s
+Free Space: %d KiB
+Signing Keys:
+%s
+`,
 		fmt.Sprintf("`%s`", info.EID),
 		util.EscapeText(manufacturer),
 		util.EscapeText(info.SasAccreditationNumber),

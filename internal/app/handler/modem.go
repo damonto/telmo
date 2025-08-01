@@ -22,6 +22,7 @@ type ListModemHandler struct {
 const ModemMessageTemplate = `
 *%s*
 Firmware Revision: %s
+Hardware Revision: %s
 IMEI: %s
 Network: %s
 Operator: %s
@@ -70,6 +71,7 @@ func (h *ListModemHandler) message(m *modem.Modem) string {
 	message := fmt.Sprintf(ModemMessageTemplate,
 		util.EscapeText(modemName),
 		util.EscapeText(m.FirmwareRevision),
+		util.EscapeText(m.HardwareRevision),
 		m.EquipmentIdentifier,
 		util.EscapeText(
 			fmt.Sprintf("%s (%s - %s)", util.LookupCarrier(code), strings.Join(accessTech, ", "), state),

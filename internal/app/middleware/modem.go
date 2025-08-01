@@ -162,6 +162,7 @@ func (m *ModemRequiredMiddleware) ask(ctx *th.Context, update telego.Update, mod
 Manufacturer: %s
 IMEI: %s
 Firmware revision: %s
+Hardware revision: %s
 ICCID: %s
 Operator: %s
 Number: %s
@@ -169,6 +170,7 @@ Number: %s
 			util.EscapeText(modem.Manufacturer),
 			modem.EquipmentIdentifier,
 			util.EscapeText(modem.FirmwareRevision),
+			util.EscapeText(modem.HardwareRevision),
 			modem.Sim.Identifier,
 			util.EscapeText(util.If(modem.Sim.OperatorName != "", modem.Sim.OperatorName, util.LookupCarrier(modem.Sim.OperatorIdentifier))),
 			util.EscapeText(modem.Number),

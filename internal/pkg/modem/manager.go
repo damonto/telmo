@@ -74,6 +74,7 @@ func (m *Manager) createModem(objectPath dbus.ObjectPath, data map[string]dbus.V
 		Driver:              data["Drivers"].Value().([]string)[0],
 		Model:               data["Model"].Value().(string),
 		FirmwareRevision:    data["Revision"].Value().(string),
+		HardwareRevision:    data["HardwareRevision"].Value().(string),
 		State:               ModemState(data["State"].Value().(int32)),
 		PrimaryPort:         fmt.Sprintf("/dev/%s", data["PrimaryPort"].Value().(string)),
 		PrimarySimSlot:      data["PrimarySimSlot"].Value().(uint32),

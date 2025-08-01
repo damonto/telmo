@@ -20,13 +20,6 @@ type SIMValue struct {
 	Modem *modem.Modem
 }
 
-const SIMSlotMessageTemplate = `
-*\[Slot %d\]* %s
-Operator: %s
-IMSI: %s
-ICCID: %s
-`
-
 const CallbackQuerySIMSlotPrefix = "simslot"
 
 func NewSIMSlotHandler() state.Handler {
@@ -58,8 +51,12 @@ func (h *SIMSlotHandler) Handle() th.Handler {
 }
 
 func (h *SIMSlotHandler) message(slot int, sim *modem.SIM) ([]telego.InlineKeyboardButton, string) {
-	message := fmt.Sprintf(
-		SIMSlotMessageTemplate,
+	message := fmt.Sprintf(`
+*\[Slot %d\]* %s
+Operator: %s
+IMSI: %s
+ICCID: %s
+`,
 		slot,
 		util.If(sim.Active, "🟢", "🔴"),
 		util.EscapeText(util.If(sim.OperatorName != "", sim.OperatorName, util.LookupCarrier(sim.OperatorIdentifier))),
