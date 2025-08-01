@@ -127,12 +127,16 @@ func (h *ProfileHandler) deleteProfile(ctx *th.Context, message telego.Message, 
 		return err
 	}
 	defer l.Close()
-	seq, err := l.Delete(value.ICCID)
+	seqs, err := l.Delete(value.ICCID)
 	if err != nil {
 		return err
 	}
+	var command string
+	for _, seq := range seqs {
+		command += fmt.Sprintf("`/send_notification %d`\n", seq)
+	}
 	_, err = h.ReplyMessage(ctx, message,
-		fmt.Sprintf("The profile has been deleted\\. If your operator hasn\\'t received the deletion notification, you can resend it using the command: `/send_notification %d`\\. /profiles", seq),
+		fmt.Sprintf("The profile has been deleted\\. If your operator hasn\\'t received the deletion notification, you can resend it using the following %s: \n\n%s\n/profiles", util.If(len(seqs) == 1, "command", "commands"), command),
 		nil)
 	return err
 }

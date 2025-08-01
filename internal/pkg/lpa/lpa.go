@@ -1,6 +1,7 @@
 package lpa
 
 import (
+	"bytes"
 	"context"
 	"encoding/hex"
 	"errors"
@@ -151,47 +152,56 @@ func (l *LPA) Info() (*Info, error) {
 	return &info, nil
 }
 
-func (l *LPA) Delete(id sgp22.ICCID) (sgp22.SequenceNumber, error) {
-	if err := l.DeleteProfile(id); err != nil {
-		return 0, err
+func (l *LPA) Delete(id sgp22.ICCID) ([]sgp22.SequenceNumber, error) {
+	generatedNotifications, err := l.ListNotification()
+	if err != nil {
+		return nil, err
 	}
-	return l.sendNotification(id, sgp22.NotificationEventDelete)
+	var lastSeq sgp22.SequenceNumber
+	for _, n := range generatedNotifications {
+		lastSeq = max(n.SequenceNumber, lastSeq)
+	}
+
+	if err := l.DeleteProfile(id); err != nil {
+		return nil, err
+	}
+
+	deleteNotifications, err := l.ListNotification(sgp22.NotificationEventDelete)
+	if err != nil {
+		return nil, err
+	}
+	var seqs []sgp22.SequenceNumber
+	var errs error
+	for _, n := range deleteNotifications {
+		if n.SequenceNumber > lastSeq && bytes.Equal(n.ICCID, id) {
+			slog.Info("Sending deletion notification", "sequence", n.SequenceNumber)
+			found, err := l.RetrieveNotificationList(n.SequenceNumber)
+			if err != nil {
+				errs = errors.Join(errs, fmt.Errorf("unable to retrieve notification: %d %w", n.SequenceNumber, err))
+			}
+			if len(found) > 0 {
+				if err := l.HandleNotification(found[0]); err != nil {
+					errs = errors.Join(errs, fmt.Errorf("unable to handle notification: %d %w", n.SequenceNumber, err))
+				}
+			}
+			seqs = append(seqs, n.SequenceNumber)
+		}
+	}
+	return seqs, errs
 }
 
-func (l *LPA) SendNotification(seq sgp22.SequenceNumber) error {
-	ns, err := l.RetrieveNotificationList(seq)
+func (l *LPA) SendNotification(searchCriteria any) error {
+	notifications, err := l.RetrieveNotificationList(searchCriteria)
 	if err != nil {
 		return err
 	}
-	if len(ns) > 0 {
-		return l.HandleNotification(ns[0])
-	}
-	return nil
-}
-
-func (l *LPA) sendNotification(id sgp22.ICCID, event sgp22.NotificationEvent) (sgp22.SequenceNumber, error) {
-	ln, err := l.ListNotification(event)
-	if err != nil {
-		return 0, err
-	}
-	var latest sgp22.SequenceNumber
-	for _, n := range ln {
-		if n.SequenceNumber > latest && n.ICCID.String() == id.String() {
-			latest = n.SequenceNumber
+	var errs error
+	for _, notification := range notifications {
+		if err := l.HandleNotification(notification); err != nil {
+			errs = errors.Join(errs, err)
 		}
 	}
-	// Some profiles may not have notifications
-	if latest > 0 {
-		slog.Info("Sending notification", "event", event, "sequence", latest)
-		ns, err := l.RetrieveNotificationList(latest)
-		if err != nil {
-			return 0, err
-		}
-		if len(ns) > 0 {
-			return latest, l.HandleNotification(ns[0])
-		}
-	}
-	return 0, nil
+	return errs
 }
 
 func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, opts *lpa.DownloadOptions) error {
@@ -201,13 +211,13 @@ func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, 
 	result, derr := l.DownloadProfile(ctx, activationCode, opts)
 	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {
 		slog.Info("Sending download notification", "sequence", result.Notification.SequenceNumber)
-		n, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)
+		filtered, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)
 		if err != nil {
 			return errors.Join(derr, err)
 		}
-		if len(n) > 0 {
-			if err := l.HandleNotification(n[0]); err != nil {
-				return errors.Join(derr, err)
+		if len(filtered) > 0 {
+			if err := l.HandleNotification(filtered[0]); err != nil {
+				return errors.Join(derr, fmt.Errorf("unable to handle notification: %d %w", result.Notification.SequenceNumber, err))
 			}
 		}
 	}
