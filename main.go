@@ -153,7 +153,7 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 		util.EscapeText(messsage.Number),
 		fmt.Sprintf("`%s`", util.EscapeText(messsage.Text)),
 	)
-	for _, adminId := range config.C.AdminId.IDs() {
+	for _, adminId := range config.C.AdminId {
 		msg, err := bot.SendMessage(context.Background(), tu.Message(tu.ID(adminId), message).WithParseMode(telego.ModeMarkdownV2))
 		if err != nil {
 			slog.Error("Failed to send message", "error", err, "to", adminId, "message", message)

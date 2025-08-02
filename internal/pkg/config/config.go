@@ -3,33 +3,30 @@ package config
 import (
 	"errors"
 	"fmt"
-	"log/slog"
 	"strconv"
 	"strings"
 )
 
-type AdminId []string
+type AdminId []int64
 
 func (a *AdminId) Set(value string) error {
-	*a = append(*a, value)
+	id, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
+		return err
+	}
+	*a = append(*a, id)
 	return nil
 }
 
 func (a *AdminId) String() string {
-	return strings.Join(*a, ",")
-}
-
-func (a *AdminId) IDs() []int64 {
-	var ids []int64
+	var s string
 	for _, id := range *a {
-		id, err := strconv.Atoi(id)
-		if err != nil {
-			slog.Error("Failed to convert admin id to int64", "id", id, "error", err)
-			continue
-		}
-		ids = append(ids, int64(id))
+		s += fmt.Sprintf("%d,", id)
 	}
-	return ids
+	if len(s) == 0 {
+		return ""
+	}
+	return s[:len(s)-1]
 }
 
 type ModemName map[string]string
