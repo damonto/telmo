@@ -32,9 +32,10 @@ func init() {
 	flag.BoolVar(&config.C.Slowdown, "slowdown", false, "Enable slowdown mode (MSS: 120)")
 	flag.BoolVar(&config.C.ForceAT, "force-at", false, "Force the use of AT commands as the LPA driver")
 	flag.BoolVar(&config.C.Compatible, "compatible", false, "Enable if your modem does not support proactive refresh")
-	flag.Var(&config.C.ModemName, "modem-name", "Modem name IMEI:Name (multiple allowed)")
+	flag.Var(&config.C.ModemName, "modem-name", "Modem name IMEI:name (multiple allowed)")
 	flag.StringVar(&config.C.Endpoint, "endpoint", "https://api.telegram.org", "Telegram Bot API endpoint")
 	flag.BoolVar(&config.C.Verbose, "verbose", false, "Enable verbose logging")
+
 	flag.Parse()
 }
 
@@ -152,7 +153,7 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 		util.EscapeText(messsage.Number),
 		fmt.Sprintf("`%s`", util.EscapeText(messsage.Text)),
 	)
-	for _, adminId := range config.C.AdminId.MarshalInt64() {
+	for _, adminId := range config.C.AdminId.IDs() {
 		msg, err := bot.SendMessage(context.Background(), tu.Message(tu.ID(adminId), message).WithParseMode(telego.ModeMarkdownV2))
 		if err != nil {
 			slog.Error("Failed to send message", "error", err, "to", adminId, "message", message)

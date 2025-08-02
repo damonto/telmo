@@ -34,7 +34,6 @@ func (r *router) Register() {
 
 func (r *router) registerCommands() {
 	commands := []telego.BotCommand{
-		{Command: "start", Description: "Start the bot"},
 		{Command: "modem", Description: "List all plugged in modems"},
 		{Command: "slot", Description: "List all SIM slots on the modem"},
 		{Command: "chip", Description: "Get the eUICC chip information"},
