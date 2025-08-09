@@ -93,7 +93,6 @@ func main() {
 }
 
 func subscribe(bot *telego.Bot, mm *modem.Manager) {
-	var err error
 	subscribers := make(map[dbus.ObjectPath]*Subscriber)
 	modems, err := mm.Modems()
 	if err != nil {
@@ -102,15 +101,14 @@ func subscribe(bot *telego.Bot, mm *modem.Manager) {
 
 	go subscribeMessaging(bot, modems, subscribers)
 
-	err = mm.Subscribe(func(modems map[dbus.ObjectPath]*modem.Modem) error {
+	if err := mm.Subscribe(func(modems map[dbus.ObjectPath]*modem.Modem) error {
 		for path, s := range subscribers {
 			slog.Debug("Canceling subscriber", "path", path)
 			s.cancel()
 		}
 		go subscribeMessaging(bot, modems, subscribers)
 		return nil
-	})
-	if err != nil {
+	}); err != nil {
 		panic(err)
 	}
 }
