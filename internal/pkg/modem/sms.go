@@ -45,7 +45,10 @@ func (m *Modem) RetrieveSMS(objectPath dbus.ObjectPath) (*SMS, error) {
 		return nil, err
 	}
 	if t := variant.Value().(string); t != "" {
-		sms.Timestamp, err = time.Parse("2006-01-02T15:04:05Z07", t)
+		if t[len(t)-3] == '+' {
+			t = t + ":00"
+		}
+		sms.Timestamp, err = time.Parse(time.RFC3339, t)
 		if err != nil {
 			return nil, err
 		}
