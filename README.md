@@ -16,9 +16,9 @@ I have thoroughly tested this program and found it to work well. However, its co
 
 ### Tested Devices
 
-* Qualcomm 410 WiFi Dongle
-* Quectel EC20
-* Quectel EM12-G
+* Qualcomm 410 WiFi Dongle (with --compatible --slowdown)
+* Quectel EC20/EM12-G
+* Sierra Wireless EM7430/EM7511
 
 ### Requirements
 
