@@ -6,6 +6,7 @@ import (
 	"github.com/damonto/telmo/internal/pkg/util"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
+	"log"
 )
 
 type SendHandler struct {
@@ -40,7 +41,6 @@ func (h *SendHandler) Handle() th.Handler {
 }
 
 func (h *SendHandler) HandleMessage(ctx *th.Context, message telego.Message, s *state.ChatState) error {
-	defer state.M.Exit(message.Chat.ID)
 	value := s.Value.(*SMSValue)
 	if s.State == SendActionAskPhoneNumber {
 		value.To = message.Text
@@ -49,14 +49,21 @@ func (h *SendHandler) HandleMessage(ctx *th.Context, message telego.Message, s *
 		return err
 	}
 	if s.State == SendActionAskText {
-		_, err := value.Modem.SendSMS(value.To, message.Text)
-		if err != nil {
-			return err
-		}
-		_, err = h.ReplyMessage(ctx, message, util.EscapeText("SMS sent successfully."), nil)
-		return err
-	}
-	return nil
+	        defer state.M.Exit(message.Chat.ID) // 只在最后一步退出状态
+	        _, err := value.Modem.SendSMS(value.To, message.Text)
+       		 if err != nil {
+        	    log.Printf("Failed to send SMS to %s: %v", value.To, err)
+       	    		  h.ReplyMessage(ctx, message, util.EscapeText("Failed to send SMS: "+err.Error()), nil)
+       		 	 return err
+        }
+    	    _, err = h.ReplyMessage(ctx, message, util.EscapeText("SMS sent successfully."), nil)
+    	    if err != nil {
+        	    log.Printf("Failed to send Telegram confirmation: %v", err)
+        }
+        return err
+    }
+
+    return nil
 }
 
 func (h *SendHandler) HandleCallbackQuery(ctx *th.Context, query telego.CallbackQuery, s *state.ChatState) error {
