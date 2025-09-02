@@ -40,7 +40,6 @@ func (h *SendHandler) Handle() th.Handler {
 }
 
 func (h *SendHandler) HandleMessage(ctx *th.Context, message telego.Message, s *state.ChatState) error {
-	defer state.M.Exit(message.Chat.ID)
 	value := s.Value.(*SMSValue)
 	if s.State == SendActionAskPhoneNumber {
 		value.To = message.Text
@@ -49,6 +48,7 @@ func (h *SendHandler) HandleMessage(ctx *th.Context, message telego.Message, s *
 		return err
 	}
 	if s.State == SendActionAskText {
+		defer state.M.Exit(message.Chat.ID)
 		_, err := value.Modem.SendSMS(value.To, message.Text)
 		if err != nil {
 			return err
