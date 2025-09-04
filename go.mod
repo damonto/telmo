@@ -3,7 +3,7 @@ module github.com/damonto/telmo
 go 1.24.6
 
 require (
-	github.com/damonto/euicc-go v1.0.2
+	github.com/damonto/euicc-go v1.0.3
 	github.com/godbus/dbus/v5 v5.1.0
 	github.com/mymmrac/telego v1.3.0
 	golang.org/x/sys v0.35.0
@@ -11,7 +11,8 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.2.0 // indirect
-	github.com/bytedance/sonic v1.14.0 // indirect
+	github.com/bytedance/gopkg v0.1.3 // indirect
+	github.com/bytedance/sonic v1.14.1 // indirect
 	github.com/bytedance/sonic/loader v0.3.0 // indirect
 	github.com/cloudwego/base64x v0.1.6 // indirect
 	github.com/grbit/go-json v0.11.0 // indirect
