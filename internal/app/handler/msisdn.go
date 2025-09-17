@@ -11,21 +11,23 @@ import (
 )
 
 type MSISDNHandler struct {
-	*Handler
+	Handler
+	state *state.StateManager
 }
 
 type MSISDNValue struct {
 	Modem *modem.Modem
 }
 
-func NewMSISDNHandler() state.Handler {
-	h := new(MSISDNHandler)
-	return h
+func NewMSISDNHandler(s *state.StateManager) state.Handler {
+	return &MSISDNHandler{
+		state: s,
+	}
 }
 
 func (h *MSISDNHandler) Handle() th.Handler {
 	return func(ctx *th.Context, update telego.Update) error {
-		state.M.Enter(update.Message.Chat.ID, &state.ChatState{
+		h.state.Enter(update.Message.Chat.ID, &state.ChatState{
 			Handler: h,
 			Value:   &MSISDNValue{Modem: h.Modem(ctx)},
 		})

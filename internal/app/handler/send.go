@@ -9,7 +9,8 @@ import (
 )
 
 type SendHandler struct {
-	*Handler
+	Handler
+	state *state.StateManager
 }
 
 type SMSValue struct {
@@ -22,14 +23,15 @@ const (
 	SendActionAskText        state.State = "send_ask_text"
 )
 
-func NewSendHandler() state.Handler {
-	h := new(SendHandler)
-	return h
+func NewSendHandler(s *state.StateManager) state.Handler {
+	return &SendHandler{
+		state: s,
+	}
 }
 
 func (h *SendHandler) Handle() th.Handler {
 	return func(ctx *th.Context, update telego.Update) error {
-		state.M.Enter(update.Message.Chat.ID, &state.ChatState{
+		h.state.Enter(update.Message.Chat.ID, &state.ChatState{
 			Handler: h,
 			State:   SendActionAskPhoneNumber,
 			Value:   &SMSValue{Modem: h.Modem(ctx)},
@@ -43,12 +45,12 @@ func (h *SendHandler) HandleMessage(ctx *th.Context, message telego.Message, s *
 	value := s.Value.(*SMSValue)
 	if s.State == SendActionAskPhoneNumber {
 		value.To = message.Text
-		state.M.Current(message.Chat.ID, SendActionAskText)
+		h.state.Current(message.Chat.ID, SendActionAskText)
 		_, err := h.ReplyMessage(ctx, message, util.EscapeText("Enter the text of the SMS you want to send."), nil)
 		return err
 	}
 	if s.State == SendActionAskText {
-		defer state.M.Exit(message.Chat.ID)
+		defer h.state.Exit(message.Chat.ID)
 		_, err := value.Modem.SendSMS(value.To, message.Text)
 		if err != nil {
 			return err

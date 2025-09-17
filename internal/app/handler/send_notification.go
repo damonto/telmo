@@ -12,12 +12,11 @@ import (
 )
 
 type SendNotificationHandler struct {
-	*Handler
+	Handler
 }
 
 func NewSendNotificationHandler() *SendNotificationHandler {
-	h := new(SendNotificationHandler)
-	return h
+	return &SendNotificationHandler{}
 }
 
 func (h *SendNotificationHandler) Handle() th.Handler {

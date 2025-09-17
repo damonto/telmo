@@ -10,12 +10,11 @@ import (
 )
 
 type DiscoveryHandler struct {
-	*Handler
+	Handler
 }
 
 func NewDiscoveryHandler() *DiscoveryHandler {
-	h := new(DiscoveryHandler)
-	return h
+	return &DiscoveryHandler{}
 }
 
 func (h *DiscoveryHandler) Handle() th.Handler {

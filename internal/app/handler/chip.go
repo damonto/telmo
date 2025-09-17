@@ -11,12 +11,11 @@ import (
 )
 
 type ChipHandler struct {
-	*Handler
+	Handler
 }
 
 func NewChipHandler() *ChipHandler {
-	h := new(ChipHandler)
-	return h
+	return &ChipHandler{}
 }
 
 func (h *ChipHandler) Handle() th.Handler {

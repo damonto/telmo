@@ -16,7 +16,8 @@ import (
 )
 
 type ProfileHandler struct {
-	*Handler
+	Handler
+	state *state.StateManager
 }
 
 const (
@@ -35,9 +36,10 @@ type ProfileValue struct {
 	Modem   *modem.Modem
 }
 
-func NewProfileHandler() state.Handler {
-	h := new(ProfileHandler)
-	return h
+func NewProfileHandler(s *state.StateManager) state.Handler {
+	return &ProfileHandler{
+		state: s,
+	}
 }
 
 func (h *ProfileHandler) HandleCallbackQuery(ctx *th.Context, query telego.CallbackQuery, state *state.ChatState) error {
@@ -112,7 +114,7 @@ func (h *ProfileHandler) HandleMessage(ctx *th.Context, message telego.Message, 
 	if s.State == ProfileActionDelete {
 		return h.deleteProfile(ctx, message, s)
 	}
-	state.M.Exit(message.Chat.ID)
+	h.state.Exit(message.Chat.ID)
 	return nil
 }
 
@@ -142,7 +144,7 @@ func (h *ProfileHandler) deleteProfile(ctx *th.Context, message telego.Message, 
 }
 
 func (h *ProfileHandler) confirmDelete(ctx *th.Context, message telego.Message, s *state.ChatState) error {
-	state.M.Current(message.Chat.ID, ProfileActionDelete)
+	h.state.Current(message.Chat.ID, ProfileActionDelete)
 	value := s.Value.(*ProfileValue)
 	_, err := h.ReplyMessage(
 		ctx,
@@ -209,7 +211,7 @@ func (h *ProfileHandler) setNickname(ctx *th.Context, message telego.Message, s 
 }
 
 func (h *ProfileHandler) askNickname(ctx *th.Context, message telego.Message, _ *state.ChatState) error {
-	state.M.Current(message.Chat.ID, ProfileActionSetNickname)
+	h.state.Current(message.Chat.ID, ProfileActionSetNickname)
 	_, err := h.ReplyMessage(
 		ctx,
 		message,
@@ -227,7 +229,7 @@ func (h *ProfileHandler) Handle() th.Handler {
 		}
 		defer l.Close()
 
-		state.M.Enter(update.Message.Chat.ID, &state.ChatState{
+		h.state.Enter(update.Message.Chat.ID, &state.ChatState{
 			Handler: h,
 			Value: &ProfileValue{
 				Modem: h.Modem(ctx),

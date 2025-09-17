@@ -28,13 +28,10 @@ type StateManager struct {
 	states map[int64]*ChatState
 }
 
-var M *StateManager
-
 func NewStateManager(handler *th.BotHandler) *StateManager {
-	M = &StateManager{
+	return &StateManager{
 		states: make(map[int64]*ChatState, 16),
 	}
-	return M
 }
 
 func (m *StateManager) RegisterCallback(handler *th.BotHandler) {

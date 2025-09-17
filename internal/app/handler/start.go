@@ -9,12 +9,11 @@ import (
 )
 
 type StartHandler struct {
-	*Handler
+	Handler
 }
 
 func NewStartHandler() *StartHandler {
-	h := new(StartHandler)
-	return h
+	return &StartHandler{}
 }
 
 func (h *StartHandler) Handle() th.Handler {

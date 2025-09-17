@@ -13,7 +13,8 @@ import (
 )
 
 type SIMSlotHandler struct {
-	*Handler
+	Handler
+	state *state.StateManager
 }
 
 type SIMValue struct {
@@ -22,9 +23,10 @@ type SIMValue struct {
 
 const CallbackQuerySIMSlotPrefix = "simslot"
 
-func NewSIMSlotHandler() state.Handler {
-	h := new(SIMSlotHandler)
-	return h
+func NewSIMSlotHandler(s *state.StateManager) state.Handler {
+	return &SIMSlotHandler{
+		state: s,
+	}
 }
 
 func (h *SIMSlotHandler) Handle() th.Handler {
@@ -32,7 +34,7 @@ func (h *SIMSlotHandler) Handle() th.Handler {
 		var message string
 		var buttons [][]telego.InlineKeyboardButton
 		modem := h.Modem(ctx)
-		state.M.Enter(update.Message.Chat.ID, &state.ChatState{Handler: h, Value: &SIMValue{Modem: modem}})
+		h.state.Enter(update.Message.Chat.ID, &state.ChatState{Handler: h, Value: &SIMValue{Modem: modem}})
 		for idx, slot := range modem.SimSlots {
 			sim, err := modem.SIM(slot)
 			if err != nil {
@@ -70,7 +72,7 @@ ICCID: %s
 }
 
 func (h *SIMSlotHandler) HandleCallbackQuery(ctx *th.Context, query telego.CallbackQuery, s *state.ChatState) error {
-	defer state.M.Exit(query.From.ID)
+	defer h.state.Exit(query.From.ID)
 	v, err := strconv.Atoi(query.Data[len(CallbackQuerySIMSlotPrefix)+1:])
 	if err != nil {
 		return err

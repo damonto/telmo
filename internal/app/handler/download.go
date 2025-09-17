@@ -20,7 +20,8 @@ import (
 )
 
 type DownloadHandler struct {
-	*Handler
+	Handler
+	state            *state.StateManager
 	confirmed        chan bool
 	confirmationCode chan string
 }
@@ -49,11 +50,12 @@ const (
 	DownloadCallbackDataPrefix = "download"
 )
 
-func NewDownloadHandler() state.Handler {
-	h := new(DownloadHandler)
-	h.confirmationCode = make(chan string, 1)
-	h.confirmed = make(chan bool, 1)
-	return h
+func NewDownloadHandler(s *state.StateManager) state.Handler {
+	return &DownloadHandler{
+		state:            s,
+		confirmationCode: make(chan string, 1),
+		confirmed:        make(chan bool, 1),
+	}
 }
 
 func (h *DownloadHandler) Handle() th.Handler {
@@ -65,7 +67,7 @@ func (h *DownloadHandler) Handle() th.Handler {
 			State:   DownloadAskActivationCode,
 			Value:   value,
 		}
-		state.M.Enter(update.Message.Chat.ID, s)
+		h.state.Enter(update.Message.Chat.ID, s)
 		update.Message.Text = strings.TrimSpace(strings.TrimPrefix(update.Message.Text, "/download"))
 		if update.Message.Text != "" {
 			return h.downloadProfile(ctx, *update.Message, s, value)
@@ -99,7 +101,7 @@ func (h *DownloadHandler) downloadProfile(ctx *th.Context, message telego.Messag
 		return err
 	}
 	if ccRequired {
-		state.M.Current(message.From.ID, DownloadAskConfirmationCodeFirst)
+		h.state.Current(message.From.ID, DownloadAskConfirmationCodeFirst)
 		_, err := h.ReplyMessage(ctx, message, util.EscapeText("Please send me the confirmation code."), nil)
 		return err
 	}
@@ -155,7 +157,7 @@ ICCID: %s
 			return nil
 		},
 	)
-	state.M.Current(d.message.From.ID, DownloadConfirm)
+	d.h.state.Current(d.message.From.ID, DownloadConfirm)
 	return <-d.h.confirmed
 }
 
@@ -168,16 +170,16 @@ func (d *downloader) OnEnterConfirmationCode() string {
 		d.progressMessage = nil
 	}()
 	if _, err := d.h.ReplyMessage(d.ctx, d.message, util.EscapeText("Please send me the confirmation code."), nil); err != nil {
-		state.M.Exit(d.message.From.ID)
+		d.h.state.Exit(d.message.From.ID)
 		d.cancel()
 		return <-d.h.confirmationCode
 	}
-	state.M.Current(d.message.From.ID, DownloadAskConfirmationCodeInProgress)
+	d.h.state.Current(d.message.From.ID, DownloadAskConfirmationCodeInProgress)
 	return <-d.h.confirmationCode
 }
 
 func (h *DownloadHandler) download(ctx *th.Context, message telego.Message, _ *state.ChatState, value *DownloadValue) error {
-	defer state.M.Exit(message.From.ID)
+	defer h.state.Exit(message.From.ID)
 	var downloadCtx context.Context
 	downloadCtx, value.cancel = context.WithTimeout(context.Background(), 10*time.Minute)
 	defer value.cancel()
@@ -243,7 +245,7 @@ func (h *DownloadHandler) HandleCallbackQuery(ctx *th.Context, query telego.Call
 		value := s.Value.(*DownloadValue)
 		value.cancel()
 		slog.Info("Download canceled", "activationCode", value.activationCode)
-		state.M.Exit(query.From.ID)
+		h.state.Exit(query.From.ID)
 		_, err := h.ReplyCallbackQuery(ctx, query, util.EscapeText("Download canceled!"), nil)
 		return err
 	}

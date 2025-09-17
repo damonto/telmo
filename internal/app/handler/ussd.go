@@ -9,7 +9,8 @@ import (
 )
 
 type USSDHandler struct {
-	*Handler
+	Handler
+	state *state.StateManager
 }
 
 type USSDValue struct {
@@ -19,9 +20,10 @@ type USSDValue struct {
 
 const USSDActionRespond state.State = "ussd_respond"
 
-func NewUSSDHandler() state.Handler {
-	h := new(USSDHandler)
-	return h
+func NewUSSDHandler(s *state.StateManager) state.Handler {
+	return &USSDHandler{
+		state: s,
+	}
 }
 
 func (h *USSDHandler) Handle() th.Handler {
@@ -36,7 +38,7 @@ func (h *USSDHandler) Handle() th.Handler {
 				return err
 			}
 		}
-		state.M.Enter(update.Message.Chat.ID, &state.ChatState{
+		h.state.Enter(update.Message.Chat.ID, &state.ChatState{
 			Handler: h,
 			Value:   &USSDValue{Modem: m},
 		})
@@ -73,7 +75,7 @@ func (h *USSDHandler) initiate(ctx *th.Context, message telego.Message, s *state
 		h.ReplyMessage(ctx, message, util.EscapeText(err.Error()), nil)
 		return err
 	}
-	state.M.Current(message.Chat.ID, USSDActionRespond)
+	h.state.Current(message.Chat.ID, USSDActionRespond)
 	_, err = h.ReplyMessage(ctx, message, util.EscapeText(response), nil)
 	return err
 }

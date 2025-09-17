@@ -16,20 +16,25 @@ import (
 
 type router struct {
 	*th.BotHandler
-	bot *telego.Bot
-	mm  *modem.Manager
-	sm  *state.StateManager
+	bot          *telego.Bot
+	mm           *modem.Manager
+	stateManager *state.StateManager
 }
 
 func NewRouter(bot *telego.Bot, handler *th.BotHandler, mm *modem.Manager) *router {
-	return &router{bot: bot, BotHandler: handler, mm: mm, sm: state.NewStateManager(handler)}
+	return &router{
+		bot:          bot,
+		BotHandler:   handler,
+		mm:           mm,
+		stateManager: state.NewStateManager(handler),
+	}
 }
 
 func (r *router) Register() {
-	r.sm.RegisterCallback(r.BotHandler)
+	r.stateManager.RegisterCallback(r.BotHandler)
 	r.registerCommands()
 	r.registerHandlers()
-	r.sm.RegisterMessage(r.BotHandler)
+	r.stateManager.RegisterMessage(r.BotHandler)
 }
 
 func (r *router) registerCommands() {
@@ -68,20 +73,20 @@ func (r *router) registerHandlers() {
 	{
 		standard := admin.Group(r.predicate([]string{"/send", "/slot", "/ussd", "/msisdn", "/register_network"}))
 		standard.Use(modemRequiredMiddleware.Middleware(false))
-		standard.Handle(handler.NewSIMSlotHandler().Handle(), th.CommandEqual("slot"))
-		standard.Handle(handler.NewUSSDHandler().Handle(), th.CommandEqual("ussd"))
-		standard.Handle(handler.NewSendHandler().Handle(), th.CommandEqual("send"))
-		standard.Handle(handler.NewMSISDNHandler().Handle(), th.CommandEqual("msisdn"))
-		standard.Handle(handler.NewRegisterNetworkHandler().Handle(), th.CommandEqual("register_network"))
+		standard.Handle(handler.NewSIMSlotHandler(r.stateManager).Handle(), th.CommandEqual("slot"))
+		standard.Handle(handler.NewUSSDHandler(r.stateManager).Handle(), th.CommandEqual("ussd"))
+		standard.Handle(handler.NewSendHandler(r.stateManager).Handle(), th.CommandEqual("send"))
+		standard.Handle(handler.NewMSISDNHandler(r.stateManager).Handle(), th.CommandEqual("msisdn"))
+		standard.Handle(handler.NewRegisterNetworkHandler(r.stateManager).Handle(), th.CommandEqual("register_network"))
 	}
 
 	{
 		euicc := admin.Group(r.predicate([]string{"/chip", "/profiles", "/download", "/send_notification", "/discovery"}))
 		euicc.Use(modemRequiredMiddleware.Middleware(true))
 		euicc.Handle(handler.NewChipHandler().Handle(), th.CommandEqual("chip"))
-		euicc.Handle(handler.NewProfileHandler().Handle(), th.CommandEqual("profiles"))
+		euicc.Handle(handler.NewProfileHandler(r.stateManager).Handle(), th.CommandEqual("profiles"))
 		euicc.Handle(handler.NewDiscoveryHandler().Handle(), th.CommandEqual("discovery"))
-		euicc.Handle(handler.NewDownloadHandler().Handle(), th.CommandEqual("download"))
+		euicc.Handle(handler.NewDownloadHandler(r.stateManager).Handle(), th.CommandEqual("download"))
 		euicc.Handle(handler.NewSendNotificationHandler().Handle(), th.CommandEqualArgc("send_notification", 1))
 	}
 }

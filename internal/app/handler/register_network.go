@@ -12,7 +12,8 @@ import (
 )
 
 type RegisterNetworkHandler struct {
-	*Handler
+	Handler
+	state *state.StateManager
 }
 
 type RegisterNetworkValue struct {
@@ -21,15 +22,16 @@ type RegisterNetworkValue struct {
 
 const RegisterNetworkActionCallbackDataPrefix = "register_network"
 
-func NewRegisterNetworkHandler() *RegisterNetworkHandler {
-	h := new(RegisterNetworkHandler)
-	return h
+func NewRegisterNetworkHandler(s *state.StateManager) *RegisterNetworkHandler {
+	return &RegisterNetworkHandler{
+		state: s,
+	}
 }
 
 func (h *RegisterNetworkHandler) Handle() th.Handler {
 	return func(ctx *th.Context, update telego.Update) error {
 		m := h.Modem(ctx)
-		state.M.Enter(update.Message.Chat.ID, &state.ChatState{
+		h.state.Enter(update.Message.Chat.ID, &state.ChatState{
 			Handler: h,
 			Value:   &RegisterNetworkValue{Modem: m},
 		})
@@ -69,7 +71,7 @@ func (h *RegisterNetworkHandler) sendAvailableNetworks(ctx *th.Context, message 
 }
 
 func (h *RegisterNetworkHandler) HandleCallbackQuery(ctx *th.Context, query telego.CallbackQuery, s *state.ChatState) error {
-	defer state.M.Exit(query.From.ID)
+	defer h.state.Exit(query.From.ID)
 	value := s.Value.(*RegisterNetworkValue)
 	ctx.Bot().DeleteMessage(ctx, &telego.DeleteMessageParams{
 		ChatID:    tu.ID(query.From.ID),

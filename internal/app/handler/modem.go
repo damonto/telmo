@@ -15,7 +15,7 @@ import (
 )
 
 type ListModemHandler struct {
-	*Handler
+	Handler
 	mm *modem.Manager
 }
 
@@ -32,9 +32,9 @@ ICCID: %s
 `
 
 func NewListModemHandler(mm *modem.Manager) *ListModemHandler {
-	h := new(ListModemHandler)
-	h.mm = mm
-	return h
+	return &ListModemHandler{
+		mm: mm,
+	}
 }
 
 func (h *ListModemHandler) Handle() th.Handler {
