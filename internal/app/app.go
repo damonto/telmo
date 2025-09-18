@@ -36,7 +36,7 @@ func New(ctx context.Context, bot *telego.Bot, m *modem.Manager, config *config.
 
 func (app *application) Start() error {
 	app.handler.Use(th.PanicRecovery())
-	router.NewRouter(app.Bot, app.handler, app.m, app.config).Register()
+	router.New(app.Bot, app.handler, app.m, app.config).Register()
 	return app.handler.Start()
 }
 

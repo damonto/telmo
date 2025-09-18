@@ -23,13 +23,13 @@ type router struct {
 	stateManager *state.StateManager
 }
 
-func NewRouter(bot *telego.Bot, handler *th.BotHandler, mm *modem.Manager, config *config.Config) *router {
+func New(bot *telego.Bot, handler *th.BotHandler, mm *modem.Manager, config *config.Config) *router {
 	return &router{
 		bot:          bot,
 		BotHandler:   handler,
 		mm:           mm,
 		config:       config,
-		stateManager: state.NewStateManager(handler),
+		stateManager: state.New(handler),
 	}
 }
 
