@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/damonto/telmo/internal/pkg/lpa"
 	"github.com/damonto/telmo/internal/pkg/util"
 	"github.com/mymmrac/telego"
@@ -12,15 +13,16 @@ import (
 
 type ChipHandler struct {
 	Handler
+	config *config.Config
 }
 
-func NewChipHandler() *ChipHandler {
-	return &ChipHandler{}
+func NewChipHandler(config *config.Config) *ChipHandler {
+	return &ChipHandler{config: config}
 }
 
 func (h *ChipHandler) Handle() th.Handler {
 	return func(ctx *th.Context, update telego.Update) error {
-		lpa, err := h.LPA(ctx)
+		lpa, err := h.LPA(ctx, h.config)
 		if err != nil {
 			return err
 		}

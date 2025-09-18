@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	sgp22 "github.com/damonto/euicc-go/v2"
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/damonto/telmo/internal/pkg/util"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
@@ -13,15 +14,18 @@ import (
 
 type SendNotificationHandler struct {
 	Handler
+	config *config.Config
 }
 
-func NewSendNotificationHandler() *SendNotificationHandler {
-	return &SendNotificationHandler{}
+func NewSendNotificationHandler(config *config.Config) *SendNotificationHandler {
+	return &SendNotificationHandler{
+		config: config,
+	}
 }
 
 func (h *SendNotificationHandler) Handle() th.Handler {
 	return func(ctx *th.Context, update telego.Update) error {
-		lpa, err := h.LPA(ctx)
+		lpa, err := h.LPA(ctx, h.config)
 		if err != nil {
 			return err
 		}

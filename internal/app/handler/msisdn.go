@@ -4,6 +4,7 @@ import (
 	"log/slog"
 
 	"github.com/damonto/telmo/internal/app/state"
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/damonto/telmo/internal/pkg/util"
 	"github.com/mymmrac/telego"
@@ -12,16 +13,18 @@ import (
 
 type MSISDNHandler struct {
 	Handler
-	state *state.StateManager
+	state  *state.StateManager
+	config *config.Config
 }
 
 type MSISDNValue struct {
 	Modem *modem.Modem
 }
 
-func NewMSISDNHandler(s *state.StateManager) state.Handler {
+func NewMSISDNHandler(config *config.Config, state *state.StateManager) state.Handler {
 	return &MSISDNHandler{
-		state: s,
+		state:  state,
+		config: config,
 	}
 }
 
@@ -47,7 +50,7 @@ func (h *MSISDNHandler) HandleMessage(ctx *th.Context, message telego.Message, s
 		h.ReplyMessage(ctx, message, util.EscapeText(err.Error()), nil)
 		return err
 	}
-	if err := value.Modem.Restart(); err != nil {
+	if err := value.Modem.Restart(h.config); err != nil {
 		slog.Warn("Failed to restart modem", "error", err)
 	}
 	h.ReplyMessage(

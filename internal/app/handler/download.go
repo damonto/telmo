@@ -11,6 +11,7 @@ import (
 	"github.com/damonto/euicc-go/lpa"
 	sgp22 "github.com/damonto/euicc-go/v2"
 	"github.com/damonto/telmo/internal/app/state"
+	"github.com/damonto/telmo/internal/pkg/config"
 	tlpa "github.com/damonto/telmo/internal/pkg/lpa"
 	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/damonto/telmo/internal/pkg/util"
@@ -22,6 +23,8 @@ import (
 type DownloadHandler struct {
 	Handler
 	state            *state.StateManager
+	config           *config.Config
+	cancelled        bool
 	confirmed        chan bool
 	confirmationCode chan string
 }
@@ -50,9 +53,11 @@ const (
 	DownloadCallbackDataPrefix = "download"
 )
 
-func NewDownloadHandler(s *state.StateManager) state.Handler {
+func NewDownloadHandler(config *config.Config, state *state.StateManager) state.Handler {
 	return &DownloadHandler{
-		state:            s,
+		state:            state,
+		config:           config,
+		cancelled:        false,
 		confirmationCode: make(chan string, 1),
 		confirmed:        make(chan bool, 1),
 	}
@@ -184,7 +189,7 @@ func (h *DownloadHandler) download(ctx *th.Context, message telego.Message, _ *s
 	downloadCtx, value.cancel = context.WithTimeout(context.Background(), 10*time.Minute)
 	defer value.cancel()
 	d := &downloader{h: h, ctx: ctx, downloadCtx: downloadCtx, cancel: value.cancel, message: message}
-	l, err := tlpa.New(value.modem)
+	l, err := tlpa.New(value.modem, h.config)
 	if err != nil {
 		return err
 	}
@@ -203,10 +208,11 @@ func (h *DownloadHandler) download(ctx *th.Context, message telego.Message, _ *s
 		}
 		return err
 	}
+	result := util.If(h.cancelled, "The download has been canceled. /profiles", "The profile has been downloaded. /profiles")
 	_, err = ctx.Bot().EditMessageText(ctx, &telego.EditMessageTextParams{
 		ChatID:    message.Chat.ChatID(),
 		MessageID: d.progressMessage.GetMessageID(),
-		Text:      util.EscapeText("The profile has been downloaded. /profiles"),
+		Text:      util.EscapeText(result),
 		ParseMode: telego.ModeMarkdownV2,
 	})
 	return err
@@ -242,6 +248,7 @@ func (h *DownloadHandler) HandleCallbackQuery(ctx *th.Context, query telego.Call
 		}
 	}
 	if confirmed == "no" {
+		h.cancelled = true
 		value := s.Value.(*DownloadValue)
 		value.cancel()
 		slog.Info("Download canceled", "activationCode", value.activationCode)

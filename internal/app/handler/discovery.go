@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	sgp22 "github.com/damonto/euicc-go/v2"
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/damonto/telmo/internal/pkg/util"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
@@ -11,15 +12,18 @@ import (
 
 type DiscoveryHandler struct {
 	Handler
+	config *config.Config
 }
 
-func NewDiscoveryHandler() *DiscoveryHandler {
-	return &DiscoveryHandler{}
+func NewDiscoveryHandler(config *config.Config) *DiscoveryHandler {
+	return &DiscoveryHandler{
+		config: config,
+	}
 }
 
 func (h *DiscoveryHandler) Handle() th.Handler {
 	return func(ctx *th.Context, update telego.Update) error {
-		lpa, err := h.LPA(ctx)
+		lpa, err := h.LPA(ctx, h.config)
 		if err != nil {
 			return err
 		}

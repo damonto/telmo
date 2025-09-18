@@ -22,8 +22,9 @@ import (
 const CallbackQueryAskModemPrefix = "ask_modem"
 
 type ModemRequiredMiddleware struct {
-	mm    *modem.Manager
-	modem chan *modem.Modem
+	mm     *modem.Manager
+	modem  chan *modem.Modem
+	config *config.Config
 }
 
 type session struct {
@@ -34,10 +35,11 @@ type session struct {
 
 var sessions sync.Map
 
-func NewModemRequiredMiddleware(mm *modem.Manager, handler *th.BotHandler) *ModemRequiredMiddleware {
+func NewModemRequiredMiddleware(mm *modem.Manager, handler *th.BotHandler, config *config.Config) *ModemRequiredMiddleware {
 	m := &ModemRequiredMiddleware{
-		mm:    mm,
-		modem: make(chan *modem.Modem, 1),
+		mm:     mm,
+		modem:  make(chan *modem.Modem, 1),
+		config: config,
 	}
 	handler.HandleCallbackQuery(m.HandleModemSelectionCallbackQuery, th.CallbackDataPrefix(CallbackQueryAskModemPrefix))
 	return m
@@ -55,7 +57,7 @@ func (m *ModemRequiredMiddleware) Middleware(eUICCRequired bool) th.Handler {
 		if eUICCRequired {
 			for path, modem := range modems {
 				// lpa.New will open the ISD-R logical channel, if it fails, the modem is not an eUICC.
-				l, err := lpa.New(modem)
+				l, err := lpa.New(modem, m.config)
 				slog.Debug("Checking if the SIM card is an eUICC", "objectPath", path)
 				if err != nil {
 					delete(modems, path)
@@ -151,7 +153,7 @@ func (m *ModemRequiredMiddleware) ask(ctx *th.Context, update telego.Update, mod
 	var buttons [][]telego.InlineKeyboardButton
 	var message string
 	for path, modem := range modems {
-		name, ok := config.C.ModemName[modem.EquipmentIdentifier]
+		name, ok := m.config.ModemName[modem.EquipmentIdentifier]
 		modemName := util.If(ok, name, modem.Model)
 		buttons = append(buttons, tu.InlineKeyboardRow(telego.InlineKeyboardButton{
 			Text:         fmt.Sprintf("%s (%s)", modemName, modem.EquipmentIdentifier[len(modem.EquipmentIdentifier)-4:]),

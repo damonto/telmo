@@ -53,18 +53,17 @@ var AIDs = [][]byte{
 
 var mutex sync.Mutex
 
-func New(m *modem.Modem) (*LPA, error) {
-	// We need to ensure that only one LPA client is created at a time
+func New(m *modem.Modem, config *config.Config) (*LPA, error) {
 	mutex.Lock()
 	var l = new(LPA)
-	ch, err := l.createChannel(m)
+	ch, err := l.createChannel(m, config)
 	if err != nil {
 		return nil, err
 	}
 	opts := &lpa.Options{
 		Channel:              ch,
 		AdminProtocolVersion: "2.2.0",
-		MSS:                  util.If(config.C.Slowdown, 120, 250),
+		MSS:                  util.If(config != nil && config.Slowdown, 120, 250),
 	}
 	if err := l.tryCreateClient(opts); err != nil {
 		return nil, err
@@ -85,10 +84,11 @@ func (l *LPA) tryCreateClient(opts *lpa.Options) error {
 	return errors.New("no supported ISD-R AID found or it's not an eUICC")
 }
 
-func (l *LPA) createChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
-	if config.C.ForceAT {
+func (l *LPA) createChannel(m *modem.Modem, config *config.Config) (apdu.SmartCardChannel, error) {
+	if config.ForceAT {
 		return l.createATChannel(m)
 	}
+
 	slot := uint8(util.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1))
 	switch m.PrimaryPortType() {
 	case modem.ModemPortTypeQmi:

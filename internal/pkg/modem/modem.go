@@ -69,7 +69,7 @@ func (m *Modem) SignalQuality() (percent uint32, recent bool, err error) {
 	return values[0].(uint32), values[1].(bool), nil
 }
 
-func (m *Modem) Restart() error {
+func (m *Modem) Restart(config *config.Config) error {
 	var err error
 	// Some older modems require the SIM to be restarted to take effect.
 	// Restarting the SIM is only supported on QMI based modems.
@@ -84,7 +84,7 @@ func (m *Modem) Restart() error {
 	}
 	// Inhibiting the device will cause the ModemManager to reload the device.
 	// This workaround is needed for some modems that don't properly reload.
-	if config.C.Compatible {
+	if config != nil && config.Compatible {
 		time.Sleep(200 * time.Millisecond)
 		if e := m.dbusObject.Call(ModemInterface+".Simple.GetStatus", 0).Err; e == nil {
 			err = errors.Join(err, m.mmgr.InhibitDevice(m.Device, true), m.mmgr.InhibitDevice(m.Device, false))

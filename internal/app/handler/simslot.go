@@ -23,9 +23,9 @@ type SIMValue struct {
 
 const CallbackQuerySIMSlotPrefix = "simslot"
 
-func NewSIMSlotHandler(s *state.StateManager) state.Handler {
+func NewSIMSlotHandler(state *state.StateManager) state.Handler {
 	return &SIMSlotHandler{
-		state: s,
+		state: state,
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/damonto/telmo/internal/app/router"
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/mymmrac/telego"
 	th "github.com/mymmrac/telego/telegohandler"
@@ -13,13 +14,14 @@ import (
 type application struct {
 	Bot     *telego.Bot
 	m       *modem.Manager
+	config  *config.Config
 	handler *th.BotHandler
 	updates <-chan telego.Update
 	ctx     context.Context
 }
 
-func New(ctx context.Context, bot *telego.Bot, m *modem.Manager) (*application, error) {
-	app := &application{Bot: bot, m: m, ctx: ctx}
+func New(ctx context.Context, bot *telego.Bot, m *modem.Manager, config *config.Config) (*application, error) {
+	app := &application{Bot: bot, m: m, config: config, ctx: ctx}
 	var err error
 	app.updates, err = bot.UpdatesViaLongPolling(ctx, nil)
 	if err != nil {
@@ -34,7 +36,7 @@ func New(ctx context.Context, bot *telego.Bot, m *modem.Manager) (*application, 
 
 func (app *application) Start() error {
 	app.handler.Use(th.PanicRecovery())
-	router.NewRouter(app.Bot, app.handler, app.m).Register()
+	router.NewRouter(app.Bot, app.handler, app.m, app.config).Register()
 	return app.handler.Start()
 }
 

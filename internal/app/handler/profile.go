@@ -17,7 +17,8 @@ import (
 
 type ProfileHandler struct {
 	Handler
-	state *state.StateManager
+	state  *state.StateManager
+	config *config.Config
 }
 
 const (
@@ -36,9 +37,10 @@ type ProfileValue struct {
 	Modem   *modem.Modem
 }
 
-func NewProfileHandler(s *state.StateManager) state.Handler {
+func NewProfileHandler(config *config.Config, state *state.StateManager) state.Handler {
 	return &ProfileHandler{
-		state: s,
+		state:  state,
+		config: config,
 	}
 }
 
@@ -46,7 +48,7 @@ func (h *ProfileHandler) HandleCallbackQuery(ctx *th.Context, query telego.Callb
 	var err error
 	value := state.Value.(*ProfileValue)
 	value.ICCID, _ = sgp22.NewICCID(query.Data[len(ProfileActionCallbackDataPrefix)+1:])
-	l, err := lpa.New(value.Modem)
+	l, err := lpa.New(value.Modem, h.config)
 	if err != nil {
 		return err
 	}
@@ -124,7 +126,7 @@ func (h *ProfileHandler) deleteProfile(ctx *th.Context, message telego.Message, 
 		return err
 	}
 	value := s.Value.(*ProfileValue)
-	l, err := lpa.New(value.Modem)
+	l, err := lpa.New(value.Modem, h.config)
 	if err != nil {
 		return err
 	}
@@ -168,7 +170,7 @@ func (h *ProfileHandler) confirmDelete(ctx *th.Context, message telego.Message, 
 
 func (h *ProfileHandler) enableProfile(ctx *th.Context, message telego.Message, s *state.ChatState) error {
 	value := s.Value.(*ProfileValue)
-	l, err := lpa.New(value.Modem)
+	l, err := lpa.New(value.Modem, h.config)
 	if err != nil {
 		return err
 	}
@@ -176,8 +178,8 @@ func (h *ProfileHandler) enableProfile(ctx *th.Context, message telego.Message, 
 		return err
 	}
 	l.Close()
-	if config.C.Compatible {
-		if err := value.Modem.Restart(); err != nil {
+	if h.config.Compatible {
+		if err := value.Modem.Restart(h.config); err != nil {
 			slog.Warn("Failed to restart the modem", "error", err)
 		}
 	}
@@ -193,7 +195,7 @@ func (h *ProfileHandler) enableProfile(ctx *th.Context, message telego.Message, 
 func (h *ProfileHandler) setNickname(ctx *th.Context, message telego.Message, s *state.ChatState) error {
 	value := s.Value.(*ProfileValue)
 	value.Value = message.Text
-	l, err := lpa.New(value.Modem)
+	l, err := lpa.New(value.Modem, h.config)
 	if err != nil {
 		return err
 	}
@@ -223,7 +225,7 @@ func (h *ProfileHandler) askNickname(ctx *th.Context, message telego.Message, _ 
 
 func (h *ProfileHandler) Handle() th.Handler {
 	return func(ctx *th.Context, update telego.Update) error {
-		l, err := h.LPA(ctx)
+		l, err := h.LPA(ctx, h.config)
 		if err != nil {
 			return err
 		}

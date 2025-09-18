@@ -23,9 +23,9 @@ const (
 	SendActionAskText        state.State = "send_ask_text"
 )
 
-func NewSendHandler(s *state.StateManager) state.Handler {
+func NewSendHandler(state *state.StateManager) state.Handler {
 	return &SendHandler{
-		state: s,
+		state: state,
 	}
 }
 

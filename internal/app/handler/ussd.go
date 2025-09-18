@@ -20,9 +20,9 @@ type USSDValue struct {
 
 const USSDActionRespond state.State = "ussd_respond"
 
-func NewUSSDHandler(s *state.StateManager) state.Handler {
+func NewUSSDHandler(state *state.StateManager) state.Handler {
 	return &USSDHandler{
-		state: s,
+		state: state,
 	}
 }
 

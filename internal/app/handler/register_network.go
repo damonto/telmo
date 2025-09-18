@@ -22,9 +22,9 @@ type RegisterNetworkValue struct {
 
 const RegisterNetworkActionCallbackDataPrefix = "register_network"
 
-func NewRegisterNetworkHandler(s *state.StateManager) *RegisterNetworkHandler {
+func NewRegisterNetworkHandler(state *state.StateManager) *RegisterNetworkHandler {
 	return &RegisterNetworkHandler{
-		state: s,
+		state: state,
 	}
 }
 

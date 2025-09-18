@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/damonto/telmo/internal/pkg/config"
 	"github.com/damonto/telmo/internal/pkg/lpa"
 	"github.com/damonto/telmo/internal/pkg/modem"
 	"github.com/mymmrac/telego"
@@ -12,8 +13,8 @@ type Handler struct{}
 
 type WithFunc = func(message *telego.SendMessageParams) error
 
-func (h *Handler) LPA(ctx *th.Context) (*lpa.LPA, error) {
-	return lpa.New(h.Modem(ctx))
+func (h *Handler) LPA(ctx *th.Context, config *config.Config) (*lpa.LPA, error) {
+	return lpa.New(h.Modem(ctx), config)
 }
 
 func (h *Handler) Modem(ctx *th.Context) *modem.Modem {

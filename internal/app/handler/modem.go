@@ -16,7 +16,8 @@ import (
 
 type ListModemHandler struct {
 	Handler
-	mm *modem.Manager
+	mm     *modem.Manager
+	config *config.Config
 }
 
 const ModemMessageTemplate = `
@@ -31,9 +32,10 @@ Signal: %d%%
 ICCID: %s
 `
 
-func NewListModemHandler(mm *modem.Manager) *ListModemHandler {
+func NewListModemHandler(config *config.Config, mm *modem.Manager) *ListModemHandler {
 	return &ListModemHandler{
-		mm: mm,
+		mm:     mm,
+		config: config,
 	}
 }
 
@@ -66,7 +68,7 @@ func (h *ListModemHandler) message(m *modem.Modem) string {
 	for _, at := range accessTechnologies {
 		accessTech = append(accessTech, at.String())
 	}
-	name, ok := config.C.ModemName[m.EquipmentIdentifier]
+	name, ok := h.config.ModemName[m.EquipmentIdentifier]
 	modemName := util.If(ok, name, m.Model)
 	message := fmt.Sprintf(ModemMessageTemplate,
 		util.EscapeText(modemName),
@@ -91,7 +93,7 @@ func (h *ListModemHandler) message(m *modem.Modem) string {
 }
 
 func (h *ListModemHandler) euiccInfo(m *modem.Modem, iccid string) (eid string, profileName string, err error) {
-	lpa, err := lpa.New(m)
+	lpa, err := lpa.New(m, h.config)
 	if err != nil {
 		return "", "", err
 	}

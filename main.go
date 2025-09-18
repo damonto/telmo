@@ -17,46 +17,46 @@ import (
 	tu "github.com/mymmrac/telego/telegoutil"
 )
 
-var Version string
+var BuildVersion string
 
 type Subscriber struct {
 	ctx    context.Context
 	cancel context.CancelFunc
 }
 
-func init() {
-	config.Init()
+var cfg = config.New()
 
-	flag.StringVar(&config.C.BotToken, "bot-token", "", "Telegram bot token")
-	flag.Var(&config.C.AdminId, "admin-id", "Admin user ID with bot management privileges (multiple allowed)")
-	flag.BoolVar(&config.C.Slowdown, "slowdown", false, "Enable slowdown mode (MSS: 120)")
-	flag.BoolVar(&config.C.ForceAT, "force-at", false, "Force the use of AT commands as the LPA driver")
-	flag.BoolVar(&config.C.Compatible, "compatible", false, "Enable if your modem does not support proactive refresh")
-	flag.Var(&config.C.ModemName, "modem-name", "Modem name IMEI:name (multiple allowed)")
-	flag.StringVar(&config.C.Endpoint, "endpoint", "https://api.telegram.org", "Telegram Bot API endpoint")
-	flag.BoolVar(&config.C.Verbose, "verbose", false, "Enable verbose logging")
+func init() {
+	flag.StringVar(&cfg.BotToken, "bot-token", "", "Telegram bot token")
+	flag.Var(&cfg.AdminId, "admin-id", "Admin user ID with bot management privileges (multiple allowed)")
+	flag.BoolVar(&cfg.Slowdown, "slowdown", false, "Enable slowdown mode (MSS: 120)")
+	flag.BoolVar(&cfg.ForceAT, "force-at", false, "Force the use of AT commands as the LPA driver")
+	flag.BoolVar(&cfg.Compatible, "compatible", false, "Enable if your modem does not support proactive refresh")
+	flag.Var(&cfg.ModemName, "modem-name", "Modem name IMEI:name (multiple allowed)")
+	flag.StringVar(&cfg.Endpoint, "endpoint", "https://api.telegram.org", "Telegram Bot API endpoint")
+	flag.BoolVar(&cfg.Verbose, "verbose", false, "Enable verbose logging")
 
 	flag.Parse()
 }
 
 func main() {
-	if config.C.Verbose {
+	if cfg.Verbose {
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 	}
 	if os.Geteuid() != 0 {
 		slog.Error("Please run as root")
 		os.Exit(1)
 	}
-	if err := config.C.IsValid(); err != nil {
+	if err := cfg.IsValid(); err != nil {
 		slog.Error("Config is invalid", "error", err)
 		os.Exit(1)
 	}
 
-	slog.Info("Starting Telmo", "version", Version)
+	slog.Info("Starting Telmo", "version", BuildVersion)
 
-	bot, err := telego.NewBot(config.C.BotToken,
-		telego.WithAPIServer(config.C.Endpoint),
-		telego.WithDefaultLogger(config.C.Verbose, true),
+	bot, err := telego.NewBot(cfg.BotToken,
+		telego.WithAPIServer(cfg.Endpoint),
+		telego.WithDefaultLogger(cfg.Verbose, true),
 	)
 	if err != nil {
 		panic(err)
@@ -77,7 +77,7 @@ func main() {
 
 	go subscribe(bot, mm)
 
-	app, err := app.New(ctx, bot, mm)
+	app, err := app.New(ctx, bot, mm, cfg)
 	if err != nil {
 		panic(err)
 	}
@@ -142,7 +142,7 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 		slog.Error("Failed to get operator name", "error", err)
 		operatorName = "unknown"
 	}
-	name, ok := config.C.ModemName[modem.EquipmentIdentifier]
+	name, ok := cfg.ModemName[modem.EquipmentIdentifier]
 	modemName := util.If(ok, name, modem.Model)
 	message := fmt.Sprintf(
 		template,
@@ -151,7 +151,7 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 		util.EscapeText(messsage.Number),
 		fmt.Sprintf("`%s`", util.EscapeText(messsage.Text)),
 	)
-	for _, adminId := range config.C.AdminId {
+	for _, adminId := range cfg.AdminId {
 		msg, err := bot.SendMessage(context.Background(), tu.Message(tu.ID(adminId), message).WithParseMode(telego.ModeMarkdownV2))
 		if err != nil {
 			slog.Error("Failed to send message", "error", err, "to", adminId, "message", message)

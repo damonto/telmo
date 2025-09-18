@@ -64,11 +64,10 @@ var (
 	ErrAdminIdRequired  = errors.New("admin id is required")
 )
 
-var C *Config
-
-func Init() {
-	C = new(Config)
-	C.ModemName = make(ModemName)
+func New() *Config {
+	return &Config{
+		ModemName: make(ModemName),
+	}
 }
 
 func (c *Config) IsValid() error {
