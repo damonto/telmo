@@ -153,12 +153,12 @@ func (l *LPA) Info() (*Info, error) {
 }
 
 func (l *LPA) Delete(id sgp22.ICCID) ([]sgp22.SequenceNumber, error) {
-	generatedNotifications, err := l.ListNotification()
+	currentNotifications, err := l.ListNotification()
 	if err != nil {
 		return nil, err
 	}
 	var lastSeq sgp22.SequenceNumber
-	for _, n := range generatedNotifications {
+	for _, n := range currentNotifications {
 		lastSeq = max(n.SequenceNumber, lastSeq)
 	}
 
