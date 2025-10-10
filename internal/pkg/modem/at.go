@@ -103,7 +103,7 @@ func NewCSIM(at *AT) ATCommand { return &CSIM{at: at} }
 
 func (c *CSIM) Run(command []byte) ([]byte, error) {
 	cmd := fmt.Sprintf("%X", command)
-	cmd = fmt.Sprintf("AT+CSIM=%d,\"%s\"", len(cmd), cmd)
+	cmd = fmt.Sprintf("AT+CSIM=%d,%q", len(cmd), cmd)
 	slog.Debug("[AT] CSIM Sending", "command", cmd)
 	response, err := c.at.Run(cmd)
 	slog.Debug("[AT] CSIM Received", "response", response, "error", err)
