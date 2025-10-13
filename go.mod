@@ -6,7 +6,7 @@ require (
 	github.com/damonto/euicc-go v1.0.3
 	github.com/godbus/dbus/v5 v5.1.0
 	github.com/mymmrac/telego v1.3.0
-	golang.org/x/sys v0.36.0
+	golang.org/x/sys v0.37.0
 )
 
 require (
@@ -20,7 +20,7 @@ require (
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.66.0 // indirect
+	github.com/valyala/fasthttp v1.67.0 // indirect
 	github.com/valyala/fastjson v1.6.4 // indirect
-	golang.org/x/arch v0.21.0 // indirect
+	golang.org/x/arch v0.22.0 // indirect
 )
