@@ -31,20 +31,20 @@ func (a AdminId) String() string {
 
 type Alias map[string]string
 
-func (n Alias) String() string {
+func (a Alias) String() string {
 	var names []string
-	for imei, name := range n {
+	for imei, name := range a {
 		names = append(names, fmt.Sprintf("%s:%s", imei, name))
 	}
 	return strings.Join(names, ",")
 }
 
-func (n *Alias) Set(value string) error {
+func (a *Alias) Set(value string) error {
 	parts := strings.Split(value, ":")
 	if len(parts) != 2 {
 		return errors.New("invalid format")
 	}
-	(*n)[parts[0]] = parts[1]
+	(*a)[parts[0]] = parts[1]
 	return nil
 }
 
