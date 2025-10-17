@@ -153,7 +153,7 @@ func (m *ModemRequiredMiddleware) ask(ctx *th.Context, update telego.Update, mod
 	var buttons [][]telego.InlineKeyboardButton
 	var message string
 	for path, modem := range modems {
-		name, ok := m.config.ModemName[modem.EquipmentIdentifier]
+		name, ok := m.config.Alias[modem.EquipmentIdentifier]
 		modemName := util.If(ok, name, modem.Model)
 		buttons = append(buttons, tu.InlineKeyboardRow(telego.InlineKeyboardButton{
 			Text:         fmt.Sprintf("%s (%s)", modemName, modem.EquipmentIdentifier[len(modem.EquipmentIdentifier)-4:]),

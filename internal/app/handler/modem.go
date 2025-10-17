@@ -68,7 +68,7 @@ func (h *ListModemHandler) message(m *modem.Modem) string {
 	for _, at := range accessTechnologies {
 		accessTech = append(accessTech, at.String())
 	}
-	name, ok := h.config.ModemName[m.EquipmentIdentifier]
+	name, ok := h.config.Alias[m.EquipmentIdentifier]
 	modemName := util.If(ok, name, m.Model)
 	message := fmt.Sprintf(ModemMessageTemplate,
 		util.EscapeText(modemName),

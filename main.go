@@ -32,9 +32,12 @@ func init() {
 	flag.BoolVar(&cfg.Slowdown, "slowdown", false, "Enable slowdown mode (MSS: 120)")
 	flag.BoolVar(&cfg.ForceAT, "force-at", false, "Force the use of AT commands as the LPA driver")
 	flag.BoolVar(&cfg.Compatible, "compatible", false, "Enable if your modem does not support proactive refresh")
-	flag.Var(&cfg.ModemName, "modem-name", "Modem name IMEI:name (multiple allowed)")
+	flag.Var(&cfg.Alias, "alias", "Modem alias IMEI:name (multiple allowed)")
 	flag.StringVar(&cfg.Endpoint, "endpoint", "https://api.telegram.org", "Telegram Bot API endpoint")
 	flag.BoolVar(&cfg.Verbose, "verbose", false, "Enable verbose logging")
+
+	// deprecated
+	flag.Var(&cfg.Alias, "modem-name", "Modem name IMEI:name (multiple allowed), use --alias instead")
 
 	flag.Parse()
 }
@@ -142,11 +145,10 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 		slog.Error("Failed to get operator name", "error", err)
 		operatorName = "unknown"
 	}
-	name, ok := cfg.ModemName[modem.EquipmentIdentifier]
-	modemName := util.If(ok, name, modem.Model)
+	name, ok := cfg.Alias[modem.EquipmentIdentifier]
 	message := fmt.Sprintf(
 		template,
-		util.EscapeText(modemName),
+		util.EscapeText(util.If(ok, name, modem.Model)),
 		util.EscapeText(operatorName),
 		util.EscapeText(messsage.Number),
 		fmt.Sprintf("`%s`", util.EscapeText(messsage.Text)),

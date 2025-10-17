@@ -18,9 +18,9 @@ func (a *AdminId) Set(value string) error {
 	return nil
 }
 
-func (a *AdminId) String() string {
+func (a AdminId) String() string {
 	var s string
-	for _, id := range *a {
+	for _, id := range a {
 		s += fmt.Sprintf("%d,", id)
 	}
 	if len(s) == 0 {
@@ -29,17 +29,17 @@ func (a *AdminId) String() string {
 	return s[:len(s)-1]
 }
 
-type ModemName map[string]string
+type Alias map[string]string
 
-func (n *ModemName) String() string {
+func (n Alias) String() string {
 	var names []string
-	for imei, name := range *n {
+	for imei, name := range n {
 		names = append(names, fmt.Sprintf("%s:%s", imei, name))
 	}
 	return strings.Join(names, ",")
 }
 
-func (n *ModemName) Set(value string) error {
+func (n *Alias) Set(value string) error {
 	parts := strings.Split(value, ":")
 	if len(parts) != 2 {
 		return errors.New("invalid format")
@@ -51,7 +51,7 @@ func (n *ModemName) Set(value string) error {
 type Config struct {
 	BotToken   string
 	AdminId    AdminId
-	ModemName  ModemName
+	Alias      Alias
 	Endpoint   string
 	ForceAT    bool
 	Slowdown   bool
@@ -66,7 +66,7 @@ var (
 
 func New() *Config {
 	return &Config{
-		ModemName: make(ModemName),
+		Alias: make(Alias),
 	}
 }
 
