@@ -23,6 +23,8 @@ github.com/klauspost/cpuid/v2 v2.3.0 h1:S4CRMLnYUhGeDFDqkGriYKdfoFlDnMtqTiI/sFzh
 github.com/klauspost/cpuid/v2 v2.3.0/go.mod h1:hqwkgyIinND0mEev00jJYCxPNVRVXFQeu1XKlok6oO0=
 github.com/mymmrac/telego v1.3.0 h1:y2bDDCioLgkcs+5luUaPgTNHKel1Qh30iUxFcMUrowg=
 github.com/mymmrac/telego v1.3.0/go.mod h1:0D2l/IA/gUFn4oqsi1O4/tSnlezw5jNV/ReFRDUEKk8=
+github.com/mymmrac/telego v1.3.1 h1:dI5D8LKWBw241W02LmJqoSLZXW3tuLokxVoNbIZUYQg=
+github.com/mymmrac/telego v1.3.1/go.mod h1:3D0h4jJ3OzubY/gI4xDIGx4jkY26fmcPyqx0Lq24+zI=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

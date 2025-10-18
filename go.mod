@@ -5,7 +5,7 @@ go 1.24.6
 require (
 	github.com/damonto/euicc-go v1.0.3
 	github.com/godbus/dbus/v5 v5.1.0
-	github.com/mymmrac/telego v1.3.0
+	github.com/mymmrac/telego v1.3.1
 	golang.org/x/sys v0.37.0
 )
 
