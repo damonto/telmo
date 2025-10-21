@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"os"
 	"os/signal"
+	"time"
 
 	"github.com/damonto/telmo/internal/app"
 	"github.com/damonto/telmo/internal/pkg/config"
@@ -32,12 +33,12 @@ func init() {
 	flag.BoolVar(&cfg.Slowdown, "slowdown", false, "Enable slowdown mode (MSS: 120)")
 	flag.BoolVar(&cfg.ForceAT, "force-at", false, "Force the use of AT commands as the LPA driver")
 	flag.BoolVar(&cfg.Compatible, "compatible", false, "Enable if your modem does not support proactive refresh")
-	flag.Var(&cfg.Alias, "alias", "Modem alias IMEI:name (multiple allowed)")
+	flag.Var(&cfg.Alias, "alias", "The alias of the modem. IMEI:name (multiple allowed)")
 	flag.StringVar(&cfg.Endpoint, "endpoint", "https://api.telegram.org", "Telegram Bot API endpoint")
 	flag.BoolVar(&cfg.Verbose, "verbose", false, "Enable verbose logging")
 
 	// deprecated
-	flag.Var(&cfg.Alias, "modem-name", "Modem name IMEI:name (multiple allowed), use --alias instead")
+	flag.Var(&cfg.Alias, "modem-name", "The name of the modem. IMEI:name (multiple allowed), use --alias instead")
 
 	flag.Parse()
 }
@@ -122,6 +123,10 @@ func subscribeMessaging(bot *telego.Bot, modems map[dbus.ObjectPath]*modem.Modem
 		ctx, cancel := context.WithCancel(context.Background())
 		go func(ctx context.Context, m *modem.Modem) {
 			if err := m.SubscribeMessaging(ctx, func(message *modem.SMS) error {
+				if message.Timestamp.Before(time.Now().Add(-30 * time.Minute)) {
+					slog.Info("Ignoring old message", "from", message.Number, "text", message.Text, "timestamp", message.Timestamp)
+					return nil
+				}
 				if err := send(bot, m, message); err != nil {
 					slog.Error("Failed to send message", "error", err)
 				}
