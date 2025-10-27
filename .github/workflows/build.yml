@@ -50,7 +50,7 @@ jobs:
           CGO_ENABLED=0 GOARCH=${{ matrix.target.arch }} go build -trimpath -ldflags="-w -s -X main.BuildVersion=$BUILD_VERSION" -o telmo-${{ matrix.target.name }}
 
       - name: Upload ${{ matrix.target.name }} to Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: telmo-${{ matrix.target.name }}
           path: telmo-${{ matrix.target.name }}
