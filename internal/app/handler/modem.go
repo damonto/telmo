@@ -85,7 +85,7 @@ func (h *ListModemHandler) message(m *modem.Modem) string {
 
 	eid, profileName, err := h.euiccInfo(m, m.Sim.Identifier)
 	if err != nil {
-		slog.Warn("Unable to get EID and profile name, maybe it's not an eUICC", "error", err)
+		slog.Warn("unable to get EID and profile name, maybe it's not an eUICC", "error", err)
 		return message
 	}
 	message += fmt.Sprintf("Profile Name: %s\nEID: `%s`", util.EscapeText(profileName), eid)

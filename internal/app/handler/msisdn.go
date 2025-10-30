@@ -51,7 +51,7 @@ func (h *MSISDNHandler) HandleMessage(ctx *th.Context, message telego.Message, s
 		return err
 	}
 	if err := value.Modem.Restart(h.config); err != nil {
-		slog.Warn("Failed to restart modem", "error", err)
+		slog.Warn("failed to restart modem", "error", err)
 	}
 	h.ReplyMessage(
 		ctx,

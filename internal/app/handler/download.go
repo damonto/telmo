@@ -133,7 +133,7 @@ func (d *downloader) OnProgress(stage lpa.DownloadStage) {
 		d.progressMessage, err = d.h.ReplyMessage(d.ctx, d.message, progressBar, nil)
 	}
 	if err != nil {
-		slog.Error("Failed to send progress message", "error", err)
+		slog.Error("failed to send progress message", "error", err)
 	}
 }
 
@@ -244,14 +244,14 @@ func (h *DownloadHandler) HandleCallbackQuery(ctx *th.Context, query telego.Call
 			ChatID:    tu.ID(query.From.ID),
 			MessageID: query.Message.GetMessageID(),
 		}); err != nil {
-			slog.Warn("Failed to delete message", "error", err)
+			slog.Warn("failed to delete message", "error", err)
 		}
 	}
 	if confirmed == "no" {
 		h.cancelled = true
 		value := s.Value.(*DownloadValue)
 		value.cancel()
-		slog.Info("Download canceled", "activationCode", value.activationCode)
+		slog.Info("download canceled", "activationCode", value.activationCode)
 		h.state.Exit(query.From.ID)
 		_, err := h.ReplyCallbackQuery(ctx, query, util.EscapeText("Download canceled!"), nil)
 		return err

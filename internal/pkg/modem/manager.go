@@ -55,7 +55,7 @@ func (m *Manager) Modems() (map[dbus.ObjectPath]*Modem, error) {
 		}
 		modem, err := m.createModem(objectPath, data["org.freedesktop.ModemManager1.Modem"])
 		if err != nil {
-			slog.Error("Failed to create modem", "error", err)
+			slog.Error("failed to create modem", "error", err)
 			continue
 		}
 		m.modems[objectPath] = modem
@@ -80,9 +80,9 @@ func (m *Manager) createModem(objectPath dbus.ObjectPath, data map[string]dbus.V
 		PrimarySimSlot:      data["PrimarySimSlot"].Value().(uint32),
 	}
 	if modem.State == ModemStateDisabled {
-		slog.Info("Enabling modem", "path", objectPath)
+		slog.Info("enabling modem", "path", objectPath)
 		if err := modem.Enable(); err != nil {
-			slog.Error("Failed to enable modem", "error", err)
+			slog.Error("failed to enable modem", "error", err)
 			return nil, err
 		}
 	}
@@ -132,20 +132,20 @@ func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) e
 		event := <-sig
 		modemPath := event.Body[0].(dbus.ObjectPath)
 		if event.Name == ModemManagerInterfacesAdded {
-			slog.Info("New modem plugged in", "path", modemPath)
+			slog.Info("new modem plugged in", "path", modemPath)
 			raw := event.Body[1].(map[string]map[string]dbus.Variant)
 			modem, err := m.createModem(modemPath, raw["org.freedesktop.ModemManager1.Modem"])
 			if err != nil {
-				slog.Error("Failed to create modem", "error", err)
+				slog.Error("failed to create modem", "error", err)
 				continue
 			}
 			m.updateModem(modem)
 		} else {
-			slog.Info("Modem unplugged", "path", modemPath)
+			slog.Info("modem unplugged", "path", modemPath)
 			delete(m.modems, modemPath)
 		}
 		if err := subscriber(m.modems); err != nil {
-			slog.Error("Failed to process modem", "error", err)
+			slog.Error("failed to process modem", "error", err)
 		}
 	}
 }
@@ -156,7 +156,7 @@ func (m *Manager) updateModem(modem *Modem) {
 	// So we need to remove the duplicate modem manually and update it.
 	for path, v := range m.modems {
 		if v.EquipmentIdentifier == modem.EquipmentIdentifier {
-			slog.Info("Removing duplicate modem", "path", path, "equipmentIdentifier", modem.EquipmentIdentifier)
+			slog.Info("removing duplicate modem", "path", path, "equipmentIdentifier", modem.EquipmentIdentifier)
 			delete(m.modems, path)
 		}
 	}

@@ -48,15 +48,15 @@ func main() {
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 	}
 	if os.Geteuid() != 0 {
-		slog.Error("Please run as root")
+		slog.Error("please run as root")
 		os.Exit(1)
 	}
 	if err := cfg.IsValid(); err != nil {
-		slog.Error("Config is invalid", "error", err)
+		slog.Error("config is invalid", "error", err)
 		os.Exit(1)
 	}
 
-	slog.Info("Starting Telmo", "version", BuildVersion)
+	slog.Info("starting Telmo", "version", BuildVersion)
 
 	bot, err := telego.NewBot(cfg.BotToken,
 		telego.WithAPIServer(cfg.Endpoint),
@@ -72,7 +72,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	slog.Info("Bot started", "username", me.Username, "id", me.ID)
+	slog.Info("bot started", "username", me.Username, "id", me.ID)
 
 	mm, err := modem.NewManager()
 	if err != nil {
@@ -91,9 +91,9 @@ func main() {
 		}
 	}()
 	<-ctx.Done()
-	slog.Info("Stopping Telmo")
+	slog.Info("stopping Telmo")
 	app.Shutdown()
-	slog.Info("Goodbye!")
+	slog.Info("goodbye!")
 }
 
 func subscribe(bot *telego.Bot, mm *modem.Manager) {
@@ -107,7 +107,7 @@ func subscribe(bot *telego.Bot, mm *modem.Manager) {
 
 	if err := mm.Subscribe(func(modems map[dbus.ObjectPath]*modem.Modem) error {
 		for path, s := range subscribers {
-			slog.Debug("Canceling subscriber", "path", path)
+			slog.Debug("canceling subscriber", "path", path)
 			s.cancel()
 		}
 		go subscribeMessaging(bot, modems, subscribers)
@@ -119,20 +119,20 @@ func subscribe(bot *telego.Bot, mm *modem.Manager) {
 
 func subscribeMessaging(bot *telego.Bot, modems map[dbus.ObjectPath]*modem.Modem, subscribers map[dbus.ObjectPath]*Subscriber) {
 	for path, m := range modems {
-		slog.Info("Subscribing to modem messaging", "path", path)
+		slog.Info("subscribing to modem messaging", "path", path)
 		ctx, cancel := context.WithCancel(context.Background())
 		go func(ctx context.Context, m *modem.Modem) {
 			if err := m.SubscribeMessaging(ctx, func(message *modem.SMS) error {
 				if message.Timestamp.Before(time.Now().Add(-30 * time.Minute)) {
-					slog.Info("Ignoring old message", "from", message.Number, "text", message.Text, "timestamp", message.Timestamp)
+					slog.Info("ignoring old message", "from", message.Number, "text", message.Text, "timestamp", message.Timestamp)
 					return nil
 				}
 				if err := send(bot, m, message); err != nil {
-					slog.Error("Failed to send message", "error", err)
+					slog.Error("failed to send message", "error", err)
 				}
 				return nil
 			}); err != nil {
-				slog.Error("Failed to subscribe to modem messaging", "error", err)
+				slog.Error("failed to subscribe to modem messaging", "error", err)
 			}
 		}(ctx, m)
 		subscribers[path] = &Subscriber{ctx: ctx, cancel: cancel}
@@ -147,7 +147,7 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 `
 	operatorName, err := modem.OperatorName()
 	if err != nil {
-		slog.Error("Failed to get operator name", "error", err)
+		slog.Error("failed to get operator name", "error", err)
 		operatorName = "unknown"
 	}
 	name, ok := cfg.Alias[modem.EquipmentIdentifier]
@@ -161,9 +161,9 @@ func send(bot *telego.Bot, modem *modem.Modem, messsage *modem.SMS) error {
 	for _, adminId := range cfg.AdminId {
 		msg, err := bot.SendMessage(context.Background(), tu.Message(tu.ID(adminId), message).WithParseMode(telego.ModeMarkdownV2))
 		if err != nil {
-			slog.Error("Failed to send message", "error", err, "to", adminId, "message", message)
+			slog.Error("failed to send message", "error", err, "to", adminId, "message", message)
 		} else {
-			slog.Info("Message sent", "id", msg.MessageID, "to", adminId)
+			slog.Info("message sent", "id", msg.MessageID, "to", adminId)
 		}
 	}
 	return nil

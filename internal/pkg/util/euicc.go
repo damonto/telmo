@@ -62,15 +62,14 @@ var (
 
 func init() {
 	if err := json.Unmarshal(eum, &EUMs); err != nil {
-		slog.Error("Failed to unmarshal EUMs", "error", err)
+		slog.Error("failed to unmarshal EUMs", "error", err)
 	}
 	if err := json.Unmarshal(ci, &certificateIssuers); err != nil {
-		slog.Error("Failed to unmarshal certificate issuers", "error", err)
+		slog.Error("failed to unmarshal certificate issuers", "error", err)
 	}
-
 	var sites Accredited
 	if err := json.Unmarshal(accredited, &sites); err != nil {
-		slog.Error("Failed to unmarshal accredited", "error", err)
+		slog.Error("failed to unmarshal accredited", "error", err)
 	}
 	accreditedSites = make(map[string]Supplier)
 	for _, site := range sites.Suppliers {

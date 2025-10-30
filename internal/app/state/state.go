@@ -36,10 +36,10 @@ func New(handler *th.BotHandler) *StateManager {
 
 func (m *StateManager) RegisterCallback(handler *th.BotHandler) {
 	handler.HandleCallbackQuery(func(ctx *th.Context, query telego.CallbackQuery) error {
-		slog.Debug("Got callback query", "query", query.Data)
+		slog.Debug("got callback query", "query", query.Data)
 		state, ok := m.Get(query.Message.GetChat().ID)
 		if !ok {
-			slog.Debug("No state found", "chatID", query.From.ID, "query", query.Data)
+			slog.Debug("no state found", "chatID", query.From.ID, "query", query.Data)
 			return nil
 		}
 		ctx.Bot().AnswerCallbackQuery(ctx, &telego.AnswerCallbackQueryParams{
@@ -53,7 +53,7 @@ func (m *StateManager) RegisterMessage(handler *th.BotHandler) {
 	handler.HandleMessage(func(ctx *th.Context, message telego.Message) error {
 		state, ok := m.Get(message.Chat.ID)
 		if !ok {
-			slog.Debug("No state found", "chatID", message.Chat.ID, "message", message.Text)
+			slog.Debug("no state found", "chatID", message.Chat.ID, "message", message.Text)
 		}
 		return state.Handler.HandleMessage(ctx, message, state)
 	}, th.Any())

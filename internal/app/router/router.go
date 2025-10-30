@@ -60,7 +60,7 @@ func (r *router) registerCommands() {
 		},
 		Commands: commands,
 	}); err != nil {
-		slog.Error("Failed to set commands", "error", err)
+		slog.Error("failed to set commands", "error", err)
 	}
 }
 

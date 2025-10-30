@@ -79,7 +79,7 @@ func (l *LPA) tryCreateClient(opts *lpa.Options) error {
 			slog.Info("LPA client created", "AID", fmt.Sprintf("%X", opts.AID))
 			return nil
 		}
-		slog.Warn("Failed to create LPA client", "AID", fmt.Sprintf("%X", opts.AID), "error", err)
+		slog.Warn("failed to create LPA client", "AID", fmt.Sprintf("%X", opts.AID), "error", err)
 	}
 	return errors.New("no supported ISD-R AID found or it's not an eUICC")
 }
@@ -92,10 +92,10 @@ func (l *LPA) createChannel(m *modem.Modem, config *config.Config) (apdu.SmartCa
 	slot := uint8(util.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1))
 	switch m.PrimaryPortType() {
 	case modem.ModemPortTypeQmi:
-		slog.Info("Using QMI driver", "port", m.PrimaryPort, "slot", slot)
+		slog.Info("using QMI driver", "port", m.PrimaryPort, "slot", slot)
 		return qmi.New(m.PrimaryPort, slot)
 	case modem.ModemPortTypeMbim:
-		slog.Info("Using MBIM driver", "port", m.PrimaryPort, "slot", slot)
+		slog.Info("using MBIM driver", "port", m.PrimaryPort, "slot", slot)
 		return mbim.New(m.PrimaryPort, slot)
 	default:
 		return l.createATChannel(m)
@@ -107,7 +107,7 @@ func (l *LPA) createATChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
 	if err != nil {
 		return nil, err
 	}
-	slog.Info("Using AT driver", "port", port.Device)
+	slog.Info("using AT driver", "port", port.Device)
 	return at.New(port.Device)
 }
 
@@ -174,14 +174,14 @@ func (l *LPA) Delete(id sgp22.ICCID) ([]sgp22.SequenceNumber, error) {
 	var errs error
 	for _, n := range deleteNotifications {
 		if n.SequenceNumber > lastSeq && bytes.Equal(n.ICCID, id) {
-			slog.Info("Sending deletion notification", "sequence", n.SequenceNumber)
+			slog.Info("sending deletion notification", "sequence", n.SequenceNumber)
 			found, err := l.RetrieveNotificationList(n.SequenceNumber)
 			if err != nil {
-				errs = errors.Join(errs, fmt.Errorf("unable to retrieve notification: %d %w", n.SequenceNumber, err))
+				errs = errors.Join(errs, fmt.Errorf("retrieve notification: %d %w", n.SequenceNumber, err))
 			}
 			if len(found) > 0 {
 				if err := l.HandleNotification(found[0]); err != nil {
-					errs = errors.Join(errs, fmt.Errorf("unable to handle notification: %d %w", n.SequenceNumber, err))
+					errs = errors.Join(errs, fmt.Errorf("handle notification: %d %w", n.SequenceNumber, err))
 				}
 			}
 			seqs = append(seqs, n.SequenceNumber)
@@ -207,10 +207,10 @@ func (l *LPA) SendNotification(searchCriteria any) error {
 func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, opts *lpa.DownloadOptions) error {
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
-	slog.Info("Downloading profile", "activationCode", activationCode)
+	slog.Info("downloading profile", "activationCode", activationCode)
 	result, derr := l.DownloadProfile(ctx, activationCode, opts)
 	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {
-		slog.Info("Sending download notification", "sequence", result.Notification.SequenceNumber)
+		slog.Info("sending download notification", "sequence", result.Notification.SequenceNumber)
 		filtered, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)
 		if err != nil {
 			return errors.Join(derr, err)
@@ -231,7 +231,7 @@ func (l *LPA) Discover(imei sgp22.IMEI) ([]*sgp22.EventEntry, error) {
 		{Scheme: "https", Host: "lpa.live.esimdiscovery.com"},
 	}
 	for _, address := range addresses {
-		slog.Info("Discovering profiles", "address", address.Host)
+		slog.Info("discovering profiles", "address", address.Host)
 		discovered, err := l.Discovery(&address, imei)
 		if err != nil {
 			return nil, err

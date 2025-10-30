@@ -98,11 +98,11 @@ func (m *Modem) QMIRestartSIM() error {
 	// On QMI based modems the SIM slot is 1 based.
 	slot := util.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1)
 	if result, err := exec.Command("/usr/bin/qmicli", "-d", m.PrimaryPort, "-p", fmt.Sprintf("--uim-sim-power-off=%d", slot)).Output(); err != nil {
-		slog.Error("Failed to power off sim", "error", err, "result", string(result))
+		slog.Error("failed to power off sim", "error", err, "result", string(result))
 		return err
 	}
 	if result, err := exec.Command("/usr/bin/qmicli", "-d", m.PrimaryPort, "-p", fmt.Sprintf("--uim-sim-power-on=%d", slot)).Output(); err != nil {
-		slog.Error("Failed to power on sim", "error", err, "result", string(result))
+		slog.Error("failed to power on sim", "error", err, "result", string(result))
 		return err
 	}
 	return nil
