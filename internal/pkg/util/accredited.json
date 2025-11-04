@@ -103,6 +103,15 @@
       }
     },
     {
+      "name": "Tongxin Microelectronics Co. Ltd.",
+      "abbr": "TMC",
+      "url": "https://www.tsinghuaic.com",
+      "locations": {
+        "TN-BG": "CN",
+        "TS-WI": "CN"
+      }
+    },
+    {
       "name": "Valid S.A.",
       "abbr": "Valid",
       "url": "https://www.valid.com",
@@ -195,6 +204,7 @@
     {
       "name": "IF Weibinnai Technology Co. Ltd.",
       "abbr": "Weibinnai",
+      "url": "https://www.emvco.com/approved-products/if-weibinnai-technology-co-ltd/",
       "locations": {
         "IF-CG": "CN"
       }
@@ -233,14 +243,6 @@
       }
     },
     {
-      "name": "Tongxin Microelectronics Co. Ltd.",
-      "abbr": "TMC",
-      "url": "https://www.tsinghuaic.com",
-      "locations": {
-        "TN-BG": "CN"
-      }
-    },
-    {
       "name": "Wuhan Tianyu Information Industry Co. Ltd.",
       "abbr": "Tianyu Information",
       "url": "https://www.whtyglobal.com",
@@ -254,6 +256,14 @@
       "url": "https://www.xhsmartech.com",
       "locations": {
         "XH-ZI": "CN"
+      }
+    },
+    {
+      "name": "Zhejiang Chipadvanced Technology Co., Ltd.",
+      "abbr": "CATI",
+      "url": "https://www.chipadvanced.cn",
+      "locations": {
+        "ZG-JG": "CN"
       }
     }
   ],
@@ -325,6 +335,7 @@
     "ID-NA-UP-0125-2": "https://web.archive.org/web/20250505043740if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2024/04/GSMA-SAS_UP-Certificate-Idemia-Syscom-India-Pvt-Ltd-Noida-India-0125-2.pdf",
     "ID-NA-UP-0125": "https://web.archive.org/web/20240705092514if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/02/GSMA-SAS_UP-Certificate-Idemia-Syscom-India-Pvt-Ltd-Noida-India-0125.pdf",
     "ID-NA-UP-0123": "https://web.archive.org/web/20250720050653if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2020/12/GSMA-SAS_UP-Certificate-Idemia-Noida-India-0123.pdf",
+    "ID-SN-UP-0827": "https://web.archive.org/web/20250922121747if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/08/SAS-UP-Certificate-Idemia-Shenzhen-Technologies-Company-Ltd.-Shenzhen-China-0827.pdf",
     "ID-SN-UP-0825-2": "https://web.archive.org/web/20250520092133if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/07/GSMA-SAS_UP-Certificate-Idemia-Shenzhen-Technologies-Company-Ltd.-Shenzhen-China-0825-2.pdf",
     "ID-SN-UP-0825": "https://web.archive.org/web/20250109111711if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/08/GSMA-SAS_UP-Certificate-Idemia-Shenzhen-Technologies-Company-Ltd.-Shenzhen-China-0825.pdf",
     "ID-SN-UP-0823-2": "https://web.archive.org/web/20240704164524if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/03/GSMA-SAS_UP-Certificate-Idemia-Shenzhen-Technologies-Company-Ltd.-Shenzhen-China-0823-2.pdf",
@@ -378,6 +389,7 @@
     "TN-BG-UP-1025-3": "https://web.archive.org/web/20250709092846if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/04/SAS-UP-Certificate-Tongxin-Microelectronics-Co.-Ltd.-Tangshan-China-1025-3.pdf",
     "TN-BG-UP-1025-2": "https://web.archive.org/web/20241215024948if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/08/GSMA-SAS_UP-Certificate-Tongxin-Microelectronics-Co.LTD_.-Beijing-China1025-2.pdf",
     "TN-BG-UP-1025": "https://web.archive.org/web/20250110132226if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/11/GSMA-SAS_UP-Certificate-Tongxin-Microelectronics-Co.LTD_.-Beijing-China1025.pdf",
+    "TS-CA-UP-0827": "https://web.archive.org/web/20250922121730if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/09/SAS-UP-Certificate-Thales-DIS-Mexico-S.A.-de-C.V.-Cuernavaca-Mexico-0827.pdf",
     "TS-CA-UP-0825-3": "https://web.archive.org/web/20250520102801if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/07/GSMA-SAS_UP-Certificate-Thales-DIS-Mexico-S.A.-de-C.V.-Cuernavaca-Mexico-0825-3.pdf",
     "TS-CA-UP-0825-2": "https://web.archive.org/web/20250505112649if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/11/GSMA-SAS_UP-Certificate-Thales-DIS-Mexico-S.A.-de-C.V.-Cuernavaca-Mexico-0825-2.pdf",
     "TS-CA-UP-0821": "https://web.archive.org/web/20250720051244if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2019/09/GSMA-SAS_UP-Thales-DIS-Cuernavaca-Mexico-0821.pdf",
@@ -395,18 +407,20 @@
     "TS-PA-UP-0425-2": "https://web.archive.org/web/20250505152505if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/11/GSMA-SAS_UP-Certificate-Thales-DIS-France-SAS-Pont-Audemer-France-0425-2.pdf",
     "TS-PA-UP-0423-2": "https://web.archive.org/web/20250720051452if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2021/10/GSMA-SAS_UP-Certificate-Thales-DIS-France-SAS-Pont-Audemer-France-0423-2.pdf",
     "TS-PA-UP-0423": "https://web.archive.org/web/20250109134216if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2021/06/GSMA-SAS_UP-Certificate-Thales-Pont-Audemer-France-0423.pdf",
-    "TS-SI-UP-0626-2": "https://web.archive.org/web/20250709093005if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/05/SAS-UP-Certificate-Thales-DIS-Shanghai-Co.-Ltd.-Shanghai-China-0626-2.pdf",
+    "TS-SI-UP-0626-2": "https://web.archive.org/web/20251017074200if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/05/SAS-UP-Certificate-Thales-DIS-Shanghai-Co.-Ltd.-Shanghai-China-0626-2.pdf",
     "TS-SI-UP-0626": "https://web.archive.org/web/20250520091947if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/07/GSMA-SAS_UP-Certificate-Thales-DIS-Shanghai-Co.-Ltd.-Shanghai-China-0626.pdf",
     "TS-SI-UP-0624T": "https://web.archive.org/web/20250505115205if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2024/02/GSMA-SAS_UP-Temp-Extension-Certificate-Thales-DIS-Shanghai-Co.-Ltd.-Shanghai-China-0624T.pdf",
     "TS-SI-UP-1223": "https://web.archive.org/web/20250109112416if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2022/01/GSMA-SAS_UP-Certificate-Thales-DIS-Shanghai-Co.-Ltd.-Shanghai-China-1223.pdf",
     "TS-SI-UP-1221-3": "https://web.archive.org/web/20250110172949if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2021/06/GSMA-SAS_UP-Certificate-Thales-DIS-Shanghai-Co.-Ltd.-Shanghai-China-1221v3.pdf",
     "TS-SI-UP-1221": "https://web.archive.org/web/20250109102839if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2019/12/GSMA-SAS_UP-Certificate-Thales-DIS-Shanghai-Co.-Ltd.-Shanghai-1221.pdf",
+    "TS-WI-UP-0426": "https://web.archive.org/web/20250807030915if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/07/GSMA-SAS-UP-Certificate-Tongxin-Microelectronics-Co-LTD-Wuxi-China-0426.pdf",
     "VD-MD-UP-1026": "https://web.archive.org/web/20250520093126if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/11/GSMA-SAS_UP-Certificate-Valid-Soluciones-Technologicas-S.A.U.-Madrid-Spain-1026.pdf",
     "VD-MD-UP-1024T": "https://web.archive.org/web/20250505141947if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2024/05/GSMA-SAS_UP-Temp-Extension-Certificate-Valid-Soluciones-Tecnologicas-S.A.U.-Madrid-Spain-1024T.pdf",
     "VD-MD-UP-0424": "https://web.archive.org/web/20250109105638if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2022/05/GSMA-SAS_UP-Certificate-VALID-Soluciones-Tecnologicas-Madrid-Spain-0424.pdf",
     "VD-MD-UP-0422": "https://web.archive.org/web/20250720050233if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2020/06/GSMA-SAS_UP-Valid-Madrid-Spain-0422.pdf",
     "VD-MD-UP-0520": "https://web.archive.org/web/20250110062359if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2020/05/GSMA-SAS_UP-Certificate-Valid-Madrid-Spain-0520.pdf",
     "VD-MD-UP-0420": "https://web.archive.org/web/20250109143904if_/https://www.gsma.com/about-us/wp-content/uploads/2018/08/GSMA-SAS_UP-Valid-Madrid-Spain-0420.pdf",
+    "VD-SU-UP-0826": "https://web.archive.org/web/20250922121805if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/08/SAS-UP-Certificate-Valid-Card-Manufacturing-Suzhou-Co.-Ltd.Suzhou-China-0826.pdf",
     "VD-SU-UP-0825": "https://web.archive.org/web/20250520102834if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/08/GSMA-SAS_UP-Certificate-Valid-Card-Manufacturing-Suzhou-Co.-Ltd.-Suzhou-China-0825.pdf",
     "VD-SU-UP-0824T": "https://web.archive.org/web/20250505033536if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2024/01/GSMA-SAS_UP-Temp-Extension-Certificate-Valid-Card-Manufacturing-Suzhou-Co.-Ltd.-Suzhou-China-0824T-2.pdf",
     "VD-SU-UP-0224": "https://web.archive.org/web/20250110053704if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2022/02/GSMA-SAS_UP-Certificate-Valid-Card-Manufacturing-Suzhou-Co.-Ltd.-Suzhou-China-0224.pdf",
@@ -422,6 +436,7 @@
     "WZ-DI-UP-0823": "https://web.archive.org/web/20250110034218if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2021/08/GSMA-SAS_UP-Workz-Dubai-UAE-0823.pdf",
     "WZ-DI-UP-0821T": "https://web.archive.org/web/20250109141330if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2021/03/GSMA-SAS_UP-Temp-Extension-Workz-Dubai-UAE-0821.pdf",
     "WZ-DI-UP-0820": "https://web.archive.org/web/20250720050133if_/https://www.gsma.com/get-involved/working-groups/wp-content/uploads/2018/12/GSMA-SAS_UP-Workz-Dubai-UAE-0820-v4.pdf",
-    "XH-ZI-UP-1024-2": "https://web.archive.org/web/20250110125002if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/07/GSMA-SAS_UP-Certificate-XH-Smart-Tech-China-Co.-Ltd.-Zhuhai-China-1024-2.pdf"
+    "XH-ZI-UP-1024-2": "https://web.archive.org/web/20250110125002if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/07/GSMA-SAS_UP-Certificate-XH-Smart-Tech-China-Co.-Ltd.-Zhuhai-China-1024-2.pdf",
+    "ZG-JG-UP-0826": "https://web.archive.org/web/20251011050213if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/09/SAS-UP-Certificate-Zhejiang-Chipadvanced-Technology-Co-Ltd-0826.pdf"
   }
 }
