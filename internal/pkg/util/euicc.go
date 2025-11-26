@@ -1,9 +1,5 @@
 package util
 
-//go:generate curl -o eum.json https://euicc-manual.osmocom.org/docs/pki/eum/manifest-v2.json
-//go:generate curl -o ci.json https://euicc-manual.osmocom.org/docs/pki/ci/manifest.json
-//go:generate curl -o accredited.json https://euicc-manual.osmocom.org/docs/pki/eum/accredited.json
-
 import (
 	_ "embed"
 	"encoding/json"

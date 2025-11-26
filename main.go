@@ -39,11 +39,11 @@ func init() {
 
 	// deprecated
 	flag.Var(&cfg.Alias, "modem-name", "The name of the modem. IMEI:name (multiple allowed), use --alias instead")
-
-	flag.Parse()
 }
 
 func main() {
+	flag.Parse()
+
 	if cfg.Verbose {
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 	}
