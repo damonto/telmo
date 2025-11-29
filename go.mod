@@ -1,6 +1,6 @@
 module github.com/damonto/telmo
 
-go 1.24.6
+go 1.25.4
 
 require (
 	github.com/damonto/euicc-go v1.1.0
@@ -22,5 +22,5 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.68.0 // indirect
 	github.com/valyala/fastjson v1.6.4 // indirect
-	golang.org/x/arch v0.22.0 // indirect
+	golang.org/x/arch v0.23.0 // indirect
 )
