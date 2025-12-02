@@ -174,10 +174,10 @@ func (h *ProfileHandler) enableProfile(ctx *th.Context, message telego.Message, 
 	if err != nil {
 		return err
 	}
+	defer l.Close()
 	if err := l.EnableProfile(value.ICCID, true); err != nil {
 		return err
 	}
-	l.Close()
 	if h.config.Compatible {
 		if err := value.Modem.Restart(h.config); err != nil {
 			slog.Warn("failed to restart the modem", "error", err)
