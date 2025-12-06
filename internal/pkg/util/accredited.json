@@ -5,6 +5,8 @@
       "name": "Giesecke+Devrient GmbH",
       "abbr": "G+D",
       "url": "https://www.gi-de.com",
+      "eum": ["89049032", "89049038"],
+      "country": "DE",
       "locations": {
         "GD-MM": "CA",
         "GD-NG": "CN",
@@ -19,6 +21,8 @@
       "name": "Thales Group",
       "abbr": "Thales",
       "url": "https://www.thalesgroup.com",
+      "eum": ["89033023"],
+      "country": "FR",
       "locations": {
         "TS-SI": "CN",
         "TS-PA": "FR",
@@ -30,6 +34,8 @@
     {
       "name": "IDEMIA",
       "url": "https://www.idemia.com",
+      "eum": ["89033024"],
+      "country": "FR",
       "locations": {
         "ID-SN": "CN",
         "IA-FK": "DE",
@@ -40,6 +46,7 @@
     {
       "name": "Gemalto",
       "url": "https://en.wikipedia.org/wiki/Gemalto",
+      "country": "FR",
       "deprecated": "Gemalto is now part of Thales Group",
       "locations": {
         "GO-SI": "CN",
@@ -51,6 +58,8 @@
       "name": "NXP Semiconductors",
       "abbr": "NXP",
       "url": "https://www.nxp.com",
+      "eum": ["89043051", "89043052"],
+      "country": "AT",
       "locations": {
         "NP-TN": "CN",
         "NP-HG": "DE",
@@ -61,6 +70,8 @@
       "name": "Arm Kigen",
       "abbr": "Kigen",
       "url": "https://kigen.com",
+      "eum": ["89044045"],
+      "country": "GB",
       "locations": {
         "KN-DN": "GB",
         "KN-NA": "IN"
@@ -70,6 +81,7 @@
       "name": "Arm Ltd.",
       "abbr": "ARM",
       "url": "https://www.arm.com",
+      "country": "GB",
       "deprecated": "Kigen is now part of Arm Ltd.",
       "locations": {
         "AM-BT": "BT",
@@ -79,6 +91,7 @@
     {
       "name": "Nordic eSIM",
       "url": "https://nordicesim.com",
+      "country": "DK",
       "locations": {
         "NC-GP": "DK",
         "NE-GP": "DK"
@@ -88,6 +101,8 @@
       "name": "STMicroelectronics",
       "abbr": "ST",
       "url": "https://www.st.com",
+      "eum": ["89041030"],
+      "country": "CH",
       "locations": {
         "SM-CA": "IT",
         "SM-CT": "IT"
@@ -97,6 +112,7 @@
       "name": "TRASNA Solutions",
       "abbr": "TRASNA",
       "url": "https://www.trasna.io",
+      "country": "AE",
       "locations": {
         "TA-DI": "AE",
         "TA-GA": "BA"
@@ -106,6 +122,7 @@
       "name": "Tongxin Microelectronics Co. Ltd.",
       "abbr": "TMC",
       "url": "https://www.tsinghuaic.com",
+      "country": "CN",
       "locations": {
         "TN-BG": "CN",
         "TS-WI": "CN"
@@ -115,6 +132,8 @@
       "name": "Valid S.A.",
       "abbr": "Valid",
       "url": "https://www.valid.com",
+      "eum": ["89034011"],
+      "country": "ES",
       "locations": {
         "VD-SU": "CN",
         "VD-MD": "ES"
@@ -124,6 +143,7 @@
       "name": "Workz Media FZ LLC",
       "abbr": "Workz",
       "url": "https://en.wikipedia.org/wiki/Workz",
+      "country": "AE",
       "deprecated": "Workz is now part of TRASNA Solutions",
       "locations": {
         "WZ-DI": "AE",
@@ -134,6 +154,7 @@
       "name": "Amkor Technology Taiwan, Ltd.",
       "abbr": "Amkor Taiwan",
       "url": "https://amkor.com",
+      "country": "TW",
       "locations": {
         "AR-TY": "TW"
       }
@@ -142,6 +163,7 @@
       "name": "Beijing Huahong IC Design Co., Ltd.",
       "abbr": "BHDC",
       "url": "https://en.bhdc.com.cn",
+      "country": "CN",
       "locations": {
         "HG-BG": "CN"
       }
@@ -150,6 +172,7 @@
       "name": "Beijing Tsingteng Microsystem Co. Ltd.",
       "abbr": "TMS",
       "url": "https://www.tsingtengms.com",
+      "country": "CN",
       "locations": {
         "BM-SN": "CN"
       }
@@ -158,6 +181,8 @@
       "name": "Beijing Watchdata Co. Ltd.",
       "abbr": "Watchdata",
       "url": "https://www.watchdata.com",
+      "eum": ["35840574"],
+      "country": "CN",
       "locations": {
         "WD-BG": "CN"
       }
@@ -166,6 +191,7 @@
       "name": "Chutian Dragon Co. Ltd.",
       "abbr": "CTD",
       "url": "https://www.ctdcn.com",
+      "country": "CN",
       "locations": {
         "CD-DN": "CN"
       }
@@ -174,6 +200,7 @@
       "name": "E-Kart Elektronik Kart Sistemleri",
       "abbr": "E-KART",
       "url": "https://www.ekart.com.tr",
+      "country": "IL",
       "locations": {
         "ET-IL": "IL"
       }
@@ -182,6 +209,8 @@
       "name": "Eastcompeace Technology Co. Ltd.",
       "abbr": "ECP",
       "url": "https://www.eastcompeace.com",
+      "eum": ["89086030"],
+      "country": "CN",
       "locations": {
         "ED-ZI": "CN"
       }
@@ -189,6 +218,8 @@
     {
       "name": "Hengbao Co. Ltd.",
       "url": "https://en.hengbao.com",
+      "eum": ["89086001"],
+      "country": "CN",
       "locations": {
         "HO-DG": "CN"
       }
@@ -197,6 +228,7 @@
       "name": "Ho&Bros Information Technology Co Ltd",
       "abbr": "Ho&Bros IT Co., Ltd.",
       "url": "https://www.ho-brostech.com",
+      "country": "CN",
       "locations": {
         "HS-ZI": "CN"
       }
@@ -205,6 +237,7 @@
       "name": "IF Weibinnai Technology Co. Ltd.",
       "abbr": "Weibinnai",
       "url": "https://www.emvco.com/approved-products/if-weibinnai-technology-co-ltd/",
+      "country": "CN",
       "locations": {
         "IF-CG": "CN"
       }
@@ -213,6 +246,7 @@
       "name": "Oasis Smart SIM",
       "abbr": "Oasis",
       "url": "https://www.oasis-smartsim.com",
+      "country": "FR",
       "locations": {
         "OS-SG": "FR"
       }
@@ -221,6 +255,7 @@
       "name": "Oberthur Technologies",
       "abbr": "Oberthur",
       "url": "https://en.wikipedia.org/wiki/Oberthur_Technologies",
+      "country": "CN",
       "deprecated": "Oberthur is now part of IDEMIA",
       "locations": {
         "OR-SN": "CN"
@@ -230,6 +265,7 @@
       "name": "Samsung Electronics Co., Ltd.",
       "abbr": "S\u039bMSUNG",
       "url": "https://semiconductor.samsung.com/security-solution/ese-esim/",
+      "country": "KR",
       "locations": {
         "SG-YN": "KR"
       }
@@ -238,6 +274,7 @@
       "name": "Saudi Telecom Company",
       "abbr": "stc Group",
       "url": "https://www.stc.com.sa",
+      "country": "SA",
       "locations": {
         "SI-RH": "SA"
       }
@@ -246,6 +283,8 @@
       "name": "Wuhan Tianyu Information Industry Co. Ltd.",
       "abbr": "Tianyu Information",
       "url": "https://www.whtyglobal.com",
+      "eum": ["89086029"],
+      "country": "CN",
       "locations": {
         "WN-HI": "CN"
       }
@@ -254,6 +293,7 @@
       "name": "XH Smart Technology Co. Ltd.",
       "abbr": "XHSTC",
       "url": "https://www.xhsmartech.com",
+      "country": "CN",
       "locations": {
         "XH-ZI": "CN"
       }
@@ -262,9 +302,25 @@
       "name": "Zhejiang Chipadvanced Technology Co., Ltd.",
       "abbr": "CATI",
       "url": "https://www.chipadvanced.cn",
+      "country": "CN",
       "locations": {
         "ZG-JG": "CN"
       }
+    },
+    {
+      "name": "CEC Huada Electronic Design Co., Ltd.",
+      "abbr": "HED",
+      "url": "https://www.hed.com.cn/en/",
+      "eum": ["35060000"],
+      "country": "CN"
+    },
+    {
+      "name": "Truphone Limited",
+      "abbr": "Truphone",
+      "url": "https://www.truphone.com",
+      "eum": ["89044047"],
+      "country": "GB",
+      "deprecated": "Truphone is now part of 1GLOBAL"
     }
   ],
   "certificates": {
@@ -301,6 +357,7 @@
     "GD-MM-UP-0724-2": "https://web.archive.org/web/20250505143420if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2024/02/GSMA-SAS_UP-Certificate-GieseckeDevrient-Mobile-Security-America-Inc.-Markham-Canada-0724-2.pdf",
     "GD-MM-UP-0721T": "https://web.archive.org/web/20250720045900if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2021/01/GSMA-SAS_UP-Temp-Extension-Provisional-Certificate-GD-Markham-Canada-0721.pdf",
     "GD-MM-UP-0121": "https://web.archive.org/web/20250109113617if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2020/04/GSMA-SAS_UP-Provisional-Certificate-GieseckeDevrient-Mobile-Security-Inc-Markham-Canada-0121.pdf",
+    "GD-NG-UP-1227": "https://web.archive.org/web/20251205141120if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/11/SAS-UP-Certificate-GieseckeDevrient-Jiangxi-Technology-Co.-Ltd.-Nanchang-China-1227.pdf",
     "GD-NG-UP-1225-5": "https://web.archive.org/web/20250520085909if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/08/GSMA-SAS_UP-Certificate-GieseckeDevrient-Jiangxi-Technology-Co.-Ltd.-Nanchang-China-1225-5.pdf",
     "GD-NG-UP-1225-4": "https://web.archive.org/web/20250110061111if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/06/GSMA-SAS_UP-Certificate-GieseckeDevrient-Jiangxi-Technology-Co.-Ltd.-Nanchang-China-1225-4.pdf",
     "GD-NG-UP-1225-3": "https://web.archive.org/web/20250505050908if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2024/02/GSMA-SAS_UP-Certificate-GieseckeDevrient-Jiangxi-Technology-Co.-Ltd.-Nanchang-China-1225-3.pdf",
@@ -351,15 +408,19 @@
     "KN-NA-UP-0624": "https://web.archive.org/web/20250505045622if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/12/GSMA-SAS_UP-Certificate-Kigen-India-Pvt-Ltd.-Noida-India-0624.pdf",
     "NC-GP-UP-0326": "https://web.archive.org/web/20250709092954if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/03/SAS-UP-Certificate-Nordic-eSIM-Copenhagen-Denmark-0326.pdf",
     "NE-GP-UP-0325": "https://web.archive.org/web/20241215024314if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/07/GSMA-SAS_UP-Provisional-Certificate-Nordic-eSIM-Copenhagen-Denmark-0325.pdf",
+    "NP-HG-UP-1027-2": "https://web.archive.org/web/20251205141208if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/12/SAS-UP-Certificate-NXP-Semiconductors-Germany-GmbH-Hamburg-1027-2.pdf",
+    "NP-HG-UP-1027": "https://web.archive.org/web/20251122072558if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/11/SAS-UP-Certificate-NXP-Semiconductors-Germany-GmbH-Hamburg-1027.pdf",
     "NP-HG-UP-1025-2": "https://web.archive.org/web/20250520092459if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/06/GSMA-SAS_UP-Certificate-NXP-Semiconductors-Germany-GmbH-Hamburg-Germany-1025-2.pdf",
     "NP-HG-UP-1025": "https://web.archive.org/web/20250109130505if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/11/GSMA-SAS_UP-Certificate-NXP-Semiconductors-Germany-GmbH-Hamburg-Germany-1025.pdf",
     "NP-HG-UP-1023-6": "https://web.archive.org/web/20240704044315if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/02/GSMA-SAS_UP-Certificate-NXP-Hamburg-Germany-1023-6.pdf",
     "NP-HG-UP-1021-3": "https://web.archive.org/web/20250720050717if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2021/03/GSMA-SAS_UP-Certificate-NXP-Hamburg-Germany-1021v3-4.pdf",
     "NP-HG-UP-1021": "https://web.archive.org/web/20250110210648if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2019/11/GSMA-SAS_UP-NXP-Semiconductors-Germany-GmbH-Hamburg-1021.pdf",
     "NP-HG-UP-1019": "https://web.archive.org/web/20250109120213if_/https://www.gsma.com/get-involved/working-groups/wp-content/uploads/2018/11/GSMA_SAS_UP_NXP_Hamburg_Germany_1019.pdf",
+    "NP-KG-UP-1027-2": "https://web.archive.org/web/20251205141304if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/12/SAS-UP-Certificate-NXP-Semiconductors-Taiwan-Ltd.-Kaohsiung-1027-2-1.pdf",
     "NP-KG-UP-1025-2": "https://web.archive.org/web/20250520100617if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/06/GSMA-SAS_UP-Certificate-NXP-Semiconductors-Taiwan-Ltd.-Kaohsiung-Taiwan-1025-2.pdf",
     "NP-KG-UP-1023-3": "https://web.archive.org/web/20240703221317if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2023/02/GSMA-SAS_UP-Certificate-NXP-Kaohsiung-Taiwan-1023-3.pdf",
     "NP-KG-UP-1021": "https://web.archive.org/web/20240713134436if_/https://www.gsma.com/solutions-and-impact/technologies/security/wp-content/uploads/2019/12/GSMA-SAS_UP-NXP-Kaohsiung-Taiwan-1021_2_updated.pdf",
+    "NP-TN-UP-0426T": "https://web.archive.org/web/20251205141311if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/12/SAS-UP-Provisional-Temporary-Extension-Certificate-NXP-Semiconductors-Tianjin-Ltd.-Tianjin-China-0426T.pdf",
     "NP-TN-UP-1025T": "https://web.archive.org/web/20250709092939if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2025/06/SAS-UP-Provisional-Temporary-Extension-Certificate-NXP-Semiconductors-Tianjin-Ltd.-Tianjin-China-1025T.pdf",
     "NP-TN-UP-0425T": "https://web.archive.org/web/20250520101123if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/11/GSMA-SAS_UP-Temp-Extension-Provisional-Certificate-NXP-Semiconductors-Tianjin-Ltd-Tianjin-China-0425T.pdf",
     "NP-TN-UP-1024T-2": "https://web.archive.org/web/20250720045742if_/https://www.gsma.com/solutions-and-impact/industry-services/wp-content/uploads/2024/06/GSMA-SAS_UP-Temp-Extension-Provisional-Certificate-NXP-Semiconductors-Tianjin-Ltd-Tianjin-China-1024T-2.pdf",

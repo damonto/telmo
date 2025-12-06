@@ -10,6 +10,9 @@ import (
 type AdminId []int64
 
 func (a *AdminId) Set(value string) error {
+	if value == "" {
+		return nil
+	}
 	id, err := strconv.ParseInt(value, 10, 64)
 	if err != nil {
 		return err
@@ -42,7 +45,7 @@ func (a Alias) String() string {
 func (a *Alias) Set(value string) error {
 	parts := strings.Split(value, ":")
 	if len(parts) != 2 {
-		return errors.New("invalid format")
+		return fmt.Errorf("invalid alias format: %q, expected key:value", value)
 	}
 	(*a)[parts[0]] = parts[1]
 	return nil

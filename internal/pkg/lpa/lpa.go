@@ -33,13 +33,6 @@ type Info struct {
 	FreeSpace              int32
 	SasAccreditationNumber string
 	Certificates           []string
-	Product                Product
-}
-
-type Product struct {
-	Country      string
-	Manufacturer string
-	Brand        string
 }
 
 var AIDs = [][]byte{
@@ -130,11 +123,7 @@ func (l *LPA) Info() (*Info, error) {
 	}
 
 	// sasAccreditationNumber
-	info.SasAccreditationNumber = util.LookupAccredited(string(tlv.First(bertlv.Universal.Primitive(12)).Value))
-
-	// eum
-	country, manufacturer, brand := util.LookupEUM(info.EID)
-	info.Product = Product{Country: country, Manufacturer: manufacturer, Brand: brand}
+	info.SasAccreditationNumber = util.LookupSASUP(info.EID, string(tlv.First(bertlv.Universal.Primitive(12)).Value))
 
 	// euiccCiPKIdListForSigning
 	for _, child := range tlv.First(bertlv.ContextSpecific.Constructed(10)).Children {

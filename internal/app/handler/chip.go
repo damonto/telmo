@@ -37,37 +37,20 @@ func (h *ChipHandler) Handle() th.Handler {
 }
 
 func (h *ChipHandler) message(info *lpa.Info) string {
-	manufacturer := h.manufacturer(info)
-	var key string
+	var keys string
 	for _, k := range info.Certificates {
-		key += k + "\n"
+		keys += k + "\n"
 	}
 	return fmt.Sprintf(`
 EID: %s
-Manufacturer: %s
 SAS\-UP: %s
 Free Space: %d KiB
 Signing Keys:
 %s
 `,
 		fmt.Sprintf("`%s`", info.EID),
-		util.EscapeText(manufacturer),
 		util.EscapeText(info.SasAccreditationNumber),
 		info.FreeSpace/1024,
-		util.EscapeText(strings.TrimRight(key, "\n")),
+		util.EscapeText(strings.TrimRight(keys, "\n")),
 	)
-}
-
-func (h *ChipHandler) manufacturer(info *lpa.Info) string {
-	var manufacturer string
-	if info.Product.Country != "" {
-		manufacturer += string(0x1F1E6+rune(info.Product.Country[0])-'A') + string(0x1F1E6+rune(info.Product.Country[1])-'A')
-	}
-	if info.Product.Manufacturer != "" {
-		manufacturer += " " + info.Product.Manufacturer
-	}
-	if info.Product.Brand != "" {
-		manufacturer += " " + info.Product.Brand
-	}
-	return strings.TrimRight(strings.TrimLeft(manufacturer, " "), " ")
 }
