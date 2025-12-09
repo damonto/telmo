@@ -1,6 +1,6 @@
 module github.com/damonto/telmo
 
-go 1.25.4
+go 1.25.5
 
 require (
 	github.com/damonto/euicc-go v1.1.0
