@@ -1,12 +1,12 @@
 module github.com/damonto/telmo
 
-go 1.25.4
+go 1.25.5
 
 require (
 	github.com/damonto/euicc-go v1.1.0
 	github.com/godbus/dbus/v5 v5.2.0
-	github.com/mymmrac/telego v1.3.1
-	golang.org/x/sys v0.38.0
+	github.com/mymmrac/telego v1.3.2
+	golang.org/x/sys v0.39.0
 )
 
 require (
@@ -16,7 +16,7 @@ require (
 	github.com/bytedance/sonic/loader v0.4.0 // indirect
 	github.com/cloudwego/base64x v0.1.6 // indirect
 	github.com/grbit/go-json v0.11.0 // indirect
-	github.com/klauspost/compress v1.18.1 // indirect
+	github.com/klauspost/compress v1.18.2 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
