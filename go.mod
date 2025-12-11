@@ -5,7 +5,7 @@ go 1.25.5
 require (
 	github.com/damonto/euicc-go v1.1.0
 	github.com/godbus/dbus/v5 v5.2.0
-	github.com/mymmrac/telego v1.3.2
+	github.com/mymmrac/telego v1.3.3
 	golang.org/x/sys v0.39.0
 )
 
@@ -21,6 +21,6 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.68.0 // indirect
-	github.com/valyala/fastjson v1.6.4 // indirect
+	github.com/valyala/fastjson v1.6.5 // indirect
 	golang.org/x/arch v0.23.0 // indirect
 )
