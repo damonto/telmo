@@ -4,7 +4,7 @@
 
 ### Advertisement
 
-If you don’t have an eUICC yet, you can purchase one from [eSTK.me](https://www.estk.me?aid=esim) and use the coupon code `eSIMCyou` to get 10% off. We recommend [eSTK.me](https://www.estk.me?aid=esim) if you need to perform profile downloads on iOS devices.
+If you don’t have an eUICC yet, you can purchase one from [eSTK.me](https://store.estk.me?code=esimcyou) and use the coupon code `esimcyou` to get 10% off. We recommend [eSTK.me](https://store.estk.me?code=esimcyou) if you need to perform profile downloads on iOS devices.
 
 If you require more than 1MB of storage to install multiple eSIM profiles, we recommend [9eSIM](https://www.9esim.com/?coupon=DAMON). Use the coupon code `DAMON` to also receive 10% off.
 
@@ -16,15 +16,15 @@ I have thoroughly tested this program and found it to work well. However, its co
 
 ### Tested Devices
 
-* Qualcomm 410 WiFi Dongle (with --compatible --slowdown)
-* Quectel EC20/EM12-G
-* Sierra Wireless EM7430/EM7511
+- Qualcomm 410 WiFi Dongle (with --compatible --slowdown)
+- Quectel EC20/EM12-G
+- Sierra Wireless EM7430/EM7511
 
 ### Requirements
 
-* *ModemManager*: Essential for managing modems.
-* *libqmi*: Version 1.35.5 or higher is required. (for QMI modems)
-* *libmbim*: Version 1.26.0 or higher is required. (for MBIM modems)
+- _ModemManager_: Essential for managing modems.
+- _libqmi_: Version 1.35.5 or higher is required. (for QMI modems)
+- _libmbim_: Version 1.26.0 or higher is required. (for MBIM modems)
 
 ### Installation & Usage
 
