@@ -19,7 +19,7 @@ permissions:
 jobs:
   build:
     name: Build for ${{ matrix.target.name }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -50,7 +50,7 @@ jobs:
           CGO_ENABLED=0 GOARCH=${{ matrix.target.arch }} go build -trimpath -ldflags="-w -s -X main.BuildVersion=$BUILD_VERSION" -o telmo-${{ matrix.target.name }}
 
       - name: Upload ${{ matrix.target.name }} to Artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: telmo-${{ matrix.target.name }}
           path: telmo-${{ matrix.target.name }}
@@ -64,7 +64,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           merge-multiple: true
           pattern: "*"
