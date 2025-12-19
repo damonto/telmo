@@ -154,13 +154,8 @@ It is **strictly forbidden** to fabricate APIs or usage of third-party libraries
 
 When it is judged **necessary** to introduce a third-party library (which meets Star > 100 and activity standards), the Agent must execute tool calls in the following order:
 
-1. **Confirm Identity & Documentation**:
-   - Use tool: `resolve-library-id` (Confirm exact library name).
-   - Use tool: `get-library-docs` (Get official docs, strictly no guessing parameters).
-2. **Find Best Practices (Go Idioms)**:
-   - Don't just look at definitions; see how others use it.
-   - Use tool: `searchGitHub`.
-   - **Goal**: Find "glue code" patterns that fit community habits.
+- Use tool: `resolve-library-id` (Confirm exact library name).
+- Use tool: `get-library-docs` (Get official docs, strictly no guessing parameters).
 
 ### 5.2 Verify Standard Lib Behavior
 
