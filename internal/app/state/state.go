@@ -28,7 +28,7 @@ type StateManager struct {
 	states map[int64]*ChatState
 }
 
-func New(handler *th.BotHandler) *StateManager {
+func New() *StateManager {
 	return &StateManager{
 		states: make(map[int64]*ChatState, 16),
 	}

@@ -20,11 +20,6 @@ import (
 
 var BuildVersion string
 
-type Subscriber struct {
-	ctx    context.Context
-	cancel context.CancelFunc
-}
-
 var cfg = config.New()
 
 func init() {
@@ -79,7 +74,7 @@ func main() {
 		panic(err)
 	}
 
-	go subscribe(bot, mm)
+	go subscribe(ctx, bot, mm)
 
 	app, err := app.New(ctx, bot, mm, cfg)
 	if err != nil {
@@ -96,31 +91,32 @@ func main() {
 	slog.Info("goodbye!")
 }
 
-func subscribe(bot *telego.Bot, mm *modem.Manager) {
-	subscribers := make(map[dbus.ObjectPath]*Subscriber)
+func subscribe(ctx context.Context, bot *telego.Bot, mm *modem.Manager) {
+	subscribers := make(map[dbus.ObjectPath]context.CancelFunc)
 	modems, err := mm.Modems()
 	if err != nil {
 		panic(err)
 	}
 
-	go subscribeMessaging(bot, modems, subscribers)
+	subscribeMessaging(ctx, bot, modems, subscribers)
 
 	if err := mm.Subscribe(func(modems map[dbus.ObjectPath]*modem.Modem) error {
-		for path, s := range subscribers {
+		for path, cancel := range subscribers {
 			slog.Debug("canceling subscriber", "path", path)
-			s.cancel()
+			cancel()
 		}
-		go subscribeMessaging(bot, modems, subscribers)
+		clear(subscribers)
+		subscribeMessaging(ctx, bot, modems, subscribers)
 		return nil
 	}); err != nil {
 		panic(err)
 	}
 }
 
-func subscribeMessaging(bot *telego.Bot, modems map[dbus.ObjectPath]*modem.Modem, subscribers map[dbus.ObjectPath]*Subscriber) {
+func subscribeMessaging(ctx context.Context, bot *telego.Bot, modems map[dbus.ObjectPath]*modem.Modem, subscribers map[dbus.ObjectPath]context.CancelFunc) {
 	for path, m := range modems {
 		slog.Info("subscribing to modem messaging", "path", path)
-		ctx, cancel := context.WithCancel(context.Background())
+		subscribeCtx, cancel := context.WithCancel(ctx)
 		go func(ctx context.Context, m *modem.Modem) {
 			if err := m.SubscribeMessaging(ctx, func(message *modem.SMS) error {
 				if message.Timestamp.Before(time.Now().Add(-30 * time.Minute)) {
@@ -134,8 +130,8 @@ func subscribeMessaging(bot *telego.Bot, modems map[dbus.ObjectPath]*modem.Modem
 			}); err != nil {
 				slog.Error("failed to subscribe to modem messaging", "error", err)
 			}
-		}(ctx, m)
-		subscribers[path] = &Subscriber{ctx: ctx, cancel: cancel}
+		}(subscribeCtx, m)
+		subscribers[path] = cancel
 	}
 }
 

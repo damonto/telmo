@@ -29,7 +29,7 @@ func New(bot *telego.Bot, handler *th.BotHandler, mm *modem.Manager, config *con
 		BotHandler:   handler,
 		mm:           mm,
 		config:       config,
-		stateManager: state.New(handler),
+		stateManager: state.New(),
 	}
 }
 
