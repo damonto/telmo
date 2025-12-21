@@ -1,0 +1,94 @@
+const zh = {
+  app: {
+    name: 'Sigmo',
+  },
+  nav: {
+    modems: 'Modem',
+    messages: '短信',
+  },
+  labels: {
+    esim: 'eSIM',
+    psim: 'pSIM',
+    roaming: '漫游',
+    signal: '信号',
+  },
+  home: {
+    kicker: 'Sigmo',
+    title: '插入的 Modem',
+    subtitle: '当前共 {count} 台设备在线，点击卡片进入详情页面。',
+    noModems: '当前没有检测到插入的 Modem。',
+  },
+  messages: {
+    kicker: 'Sigmo',
+    title: '设备短信',
+    subtitle: '查看各个 Modem 的短信内容。',
+    emptyTitle: '短信',
+    emptyDescription: '短信页面暂未实现，后续会在这里展示所有短信内容。',
+    emptyPlaceholder: '敬请期待。',
+  },
+  modemDetail: {
+    back: '返回列表',
+    kicker: 'Sigmo',
+    subtitle: '查看 Modem 详情与 eSIM 配置。',
+    unknown: '未知 Modem',
+    tabs: {
+      detail: '详情',
+      messages: '短信',
+      ussd: 'USSD',
+    },
+    sim: {
+      sim1: 'SIM 1',
+      sim2: 'SIM 2',
+      confirm: '是否确认切换至 SIM {sim}？',
+    },
+    fields: {
+      moduleName: '模块名称',
+      manufacturer: '模块生产厂商',
+      carrier: '运营商',
+      roamingCarrier: '漫游运营商',
+      signal: '信号强度',
+      flag: '国旗',
+      iccid: 'ICCID',
+      imei: 'IMEI',
+      eid: 'EID',
+      storageRemaining: '剩余空间',
+    },
+    esim: {
+      listTitle: 'eSIMs',
+      noProfiles: '暂无 eSIM Profile。',
+      installButton: '安装 eSIM',
+      installTitle: '安装 eSIM',
+      installConfirm: '确认下载',
+      scan: '扫码识别',
+      smdp: 'SM-DP+',
+      activationCode: '激活码',
+      confirmationCode: '确认码',
+    },
+    actions: {
+      rename: '更改名称',
+      delete: '删除',
+      cancel: '取消',
+      confirm: '确认',
+      update: '更新',
+    },
+    confirm: {
+      enable: '是否启用“{name}”？',
+      disable: '是否停用“{name}”？',
+      delete: '是否删除“{name}”，删除后无法恢复。',
+    },
+    validation: {
+      required: '名称不能为空。',
+      maxBytes: '名称长度不能超过 64 字节。',
+    },
+    messages: {
+      title: '短信',
+      description: '短信页面暂未实现，后续会在这里展示所有短信内容。',
+    },
+    ussd: {
+      title: 'USSD',
+      description: 'USSD 功能暂未开放。',
+    },
+  },
+}
+
+export default zh
