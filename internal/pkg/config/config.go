@@ -1,84 +1,49 @@
 package config
 
 import (
-	"errors"
 	"fmt"
-	"strconv"
-	"strings"
+	"os"
+
+	"github.com/BurntSushi/toml"
 )
 
-type AdminId []int64
-
-func (a *AdminId) Set(value string) error {
-	if value == "" {
-		return nil
-	}
-	id, err := strconv.ParseInt(value, 10, 64)
-	if err != nil {
-		return err
-	}
-	*a = append(*a, id)
-	return nil
-}
-
-func (a AdminId) String() string {
-	var s string
-	for _, id := range a {
-		s += fmt.Sprintf("%d,", id)
-	}
-	if len(s) == 0 {
-		return ""
-	}
-	return s[:len(s)-1]
-}
-
-type Alias map[string]string
-
-func (a Alias) String() string {
-	var names []string
-	for imei, name := range a {
-		names = append(names, fmt.Sprintf("%s:%s", imei, name))
-	}
-	return strings.Join(names, ",")
-}
-
-func (a *Alias) Set(value string) error {
-	parts := strings.Split(value, ":")
-	if len(parts) != 2 {
-		return fmt.Errorf("invalid alias format: %q, expected key:value", value)
-	}
-	(*a)[parts[0]] = parts[1]
-	return nil
-}
-
+// Config represents the application configuration
 type Config struct {
-	BotToken   string
-	AdminId    AdminId
-	Alias      Alias
-	Endpoint   string
-	ForceAT    bool
-	Slowdown   bool
-	Compatible bool
-	Verbose    bool
+	App      App                `toml:"app"`
+	Database Database           `toml:"database"`
+	Channel  map[string]Channel `toml:"channel"`
+	Modem    map[string]Modem   `toml:"modem"`
 }
 
-var (
-	ErrBotTokenRequired = errors.New("bot token is required")
-	ErrAdminIdRequired  = errors.New("admin id is required")
-)
-
-func New() *Config {
-	return &Config{
-		Alias: make(Alias),
-	}
+type App struct {
+	Environment   string `toml:"environment"`
+	ListenAddress string `toml:"listen_address"`
 }
 
-func (c *Config) IsValid() error {
-	if c.BotToken == "" {
-		return ErrBotTokenRequired
+type Database struct {
+	Path string `toml:"path"`
+}
+
+type Channel struct {
+	BotToken string  `toml:"bot_token"`
+	AdminID  []int64 `toml:"admin_id"`
+}
+
+type Modem struct {
+	Alias      string `toml:"alias"`
+	Compatible bool   `toml:"compatible"`
+	MSS        int    `toml:"mss"`
+}
+
+// Load reads and parses the configuration from the given file path
+func Load(path string) (*Config, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("reading config file: %w", err)
 	}
-	if len(c.AdminId) == 0 {
-		return ErrAdminIdRequired
+	var config Config
+	if _, err := toml.Decode(string(data), &config); err != nil {
+		return nil, fmt.Errorf("parsing config file: %w", err)
 	}
-	return nil
+	return &config, nil
 }

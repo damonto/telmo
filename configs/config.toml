@@ -1,0 +1,25 @@
+[app]
+environment = "development"
+listen_address = "0.0.0.0:9527"
+
+[database]
+path = "./sqlite3"
+
+[channel.telegram]
+bot_token = "your_telegram_bot_token"
+admin_id = [123456789]
+
+[modem.869710031623444]
+alias = "EM12-G"
+compatible = true
+mss = 120
+
+[modem.860588043408833]
+alias = "EC20CE-FAG"
+compatible = false
+mss = 250
+
+[modem.354015820228039]
+alias = "EM12-G MSFT"
+compatible = true
+mss = 120

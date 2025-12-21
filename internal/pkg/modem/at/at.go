@@ -1,0 +1,91 @@
+package at
+
+import (
+	"bufio"
+	"errors"
+	"os"
+	"strings"
+	"sync"
+
+	"golang.org/x/sys/unix"
+)
+
+type AT struct {
+	f          *os.File
+	oldTermios *unix.Termios
+	mutex      sync.Mutex
+}
+
+func Open(device string) (*AT, error) {
+	var at AT
+	var err error
+	if at.f, err = os.OpenFile(device, os.O_RDWR|unix.O_NOCTTY, 0666); err != nil {
+		return nil, err
+	}
+	if err := at.setTermios(); err != nil {
+		_ = at.f.Close()
+		return nil, err
+	}
+	return &at, nil
+}
+
+func (a *AT) setTermios() error {
+	fd := int(a.f.Fd())
+	var err error
+	if a.oldTermios, err = unix.IoctlGetTermios(fd, unix.TCGETS); err != nil {
+		return err
+	}
+	t := unix.Termios{
+		Ispeed: unix.B9600,
+		Ospeed: unix.B9600,
+	}
+	t.Iflag &^= unix.IGNBRK | unix.BRKINT | unix.PARMRK | unix.ISTRIP | unix.INLCR | unix.IGNCR | unix.ICRNL | unix.IXON
+	t.Oflag &^= unix.OPOST
+	t.Lflag &^= unix.ECHO | unix.ECHONL | unix.ICANON | unix.ISIG | unix.IEXTEN
+	t.Cflag &^= unix.CSIZE | unix.PARENB
+	t.Cflag |= unix.CS8
+	t.Cc[unix.VMIN] = 1
+	t.Cc[unix.VTIME] = 0
+	return unix.IoctlSetTermios(fd, unix.TCSETS, &t)
+}
+
+func (a *AT) Run(command string) (string, error) {
+	a.mutex.Lock()
+	defer a.mutex.Unlock()
+	if _, err := a.f.WriteString(command + "\r\n"); err != nil {
+		return "", err
+	}
+	reader := bufio.NewReader(a.f)
+	var sb strings.Builder
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			return "", err
+		}
+		line = strings.TrimSpace(line)
+		switch {
+		case strings.Contains(line, "OK"):
+			return strings.TrimSpace(sb.String()), nil
+		case strings.Contains(line, "ERR"):
+			return "", errors.New(line)
+		default:
+			sb.WriteString(line + "\n")
+		}
+	}
+}
+
+func (a *AT) Support(command string) bool {
+	_, err := a.Run(command)
+	return err == nil
+}
+
+func (a *AT) Close() error {
+	if err := unix.IoctlSetTermios(int(a.f.Fd()), unix.TCSETS, a.oldTermios); err != nil {
+		return err
+	}
+	return a.f.Close()
+}
+
+type ATCommand interface {
+	Run(command []byte) ([]byte, error)
+}

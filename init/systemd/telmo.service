@@ -1,5 +1,5 @@
 [Unit]
-Description=Telegram Mobile
+Description=Sigmo
 Requires=ModemManager.service
 After=network.target ModemManager.service
 
@@ -7,7 +7,7 @@ After=network.target ModemManager.service
 Type=simple
 User=root
 Restart=on-failure
-ExecStart=/usr/local/bin/telmo --bot-token=YourTelegramToken --admin-id=YourTelegramChatID
+ExecStart=/usr/local/bin/sigmo
 RestartSec=10s
 TimeoutStopSec=30s
 

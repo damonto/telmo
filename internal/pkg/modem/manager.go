@@ -87,7 +87,7 @@ func (m *Manager) createModem(objectPath dbus.ObjectPath, data map[string]dbus.V
 		}
 	}
 	var err error
-	modem.Sim, err = modem.SIM(data["Sim"].Value().(dbus.ObjectPath))
+	modem.Sim, err = modem.SIMs().Get(data["Sim"].Value().(dbus.ObjectPath))
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +139,7 @@ func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) e
 				slog.Error("failed to create modem", "error", err)
 				continue
 			}
-			m.updateModem(modem)
+			m.deleteAndUpdate(modem)
 		} else {
 			slog.Info("modem unplugged", "path", modemPath)
 			delete(m.modems, modemPath)
@@ -150,7 +150,7 @@ func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) e
 	}
 }
 
-func (m *Manager) updateModem(modem *Modem) {
+func (m *Manager) deleteAndUpdate(modem *Modem) {
 	// If user restart the ModemManager manually, Dbus will not send the InterfacesRemoved signal
 	// But it will send the InterfacesAdded signal again.
 	// So we need to remove the duplicate modem manually and update it.

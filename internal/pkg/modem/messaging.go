@@ -10,13 +10,21 @@ import (
 
 const ModemMessagingInterface = ModemInterface + ".Messaging"
 
-func (m *Modem) ListMessages() ([]*SMS, error) {
+type Messaging struct {
+	modem *Modem
+}
+
+func (m *Modem) Messaging() *Messaging {
+	return &Messaging{modem: m}
+}
+
+func (msg *Messaging) List() ([]*SMS, error) {
 	var messages []dbus.ObjectPath
 	var err error
-	err = m.dbusObject.Call(ModemMessagingInterface+".List", 0).Store(&messages)
+	err = msg.modem.dbusObject.Call(ModemMessagingInterface+".List", 0).Store(&messages)
 	s := make([]*SMS, len(messages))
 	for i, message := range messages {
-		s[i], err = m.RetrieveSMS(message)
+		s[i], err = msg.Retrieve(message)
 		if err != nil {
 			return nil, err
 		}
@@ -24,29 +32,36 @@ func (m *Modem) ListMessages() ([]*SMS, error) {
 	return s, err
 }
 
-func (m *Modem) CreateMessage(to string, text string) (dbus.ObjectPath, error) {
+func (msg *Messaging) Create(to string, text string) (dbus.ObjectPath, error) {
 	var path dbus.ObjectPath
 	data := map[string]any{
 		"number": to,
 		"text":   text,
 	}
-	err := m.dbusObject.Call(ModemMessagingInterface+".Create", 0, &data).Store(&path)
+	err := msg.modem.dbusObject.Call(ModemMessagingInterface+".Create", 0, &data).Store(&path)
 	return path, err
 }
 
-func (m *Modem) DeleteMessage(path dbus.ObjectPath) error {
-	return m.dbusObject.Call(ModemMessagingInterface+".Delete", 0, path).Err
+func (msg *Messaging) Delete(path dbus.ObjectPath) error {
+	return msg.modem.dbusObject.Call(ModemMessagingInterface+".Delete", 0, path).Err
 }
 
-func (m *Modem) SubscribeMessaging(ctx context.Context, subscriber func(message *SMS) error) error {
-	dbusConn, err := m.SystemBusPrivate()
+func (msg *Messaging) Subscribe(ctx context.Context, subscriber func(message *SMS) error) error {
+	dbusConn, err := msg.modem.SystemBusPrivate()
 	if err != nil {
 		return err
 	}
-	dbusConn.AddMatchSignal(
+	defer func() {
+		if err := dbusConn.Close(); err != nil {
+			slog.Error("failed to close dbus connection", "error", err)
+		}
+	}()
+	if err := dbusConn.AddMatchSignal(
 		dbus.WithMatchMember("Added"),
-		dbus.WithMatchPathNamespace(m.objectPath),
-	)
+		dbus.WithMatchPathNamespace(msg.modem.objectPath),
+	); err != nil {
+		return err
+	}
 	signalChan := make(chan *dbus.Signal, 10)
 	dbusConn.Signal(signalChan)
 	defer dbusConn.RemoveSignal(signalChan)
@@ -56,7 +71,7 @@ func (m *Modem) SubscribeMessaging(ctx context.Context, subscriber func(message 
 			if !sig.Body[1].(bool) {
 				continue
 			}
-			s, err := m.waitForSMSReceived(sig.Body[0].(dbus.ObjectPath))
+			s, err := msg.waitForSMSReceived(sig.Body[0].(dbus.ObjectPath))
 			if err != nil {
 				slog.Error("failed to process message", "error", err, "path", sig.Path)
 				continue
@@ -65,15 +80,15 @@ func (m *Modem) SubscribeMessaging(ctx context.Context, subscriber func(message 
 				slog.Error("failed to process message", "error", err, "path", sig.Path)
 			}
 		case <-ctx.Done():
-			slog.Info("unsubscribing from modem messaging", "path", m.dbusObject.Path())
+			slog.Info("unsubscribing from modem messaging", "path", msg.modem.dbusObject.Path())
 			return nil
 		}
 	}
 }
 
-func (m *Modem) waitForSMSReceived(path dbus.ObjectPath) (*SMS, error) {
+func (msg *Messaging) waitForSMSReceived(path dbus.ObjectPath) (*SMS, error) {
 	for {
-		s, err := m.RetrieveSMS(path)
+		s, err := msg.Retrieve(path)
 		if err != nil {
 			return nil, err
 		}

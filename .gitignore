@@ -28,3 +28,6 @@ data/
 
 # macOS
 .DS_Store
+
+# AI
+AGENTS.md

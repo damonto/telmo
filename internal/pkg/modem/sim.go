@@ -1,10 +1,20 @@
 package modem
 
 import (
+	"errors"
+
 	"github.com/godbus/dbus/v5"
 )
 
 const ModemSimInterface = ModemManagerInterface + ".Sim"
+
+type SIMs struct {
+	modem *Modem
+}
+
+func (m *Modem) SIMs() *SIMs {
+	return &SIMs{modem: m}
+}
 
 type SIM struct {
 	Path               dbus.ObjectPath
@@ -16,15 +26,18 @@ type SIM struct {
 	OperatorName       string
 }
 
-func (m *Modem) PrimarySIM() (*SIM, error) {
-	return m.SIM(m.Sim.Path)
+func (s *SIMs) Primary() (*SIM, error) {
+	if s.modem.Sim == nil {
+		return nil, errors.New("primary SIM not available")
+	}
+	return s.Get(s.modem.Sim.Path)
 }
 
-func (m *Modem) SIM(path dbus.ObjectPath) (*SIM, error) {
+func (sims *SIMs) Get(path dbus.ObjectPath) (*SIM, error) {
 	var variant dbus.Variant
 	var err error
-	s := &SIM{Path: path}
-	dbusObject, err := m.privateDbusObject(path)
+	sim := &SIM{Path: path}
+	dbusObject, err := privateDBusObject(path)
 	if err != nil {
 		return nil, err
 	}
@@ -33,36 +46,36 @@ func (m *Modem) SIM(path dbus.ObjectPath) (*SIM, error) {
 	if err != nil {
 		return nil, err
 	}
-	s.Active = variant.Value().(bool)
+	sim.Active = variant.Value().(bool)
 
 	variant, err = dbusObject.GetProperty(ModemSimInterface + ".SimIdentifier")
 	if err != nil {
 		return nil, err
 	}
-	s.Identifier = variant.Value().(string)
+	sim.Identifier = variant.Value().(string)
 
 	variant, err = dbusObject.GetProperty(ModemSimInterface + ".Eid")
 	if err != nil {
 		return nil, err
 	}
-	s.Eid = variant.Value().(string)
+	sim.Eid = variant.Value().(string)
 
 	variant, err = dbusObject.GetProperty(ModemSimInterface + ".Imsi")
 	if err != nil {
 		return nil, err
 	}
-	s.Imsi = variant.Value().(string)
+	sim.Imsi = variant.Value().(string)
 
 	variant, err = dbusObject.GetProperty(ModemSimInterface + ".OperatorIdentifier")
 	if err != nil {
 		return nil, err
 	}
-	s.OperatorIdentifier = variant.Value().(string)
+	sim.OperatorIdentifier = variant.Value().(string)
 
 	variant, err = dbusObject.GetProperty(ModemSimInterface + ".OperatorName")
 	if err != nil {
 		return nil, err
 	}
-	s.OperatorName = variant.Value().(string)
-	return s, nil
+	sim.OperatorName = variant.Value().(string)
+	return sim, nil
 }

@@ -16,8 +16,8 @@ type SMS struct {
 	Timestamp  time.Time
 }
 
-func (m *Modem) RetrieveSMS(objectPath dbus.ObjectPath) (*SMS, error) {
-	dbusObject, err := m.privateDbusObject(objectPath)
+func (msg *Messaging) Retrieve(objectPath dbus.ObjectPath) (*SMS, error) {
+	dbusObject, err := privateDBusObject(objectPath)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (m *Modem) RetrieveSMS(objectPath dbus.ObjectPath) (*SMS, error) {
 		return nil, err
 	}
 	if t := variant.Value().(string); t != "" {
-		if t[len(t)-3] == '+' || t[len(t)-3] == '-' {
+		if len(t) >= 3 && (t[len(t)-3] == '+' || t[len(t)-3] == '-') {
 			t = t + ":00"
 		}
 		sms.Timestamp, err = time.Parse(time.RFC3339, t)
@@ -56,17 +56,17 @@ func (m *Modem) RetrieveSMS(objectPath dbus.ObjectPath) (*SMS, error) {
 	return &sms, nil
 }
 
-func (m *Modem) SendSMS(to string, text string) (*SMS, error) {
-	path, err := m.CreateMessage(to, text)
+func (msg *Messaging) Send(to string, text string) (*SMS, error) {
+	path, err := msg.Create(to, text)
 	if err != nil {
 		return nil, err
 	}
-	dbusObject, err := m.privateDbusObject(path)
+	dbusObject, err := privateDBusObject(path)
 	if err != nil {
 		return nil, err
 	}
 	if err := dbusObject.Call(ModemSMSInterface+".Send", 0).Err; err != nil {
 		return nil, err
 	}
-	return m.RetrieveSMS(path)
+	return msg.Retrieve(path)
 }

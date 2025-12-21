@@ -18,14 +18,14 @@ import (
 	"github.com/damonto/euicc-go/driver/qmi"
 	"github.com/damonto/euicc-go/lpa"
 	sgp22 "github.com/damonto/euicc-go/v2"
-	"github.com/damonto/telmo/internal/pkg/config"
-	"github.com/damonto/telmo/internal/pkg/modem"
-	"github.com/damonto/telmo/internal/pkg/util"
+	"github.com/damonto/sigmo/internal/pkg/cond"
+	"github.com/damonto/sigmo/internal/pkg/euicc"
+	"github.com/damonto/sigmo/internal/pkg/modem"
 )
 
 type LPA struct {
 	*lpa.Client
-	mutex sync.Mutex
+	mu sync.Mutex
 }
 
 type Info struct {
@@ -44,19 +44,16 @@ var AIDs = [][]byte{
 	{0xA0, 0x00, 0x00, 0x06, 0x28, 0x10, 0x10, 0xFF, 0xFF, 0xFF, 0xFF, 0x89, 0x00, 0x00, 0x01, 0x00}, // GlocalMe
 }
 
-var mutex sync.Mutex
-
-func New(m *modem.Modem, config *config.Config) (*LPA, error) {
-	mutex.Lock()
+func New(m *modem.Modem, compatible bool) (*LPA, error) {
 	var l = new(LPA)
-	ch, err := l.createChannel(m, config)
+	ch, err := l.createChannel(m)
 	if err != nil {
 		return nil, err
 	}
 	opts := &lpa.Options{
 		Channel:              ch,
 		AdminProtocolVersion: "2.2.0",
-		MSS:                  util.If(config != nil && config.Slowdown, 120, 250),
+		MSS:                  cond.If(compatible, 120, 250),
 	}
 	if err := l.tryCreateClient(opts); err != nil {
 		return nil, err
@@ -77,12 +74,8 @@ func (l *LPA) tryCreateClient(opts *lpa.Options) error {
 	return errors.New("no supported ISD-R AID found or it's not an eUICC")
 }
 
-func (l *LPA) createChannel(m *modem.Modem, config *config.Config) (apdu.SmartCardChannel, error) {
-	if config.ForceAT {
-		return l.createATChannel(m)
-	}
-
-	slot := uint8(util.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1))
+func (l *LPA) createChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
+	slot := uint8(cond.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1))
 	switch m.PrimaryPortType() {
 	case modem.ModemPortTypeQmi:
 		slog.Info("using QMI driver", "port", m.PrimaryPort, "slot", slot)
@@ -105,7 +98,6 @@ func (l *LPA) createATChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
 }
 
 func (l *LPA) Close() error {
-	defer mutex.Unlock()
 	return l.Client.Close()
 }
 
@@ -123,11 +115,11 @@ func (l *LPA) Info() (*Info, error) {
 	}
 
 	// sasAccreditationNumber
-	info.SasAccreditationNumber = util.LookupSASUP(info.EID, string(tlv.First(bertlv.Universal.Primitive(12)).Value))
+	info.SasAccreditationNumber = euicc.LookupSASUP(info.EID, string(tlv.First(bertlv.Universal.Primitive(12)).Value))
 
 	// euiccCiPKIdListForSigning
 	for _, child := range tlv.First(bertlv.ContextSpecific.Constructed(10)).Children {
-		info.Certificates = append(info.Certificates, util.LookupCertificateIssuer(hex.EncodeToString(child.Value)))
+		info.Certificates = append(info.Certificates, euicc.LookupCertificateIssuer(hex.EncodeToString(child.Value)))
 	}
 
 	// extResource.freeNonVolatileMemory
@@ -194,8 +186,8 @@ func (l *LPA) SendNotification(searchCriteria any) error {
 }
 
 func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, opts *lpa.DownloadOptions) error {
-	l.mutex.Lock()
-	defer l.mutex.Unlock()
+	l.mu.Lock()
+	defer l.mu.Unlock()
 	slog.Info("downloading profile", "activationCode", activationCode)
 	result, derr := l.DownloadProfile(ctx, activationCode, opts)
 	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {
