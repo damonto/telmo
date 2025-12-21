@@ -5,12 +5,14 @@ import { useI18n } from 'vue-i18n'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 
 import BottomTabBar from '@/components/BottomTabBar.vue'
-import { getModemById } from '@/data/modems'
+import { useModems } from '@/composables/useModems'
 
 const route = useRoute()
 const { t } = useI18n()
 
 const modemId = computed(() => (route.params.id ?? 'unknown') as string)
+const { getModemById } = useModems()
+
 const modem = computed(() => getModemById(modemId.value))
 
 const tabItems = computed(() => [

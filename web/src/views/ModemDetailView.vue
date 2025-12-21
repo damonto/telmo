@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Download } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
+import { Download } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
@@ -8,13 +8,15 @@ import EsimInstallDialog from '@/components/modem/EsimInstallDialog.vue'
 import EsimProfileSection from '@/components/modem/EsimProfileSection.vue'
 import EsimSummaryCard from '@/components/modem/EsimSummaryCard.vue'
 import ModemPhysicalCard from '@/components/modem/ModemPhysicalCard.vue'
-import { getModemById } from '@/data/modems'
+import { useModems } from '@/composables/useModems'
 import type { EsimProfile } from '@/types/modem'
 
 const route = useRoute()
 const { t } = useI18n()
 
 const modemId = computed(() => (route.params.id ?? 'unknown') as string)
+const { getModemById } = useModems()
+
 const modem = computed(() => getModemById(modemId.value))
 
 const physicalModem = computed(() => (modem.value && !modem.value.isESim ? modem.value : null))

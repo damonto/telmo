@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
-
 import { useI18n } from 'vue-i18n'
 
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { useModemDisplay } from '@/composables/useModemDisplay'
-import { modems as modemFixtures } from '@/data/modems'
+import { useModems } from '@/composables/useModems'
 import type { Modem } from '@/types/modem'
 
 const { t } = useI18n()
 const { flagClass, formatSignal, signalIcon, signalTone } = useModemDisplay()
 
-const modems = ref<Modem[]>(modemFixtures)
+const { modems } = useModems()
 
 const modemCount = computed(() => modems.value.length)
 const hasModems = computed(() => modems.value.length > 0)
