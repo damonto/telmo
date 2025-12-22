@@ -1,13 +1,53 @@
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
-import { modemFixtures } from '@/data/modems'
+import { useModemApi } from '@/apis/modem'
 import type { Modem } from '@/types/modem'
 
-const modems = ref<Modem[]>(modemFixtures)
+// Global modems state
+const modems = ref<Modem[]>([])
+const isFetching = ref(false)
 
-const getModemById = (id: string) => modems.value.find((modem) => modem.id === id) ?? null
+/**
+ * Modem management composable
+ * Error handling is centralized in lib/fetch.ts
+ */
+export const useModems = () => {
+  const modemApi = useModemApi()
 
-export const useModems = () => ({
-  getModemById,
-  modems,
-})
+  /**
+   * Fetch modems from API and update state
+   */
+  const fetchModems = async () => {
+    if (isFetching.value) return
+
+    isFetching.value = true
+
+    const { data } = await modemApi.getModems()
+
+    if (data.value) {
+      modems.value = data.value
+    }
+
+    isFetching.value = false
+  }
+
+  /**
+   * Get modem by ID
+   */
+  const getModemById = (id: string) => modems.value.find((modem) => modem.id === id) ?? null
+
+  /**
+   * Computed properties
+   */
+  const isLoading = computed(() => isFetching.value)
+
+  return {
+    // State
+    modems,
+    isLoading,
+
+    // Actions
+    fetchModems,
+    getModemById,
+  }
+}

@@ -3,10 +3,10 @@ import { useI18n } from 'vue-i18n'
 
 import { Card, CardContent } from '@/components/ui/card'
 import { useModemDisplay } from '@/composables/useModemDisplay'
-import type { PhysicalModem } from '@/types/modem'
+import type { Modem } from '@/types/modem'
 
 const props = defineProps<{
-  modem: PhysicalModem
+  modem: Modem
 }>()
 
 const { t } = useI18n()
@@ -34,14 +34,14 @@ const { flagClass, formatSignal, signalIcon, signalTone } = useModemDisplay()
         <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
           {{ t('modemDetail.fields.carrier') }}
         </span>
-        <span class="text-foreground">{{ props.modem.carrierName }}</span>
+        <span class="text-foreground">{{ props.modem.sim.operatorName }}</span>
       </div>
       <div class="flex items-center justify-between gap-4">
         <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
           {{ t('modemDetail.fields.roamingCarrier') }}
         </span>
         <span class="text-muted-foreground">
-          {{ props.modem.roamingCarrierName ?? '—' }}
+          {{ props.modem.registeredOperator.name || '—' }}
         </span>
       </div>
       <div class="flex items-center justify-between gap-4">
@@ -50,18 +50,18 @@ const { flagClass, formatSignal, signalIcon, signalTone } = useModemDisplay()
         </span>
         <div class="flex items-center gap-2">
           <component
-            :is="signalIcon(props.modem.signalDbm)"
+            :is="signalIcon(props.modem.signalQuality)"
             class="size-5"
-            :class="signalTone(props.modem.signalDbm)"
+            :class="signalTone(props.modem.signalQuality)"
           />
           <span
-            v-if="props.modem.isRoaming"
+            v-if="props.modem.registrationState === 'Roaming'"
             class="flex size-5 items-center justify-center rounded-full bg-amber-100 text-[10px] font-semibold text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
           >
             R
           </span>
           <span class="font-mono text-xs text-muted-foreground">
-            {{ formatSignal(props.modem.signalDbm) }}
+            {{ formatSignal(props.modem.signalQuality) }}
           </span>
         </div>
       </div>
@@ -71,11 +71,11 @@ const { flagClass, formatSignal, signalIcon, signalTone } = useModemDisplay()
         </span>
         <span class="rounded-sm text-[18px]">
           <span
-            v-if="flagClass(props.modem.regionCode)"
-            :class="flagClass(props.modem.regionCode)"
+            v-if="flagClass(props.modem.sim.regionCode)"
+            :class="flagClass(props.modem.sim.regionCode)"
           />
           <span v-else class="text-xs font-semibold text-muted-foreground">
-            {{ props.modem.regionCode }}
+            {{ props.modem.sim.regionCode }}
           </span>
         </span>
       </div>
@@ -84,7 +84,7 @@ const { flagClass, formatSignal, signalIcon, signalTone } = useModemDisplay()
           {{ t('modemDetail.fields.iccid') }}
         </span>
         <span class="font-mono text-xs text-foreground">
-          {{ props.modem.iccid }}
+          {{ props.modem.id }}
         </span>
       </div>
     </CardContent>

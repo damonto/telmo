@@ -9,17 +9,7 @@ path = "./sqlite3"
 bot_token = "your_telegram_bot_token"
 to = [123456789]
 
-[modems.869710031623444]
+[modems.1231313131]
 alias = "EM12-G"
-compatible = true
-mss = 120
-
-[modems.860588043408833]
-alias = "EC20CE-FAG"
-compatible = false
-mss = 250
-
-[modems.354015820228039]
-alias = "EM12-G MSFT"
 compatible = true
 mss = 120

@@ -26,5 +26,8 @@ build/
 # Data directory
 data/
 
+# Configs
+configs/config.toml
+
 # macOS
 .DS_Store

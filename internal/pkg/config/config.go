@@ -11,8 +11,8 @@ import (
 type Config struct {
 	App      App                `toml:"app"`
 	Database Database           `toml:"database"`
-	Channel  map[string]Channel `toml:"channel"`
-	Modem    map[string]Modem   `toml:"modem"`
+	Channels map[string]Channel `toml:"channels"`
+	Modems   map[string]Modem   `toml:"modems"`
 }
 
 type App struct {
@@ -53,7 +53,7 @@ func (c *Config) IsProduction() bool {
 }
 
 func (c *Config) FindModem(id string) Modem {
-	if modem, ok := c.Modem[id]; ok {
+	if modem, ok := c.Modems[id]; ok {
 		return modem
 	}
 	return Modem{

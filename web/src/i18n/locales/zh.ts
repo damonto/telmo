@@ -10,13 +10,17 @@ const zh = {
     esim: 'eSIM',
     psim: 'pSIM',
     roaming: '漫游',
-    signal: '信号',
+    signal: '信号强度',
   },
   home: {
     kicker: 'Sigmo',
     title: '插入的 Modem',
     subtitle: '当前共 {count} 台设备在线，点击卡片进入详情页面。',
     noModems: '当前没有检测到插入的 Modem。',
+    noNumber: '无号码',
+    error: '加载 Modem 失败，请检查网络连接。',
+    retry: '重试',
+    refresh: '刷新',
   },
   messages: {
     kicker: 'Sigmo',

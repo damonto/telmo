@@ -144,7 +144,7 @@ const handleDeleteClick = (profile: EsimProfile, event: Event) => {
 </script>
 
 <template>
-  <section class="space-y-3">
+  <section class="space-y-2">
     <div class="flex items-center justify-between">
       <h2 class="text-sm font-semibold text-muted-foreground">
         {{ t('modemDetail.esim.listTitle') }}
@@ -156,12 +156,12 @@ const handleDeleteClick = (profile: EsimProfile, event: Event) => {
 
     <div
       v-if="!hasProfiles"
-      class="rounded-2xl border border-dashed border-border p-6 text-sm text-muted-foreground"
+      class="rounded-2xl border border-dashed border-border p-4 text-sm text-muted-foreground"
     >
       {{ t('modemDetail.esim.noProfiles') }}
     </div>
 
-    <div v-else class="space-y-2">
+    <div v-else class="space-y-1.5">
       <div
         v-for="profile in profiles"
         :key="profile.id"
@@ -230,9 +230,7 @@ const handleDeleteClick = (profile: EsimProfile, event: Event) => {
                 type="button"
                 class="w-full rounded-lg px-3 py-2 text-left transition hover:bg-muted"
                 :class="
-                  profile.enabled
-                    ? 'cursor-not-allowed text-muted-foreground/60'
-                    : 'text-rose-500'
+                  profile.enabled ? 'cursor-not-allowed text-muted-foreground/60' : 'text-rose-500'
                 "
                 :disabled="profile.enabled"
                 @click="handleDeleteClick(profile, $event)"
@@ -355,7 +353,9 @@ const handleDeleteClick = (profile: EsimProfile, event: Event) => {
           :disabled="deleteLoading"
         >
           <span v-if="deleteLoading" class="inline-flex items-center gap-2">
-            <span class="size-4 animate-spin rounded-full border-2 border-white/60 border-t-white" />
+            <span
+              class="size-4 animate-spin rounded-full border-2 border-white/60 border-t-white"
+            />
             {{ t('modemDetail.actions.confirm') }}
           </span>
           <span v-else>{{ t('modemDetail.actions.confirm') }}</span>

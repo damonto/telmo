@@ -19,14 +19,15 @@ const { getModemById } = useModems()
 
 const modem = computed(() => getModemById(modemId.value))
 
-const physicalModem = computed(() => (modem.value && !modem.value.isESim ? modem.value : null))
-const esimModem = computed(() => (modem.value && modem.value.isESim ? modem.value : null))
+// Determine modem type based on isEsim field
+const physicalModem = computed(() => (modem.value && !modem.value.isEsim ? modem.value : null))
+const esimModem = computed(() => (modem.value && modem.value.isEsim ? modem.value : null))
 
+// TODO: Implement profiles API when available
 const esimProfiles = computed<EsimProfile[]>({
-  get: () => esimModem.value?.profiles ?? [],
-  set: (value) => {
-    if (!esimModem.value) return
-    esimModem.value.profiles = value
+  get: () => [],
+  set: () => {
+    // Placeholder for future implementation
   },
 })
 
@@ -43,7 +44,7 @@ const installDialogOpen = ref(false)
 
   <ModemPhysicalCard v-else-if="physicalModem" :modem="physicalModem" />
 
-  <div v-else class="space-y-6">
+  <div v-else class="space-y-4">
     <EsimSummaryCard v-if="esimModem" :modem="esimModem" />
     <EsimProfileSection v-if="esimModem" v-model:profiles="esimProfiles" />
   </div>

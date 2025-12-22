@@ -1,3 +1,37 @@
+// Backend API Response Types (Direct mapping)
+
+export type SimInfo = {
+  operatorName: string
+  operatorIdentifier: string
+  regionCode: string
+}
+
+export type RegisteredOperator = {
+  name: string
+  code: string
+}
+
+export type ModemApiResponse = {
+  manufacturer: string
+  id: string
+  firmwareRevision: string
+  hardwareRevision: string
+  name: string
+  number: string
+  sim: SimInfo
+  accessTechnology: string | null
+  registrationState: string
+  registeredOperator: RegisteredOperator
+  signalQuality: number
+  isEsim: boolean
+}
+
+export type ModemListResponse = ModemApiResponse[]
+
+// Frontend uses ModemApiResponse directly as Modem type
+export type Modem = ModemApiResponse
+
+// eSIM Profile type (for future eSIM management features)
 export type EsimProfile = {
   id: string
   name: string
@@ -6,32 +40,3 @@ export type EsimProfile = {
   regionCode: string
   logoUrl?: string
 }
-
-type ModemBase = {
-  id: string
-  name: string
-  manufacturer: string
-  carrierName: string
-  roamingCarrierName?: string
-  regionCode: string
-  isRoaming: boolean
-  signalDbm: number
-  isESim: boolean
-  tech: '4G' | '5G'
-  logoUrl?: string
-}
-
-export type PhysicalModem = ModemBase & {
-  isESim: false
-  iccid: string
-}
-
-export type EsimModem = ModemBase & {
-  isESim: true
-  imei: string
-  eid: string
-  storageRemaining: string
-  profiles: EsimProfile[]
-}
-
-export type Modem = PhysicalModem | EsimModem

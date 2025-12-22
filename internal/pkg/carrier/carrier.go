@@ -17,6 +17,7 @@ type CarrierDataset struct {
 }
 
 type Carrier struct {
+	Name   string `json:"name"`
 	Region string `json:"region"`
 	Mccmnc string `json:"mccmnc"`
 }
@@ -30,9 +31,14 @@ func init() {
 		panic(err)
 	}
 	for _, v := range c {
+		name := v.Brand
+		if name == "" {
+			name = v.Operator
+		}
 		for region, tuple := range v.MccmncTuple {
 			for _, mccmnc := range tuple {
 				dictionary[mccmnc] = Carrier{
+					Name:   name,
 					Region: region,
 					Mccmnc: mccmnc,
 				}
@@ -46,6 +52,7 @@ func Lookup(mccmnc string) Carrier {
 		return operator
 	}
 	return Carrier{
+		Name:   "Unknown",
 		Region: "Unknown",
 		Mccmnc: mccmnc,
 	}
