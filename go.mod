@@ -4,7 +4,7 @@ go 1.25.5
 
 require (
 	github.com/damonto/euicc-go v1.1.0
-	github.com/godbus/dbus/v5 v5.2.0
+	github.com/godbus/dbus/v5 v5.2.1
 	github.com/mymmrac/telego v1.3.3
 	golang.org/x/sys v0.39.0
 )
