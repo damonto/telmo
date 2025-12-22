@@ -47,3 +47,17 @@ func Load(path string) (*Config, error) {
 	}
 	return &config, nil
 }
+
+func (c *Config) IsProduction() bool {
+	return c.App.Environment == "production"
+}
+
+func (c *Config) FindModem(id string) Modem {
+	if modem, ok := c.Modem[id]; ok {
+		return modem
+	}
+	return Modem{
+		Compatible: false,
+		MSS:        240,
+	}
+}

@@ -19,6 +19,7 @@ import (
 	"github.com/damonto/euicc-go/lpa"
 	sgp22 "github.com/damonto/euicc-go/v2"
 	"github.com/damonto/sigmo/internal/pkg/cond"
+	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/euicc"
 	"github.com/damonto/sigmo/internal/pkg/modem"
 )
@@ -44,7 +45,7 @@ var AIDs = [][]byte{
 	{0xA0, 0x00, 0x00, 0x06, 0x28, 0x10, 0x10, 0xFF, 0xFF, 0xFF, 0xFF, 0x89, 0x00, 0x00, 0x01, 0x00}, // GlocalMe
 }
 
-func New(m *modem.Modem, compatible bool) (*LPA, error) {
+func New(m *modem.Modem, cfg *config.Config) (*LPA, error) {
 	var l = new(LPA)
 	ch, err := l.createChannel(m)
 	if err != nil {
@@ -53,7 +54,7 @@ func New(m *modem.Modem, compatible bool) (*LPA, error) {
 	opts := &lpa.Options{
 		Channel:              ch,
 		AdminProtocolVersion: "2.2.0",
-		MSS:                  cond.If(compatible, 120, 250),
+		MSS:                  cfg.FindModem(m.EquipmentIdentifier).MSS,
 	}
 	if err := l.tryCreateClient(opts); err != nil {
 		return nil, err
@@ -147,13 +148,13 @@ func (l *LPA) Delete(id sgp22.ICCID) ([]sgp22.SequenceNumber, error) {
 		return nil, err
 	}
 
-	deleteNotifications, err := l.ListNotification(sgp22.NotificationEventDelete)
+	deletionNotifications, err := l.ListNotification(sgp22.NotificationEventDelete)
 	if err != nil {
 		return nil, err
 	}
 	var seqs []sgp22.SequenceNumber
 	var errs error
-	for _, n := range deleteNotifications {
+	for _, n := range deletionNotifications {
 		if n.SequenceNumber > lastSeq && bytes.Equal(n.ICCID, id) {
 			slog.Info("sending deletion notification", "sequence", n.SequenceNumber)
 			found, err := l.RetrieveNotificationList(n.SequenceNumber)

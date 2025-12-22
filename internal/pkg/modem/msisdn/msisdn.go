@@ -55,11 +55,6 @@ func (m *MSISDN) selectRunner() error {
 	return errors.New("modem does not support updating MSISDN")
 }
 
-type Runner interface {
-	Run(data []byte) error
-	Select() ([]byte, error)
-}
-
 func (m *MSISDN) update(hasPrefix bool, name string, number string) error {
 	n, err := m.recordLen()
 	if err != nil {
