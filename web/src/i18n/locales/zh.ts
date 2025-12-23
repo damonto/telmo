@@ -14,7 +14,7 @@ const zh = {
   },
   home: {
     kicker: 'Sigmo',
-    title: '插入的 Modem',
+    title: 'Modems',
     subtitle: '当前共 {count} 台设备在线，点击卡片进入详情页面。',
     noModems: '当前没有检测到插入的 Modem。',
     noNumber: '无号码',
@@ -56,6 +56,8 @@ const zh = {
       imei: 'IMEI',
       eid: 'EID',
       storageRemaining: '剩余空间',
+      sasAccreditation: 'SAS 认证',
+      certificates: '证书',
     },
     esim: {
       listTitle: 'eSIMs',

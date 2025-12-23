@@ -5,7 +5,7 @@
   "tailwind": {
     "config": "",
     "css": "src/assets/base.css",
-    "baseColor": "rose",
+    "baseColor": "neutral",
     "cssVariables": true,
     "prefix": ""
   },

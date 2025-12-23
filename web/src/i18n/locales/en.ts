@@ -14,7 +14,7 @@ const en = {
   },
   home: {
     kicker: 'Sigmo',
-    title: 'Inserted Modems',
+    title: 'Modems',
     subtitle: '{count} devices online. Tap a card to view details.',
     noModems: 'No modems detected.',
     noNumber: 'No Number',
@@ -31,7 +31,7 @@ const en = {
     emptyPlaceholder: 'Coming soon.',
   },
   modemDetail: {
-    back: 'Back to modems',
+    back: 'Back',
     kicker: 'Sigmo',
     subtitle: 'Manage modem details and eSIM profiles.',
     unknown: 'Unknown Modem',
@@ -56,6 +56,8 @@ const en = {
       imei: 'IMEI',
       eid: 'EID',
       storageRemaining: 'Storage Remaining',
+      sasAccreditation: 'SAS Accreditation',
+      certificates: 'Certificates',
     },
     esim: {
       listTitle: 'eSIMs',

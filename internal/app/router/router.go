@@ -3,7 +3,8 @@ package router
 import (
 	"github.com/labstack/echo/v4"
 
-	modemhandler "github.com/damonto/sigmo/internal/app/handler/modem"
+	"github.com/damonto/sigmo/internal/app/handler/euicc"
+	hmodem "github.com/damonto/sigmo/internal/app/handler/modem"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/modem"
 )
@@ -11,6 +12,14 @@ import (
 func Register(e *echo.Echo, cfg *config.Config, manager *modem.Manager) {
 	v1 := e.Group("/api/v1")
 
-	modemHandler := modemhandler.NewHandler(cfg, manager)
-	v1.GET("/modems", modemHandler.ListInserted)
+	{
+		h := hmodem.New(cfg, manager)
+		v1.GET("/modems", h.List)
+		v1.GET("/modems/:id", h.Get)
+
+		{
+			h := euicc.New(cfg, manager)
+			v1.GET("/modems/:id/euicc", h.Get)
+		}
+	}
 }

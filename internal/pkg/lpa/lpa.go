@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"log/slog"
 	"net/url"
-	"sync"
 
 	"github.com/damonto/euicc-go/apdu"
 	"github.com/damonto/euicc-go/bertlv"
@@ -21,19 +20,25 @@ import (
 	"github.com/damonto/sigmo/internal/pkg/cond"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/euicc"
+	"github.com/damonto/sigmo/internal/pkg/keymutex"
 	"github.com/damonto/sigmo/internal/pkg/modem"
 )
 
+// gmu ensures that LPA instances for the same modem (keyed by EquipmentIdentifier)
+// cannot be created or operated on concurrently. This is necessary because eUICC does not
+// allow simultaneous operations on the same eUICC module.
+var gmu = keymutex.New()
+
 type LPA struct {
 	*lpa.Client
-	mu sync.Mutex
+	key string // EquipmentIdentifier used for global locking
 }
 
 type Info struct {
-	EID                    string
-	FreeSpace              int32
-	SasAccreditationNumber string
-	Certificates           []string
+	EID          string
+	FreeSpace    int32
+	SASUP        string
+	Certificates []string
 }
 
 var AIDs = [][]byte{
@@ -46,9 +51,11 @@ var AIDs = [][]byte{
 }
 
 func New(m *modem.Modem, cfg *config.Config) (*LPA, error) {
-	var l = new(LPA)
-	ch, err := l.createChannel(m)
+	gmu.Lock(m.EquipmentIdentifier)
+	instance := &LPA{key: m.EquipmentIdentifier}
+	ch, err := instance.createChannel(m)
 	if err != nil {
+		gmu.Unlock(m.EquipmentIdentifier)
 		return nil, err
 	}
 	opts := &lpa.Options{
@@ -56,10 +63,11 @@ func New(m *modem.Modem, cfg *config.Config) (*LPA, error) {
 		AdminProtocolVersion: "2.2.0",
 		MSS:                  cfg.FindModem(m.EquipmentIdentifier).MSS,
 	}
-	if err := l.tryCreateClient(opts); err != nil {
+	if err := instance.tryCreateClient(opts); err != nil {
+		gmu.Unlock(m.EquipmentIdentifier)
 		return nil, err
 	}
-	return l, nil
+	return instance, nil
 }
 
 func (l *LPA) tryCreateClient(opts *lpa.Options) error {
@@ -99,6 +107,7 @@ func (l *LPA) createATChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
 }
 
 func (l *LPA) Close() error {
+	gmu.Unlock(l.key)
 	return l.Client.Close()
 }
 
@@ -115,8 +124,8 @@ func (l *LPA) Info() (*Info, error) {
 		return nil, err
 	}
 
-	// sasAccreditationNumber
-	info.SasAccreditationNumber = euicc.LookupSASUP(info.EID, string(tlv.First(bertlv.Universal.Primitive(12)).Value))
+	// SASUP
+	info.SASUP = euicc.LookupSASUP(info.EID, string(tlv.First(bertlv.Universal.Primitive(12)).Value))
 
 	// euiccCiPKIdListForSigning
 	for _, child := range tlv.First(bertlv.ContextSpecific.Constructed(10)).Children {
@@ -187,8 +196,6 @@ func (l *LPA) SendNotification(searchCriteria any) error {
 }
 
 func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, opts *lpa.DownloadOptions) error {
-	l.mu.Lock()
-	defer l.mu.Unlock()
 	slog.Info("downloading profile", "activationCode", activationCode)
 	result, derr := l.DownloadProfile(ctx, activationCode, opts)
 	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {

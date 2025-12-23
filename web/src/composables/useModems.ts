@@ -25,7 +25,7 @@ export const useModems = () => {
     const { data } = await modemApi.getModems()
 
     if (data.value) {
-      modems.value = data.value
+      modems.value = data.value.data
     }
 
     isFetching.value = false

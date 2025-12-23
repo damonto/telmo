@@ -1,5 +1,7 @@
 import { createFetch } from '@vueuse/core'
 
+import { handleError } from './error-handler'
+
 /**
  * Custom fetch instance with global configuration
  * Unified error handling - no need to handle errors in callers
@@ -34,21 +36,8 @@ export const useFetch = createFetch({
 
       // Unified error handling for non-2xx responses
       if (!response.ok) {
-        console.error(`[API] Error ${response.status}: ${response.statusText}`)
-
-        // Handle specific status codes
-        if (response.status === 401) {
-          console.warn('[API] Unauthorized - clearing token')
-          localStorage.removeItem('auth_token')
-        }
-
-        if (response.status >= 500) {
-          console.error('[API] Server error - please try again later')
-        }
-
-        if (response.status === 404) {
-          console.warn('[API] Resource not found')
-        }
+        const errorData = data as { code: number; message: string }
+        handleError(errorData)
       }
 
       return { response, data }
@@ -56,7 +45,9 @@ export const useFetch = createFetch({
 
     async onFetchError({ response, error }) {
       // Unified network error handling
-      console.error('[API] Network error:', error.message)
+      const errorMessage = error?.message || 'Network error occurred'
+      handleError(errorMessage)
+      console.error('[API] Network error:', errorMessage)
 
       // Handle 401 unauthorized
       if (response?.status === 401) {

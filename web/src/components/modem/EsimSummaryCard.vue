@@ -1,15 +1,34 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useModemDisplay } from '@/composables/useModemDisplay'
-import type { Modem } from '@/types/modem'
+import type { EuiccApiResponse, Modem } from '@/types/modem'
 
 const props = defineProps<{
   modem: Modem
+  euicc: EuiccApiResponse | null
 }>()
 
 const { t } = useI18n()
 const { formatSignal, signalIcon, signalTone } = useModemDisplay()
+
+// Format bytes to human-readable size
+const formatBytes = (bytes: number) => {
+  if (bytes === 0) return '0 B'
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return `${Math.round((bytes / Math.pow(k, i)) * 100) / 100} ${sizes[i]}`
+}
+
+const storageRemaining = computed(() => {
+  return props.euicc ? formatBytes(props.euicc.freeSpace) : 'N/A'
+})
+
+const eid = computed(() => {
+  return props.euicc?.eid || 'N/A'
+})
 </script>
 
 <template>
@@ -30,18 +49,43 @@ const { formatSignal, signalIcon, signalTone } = useModemDisplay()
           <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             {{ t('modemDetail.fields.eid') }}
           </span>
-          <span class="font-mono text-sm text-muted-foreground"> N/A </span>
+          <span class="font-mono text-sm text-foreground">{{ eid }}</span>
         </div>
         <div class="flex items-center justify-between gap-4">
           <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             {{ t('modemDetail.fields.storageRemaining') }}
           </span>
-          <span class="text-sm font-semibold text-muted-foreground"> N/A </span>
+          <span class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+            {{ storageRemaining }}
+          </span>
         </div>
       </div>
     </summary>
     <div class="border-t border-white/40 px-4 py-3 text-sm">
       <div class="grid gap-2">
+        <div v-if="euicc?.sasUp" class="flex items-center justify-between gap-4">
+          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            {{ t('modemDetail.fields.sasAccreditation') }}
+          </span>
+          <span class="text-right text-foreground">{{ euicc.sasUp }}</span>
+        </div>
+        <div
+          v-if="euicc?.certificates && euicc.certificates.length > 0"
+          class="flex flex-col gap-2"
+        >
+          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            {{ t('modemDetail.fields.certificates') }}
+          </span>
+          <div class="flex flex-col gap-1">
+            <span
+              v-for="(cert, index) in euicc.certificates"
+              :key="index"
+              class="rounded bg-muted/50 px-2 py-1 text-xs text-foreground"
+            >
+              {{ cert }}
+            </span>
+          </div>
+        </div>
         <div class="flex items-center justify-between gap-4">
           <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             {{ t('modemDetail.fields.manufacturer') }}
@@ -53,6 +97,18 @@ const { formatSignal, signalIcon, signalTone } = useModemDisplay()
             {{ t('modemDetail.fields.carrier') }}
           </span>
           <span class="text-foreground">{{ props.modem.sim.operatorName }}</span>
+        </div>
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            {{ t('modemDetail.fields.iccid') }}
+          </span>
+          <span class="font-mono text-foreground">{{ props.modem.sim.identifier }}</span>
+        </div>
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            {{ t('modemDetail.fields.active') }}
+          </span>
+          <span class="text-foreground">{{ props.modem.sim.active ? 'Yes' : 'No' }}</span>
         </div>
         <div class="flex items-center justify-between gap-4">
           <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">

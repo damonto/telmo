@@ -1,9 +1,11 @@
 package modem
 
-type SIMResponse struct {
+type SlotResponse struct {
+	Active             bool   `json:"active"`
 	OperatorName       string `json:"operatorName"`
 	OperatorIdentifier string `json:"operatorIdentifier"`
 	RegionCode         string `json:"regionCode"`
+	Identifier         string `json:"identifier"`
 }
 
 type RegisteredOperatorResponse struct {
@@ -11,17 +13,18 @@ type RegisteredOperatorResponse struct {
 	Code string `json:"code"`
 }
 
-type InsertedResponse struct {
+type ModemResponse struct {
 	Manufacturer       string                     `json:"manufacturer"`
 	ID                 string                     `json:"id"`
 	FirmwareRevision   string                     `json:"firmwareRevision"`
 	HardwareRevision   string                     `json:"hardwareRevision"`
 	Name               string                     `json:"name"`
 	Number             string                     `json:"number,omitempty"`
-	SIM                SIMResponse                `json:"sim"`
+	SIM                SlotResponse               `json:"sim"`
+	Slots              []SlotResponse             `json:"slots"`
 	AccessTechnology   string                     `json:"accessTechnology"`
 	RegistrationState  string                     `json:"registrationState"`
 	RegisteredOperator RegisteredOperatorResponse `json:"registeredOperator"`
 	SignalQuality      uint32                     `json:"signalQuality"`
-	IsEsim             bool                       `json:"isEsim"`
+	SupportsEsim       bool                       `json:"supportsEsim"`
 }

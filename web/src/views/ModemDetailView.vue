@@ -1,27 +1,44 @@
 <script setup lang="ts">
 import { Download } from 'lucide-vue-next'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
 import EsimInstallDialog from '@/components/modem/EsimInstallDialog.vue'
 import EsimProfileSection from '@/components/modem/EsimProfileSection.vue'
 import EsimSummaryCard from '@/components/modem/EsimSummaryCard.vue'
-import ModemPhysicalCard from '@/components/modem/ModemPhysicalCard.vue'
-import { useModems } from '@/composables/useModems'
+import ModemDetailCard from '@/components/modem/ModemDetailCard.vue'
+import SimSlotSwitcher from '@/components/modem/SimSlotSwitcher.vue'
+import { useModemDetail } from '@/composables/useModemDetail'
 import type { EsimProfile } from '@/types/modem'
 
 const route = useRoute()
 const { t } = useI18n()
 
 const modemId = computed(() => (route.params.id ?? 'unknown') as string)
-const { getModemById } = useModems()
+const { modem, euicc, isLoading, isPhysicalModem, isEsimModem, fetchModemDetail } = useModemDetail()
 
-const modem = computed(() => getModemById(modemId.value))
+// SIM slot switching logic
+const currentSimIdentifier = ref('')
 
-// Determine modem type based on isEsim field
-const physicalModem = computed(() => (modem.value && !modem.value.isEsim ? modem.value : null))
-const esimModem = computed(() => (modem.value && modem.value.isEsim ? modem.value : null))
+const simSlots = computed(() => modem.value?.slots ?? [])
+
+// Initialize current SIM identifier when modem data loads
+watch(
+  modem,
+  (newModem) => {
+    if (newModem && !currentSimIdentifier.value) {
+      // Set to the first active slot, or first slot if none is active
+      const activeSlot = newModem.slots.find((slot) => slot.active)
+      currentSimIdentifier.value = activeSlot?.identifier ?? newModem.slots[0]?.identifier ?? ''
+    }
+  },
+  { immediate: true },
+)
+
+// Determine modem type
+const physicalModem = computed(() => (isPhysicalModem.value ? modem.value : null))
+const esimModem = computed(() => (isEsimModem.value ? modem.value : null))
 
 // TODO: Implement profiles API when available
 const esimProfiles = computed<EsimProfile[]>({
@@ -32,21 +49,48 @@ const esimProfiles = computed<EsimProfile[]>({
 })
 
 const installDialogOpen = ref(false)
+
+// Fetch modem detail when route changes or on mount
+const loadModemDetail = async () => {
+  await fetchModemDetail(modemId.value)
+}
+
+onMounted(() => {
+  loadModemDetail()
+})
+
+watch(modemId, () => {
+  loadModemDetail()
+})
 </script>
 
 <template>
   <div
-    v-if="!modem"
+    v-if="isLoading"
+    class="flex items-center justify-center rounded-2xl border border-dashed border-border p-8 text-sm text-muted-foreground"
+  >
+    Loading modem details...
+  </div>
+
+  <div
+    v-else-if="!modem"
     class="rounded-2xl border border-dashed border-border p-8 text-sm text-muted-foreground"
   >
     {{ t('modemDetail.unknown') }}
   </div>
 
-  <ModemPhysicalCard v-else-if="physicalModem" :modem="physicalModem" />
+  <!-- SIM Slot Switcher -->
+  <SimSlotSwitcher v-if="modem" v-model="currentSimIdentifier" :slots="simSlots" />
 
-  <div v-else class="space-y-4">
-    <EsimSummaryCard v-if="esimModem" :modem="esimModem" />
-    <EsimProfileSection v-if="esimModem" v-model:profiles="esimProfiles" />
+  <!-- eSIM modem: show original layout -->
+  <div v-if="esimModem" class="space-y-4">
+    <EsimSummaryCard :modem="esimModem" :euicc="euicc" />
+    <EsimProfileSection v-model:profiles="esimProfiles" />
+  </div>
+
+  <!-- Physical modem: show detail card -->
+  <div v-if="physicalModem" class="space-y-4">
+    <ModemDetailCard :modem="physicalModem" />
   </div>
 
   <button

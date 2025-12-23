@@ -128,7 +128,13 @@ onMounted(() => {
           <div class="flex min-w-0 flex-1 flex-col gap-1">
             <div class="flex items-center justify-between gap-2">
               <p class="truncate text-sm font-semibold text-foreground">
-                {{ modem.name }}
+                <span class="text-foreground">{{ modem.sim.operatorName }}</span>
+                <span
+                  v-if="modem.registeredOperator.code && modem.registrationState === 'Roaming'"
+                  class="text-[11px] text-muted-foreground"
+                >
+                  ({{ modem.registeredOperator.name || modem.registeredOperator.code }})
+                </span>
               </p>
               <div class="flex items-center gap-1.5">
                 <span
@@ -138,19 +144,10 @@ onMounted(() => {
                   {{ getTech(modem.accessTechnology) }}
                 </span>
                 <Badge variant="outline" class="text-[10px] tracking-[0.2em]">
-                  {{ modem.isEsim ? t('labels.esim') : t('labels.psim') }}
+                  {{ modem.supportsEsim ? t('labels.esim') : t('labels.psim') }}
                 </Badge>
               </div>
             </div>
-            <p class="truncate text-sm text-foreground">
-              <span class="text-foreground">{{ modem.sim.operatorName }}</span>
-              <span
-                v-if="modem.registeredOperator.code && modem.registrationState === 'Roaming'"
-                class="text-[11px] text-muted-foreground"
-              >
-                ({{ modem.registeredOperator.name || modem.registeredOperator.code }})
-              </span>
-            </p>
             <div class="mt-auto flex items-center justify-between gap-3">
               <p class="truncate text-xs text-muted-foreground">
                 {{ modem.number || t('home.noNumber') }}

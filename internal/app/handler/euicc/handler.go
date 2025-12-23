@@ -1,4 +1,4 @@
-package modem
+package euicc
 
 import (
 	"github.com/labstack/echo/v4"
@@ -10,23 +10,17 @@ import (
 
 type Handler struct {
 	handler.Handler
+	cfg     *config.Config
 	manager *mmodem.Manager
 	service *Service
 }
 
 func New(cfg *config.Config, manager *mmodem.Manager) *Handler {
 	return &Handler{
+		cfg:     cfg,
 		manager: manager,
-		service: NewService(cfg, manager),
+		service: NewService(cfg),
 	}
-}
-
-func (h *Handler) List(c echo.Context) error {
-	response, err := h.service.List()
-	if err != nil {
-		return h.InternalServerError(c, err)
-	}
-	return h.Respond(c, response)
 }
 
 func (h *Handler) Get(c echo.Context) error {
@@ -36,7 +30,7 @@ func (h *Handler) Get(c echo.Context) error {
 	}
 	response, err := h.service.Get(modem)
 	if err != nil {
-		return h.InternalServerError(c, err)
+		return h.BadRequest(c, err)
 	}
 	return h.Respond(c, response)
 }
