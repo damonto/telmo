@@ -24,12 +24,12 @@ func NewService(cfg *config.Config, manager *mmodem.Manager) *Service {
 	}
 }
 
-func (s *Service) List() ([]ModemResponse, error) {
+func (s *Service) List() ([]*ModemResponse, error) {
 	modems, err := s.manager.Modems()
 	if err != nil {
 		return nil, fmt.Errorf("listing modems: %w", err)
 	}
-	response := make([]ModemResponse, 0, len(modems))
+	response := make([]*ModemResponse, 0, len(modems))
 	for _, m := range modems {
 		modemResp, err := s.buildModemResponse(m)
 		if err != nil {
@@ -45,54 +45,54 @@ func (s *Service) Get(modem *mmodem.Modem) (*ModemResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &resp, nil
+	return resp, nil
 }
 
-func (s *Service) buildModemResponse(m *mmodem.Modem) (ModemResponse, error) {
+func (s *Service) buildModemResponse(m *mmodem.Modem) (*ModemResponse, error) {
 	sim, err := m.SIMs().Primary()
 	if err != nil {
-		return ModemResponse{}, fmt.Errorf("fetching SIM for %s: %w", m.EquipmentIdentifier, err)
+		return nil, fmt.Errorf("fetching SIM for %s: %w", m.EquipmentIdentifier, err)
 	}
 
 	percent, _, err := m.SignalQuality()
 	if err != nil {
-		return ModemResponse{}, fmt.Errorf("fetching signal quality for %s: %w", m.EquipmentIdentifier, err)
+		return nil, fmt.Errorf("fetching signal quality for %s: %w", m.EquipmentIdentifier, err)
 	}
 
 	access, err := m.AccessTechnologies()
 	if err != nil {
-		return ModemResponse{}, fmt.Errorf("fetching access technologies for %s: %w", m.EquipmentIdentifier, err)
+		return nil, fmt.Errorf("fetching access technologies for %s: %w", m.EquipmentIdentifier, err)
 	}
 
 	threeGpp := m.ThreeGPP()
 	registrationState, err := threeGpp.RegistrationState()
 	if err != nil {
-		return ModemResponse{}, fmt.Errorf("fetching registration state for %s: %w", m.EquipmentIdentifier, err)
+		return nil, fmt.Errorf("fetching registration state for %s: %w", m.EquipmentIdentifier, err)
 	}
 
 	operatorName, err := threeGpp.OperatorName()
 	if err != nil {
-		return ModemResponse{}, fmt.Errorf("fetching operator name for %s: %w", m.EquipmentIdentifier, err)
+		return nil, fmt.Errorf("fetching operator name for %s: %w", m.EquipmentIdentifier, err)
 	}
 
 	operatorCode, err := threeGpp.OperatorCode()
 	if err != nil {
-		return ModemResponse{}, fmt.Errorf("fetching operator code for %s: %w", m.EquipmentIdentifier, err)
+		return nil, fmt.Errorf("fetching operator code for %s: %w", m.EquipmentIdentifier, err)
 	}
 
 	carrierInfo := carrier.Lookup(sim.OperatorIdentifier)
 	supportsEsim, err := supportsEsim(m, s.cfg)
 	if err != nil {
-		return ModemResponse{}, fmt.Errorf("detecting eSIM support for %s: %w", m.EquipmentIdentifier, err)
+		return nil, fmt.Errorf("detecting eSIM support for %s: %w", m.EquipmentIdentifier, err)
 	}
 
 	simSlots, err := s.buildSimSlotsResponse(m)
 	if err != nil {
-		return ModemResponse{}, fmt.Errorf("fetching SIM slots for %s: %w", m.EquipmentIdentifier, err)
+		return nil, fmt.Errorf("fetching SIM slots for %s: %w", m.EquipmentIdentifier, err)
 	}
 
 	alias := s.cfg.FindModem(m.EquipmentIdentifier).Alias
-	return ModemResponse{
+	return &ModemResponse{
 		Manufacturer:     m.Manufacturer,
 		ID:               m.EquipmentIdentifier,
 		FirmwareRevision: m.FirmwareRevision,
