@@ -1,29 +1,34 @@
 import { createFetch } from '@vueuse/core'
 
-import { handleError } from './error-handler'
+import { handleError, handleResponseError } from './error-handler'
+
+const rawBaseUrl = import.meta.env.VITE_API_BASE_URL
+const baseUrl =
+  rawBaseUrl && rawBaseUrl.trim().length > 0 ? rawBaseUrl.replace(/\/$/, '') : '/api/v1'
 
 /**
  * Custom fetch instance with global configuration
  * Unified error handling - no need to handle errors in callers
  */
 export const useFetch = createFetch({
-  baseUrl: import.meta.env.VITE_API_BASE_URL || 'http://10.10.10.101:9527/api/v1',
+  baseUrl,
   options: {
+    updateDataOnError: true,
     async beforeFetch({ options }) {
+      const headers = new Headers(options.headers)
+
       // Add authentication token if available
       const token = localStorage.getItem('auth_token')
       if (token) {
-        options.headers = {
-          ...options.headers,
-          Authorization: `Bearer ${token}`,
-        }
+        headers.set('Authorization', `Bearer ${token}`)
       }
 
-      // Add custom headers
-      options.headers = {
-        ...options.headers,
-        'Content-Type': 'application/json',
+      const hasBody = options.body !== undefined && options.body !== null
+      if (hasBody && !(options.body instanceof FormData) && !headers.has('Content-Type')) {
+        headers.set('Content-Type', 'application/json')
       }
+
+      options.headers = headers
 
       return { options }
     },
@@ -36,8 +41,8 @@ export const useFetch = createFetch({
 
       // Unified error handling for non-2xx responses
       if (!response.ok) {
-        const errorData = data as { code: number; message: string }
-        handleError(errorData)
+        handleResponseError(response, data)
+        return { response, data: null }
       }
 
       return { response, data }
@@ -45,19 +50,11 @@ export const useFetch = createFetch({
 
     async onFetchError({ response, error }) {
       // Unified network error handling
-      const errorMessage = error?.message || 'Network error occurred'
-      handleError(errorMessage)
-      console.error('[API] Network error:', errorMessage)
-
-      // Handle 401 unauthorized
-      if (response?.status === 401) {
-        localStorage.removeItem('auth_token')
-        // Optionally redirect to login
-        // window.location.href = '/login'
-      }
+      handleError(error, 'Network error occurred')
+      console.error('[API] Network error:', error)
 
       // Don't throw - let callers handle error via error.value
-      return { response, error }
+      return { response, error, data: null }
     },
   },
   fetchOptions: {

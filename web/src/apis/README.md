@@ -7,7 +7,7 @@
 ```typescript
 import { useFetch } from '@/lib/fetch'
 
-// GET 请求 - 注意 data.value.data 才是实际数据
+// GET 请求 - 注意 data.value?.data 才是实际数据
 const { data } = await useFetch<ModemListResponse>('modems').get().json()
 const modems = data.value?.data // 提取实际数据
 

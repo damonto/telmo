@@ -1,10 +1,13 @@
 package euicc
 
 import (
+	"errors"
+
 	"github.com/labstack/echo/v4"
 
 	"github.com/damonto/sigmo/internal/app/handler"
 	"github.com/damonto/sigmo/internal/pkg/config"
+	"github.com/damonto/sigmo/internal/pkg/lpa"
 	mmodem "github.com/damonto/sigmo/internal/pkg/modem"
 )
 
@@ -30,7 +33,10 @@ func (h *Handler) Get(c echo.Context) error {
 	}
 	response, err := h.service.Get(modem)
 	if err != nil {
-		return h.BadRequest(c, err)
+		if errors.Is(err, lpa.ErrNoSupportedAID) {
+			return h.NotFound(c, err)
+		}
+		return h.InternalServerError(c, err)
 	}
 	return h.Respond(c, response)
 }

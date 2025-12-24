@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Download } from 'lucide-vue-next'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
@@ -27,11 +27,14 @@ const simSlots = computed(() => modem.value?.slots ?? [])
 watch(
   modem,
   (newModem) => {
-    if (newModem && !currentSimIdentifier.value) {
-      // Set to the first active slot, or first slot if none is active
-      const activeSlot = newModem.slots.find((slot) => slot.active)
-      currentSimIdentifier.value = activeSlot?.identifier ?? newModem.slots[0]?.identifier ?? ''
+    if (!newModem) {
+      currentSimIdentifier.value = ''
+      return
     }
+
+    // Set to the first active slot, or first slot if none is active
+    const activeSlot = newModem.slots.find((slot) => slot.active)
+    currentSimIdentifier.value = activeSlot?.identifier ?? newModem.slots[0]?.identifier ?? ''
   },
   { immediate: true },
 )
@@ -41,27 +44,19 @@ const physicalModem = computed(() => (isPhysicalModem.value ? modem.value : null
 const esimModem = computed(() => (isEsimModem.value ? modem.value : null))
 
 // TODO: Implement profiles API when available
-const esimProfiles = computed<EsimProfile[]>({
-  get: () => [],
-  set: () => {
-    // Placeholder for future implementation
-  },
-})
+const esimProfiles = ref<EsimProfile[]>([])
 
 const installDialogOpen = ref(false)
 
 // Fetch modem detail when route changes or on mount
-const loadModemDetail = async () => {
-  await fetchModemDetail(modemId.value)
-}
-
-onMounted(() => {
-  loadModemDetail()
-})
-
-watch(modemId, () => {
-  loadModemDetail()
-})
+watch(
+  modemId,
+  async (id) => {
+    if (!id || id === 'unknown') return
+    await fetchModemDetail(id)
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

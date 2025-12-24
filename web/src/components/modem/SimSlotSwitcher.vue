@@ -1,19 +1,14 @@
 <script setup lang="ts">
-import type { SlotInfo } from '@/types/modem'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface Props {
+import type { SlotInfo } from '@/types/modem'
+
+const props = defineProps<{
   slots: SlotInfo[]
-  modelValue: string
-}
+}>()
 
-interface Emits {
-  (e: 'update:modelValue', value: string): void
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<Emits>()
+const selectedIdentifier = defineModel<string>({ required: true })
 
 const { t } = useI18n()
 
@@ -23,7 +18,7 @@ const dialogOpen = ref(false)
 const hasMultipleSlots = computed(() => props.slots.length > 1)
 
 const openDialog = (identifier: string) => {
-  if (identifier === props.modelValue) return
+  if (identifier === selectedIdentifier.value) return
   pendingIdentifier.value = identifier
   dialogOpen.value = true
 }
@@ -36,7 +31,7 @@ const closeDialog = () => {
 const confirmSwitch = () => {
   if (!pendingIdentifier.value) return
   // TODO: Call API to switch SIM slot
-  emit('update:modelValue', pendingIdentifier.value)
+  selectedIdentifier.value = pendingIdentifier.value
   closeDialog()
 }
 
@@ -62,7 +57,7 @@ const getPendingSlotInfo = computed(() => {
         type="button"
         class="rounded-full px-2 py-1 text-[10px] font-semibold tracking-[0.16em] transition"
         :class="
-          modelValue === slot.identifier
+          selectedIdentifier === slot.identifier
             ? 'bg-white text-foreground shadow-sm'
             : 'text-muted-foreground hover:text-foreground'
         "

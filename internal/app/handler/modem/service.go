@@ -1,6 +1,7 @@
 package modem
 
 import (
+	"errors"
 	"fmt"
 	"slices"
 
@@ -142,10 +143,13 @@ func (s *Service) buildSimSlotsResponse(m *mmodem.Modem) ([]SlotResponse, error)
 func supportsEsim(m *mmodem.Modem, cfg *config.Config) (bool, error) {
 	client, err := lpa.New(m, cfg)
 	if err != nil {
-		return false, nil
+		if errors.Is(err, lpa.ErrNoSupportedAID) {
+			return false, nil
+		}
+		return false, fmt.Errorf("creating LPA client for %s: %w", m.EquipmentIdentifier, err)
 	}
 	if err := client.Close(); err != nil {
-		return false, fmt.Errorf("closing LPA client: %w", err)
+		return false, fmt.Errorf("closing LPA client for %s: %w", m.EquipmentIdentifier, err)
 	}
 	return true, nil
 }

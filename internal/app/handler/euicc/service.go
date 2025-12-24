@@ -1,6 +1,7 @@
 package euicc
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 
@@ -22,7 +23,10 @@ func NewService(cfg *config.Config) *Service {
 func (s *Service) Get(modem *mmodem.Modem) (*EuiccResponse, error) {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return nil, fmt.Errorf("modem %s does not support eSIM or failed to create LPA client: %w", modem.EquipmentIdentifier, err)
+		if errors.Is(err, lpa.ErrNoSupportedAID) {
+			return nil, fmt.Errorf("modem %s does not support eSIM: %w", modem.EquipmentIdentifier, err)
+		}
+		return nil, fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {

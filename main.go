@@ -17,6 +17,7 @@ import (
 	"github.com/damonto/sigmo/internal/app/router"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/modem"
+	"github.com/damonto/sigmo/internal/pkg/validator"
 )
 
 var (
@@ -47,6 +48,7 @@ func main() {
 
 	server := echo.New()
 	server.HideBanner = true
+	server.Validator = validator.New()
 	server.Use(middleware.RequestLogger())
 	server.Use(middleware.RequestID())
 	server.Use(middleware.Recover())

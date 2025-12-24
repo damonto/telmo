@@ -10,10 +10,9 @@ const { isErrorOpen, errorTitle, errorMessage, clearError } = useErrorHandler()
 <template>
   <RouterView />
   <ErrorAlert
-    :open="isErrorOpen"
+    v-model:open="isErrorOpen"
     :title="errorTitle"
     :message="errorMessage"
     @close="clearError"
-    @update:open="clearError"
   />
 </template>

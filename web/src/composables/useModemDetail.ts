@@ -24,11 +24,13 @@ export const useModemDetail = () => {
 
     isLoading.value = true
     error.value = null
+    modem.value = null
+    euicc.value = null
 
     try {
       const { data } = await modemApi.getModem(id)
 
-      if (data.value) {
+      if (data.value?.data) {
         modem.value = data.value.data
 
         // If modem supports eSIM, fetch eUICC information
@@ -74,8 +76,8 @@ export const useModemDetail = () => {
 
     // Computed
     hasModem: computed(() => modem.value !== null),
-    isPhysicalModem: computed(() => modem.value && !modem.value.supportsEsim),
-    isEsimModem: computed(() => modem.value && modem.value.supportsEsim),
+    isPhysicalModem: computed(() => Boolean(modem.value && !modem.value.supportsEsim)),
+    isEsimModem: computed(() => Boolean(modem.value && modem.value.supportsEsim)),
 
     // Actions
     fetchModemDetail,

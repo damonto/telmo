@@ -41,6 +41,8 @@ type Info struct {
 	Certificates []string
 }
 
+var ErrNoSupportedAID = errors.New("no supported ISD-R AID found or it's not an eUICC")
+
 var AIDs = [][]byte{
 	lpa.GSMAISDRApplicationAID,
 	{0xA0, 0x00, 0x00, 0x05, 0x59, 0x10, 0x10, 0xFF, 0xFF, 0xFF, 0xFF, 0x89, 0x00, 0x05, 0x05, 0x00}, // 5ber Ultra
@@ -80,7 +82,7 @@ func (l *LPA) tryCreateClient(opts *lpa.Options) error {
 		}
 		slog.Warn("failed to create LPA client", "AID", fmt.Sprintf("%X", opts.AID), "error", err)
 	}
-	return errors.New("no supported ISD-R AID found or it's not an eUICC")
+	return ErrNoSupportedAID
 }
 
 func (l *LPA) createChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
