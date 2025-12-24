@@ -31,3 +31,6 @@ configs/config.toml
 
 # macOS
 .DS_Store
+
+# AI
+AGENTS.md
