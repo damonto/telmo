@@ -1,6 +1,6 @@
 import { useFetch } from '@/lib/fetch'
 
-import type { EuiccDetailResponse, ModemDetailResponse, ModemListResponse } from '@/types/modem'
+import type { EsimProfilesResponse, EuiccDetailResponse, ModemDetailResponse, ModemListResponse } from '@/types/modem'
 
 /**
  * Modem API
@@ -31,9 +31,18 @@ export const useModemApi = () => {
     return useFetch<EuiccDetailResponse>(`modems/${id}/euicc`).get().json()
   }
 
+  /**
+   * Fetch eSIM profiles
+   * GET /api/v1/modems/:id/esims
+   */
+  const getEsims = (id: string) => {
+    return useFetch<EsimProfilesResponse>(`modems/${id}/esims`).get().json()
+  }
+
   return {
     getModems,
     getModem,
     getEuicc,
+    getEsims,
   }
 }

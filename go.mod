@@ -2,6 +2,8 @@ module github.com/damonto/sigmo
 
 go 1.25.5
 
+replace github.com/damonto/euicc-go => ../euicc-go
+
 require (
 	github.com/BurntSushi/toml v1.6.0
 	github.com/damonto/euicc-go v1.1.0

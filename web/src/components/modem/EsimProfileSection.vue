@@ -9,12 +9,21 @@ import { useModemDisplay } from '@/composables/useModemDisplay'
 import type { EsimProfile } from '@/types/modem'
 
 const profiles = defineModel<EsimProfile[]>('profiles', { required: true })
+const props = withDefaults(
+  defineProps<{
+    loading?: boolean
+  }>(),
+  {
+    loading: false,
+  },
+)
 
 const { t } = useI18n()
 const { flagClass } = useModemDisplay()
 
 const profileCount = computed(() => profiles.value.length)
 const hasProfiles = computed(() => profiles.value.length > 0)
+const isLoading = computed(() => props.loading)
 
 const openMenuId = ref<string | null>(null)
 
@@ -150,12 +159,29 @@ const handleDeleteClick = (profile: EsimProfile, event: Event) => {
         {{ t('modemDetail.esim.listTitle') }}
       </h2>
       <Badge variant="outline" class="text-[10px] uppercase tracking-[0.2em]">
-        {{ profileCount }}
+        {{ isLoading ? '...' : profileCount }}
       </Badge>
     </div>
 
+    <div v-if="isLoading" class="space-y-1.5">
+      <div
+        v-for="i in 3"
+        :key="`esim-profile-skeleton-${i}`"
+        class="flex items-center justify-between rounded-2xl border border-white/40 bg-white/80 px-3 py-2.5 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/60"
+      >
+        <div class="flex min-w-0 items-center gap-3">
+          <div class="h-11 w-11 shrink-0 animate-pulse rounded-2xl bg-muted/80" />
+          <div class="flex min-w-0 flex-col gap-1.5">
+            <div class="h-4 w-28 animate-pulse rounded bg-muted/60" />
+            <div class="h-3.5 w-40 animate-pulse rounded bg-muted/40" />
+          </div>
+        </div>
+        <div class="h-6 w-11 animate-pulse rounded-full bg-muted/60" />
+      </div>
+    </div>
+
     <div
-      v-if="!hasProfiles"
+      v-else-if="!hasProfiles"
       class="rounded-2xl border border-dashed border-border p-4 text-sm text-muted-foreground"
     >
       {{ t('modemDetail.esim.noProfiles') }}

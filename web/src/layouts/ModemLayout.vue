@@ -5,13 +5,11 @@ import { useI18n } from 'vue-i18n'
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 
 import BottomTabBar from '@/components/BottomTabBar.vue'
-import { useModemDetail } from '@/composables/useModemDetail'
 
 const route = useRoute()
 const { t } = useI18n()
 
 const modemId = computed(() => (route.params.id ?? 'unknown') as string)
-const { modem, isLoading } = useModemDetail()
 
 const tabItems = computed(() => [
   {
@@ -41,28 +39,6 @@ const tabItems = computed(() => [
 <template>
   <div class="min-h-screen bg-linear-to-b from-background via-background to-muted/40">
     <div class="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-10 pb-24">
-      <RouterLink
-        to="/"
-        class="text-sm font-medium text-muted-foreground transition hover:text-foreground"
-      >
-        ← {{ t('modemDetail.back') }}
-      </RouterLink>
-
-      <header class="space-y-2">
-        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-          {{ t('modemDetail.kicker') }}
-        </p>
-        <div class="flex flex-wrap items-center gap-3">
-          <h1 v-if="!isLoading" class="text-3xl font-semibold tracking-tight text-foreground">
-            {{ modem?.name ?? t('modemDetail.unknown') }}
-          </h1>
-          <div v-else class="h-9 w-48 animate-pulse rounded bg-muted" />
-        </div>
-        <p class="text-sm text-muted-foreground">
-          {{ t('modemDetail.subtitle') }}
-        </p>
-      </header>
-
       <RouterView />
     </div>
   </div>

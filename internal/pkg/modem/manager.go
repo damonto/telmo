@@ -1,8 +1,11 @@
 package modem
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
+	"maps"
+	"sync"
 
 	"github.com/godbus/dbus/v5"
 )
@@ -21,6 +24,9 @@ type Manager struct {
 	dbusConn   *dbus.Conn
 	dbusObject dbus.BusObject
 	modems     map[dbus.ObjectPath]*Modem
+	mu         sync.RWMutex
+	subs       []func(map[dbus.ObjectPath]*Modem) error
+	subscribe  sync.Once
 }
 
 func NewManager() (*Manager, error) {
@@ -49,6 +55,7 @@ func (m *Manager) Modems() (map[dbus.ObjectPath]*Modem, error) {
 	if err := m.dbusObject.Call(ModemManagerManagedObjects, 0).Store(&managedObjects); err != nil {
 		return nil, err
 	}
+	modems := make(map[dbus.ObjectPath]*Modem, len(managedObjects))
 	for objectPath, data := range managedObjects {
 		if _, ok := data["org.freedesktop.ModemManager1.Modem"]; !ok {
 			continue
@@ -58,9 +65,13 @@ func (m *Manager) Modems() (map[dbus.ObjectPath]*Modem, error) {
 			slog.Error("failed to create modem", "error", err)
 			continue
 		}
-		m.modems[objectPath] = modem
+		modems[objectPath] = modem
 	}
-	return m.modems, nil
+	m.mu.Lock()
+	m.modems = modems
+	snapshot := m.copyModemsLocked()
+	m.mu.Unlock()
+	return snapshot, nil
 }
 
 func (m *Manager) createModem(objectPath dbus.ObjectPath, data map[string]dbus.Variant) (*Modem, error) {
@@ -109,6 +120,34 @@ func (m *Manager) createModem(objectPath dbus.ObjectPath, data map[string]dbus.V
 }
 
 func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) error {
+	if subscriber == nil {
+		return errors.New("subscriber is required")
+	}
+	m.mu.Lock()
+	m.subs = append(m.subs, subscriber)
+	m.mu.Unlock()
+
+	var err error
+	m.subscribe.Do(func() {
+		err = m.startSubscription()
+	})
+	return err
+}
+
+func (m *Manager) deleteAndUpdate(modem *Modem) {
+	// If user restart the ModemManager manually, Dbus will not send the InterfacesRemoved signal
+	// But it will send the InterfacesAdded signal again.
+	// So we need to remove the duplicate modem manually and update it.
+	for path, v := range m.modems {
+		if v.EquipmentIdentifier == modem.EquipmentIdentifier {
+			slog.Info("removing duplicate modem", "path", path, "equipmentIdentifier", modem.EquipmentIdentifier)
+			delete(m.modems, path)
+		}
+	}
+	m.modems[modem.objectPath] = modem
+}
+
+func (m *Manager) startSubscription() error {
 	if err := m.dbusConn.AddMatchSignal(
 		dbus.WithMatchInterface("org.freedesktop.DBus.ObjectManager"),
 		dbus.WithMatchMember("InterfacesAdded"),
@@ -126,39 +165,47 @@ func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) e
 
 	sig := make(chan *dbus.Signal, 10)
 	m.dbusConn.Signal(sig)
-	defer m.dbusConn.RemoveSignal(sig)
+	go m.handleSignals(sig)
+	return nil
+}
 
-	for {
-		event := <-sig
+func (m *Manager) handleSignals(sig <-chan *dbus.Signal) {
+	for event := range sig {
 		modemPath := event.Body[0].(dbus.ObjectPath)
+		var modem *Modem
 		if event.Name == ModemManagerInterfacesAdded {
 			slog.Info("new modem plugged in", "path", modemPath)
 			raw := event.Body[1].(map[string]map[string]dbus.Variant)
-			modem, err := m.createModem(modemPath, raw["org.freedesktop.ModemManager1.Modem"])
+			var err error
+			modem, err = m.createModem(modemPath, raw["org.freedesktop.ModemManager1.Modem"])
 			if err != nil {
 				slog.Error("failed to create modem", "error", err)
 				continue
 			}
-			m.deleteAndUpdate(modem)
 		} else {
 			slog.Info("modem unplugged", "path", modemPath)
+		}
+
+		m.mu.Lock()
+		if event.Name == ModemManagerInterfacesAdded {
+			m.deleteAndUpdate(modem)
+		} else {
 			delete(m.modems, modemPath)
 		}
-		if err := subscriber(m.modems); err != nil {
-			slog.Error("failed to process modem", "error", err)
+		snapshot := m.copyModemsLocked()
+		subscribers := append([]func(map[dbus.ObjectPath]*Modem) error(nil), m.subs...)
+		m.mu.Unlock()
+
+		for _, subscriber := range subscribers {
+			if err := subscriber(snapshot); err != nil {
+				slog.Error("failed to process modem", "error", err)
+			}
 		}
 	}
 }
 
-func (m *Manager) deleteAndUpdate(modem *Modem) {
-	// If user restart the ModemManager manually, Dbus will not send the InterfacesRemoved signal
-	// But it will send the InterfacesAdded signal again.
-	// So we need to remove the duplicate modem manually and update it.
-	for path, v := range m.modems {
-		if v.EquipmentIdentifier == modem.EquipmentIdentifier {
-			slog.Info("removing duplicate modem", "path", path, "equipmentIdentifier", modem.EquipmentIdentifier)
-			delete(m.modems, path)
-		}
-	}
-	m.modems[modem.objectPath] = modem
+func (m *Manager) copyModemsLocked() map[dbus.ObjectPath]*Modem {
+	snapshot := make(map[dbus.ObjectPath]*Modem, len(m.modems))
+	maps.Copy(snapshot, m.modems)
+	return snapshot
 }

@@ -43,6 +43,17 @@ export type EuiccDetailResponse = ApiResponse<EuiccApiResponse>
 // Frontend uses ModemApiResponse directly as Modem type
 export type Modem = ModemApiResponse
 
+export type EsimProfileApiResponse = {
+  name: string
+  serviceProviderName: string
+  iccid: string
+  icon: string
+  profileState: number
+  regionCode?: string
+}
+
+export type EsimProfilesResponse = ApiResponse<EsimProfileApiResponse[]>
+
 // eSIM Profile type (for future eSIM management features)
 export type EsimProfile = {
   id: string

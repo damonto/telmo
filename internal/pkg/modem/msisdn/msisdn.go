@@ -8,7 +8,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/damonto/sigmo/internal/pkg/cond"
 	"github.com/damonto/sigmo/internal/pkg/modem/at"
 )
 
@@ -69,8 +68,12 @@ func (m *MSISDN) update(hasPrefix bool, name string, number string) error {
 	}
 	var data []byte
 	data = append(data, m.padRight([]byte(name), n-14)...)
+	tonNpi := byte(0x81)
+	if hasPrefix {
+		tonNpi = 0x91
+	}
 	data = append(data, append(
-		[]byte{byte(len(nb) + 1), cond.If(hasPrefix, byte(0x91), byte(0x81))},
+		[]byte{byte(len(nb) + 1), tonNpi},
 		m.padRight(nb, 12)...,
 	)...)
 	return m.runner.Run(data)

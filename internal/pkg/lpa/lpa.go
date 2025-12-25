@@ -17,7 +17,6 @@ import (
 	"github.com/damonto/euicc-go/driver/qmi"
 	"github.com/damonto/euicc-go/lpa"
 	sgp22 "github.com/damonto/euicc-go/v2"
-	"github.com/damonto/sigmo/internal/pkg/cond"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/euicc"
 	"github.com/damonto/sigmo/internal/pkg/keymutex"
@@ -86,7 +85,10 @@ func (l *LPA) tryCreateClient(opts *lpa.Options) error {
 }
 
 func (l *LPA) createChannel(m *modem.Modem) (apdu.SmartCardChannel, error) {
-	slot := uint8(cond.If(m.PrimarySimSlot > 0, m.PrimarySimSlot, 1))
+	slot := uint8(1)
+	if m.PrimarySimSlot > 0 {
+		slot = uint8(m.PrimarySimSlot)
+	}
 	switch m.PrimaryPortType() {
 	case modem.ModemPortTypeQmi:
 		slog.Info("using QMI driver", "port", m.PrimaryPort, "slot", slot)

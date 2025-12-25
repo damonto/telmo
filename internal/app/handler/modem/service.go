@@ -6,7 +6,6 @@ import (
 	"slices"
 
 	"github.com/damonto/sigmo/internal/pkg/carrier"
-	"github.com/damonto/sigmo/internal/pkg/cond"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/lpa"
 	mmodem "github.com/damonto/sigmo/internal/pkg/modem"
@@ -70,7 +69,7 @@ func (s *Service) buildModemResponse(m *mmodem.Modem) (*ModemResponse, error) {
 		return nil, fmt.Errorf("fetching registration state for %s: %w", m.EquipmentIdentifier, err)
 	}
 
-	operatorName, err := threeGpp.OperatorName()
+	registeredOperatorName, err := threeGpp.OperatorName()
 	if err != nil {
 		return nil, fmt.Errorf("fetching operator name for %s: %w", m.EquipmentIdentifier, err)
 	}
@@ -92,16 +91,24 @@ func (s *Service) buildModemResponse(m *mmodem.Modem) (*ModemResponse, error) {
 	}
 
 	alias := s.cfg.FindModem(m.EquipmentIdentifier).Alias
+	name := m.Model
+	if alias != "" {
+		name = alias
+	}
+	simOperatorName := carrierInfo.Name
+	if sim.OperatorName != "" {
+		simOperatorName = sim.OperatorName
+	}
 	return &ModemResponse{
 		Manufacturer:     m.Manufacturer,
 		ID:               m.EquipmentIdentifier,
 		FirmwareRevision: m.FirmwareRevision,
 		HardwareRevision: m.HardwareRevision,
-		Name:             cond.If(alias != "", alias, m.Model),
+		Name:             name,
 		Number:           m.Number,
 		SIM: SlotResponse{
 			Active:             sim.Active,
-			OperatorName:       cond.If(sim.OperatorName != "", sim.OperatorName, carrierInfo.Name),
+			OperatorName:       simOperatorName,
 			OperatorIdentifier: sim.OperatorIdentifier,
 			RegionCode:         carrierInfo.Region,
 			Identifier:         sim.Identifier,
@@ -110,7 +117,7 @@ func (s *Service) buildModemResponse(m *mmodem.Modem) (*ModemResponse, error) {
 		AccessTechnology:  accessTechnologyString(access),
 		RegistrationState: registrationState.String(),
 		RegisteredOperator: RegisteredOperatorResponse{
-			Name: operatorName,
+			Name: registeredOperatorName,
 			Code: operatorCode,
 		},
 		SignalQuality: percent,
@@ -129,9 +136,13 @@ func (s *Service) buildSimSlotsResponse(m *mmodem.Modem) ([]SlotResponse, error)
 			return nil, fmt.Errorf("fetching SIM for slot %s: %w", slotPath, err)
 		}
 		carrierInfo := carrier.Lookup(sim.OperatorIdentifier)
+		operatorName := carrierInfo.Name
+		if sim.OperatorName != "" {
+			operatorName = sim.OperatorName
+		}
 		simSlots = append(simSlots, SlotResponse{
 			Active:             sim.Active,
-			OperatorName:       cond.If(sim.OperatorName != "", sim.OperatorName, carrierInfo.Name),
+			OperatorName:       operatorName,
 			OperatorIdentifier: sim.OperatorIdentifier,
 			RegionCode:         carrierInfo.Region,
 			Identifier:         sim.Identifier,
