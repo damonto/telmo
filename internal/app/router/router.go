@@ -23,11 +23,12 @@ func Register(e *echo.Echo, cfg *config.Config, manager *modem.Manager) {
 			v1.GET("/modems/:id/euicc", h.Get)
 		}
 
-		{
-			h := esim.New(cfg, manager)
-			v1.GET("/modems/:id/esims", h.List)
-			v1.POST("/modems/:id/esims/:iccid/enabling", h.Enable)
-			v1.DELETE("/modems/:id/esims/:iccid", h.Delete)
+			{
+				h := esim.New(cfg, manager)
+				v1.GET("/modems/:id/esims", h.List)
+				v1.POST("/modems/:id/esims/:iccid/enabling", h.Enable)
+				v1.PUT("/modems/:id/esims/:iccid/nickname", h.UpdateNickname)
+				v1.DELETE("/modems/:id/esims/:iccid", h.Delete)
+			}
 		}
 	}
-}

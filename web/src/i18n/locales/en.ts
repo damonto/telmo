@@ -52,6 +52,7 @@ const en = {
       roamingCarrier: 'Roaming Carrier',
       signal: 'Signal Quality',
       flag: 'Flag',
+      active: 'Active',
       iccid: 'ICCID',
       imei: 'IMEI',
       eid: 'EID',

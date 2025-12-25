@@ -8,3 +8,7 @@ type ProfileResponse struct {
 	ProfileState        uint8  `json:"profileState"`
 	RegionCode          string `json:"regionCode,omitempty"`
 }
+
+type UpdateNicknameRequest struct {
+	Nickname string `json:"nickname"`
+}

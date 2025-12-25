@@ -2,7 +2,7 @@
 import { Info, MessageSquare, Phone } from 'lucide-vue-next'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 
 import BottomTabBar from '@/components/BottomTabBar.vue'
 

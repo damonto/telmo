@@ -52,6 +52,7 @@ const zh = {
       roamingCarrier: '漫游运营商',
       signal: '信号强度',
       flag: '国旗',
+      active: '启用状态',
       iccid: 'ICCID',
       imei: 'IMEI',
       eid: 'EID',

@@ -4,13 +4,15 @@ import * as v from 'valibot'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import { useEsimApi } from '@/apis/esim'
 import { Badge } from '@/components/ui/badge'
 import { useModemDisplay } from '@/composables/useModemDisplay'
-import type { EsimProfile } from '@/types/modem'
+import type { EsimProfile } from '@/types/esim'
 
 const profiles = defineModel<EsimProfile[]>('profiles', { required: true })
 const props = withDefaults(
   defineProps<{
+    modemId: string
     loading?: boolean
   }>(),
   {
@@ -19,6 +21,7 @@ const props = withDefaults(
 )
 
 const { t } = useI18n()
+const esimApi = useEsimApi()
 const { flagClass } = useModemDisplay()
 
 const profileCount = computed(() => profiles.value.length)
@@ -102,9 +105,17 @@ const confirmRename = async () => {
   const value = validateRename()
   if (!value || !renameProfile.value) return
   renameLoading.value = true
-  await sleep(650)
-  renameProfile.value.name = value
-  closeRenameDialog()
+  try {
+    const { data } = await esimApi.updateEsimNickname(props.modemId, renameProfile.value.iccid, value)
+    if (data.value) {
+      renameProfile.value.name = value
+      closeRenameDialog()
+    }
+  } catch (err) {
+    console.error('[EsimProfileSection] Failed to update nickname:', err)
+  } finally {
+    renameLoading.value = false
+  }
 }
 
 const openDeleteDialog = (profile: EsimProfile) => {
@@ -122,9 +133,17 @@ const closeDeleteDialog = () => {
 const confirmDelete = async () => {
   if (!deleteProfile.value) return
   deleteLoading.value = true
-  await sleep(650)
-  profiles.value = profiles.value.filter((profile) => profile.id !== deleteProfile.value?.id)
-  closeDeleteDialog()
+  try {
+    const { data } = await esimApi.deleteEsim(props.modemId, deleteProfile.value.iccid)
+    if (data.value) {
+      profiles.value = profiles.value.filter((profile) => profile.id !== deleteProfile.value?.id)
+      closeDeleteDialog()
+    }
+  } catch (err) {
+    console.error('[EsimProfileSection] Failed to delete profile:', err)
+  } finally {
+    deleteLoading.value = false
+  }
 }
 
 const closeMenu = (event: Event) => {

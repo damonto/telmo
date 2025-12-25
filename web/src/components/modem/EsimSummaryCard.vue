@@ -3,7 +3,8 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { useModemDisplay } from '@/composables/useModemDisplay'
-import type { EuiccApiResponse, Modem } from '@/types/modem'
+import type { EuiccApiResponse } from '@/types/euicc'
+import type { Modem } from '@/types/modem'
 
 const props = defineProps<{
   modem: Modem

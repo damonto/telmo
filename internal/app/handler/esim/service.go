@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log/slog"
 	"sync"
+	"unicode/utf8"
 
 	"github.com/godbus/dbus/v5"
 
@@ -20,6 +21,8 @@ type Service struct {
 	cfg     *config.Config
 	manager *mmodem.Manager
 }
+
+var errInvalidNickname = errors.New("nickname must be valid utf-8 and 64 bytes or fewer")
 
 func NewService(cfg *config.Config, manager *mmodem.Manager) *Service {
 	return &Service{
@@ -113,6 +116,36 @@ func (s *Service) Delete(modem *mmodem.Modem, iccid sgp22.ICCID) error {
 
 	if _, err := client.Delete(iccid); err != nil {
 		return fmt.Errorf("deleting profile %s on modem %s: %w", iccid.String(), modem.EquipmentIdentifier, err)
+	}
+	return nil
+}
+
+func (s *Service) UpdateNickname(modem *mmodem.Modem, iccid sgp22.ICCID, nickname string) error {
+	if err := validateNickname(nickname); err != nil {
+		return err
+	}
+	client, err := lpa.New(modem, s.cfg)
+	if err != nil {
+		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+	}
+	defer func() {
+		if cerr := client.Close(); cerr != nil {
+			slog.Warn("failed to close LPA client", "error", cerr)
+		}
+	}()
+
+	if err := client.SetNickname(iccid, nickname); err != nil {
+		return fmt.Errorf("setting nickname for profile %s on modem %s: %w", iccid.String(), modem.EquipmentIdentifier, err)
+	}
+	return nil
+}
+
+func validateNickname(nickname string) error {
+	if !utf8.ValidString(nickname) {
+		return errInvalidNickname
+	}
+	if len(nickname) > 64 {
+		return errInvalidNickname
 	}
 	return nil
 }

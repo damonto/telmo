@@ -79,6 +79,31 @@ func (h *Handler) Delete(c echo.Context) error {
 	return h.Respond(c, struct{}{})
 }
 
+func (h *Handler) UpdateNickname(c echo.Context) error {
+	modem, err := h.FindModem(h.manager, c.Param("id"))
+	if err != nil {
+		return h.NotFound(c, err)
+	}
+	iccid, err := iccidFromParam(c)
+	if err != nil {
+		return h.BadRequest(c, err)
+	}
+	var req UpdateNicknameRequest
+	if err := h.BindAndValidate(c, &req); err != nil {
+		return err
+	}
+	if err := h.service.UpdateNickname(modem, iccid, req.Nickname); err != nil {
+		if errors.Is(err, errInvalidNickname) {
+			return h.BadRequest(c, err)
+		}
+		if errors.Is(err, lpa.ErrNoSupportedAID) {
+			return h.NotFound(c, err)
+		}
+		return h.InternalServerError(c, err)
+	}
+	return h.Respond(c, struct{}{})
+}
+
 func iccidFromParam(c echo.Context) (sgp22.ICCID, error) {
 	iccidParam := c.Param("iccid")
 	if iccidParam == "" {

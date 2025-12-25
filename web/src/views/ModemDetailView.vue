@@ -81,7 +81,7 @@ watch(
   <!-- eSIM modem: show original layout -->
   <div v-if="esimModem" class="space-y-4">
     <EsimSummaryCard :modem="esimModem" :euicc="euicc" />
-    <EsimProfileSection v-model:profiles="esimProfiles" :loading="isEsimProfilesLoading" />
+    <EsimProfileSection v-model:profiles="esimProfiles" :loading="isEsimProfilesLoading" :modem-id="modemId" />
   </div>
 
   <!-- Physical modem: show detail card -->

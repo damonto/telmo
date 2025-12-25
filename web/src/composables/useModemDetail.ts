@@ -1,10 +1,16 @@
 import { computed, ref } from 'vue'
 
+import { useEsimApi } from '@/apis/esim'
+import { useEuiccApi } from '@/apis/euicc'
 import { useModemApi } from '@/apis/modem'
-import type { EsimProfile, EsimProfileApiResponse, EuiccApiResponse, Modem } from '@/types/modem'
+import type { EsimProfile, EsimProfileApiResponse } from '@/types/esim'
+import type { EuiccApiResponse } from '@/types/euicc'
+import type { Modem } from '@/types/modem'
 
 export const useModemDetail = () => {
   const modemApi = useModemApi()
+  const esimApi = useEsimApi()
+  const euiccApi = useEuiccApi()
 
   const modem = ref<Modem | null>(null)
   const euicc = ref<EuiccApiResponse | null>(null)
@@ -29,7 +35,7 @@ export const useModemDetail = () => {
     isEuiccLoading.value = true
 
     try {
-      const { data } = await modemApi.getEuicc(id)
+      const { data } = await euiccApi.getEuicc(id)
 
       if (data.value) {
         euicc.value = data.value.data
@@ -45,7 +51,7 @@ export const useModemDetail = () => {
   const fetchEsimProfiles = async (id: string) => {
     isEsimProfilesLoading.value = true
     try {
-      const { data } = await modemApi.getEsims(id)
+      const { data } = await esimApi.getEsims(id)
       if (data.value?.data) {
         esimProfiles.value = data.value.data.map(mapEsimProfile)
       } else {
