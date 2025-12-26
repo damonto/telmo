@@ -25,8 +25,14 @@ type Manager struct {
 	dbusObject dbus.BusObject
 	modems     map[dbus.ObjectPath]*Modem
 	mu         sync.RWMutex
-	subs       []func(map[dbus.ObjectPath]*Modem) error
+	subs       []subscription
+	nextSubID  uint64
 	subscribe  sync.Once
+}
+
+type subscription struct {
+	id uint64
+	fn func(map[dbus.ObjectPath]*Modem) error
 }
 
 func NewManager() (*Manager, error) {
@@ -119,19 +125,43 @@ func (m *Manager) createModem(objectPath dbus.ObjectPath, data map[string]dbus.V
 	return &modem, nil
 }
 
-func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) error {
+func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) (func(), error) {
 	if subscriber == nil {
-		return errors.New("subscriber is required")
+		return nil, errors.New("subscriber is required")
 	}
 	m.mu.Lock()
-	m.subs = append(m.subs, subscriber)
+	m.nextSubID++
+	id := m.nextSubID
+	m.subs = append(m.subs, subscription{id: id, fn: subscriber})
 	m.mu.Unlock()
 
 	var err error
 	m.subscribe.Do(func() {
 		err = m.startSubscription()
 	})
-	return err
+	if err != nil {
+		m.mu.Lock()
+		for i, sub := range m.subs {
+			if sub.id == id {
+				m.subs = append(m.subs[:i], m.subs[i+1:]...)
+				break
+			}
+		}
+		m.mu.Unlock()
+		return nil, err
+	}
+
+	unsubscribe := func() {
+		m.mu.Lock()
+		defer m.mu.Unlock()
+		for i, sub := range m.subs {
+			if sub.id == id {
+				m.subs = append(m.subs[:i], m.subs[i+1:]...)
+				break
+			}
+		}
+	}
+	return unsubscribe, nil
 }
 
 func (m *Manager) deleteAndUpdate(modem *Modem) {
@@ -193,11 +223,11 @@ func (m *Manager) handleSignals(sig <-chan *dbus.Signal) {
 			delete(m.modems, modemPath)
 		}
 		snapshot := m.copyModemsLocked()
-		subscribers := append([]func(map[dbus.ObjectPath]*Modem) error(nil), m.subs...)
+		subscribers := append([]subscription(nil), m.subs...)
 		m.mu.Unlock()
 
 		for _, subscriber := range subscribers {
-			if err := subscriber(snapshot); err != nil {
+			if err := subscriber.fn(snapshot); err != nil {
 				slog.Error("failed to process modem", "error", err)
 			}
 		}

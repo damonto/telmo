@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"strings"
 	"sync"
+	"time"
 
 	elpa "github.com/damonto/euicc-go/lpa"
 	sgp22 "github.com/damonto/euicc-go/v2"
@@ -15,6 +16,7 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/damonto/sigmo/internal/app/handler"
+	"github.com/damonto/sigmo/internal/pkg/carrier"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/lpa"
 	mmodem "github.com/damonto/sigmo/internal/pkg/modem"
@@ -32,6 +34,10 @@ var wsUpgrader = websocket.Upgrader{
 		return true
 	},
 }
+
+const enableTimeout = time.Minute
+
+var errEnableTimeout = errors.New("enabling timed out, please refresh to confirm whether the profile is active")
 
 const (
 	wsTypeStart                    = "start"
@@ -77,7 +83,15 @@ func (h *Handler) Enable(c echo.Context) error {
 	if err != nil {
 		return h.BadRequest(c, err)
 	}
-	if err := h.service.Enable(modem, iccid); err != nil {
+	ctx, cancel := context.WithTimeout(c.Request().Context(), enableTimeout)
+	defer cancel()
+	if err := h.service.Enable(ctx, modem, iccid); err != nil {
+		if errors.Is(err, context.DeadlineExceeded) {
+			return h.Error(c, http.StatusRequestTimeout, errEnableTimeout)
+		}
+		if errors.Is(err, context.Canceled) {
+			return nil
+		}
 		if errors.Is(err, lpa.ErrNoSupportedAID) {
 			return h.NotFound(c, err)
 		}
@@ -294,18 +308,17 @@ func parseSMDP(raw string) (*url.URL, error) {
 }
 
 func profilePreviewFrom(info *sgp22.ProfileInfo) downloadProfilePreview {
+	carrierInfo := carrier.Lookup(info.ProfileOwner.MCC() + info.ProfileOwner.MNC())
 	preview := downloadProfilePreview{
 		ICCID:               info.ICCID.String(),
 		ServiceProviderName: info.ServiceProviderName,
 		ProfileName:         info.ProfileName,
 		ProfileNickname:     info.ProfileNickname,
 		ProfileState:        info.ProfileState.String(),
-		OwnerMCC:            info.ProfileOwner.MCC(),
-		OwnerMNC:            info.ProfileOwner.MNC(),
+		RegionCode:          carrierInfo.Region,
 	}
 	if info.Icon.Valid() {
-		preview.Icon = info.Icon.String()
-		preview.IconType = info.Icon.FileType()
+		preview.Icon = fmt.Sprintf("data:%s;base64,%s", info.Icon.FileType(), info.Icon.String())
 	}
 	return preview
 }

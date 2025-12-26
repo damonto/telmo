@@ -15,6 +15,12 @@ export const useEsimApi = () => {
     }).json()
   }
 
+  const enableEsim = (id: string, iccid: string) => {
+    return useFetch<ApiResponse<EmptyObject>>(`modems/${id}/esims/${iccid}/enabling`, {
+      method: 'POST',
+    }).json()
+  }
+
   const deleteEsim = (id: string, iccid: string) => {
     return useFetch<ApiResponse<EmptyObject>>(`modems/${id}/esims/${iccid}`, {
       method: 'DELETE',
@@ -24,6 +30,7 @@ export const useEsimApi = () => {
   return {
     getEsims,
     updateEsimNickname,
+    enableEsim,
     deleteEsim,
   }
 }

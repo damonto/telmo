@@ -33,6 +33,6 @@ configs/config.toml
 .DS_Store
 
 # AI
-AGENTS.md
+AGENTS*.md
 .mcp.json
 CLAUDE.md

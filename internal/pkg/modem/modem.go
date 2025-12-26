@@ -65,20 +65,21 @@ func (m *Modem) SignalQuality() (percent uint32, recent bool, err error) {
 }
 
 func (m *Modem) Restart(compatible bool) error {
-	var err error
-	// Some older modems require the modem to be disabled and enabled to take effect.
-	if e := m.dbusObject.Call(ModemInterface+".Simple.GetStatus", 0).Err; e == nil {
-		err = errors.Join(err, m.Disable(), m.Enable())
-	}
-	// Inhibiting the device will cause the ModemManager to reload the device.
-	// This workaround is needed for some modems that don't properly reload.
 	if compatible {
+		var err error
+		// Some older modems require the modem to be disabled and enabled to take effect.
+		if e := m.dbusObject.Call(ModemInterface+".Simple.GetStatus", 0).Err; e == nil {
+			err = errors.Join(err, m.Disable(), m.Enable())
+		}
+		// Inhibiting the device will cause the ModemManager to reload the device.
+		// This workaround is needed for some modems that don't properly reload.
 		time.Sleep(200 * time.Millisecond)
 		if e := m.dbusObject.Call(ModemInterface+".Simple.GetStatus", 0).Err; e == nil {
 			err = errors.Join(err, m.mmgr.InhibitDevice(m.Device, true), m.mmgr.InhibitDevice(m.Device, false))
 		}
+		return err
 	}
-	return err
+	return nil
 }
 
 func (m *Modem) PrimaryPortType() ModemPortType {

@@ -8,7 +8,6 @@ import * as z from 'zod'
 
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
@@ -16,7 +15,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -49,6 +48,7 @@ const props = withDefaults(
   defineProps<{
     modemId: string
     loading?: boolean
+    refreshModem?: () => Promise<void>
   }>(),
   {
     loading: false,
@@ -98,8 +98,6 @@ const { handleSubmit: handleRenameSubmit, resetForm: resetRenameForm, isSubmitti
     },
   })
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
 const openToggleDialog = (profile: EsimProfile, nextValue: boolean) => {
   toggleOpen.value = true
   toggleProfile.value = profile
@@ -115,10 +113,29 @@ const closeToggleDialog = () => {
 
 const confirmToggle = async () => {
   if (!toggleProfile.value) return
+  if (!toggleNextValue.value) {
+    closeToggleDialog()
+    return
+  }
   toggleLoading.value = true
-  await sleep(650)
-  toggleProfile.value.enabled = toggleNextValue.value
-  closeToggleDialog()
+  try {
+    const { data } = await esimApi.enableEsim(props.modemId, toggleProfile.value.iccid)
+    if (!data.value) {
+      closeToggleDialog()
+      return
+    }
+    if (!props.refreshModem) {
+      toggleProfile.value.enabled = true
+    }
+    closeToggleDialog()
+    if (props.refreshModem) {
+      await props.refreshModem()
+    }
+  } catch (err) {
+    console.error('[EsimProfileSection] Failed to enable profile:', err)
+  } finally {
+    toggleLoading.value = false
+  }
 }
 
 const openRenameDialog = (profile: EsimProfile) => {
@@ -141,10 +158,12 @@ const confirmRename = handleRenameSubmit(async (values) => {
       renameProfile.value.iccid,
       values.name,
     )
-    if (data.value) {
-      renameProfile.value.name = values.name
+    if (!data.value) {
       closeRenameDialog()
+      return
     }
+    renameProfile.value.name = values.name
+    closeRenameDialog()
   } catch (err) {
     console.error('[EsimProfileSection] Failed to update nickname:', err)
   }
@@ -162,15 +181,18 @@ const closeDeleteDialog = () => {
   deleteLoading.value = false
 }
 
-const confirmDelete = async () => {
+const confirmDelete = async (event?: Event) => {
+  event?.preventDefault()
   if (!deleteProfile.value) return
   deleteLoading.value = true
   try {
     const { data } = await esimApi.deleteEsim(props.modemId, deleteProfile.value.iccid)
-    if (data.value) {
-      profiles.value = profiles.value.filter((profile) => profile.id !== deleteProfile.value?.id)
+    if (!data.value) {
       closeDeleteDialog()
+      return
     }
+    profiles.value = profiles.value.filter((profile) => profile.id !== deleteProfile.value?.id)
+    closeDeleteDialog()
   } catch (err) {
     console.error('[EsimProfileSection] Failed to delete profile:', err)
   } finally {
@@ -312,7 +334,7 @@ watch(renameOpen, (value) => {
         <AlertDialogCancel @click="closeToggleDialog" :disabled="toggleLoading">
           {{ t('modemDetail.actions.cancel') }}
         </AlertDialogCancel>
-        <AlertDialogAction @click="confirmToggle" :disabled="toggleLoading">
+        <Button type="button" @click="confirmToggle" :disabled="toggleLoading">
           <span v-if="toggleLoading" class="inline-flex items-center gap-2">
             <span
               class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
@@ -320,7 +342,7 @@ watch(renameOpen, (value) => {
             {{ t('modemDetail.actions.confirm') }}
           </span>
           <span v-else>{{ t('modemDetail.actions.confirm') }}</span>
-        </AlertDialogAction>
+        </Button>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
@@ -378,8 +400,9 @@ watch(renameOpen, (value) => {
         <AlertDialogCancel @click="closeDeleteDialog" :disabled="deleteLoading">
           {{ t('modemDetail.actions.cancel') }}
         </AlertDialogCancel>
-        <AlertDialogAction
-          :class="buttonVariants({ variant: 'destructive' })"
+        <Button
+          variant="destructive"
+          type="button"
           @click="confirmDelete"
           :disabled="deleteLoading"
         >
@@ -390,7 +413,7 @@ watch(renameOpen, (value) => {
             {{ t('modemDetail.actions.confirm') }}
           </span>
           <span v-else>{{ t('modemDetail.actions.confirm') }}</span>
-        </AlertDialogAction>
+        </Button>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>

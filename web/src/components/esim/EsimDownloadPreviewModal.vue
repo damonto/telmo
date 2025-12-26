@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { useModemDisplay } from '@/composables/useModemDisplay'
 
 type DownloadProfilePreview = {
   iccid: string
@@ -19,9 +20,7 @@ type DownloadProfilePreview = {
   profileNickname?: string
   profileState: string
   icon?: string
-  iconType?: string
-  ownerMcc?: string
-  ownerMnc?: string
+  regionCode?: string
 }
 
 const props = defineProps<{
@@ -38,27 +37,17 @@ const emit = defineEmits<{
   (event: 'cancel'): void
 }>()
 
+const { flagClass } = useModemDisplay()
+
 const profileName = computed(() => {
-  return (
-    props.profile?.profileName ||
-    props.profile?.serviceProviderName ||
-    props.profile?.profileNickname ||
-    ''
-  )
+  return props.profile?.profileName || props.profile?.serviceProviderName || ''
 })
 
 const profileSubtitle = computed(() => props.profile?.iccid ?? '')
 
-const ownerText = computed(() => {
-  const mcc = props.profile?.ownerMcc ?? ''
-  const mnc = props.profile?.ownerMnc ?? ''
-  return `${mcc}${mnc}`.trim()
-})
-
-const logoUrl = computed(() => {
-  if (!props.profile?.icon || !props.profile.iconType) return ''
-  return `data:${props.profile.iconType};base64,${props.profile.icon}`
-})
+const logoUrl = computed(() => props.profile?.icon ?? '')
+const regionCode = computed(() => props.profile?.regionCode ?? '')
+const regionFlagClass = computed(() => flagClass(regionCode.value))
 
 const handleOpenChange = (nextOpen: boolean) => {
   if (!nextOpen) emit('cancel')
@@ -78,7 +67,12 @@ const handleOpenChange = (nextOpen: boolean) => {
             class="flex size-12 shrink-0 items-center justify-center rounded-md border border-border bg-muted/30"
           >
             <img v-if="logoUrl" :src="logoUrl" class="size-7 object-contain" />
-            <span v-else class="text-xs font-semibold text-muted-foreground">{{ ownerText }}</span>
+            <span v-else class="rounded-sm text-[18px]">
+              <span v-if="regionFlagClass" :class="regionFlagClass" />
+              <span v-else class="text-xs font-semibold text-muted-foreground">
+                {{ regionCode }}
+              </span>
+            </span>
           </div>
           <div class="min-w-0">
             <p class="truncate text-sm font-semibold text-foreground">{{ profileName }}</p>

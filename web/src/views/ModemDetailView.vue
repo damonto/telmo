@@ -119,6 +119,11 @@ const confirmationTitle = computed(() => t('modemDetail.esim.downloadConfirmatio
 const confirmationHint = computed(() => t('modemDetail.esim.downloadConfirmationHint'))
 const confirmationPlaceholder = computed(() => t('modemDetail.esim.downloadConfirmationPlaceholder'))
 
+const refreshModem = async () => {
+  if (!modemId.value || modemId.value === 'unknown') return
+  await fetchModemDetail(modemId.value)
+}
+
 watch(downloadState, (value) => {
   if (value === 'confirmation') {
     confirmationCode.value = ''
@@ -168,7 +173,12 @@ const handleResultConfirm = () => {
   <!-- eSIM modem: show original layout -->
   <div v-if="esimModem" class="space-y-4">
     <EsimSummaryCard :modem="esimModem" :euicc="euicc" />
-    <EsimProfileSection v-model:profiles="esimProfiles" :loading="isEsimProfilesLoading" :modem-id="modemId" />
+    <EsimProfileSection
+      v-model:profiles="esimProfiles"
+      :loading="isEsimProfilesLoading"
+      :modem-id="modemId"
+      :refresh-modem="refreshModem"
+    />
   </div>
 
   <!-- Physical modem: show detail card -->

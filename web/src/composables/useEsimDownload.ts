@@ -18,9 +18,7 @@ export type EsimDownloadPreview = {
   profileNickname?: string
   profileState: string
   icon?: string
-  iconType?: string
-  ownerMcc?: string
-  ownerMnc?: string
+  regionCode?: string
 }
 
 type InstallPayload = {
@@ -55,6 +53,8 @@ const progressSteps: Record<Exclude<EsimDownloadStage, ''>, number> = {
 }
 
 const installingCeiling = 90
+const installingTickMs = 400
+const installingStep = 2
 
 export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
   const downloadState = ref<EsimDownloadState>('idle')
@@ -108,8 +108,8 @@ export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
           stopInstallingTimer()
           return
         }
-        setProgress(progress.value + 1)
-      }, 700)
+        setProgress(Math.min(progress.value + installingStep, installingCeiling))
+      }, installingTickMs)
     }
   }
 

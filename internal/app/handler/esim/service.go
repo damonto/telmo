@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
-	"sync"
 	"unicode/utf8"
 
 	"github.com/godbus/dbus/v5"
@@ -73,7 +72,7 @@ func (s *Service) List(modem *mmodem.Modem) ([]ProfileResponse, error) {
 	return response, nil
 }
 
-func (s *Service) Enable(modem *mmodem.Modem, iccid sgp22.ICCID) error {
+func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.ICCID) error {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
 		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
@@ -101,7 +100,13 @@ func (s *Service) Enable(modem *mmodem.Modem, iccid sgp22.ICCID) error {
 		return fmt.Errorf("restarting modem %s: %w", modem.EquipmentIdentifier, err)
 	}
 
-	go s.awaitModemAndSendNotifications(modem.EquipmentIdentifier, lastSeq)
+	target, err := s.waitForModem(ctx, modem.EquipmentIdentifier)
+	if err != nil {
+		return err
+	}
+	if err := s.sendPendingNotifications(target, lastSeq); err != nil {
+		slog.Warn("failed to handle modem notifications", "error", err, "modem", modem.EquipmentIdentifier)
+	}
 	return nil
 }
 
@@ -169,28 +174,47 @@ func validateNickname(nickname string) error {
 	return nil
 }
 
-func (s *Service) awaitModemAndSendNotifications(modemID string, lastSeq sgp22.SequenceNumber) {
-	var once sync.Once
-	err := s.manager.Subscribe(func(modems map[dbus.ObjectPath]*mmodem.Modem) error {
-		var target *mmodem.Modem
+func (s *Service) waitForModem(ctx context.Context, modemID string) (*mmodem.Modem, error) {
+	ready := make(chan *mmodem.Modem, 1)
+	notify := func(modems map[dbus.ObjectPath]*mmodem.Modem) error {
 		for _, modem := range modems {
 			if modem.EquipmentIdentifier == modemID {
-				target = modem
+				select {
+				case ready <- modem:
+				default:
+				}
 				break
 			}
 		}
-		if target == nil {
-			return nil
-		}
+		return nil
+	}
 
-		var sendErr error
-		once.Do(func() {
-			sendErr = s.sendPendingNotifications(target, lastSeq)
-		})
-		return sendErr
-	})
+	unsubscribe, err := s.manager.Subscribe(notify)
 	if err != nil {
-		slog.Error("failed to subscribe to modem manager", "error", err, "modem", modemID)
+		return nil, err
+	}
+	defer unsubscribe()
+
+	modems, err := s.manager.Modems()
+	if err != nil {
+		slog.Warn("failed to refresh modems after restart", "error", err, "modem", modemID)
+	} else {
+		for _, modem := range modems {
+			if modem.EquipmentIdentifier == modemID {
+				select {
+				case ready <- modem:
+				default:
+				}
+				break
+			}
+		}
+	}
+
+	select {
+	case modem := <-ready:
+		return modem, nil
+	case <-ctx.Done():
+		return nil, ctx.Err()
 	}
 }
 

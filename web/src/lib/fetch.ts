@@ -33,25 +33,24 @@ export const useFetch = createFetch({
       return { options }
     },
 
-    async afterFetch({ response, data }) {
+    afterFetch({ response, data }) {
       // Unified logging in development
       if (import.meta.env.DEV) {
         console.log(`[API] ${response.url} → ${response.status}`, data)
       }
 
-      // Unified error handling for non-2xx responses
-      if (!response.ok) {
-        handleResponseError(response, data)
-        return { response, data: null }
-      }
-
       return { response, data }
     },
 
-    async onFetchError({ response, error }) {
-      // Unified network error handling
-      handleError(error, 'Network error occurred')
-      console.error('[API] Network error:', error)
+    onFetchError({ response, error, data }) {
+      if (response) {
+        handleResponseError(response, data)
+        console.error('[API] Response error:', response.status, data)
+      } else {
+        // Unified network error handling
+        handleError(error, 'Network error occurred')
+        console.error('[API] Network error:', error)
+      }
 
       // Don't throw - let callers handle error via error.value
       return { response, error, data: null }

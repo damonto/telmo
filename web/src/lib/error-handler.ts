@@ -14,17 +14,13 @@ const resolveErrorInfo = (error: unknown, defaultMessage: string) => {
   let title = 'Error'
 
   if (error && typeof error === 'object') {
-    if ('code' in error && 'message' in error && typeof (error as ApiError).message === 'string') {
-      const apiError = error as ApiError
+    const apiError = error as ApiError
+    if (typeof apiError.code === 'number' && typeof apiError.message === 'string') {
       message = apiError.message
       if (apiError.code === 401) title = 'Unauthorized'
       else if (apiError.code === 404) title = 'Not Found'
       else if (apiError.code >= 500) title = 'Server Error'
-    } else if ('message' in error && typeof error.message === 'string') {
-      message = error.message
     }
-  } else if (typeof error === 'string') {
-    message = error
   }
 
   return { message, title }
@@ -59,9 +55,11 @@ export const handleError = (error: unknown, defaultMessage = 'An error occurred'
 export const handleResponseError = (response: Response, data?: unknown) => {
   let message = `Error ${response.status}: ${response.statusText}`
 
-  // Try to extract message from response data
-  if (data && typeof data === 'object' && 'message' in data && typeof data.message === 'string') {
-    message = data.message
+  if (data && typeof data === 'object') {
+    const record = data as Record<string, unknown>
+    if (typeof record.message === 'string') {
+      message = record.message
+    }
   }
 
   if (response.status === 401) {

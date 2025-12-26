@@ -36,7 +36,5 @@ type downloadProfilePreview struct {
 	ProfileNickname     string `json:"profileNickname,omitempty"`
 	ProfileState        string `json:"profileState"`
 	Icon                string `json:"icon,omitempty"`
-	IconType            string `json:"iconType,omitempty"`
-	OwnerMCC            string `json:"ownerMcc,omitempty"`
-	OwnerMNC            string `json:"ownerMnc,omitempty"`
+	RegionCode          string `json:"regionCode,omitempty"`
 }
