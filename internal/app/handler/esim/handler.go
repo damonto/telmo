@@ -5,9 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"net/url"
 	"strings"
-	"sync"
 	"time"
 
 	elpa "github.com/damonto/euicc-go/lpa"
@@ -132,88 +130,53 @@ func (h *Handler) Download(c echo.Context) error {
 
 	start, err := readStartMessage(conn)
 	if err != nil {
-		_ = sendMessage(conn, nil, downloadServerMessage{Type: wsTypeError, Message: err.Error()})
+		_ = conn.WriteJSON(downloadServerMessage{Type: wsTypeError, Message: err.Error()})
 		return nil
 	}
 
 	activationCode, err := buildActivationCode(modem, start)
 	if err != nil {
-		_ = sendMessage(conn, nil, downloadServerMessage{Type: wsTypeError, Message: err.Error()})
+		_ = conn.WriteJSON(downloadServerMessage{Type: wsTypeError, Message: err.Error()})
 		return nil
 	}
 
 	downloadCtx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	disconnectCh := make(chan struct{})
-	var disconnectOnce sync.Once
-	disconnect := func() {
-		disconnectOnce.Do(func() {
-			close(disconnectCh)
-		})
-	}
-
-	confirmCh := make(chan bool, 1)
-	confirmationCodeCh := make(chan string, 1)
-
-	go func() {
-		defer disconnect()
-		for {
-			var msg downloadClientMessage
-			if err := conn.ReadJSON(&msg); err != nil {
-				return
-			}
-			switch msg.Type {
-			case wsTypeConfirm:
-				if msg.Accept != nil {
-					select {
-					case confirmCh <- *msg.Accept:
-					default:
-					}
-				}
-			case wsTypeConfirmationCode:
-				select {
-				case confirmationCodeCh <- msg.Code:
-				default:
-				}
-			case wsTypeCancel:
-				cancel()
-			}
-		}
-	}()
+	session := newDownloadSession(conn, cancel)
 
 	opts := &elpa.DownloadOptions{
 		OnProgress: func(stage elpa.DownloadStage) {
-			sendIfConnected(conn, disconnectCh, disconnect, downloadServerMessage{
+			session.sendIfConnected(downloadServerMessage{
 				Type:  wsTypeProgress,
 				Stage: stage.String(),
 			})
 		},
 		OnConfirm: func(info *sgp22.ProfileInfo) bool {
 			preview := profilePreviewFrom(info)
-			if err := sendMessage(conn, disconnect, downloadServerMessage{
+			if err := session.send(downloadServerMessage{
 				Type:    wsTypePreview,
 				Profile: &preview,
 			}); err != nil {
 				return false
 			}
-			return waitForConfirm(downloadCtx, disconnectCh, confirmCh)
+			return session.waitForConfirm(downloadCtx)
 		},
 		OnEnterConfirmationCode: func() string {
-			sendIfConnected(conn, disconnectCh, disconnect, downloadServerMessage{
+			session.sendIfConnected(downloadServerMessage{
 				Type: wsTypeConfirmationCodeRequired,
 			})
-			code := waitForConfirmationCode(downloadCtx, disconnectCh, confirmationCodeCh)
+			code := session.waitForConfirmationCode(downloadCtx)
 			return strings.TrimSpace(code)
 		},
 	}
 
 	if err := h.service.Download(downloadCtx, modem, activationCode, opts); err != nil {
-		_ = sendMessage(conn, disconnect, downloadServerMessage{Type: wsTypeError, Message: err.Error()})
+		_ = session.send(downloadServerMessage{Type: wsTypeError, Message: err.Error()})
 		return nil
 	}
 
-	_ = sendMessage(conn, disconnect, downloadServerMessage{Type: wsTypeCompleted})
+	_ = session.send(downloadServerMessage{Type: wsTypeCompleted})
 	return nil
 }
 
@@ -265,46 +228,7 @@ func readStartMessage(conn *websocket.Conn) (downloadClientMessage, error) {
 	if start.SMDP == "" {
 		return downloadClientMessage{}, errors.New("smdp is required")
 	}
-	if start.ActivationCode == "" {
-		return downloadClientMessage{}, errors.New("activationCode is required")
-	}
 	return start, nil
-}
-
-func buildActivationCode(modem *mmodem.Modem, start downloadClientMessage) (*elpa.ActivationCode, error) {
-	smdpURL, err := parseSMDP(start.SMDP)
-	if err != nil {
-		return nil, err
-	}
-	matchingID := strings.TrimSpace(start.ActivationCode)
-	if matchingID == "" {
-		return nil, errors.New("activationCode is required")
-	}
-	imei, err := modem.ThreeGPP().IMEI()
-	if err != nil {
-		return nil, fmt.Errorf("reading modem IMEI: %w", err)
-	}
-	return &elpa.ActivationCode{
-		SMDP:             smdpURL,
-		MatchingID:       matchingID,
-		IMEI:             imei,
-		ConfirmationCode: strings.TrimSpace(start.ConfirmationCode),
-	}, nil
-}
-
-func parseSMDP(raw string) (*url.URL, error) {
-	smdp := strings.TrimSpace(raw)
-	if smdp == "" {
-		return nil, errors.New("smdp is required")
-	}
-	if !strings.Contains(smdp, "://") {
-		smdp = "https://" + smdp
-	}
-	parsed, err := url.Parse(smdp)
-	if err != nil || parsed.Host == "" {
-		return nil, fmt.Errorf("invalid smdp %q", raw)
-	}
-	return parsed, nil
 }
 
 func profilePreviewFrom(info *sgp22.ProfileInfo) downloadProfilePreview {
@@ -321,55 +245,4 @@ func profilePreviewFrom(info *sgp22.ProfileInfo) downloadProfilePreview {
 		preview.Icon = fmt.Sprintf("data:%s;base64,%s", info.Icon.FileType(), info.Icon.String())
 	}
 	return preview
-}
-
-func sendMessage(conn *websocket.Conn, disconnect func(), msg downloadServerMessage) error {
-	if err := conn.WriteJSON(msg); err != nil {
-		if disconnect != nil {
-			disconnect()
-		}
-		return err
-	}
-	return nil
-}
-
-func sendIfConnected(conn *websocket.Conn, disconnectCh <-chan struct{}, disconnect func(), msg downloadServerMessage) {
-	select {
-	case <-disconnectCh:
-		return
-	default:
-	}
-	_ = sendMessage(conn, disconnect, msg)
-}
-
-func waitForConfirm(ctx context.Context, disconnectCh <-chan struct{}, confirmCh <-chan bool) bool {
-	select {
-	case accept := <-confirmCh:
-		return accept
-	default:
-	}
-	select {
-	case accept := <-confirmCh:
-		return accept
-	case <-ctx.Done():
-		return false
-	case <-disconnectCh:
-		return false
-	}
-}
-
-func waitForConfirmationCode(ctx context.Context, disconnectCh <-chan struct{}, confirmationCodeCh <-chan string) string {
-	select {
-	case code := <-confirmationCodeCh:
-		return code
-	default:
-	}
-	select {
-	case code := <-confirmationCodeCh:
-		return code
-	case <-ctx.Done():
-		return ""
-	case <-disconnectCh:
-		return ""
-	}
 }

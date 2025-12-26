@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
-import { ScanQrCode } from 'lucide-vue-next'
-import { useI18n } from 'vue-i18n'
-import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
+import { ScanQrCode } from 'lucide-vue-next'
+import { useForm } from 'vee-validate'
+import { computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -14,13 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
 type InstallPayload = {
@@ -37,40 +31,21 @@ const open = defineModel<boolean>('open', { required: true })
 
 const { t } = useI18n()
 
-const domainPattern = /^(?=.{1,253}$)(?!-)([a-zA-Z0-9-]{1,63}\.)+[a-zA-Z]{2,63}$/
-
 const smdpPlaceholder = computed(() => t('modemDetail.esim.smdp'))
 const activationPlaceholder = computed(() => t('modemDetail.esim.activationCode'))
 const confirmationPlaceholder = computed(() => t('modemDetail.esim.confirmationCode'))
-
-const normalizeSmdp = (value: string) => {
-  const trimmed = value.trim()
-  if (!trimmed) return ''
-  const normalized = trimmed.includes('://') ? trimmed : `https://${trimmed}`
-  try {
-    const url = new URL(normalized)
-    const host = url.hostname.toLowerCase()
-    if (!domainPattern.test(host)) {
-      return ''
-    }
-    return host
-  } catch {
-    return ''
-  }
-}
 
 const installSchemaDefinition = z.object({
   smdp: z
     .string()
     .trim()
     .min(1, t('modemDetail.esim.validation.smdpRequired'))
-    .refine((value) => normalizeSmdp(value).length > 0, t('modemDetail.esim.validation.smdpInvalid'))
-    .transform((value) => normalizeSmdp(value)),
-  activationCode: z
+    .transform((value) => value.trim()),
+  activationCode: z.string().trim(),
+  confirmationCode: z
     .string()
-    .trim()
-    .min(1, t('modemDetail.esim.validation.activationCodeRequired')),
-  confirmationCode: z.string().optional().transform((value) => value?.trim() ?? ''),
+    .optional()
+    .transform((value) => value?.trim() ?? ''),
 })
 
 type InstallFormValues = z.infer<typeof installSchemaDefinition>
