@@ -27,7 +27,7 @@ const navItems = computed(() => [
 </script>
 
 <template>
-  <div class="min-h-screen bg-linear-to-b from-background via-background to-muted/40">
+  <div class="min-h-screen bg-background">
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-10 pb-24">
       <RouterView />
     </div>

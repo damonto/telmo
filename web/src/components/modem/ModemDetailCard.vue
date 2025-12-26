@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { Badge } from '@/components/ui/badge'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import type { Modem } from '@/types/modem'
 
 defineProps<{
@@ -9,9 +16,11 @@ defineProps<{
 <template>
   <div class="space-y-6">
     <!-- Basic Info -->
-    <div class="rounded-lg border bg-card p-6 shadow-sm">
-      <h3 class="mb-4 text-lg font-semibold">Basic Information</h3>
-      <div class="grid gap-3 text-sm">
+    <Card>
+      <CardHeader class="pb-0">
+        <CardTitle class="text-lg">Basic Information</CardTitle>
+      </CardHeader>
+      <CardContent class="grid gap-3 pt-4 text-sm">
         <div class="flex justify-between">
           <span class="text-muted-foreground">ID</span>
           <span class="font-mono">{{ modem.id }}</span>
@@ -36,13 +45,15 @@ defineProps<{
           <span class="text-muted-foreground">Number</span>
           <span class="font-mono">{{ modem.number }}</span>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
 
     <!-- SIM Info -->
-    <div class="rounded-lg border bg-card p-6 shadow-sm">
-      <h3 class="mb-4 text-lg font-semibold">SIM Information</h3>
-      <div class="grid gap-3 text-sm">
+    <Card>
+      <CardHeader class="pb-0">
+        <CardTitle class="text-lg">SIM Information</CardTitle>
+      </CardHeader>
+      <CardContent class="grid gap-3 pt-4 text-sm">
         <div class="flex justify-between">
           <span class="text-muted-foreground">Operator</span>
           <span>{{ modem.sim.operatorName }}</span>
@@ -63,13 +74,15 @@ defineProps<{
           <span class="text-muted-foreground">Active</span>
           <span>{{ modem.sim.active ? 'Yes' : 'No' }}</span>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
 
     <!-- Network Info -->
-    <div class="rounded-lg border bg-card p-6 shadow-sm">
-      <h3 class="mb-4 text-lg font-semibold">Network Information</h3>
-      <div class="grid gap-3 text-sm">
+    <Card>
+      <CardHeader class="pb-0">
+        <CardTitle class="text-lg">Network Information</CardTitle>
+      </CardHeader>
+      <CardContent class="grid gap-3 pt-4 text-sm">
         <div class="flex justify-between">
           <span class="text-muted-foreground">Access Technology</span>
           <span>{{ modem.accessTechnology || 'N/A' }}</span>
@@ -90,26 +103,18 @@ defineProps<{
           <span class="text-muted-foreground">Signal Quality</span>
           <span class="font-mono">{{ modem.signalQuality }}%</span>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
 
     <!-- Features -->
-    <div class="rounded-lg border bg-card p-6 shadow-sm">
-      <h3 class="mb-4 text-lg font-semibold">Features</h3>
-      <div class="flex gap-2 flex-wrap">
-        <span
-          v-if="modem.supportsEsim"
-          class="rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground"
-        >
-          eSIM Support
-        </span>
-        <span
-          v-else
-          class="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground"
-        >
-          Physical SIM Only
-        </span>
-      </div>
-    </div>
+    <Card>
+      <CardHeader class="pb-0">
+        <CardTitle class="text-lg">Features</CardTitle>
+      </CardHeader>
+      <CardContent class="flex flex-wrap gap-2 pt-4">
+        <Badge v-if="modem.supportsEsim">eSIM Support</Badge>
+        <Badge v-else variant="secondary">Physical SIM Only</Badge>
+      </CardContent>
+    </Card>
   </div>
 </template>

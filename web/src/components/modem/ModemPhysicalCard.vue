@@ -15,7 +15,7 @@ const { flagClass, formatSignal, signalIcon, signalTone } = useModemDisplay()
 
 <template>
   <Card
-    class="gap-0 rounded-2xl border-white/40 bg-white/80 py-0 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/60"
+    class="gap-0 rounded-2xl border-white/40 bg-white/80 py-0 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/60"
   >
     <CardContent class="space-y-4 px-4 py-4 text-sm">
       <div class="flex items-center justify-between gap-4">

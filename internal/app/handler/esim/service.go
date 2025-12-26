@@ -1,6 +1,7 @@
 package esim
 
 import (
+	"context"
 	"encoding/base64"
 	"errors"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 
 	"github.com/godbus/dbus/v5"
 
+	elpa "github.com/damonto/euicc-go/lpa"
 	sgp22 "github.com/damonto/euicc-go/v2"
 	"github.com/damonto/sigmo/internal/pkg/carrier"
 	"github.com/damonto/sigmo/internal/pkg/config"
@@ -116,6 +118,23 @@ func (s *Service) Delete(modem *mmodem.Modem, iccid sgp22.ICCID) error {
 
 	if _, err := client.Delete(iccid); err != nil {
 		return fmt.Errorf("deleting profile %s on modem %s: %w", iccid.String(), modem.EquipmentIdentifier, err)
+	}
+	return nil
+}
+
+func (s *Service) Download(ctx context.Context, modem *mmodem.Modem, activationCode *elpa.ActivationCode, opts *elpa.DownloadOptions) error {
+	client, err := lpa.New(modem, s.cfg)
+	if err != nil {
+		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+	}
+	defer func() {
+		if cerr := client.Close(); cerr != nil {
+			slog.Warn("failed to close LPA client", "error", cerr)
+		}
+	}()
+
+	if err := client.Download(ctx, activationCode, opts); err != nil {
+		return fmt.Errorf("downloading profile on modem %s: %w", modem.EquipmentIdentifier, err)
 	}
 	return nil
 }

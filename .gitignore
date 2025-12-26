@@ -34,3 +34,5 @@ configs/config.toml
 
 # AI
 AGENTS.md
+.mcp.json
+CLAUDE.md

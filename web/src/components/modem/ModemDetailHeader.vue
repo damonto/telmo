@@ -2,6 +2,8 @@
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 
+import { Button } from '@/components/ui/button'
+
 import type { Modem } from '@/types/modem'
 
 defineProps<{
@@ -14,12 +16,11 @@ const { t } = useI18n()
 
 <template>
   <div class="space-y-4">
-    <RouterLink
-      to="/"
-      class="text-sm font-medium text-muted-foreground transition hover:text-foreground"
-    >
-      ← {{ t('modemDetail.back') }}
-    </RouterLink>
+    <Button as-child variant="ghost" size="sm" class="px-0 text-muted-foreground">
+      <RouterLink to="/">
+        ← {{ t('modemDetail.back') }}
+      </RouterLink>
+    </Button>
 
     <header class="space-y-2">
       <p class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">

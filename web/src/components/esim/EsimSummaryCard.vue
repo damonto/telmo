@@ -33,27 +33,25 @@ const eid = computed(() => {
 </script>
 
 <template>
-  <details
-    class="group rounded-2xl border border-white/40 bg-white/80 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/60"
-  >
-    <summary class="cursor-pointer list-none px-4 py-3">
-      <div class="space-y-2 text-sm">
+  <details class="group rounded-2xl border border-border bg-card">
+    <summary
+      class="cursor-pointer list-none px-5 py-4 text-sm transition hover:bg-muted/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      <div class="grid gap-3">
         <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.imei') }}
           </span>
-          <span class="font-mono text-sm text-foreground">
-            {{ props.modem.id }}
-          </span>
+          <span class="font-mono text-sm text-foreground">{{ props.modem.id }}</span>
         </div>
-        <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+        <div class="flex items-start justify-between gap-4">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.eid') }}
           </span>
-          <span class="font-mono text-sm text-foreground">{{ eid }}</span>
+          <span class="break-all font-mono text-sm text-foreground">{{ eid }}</span>
         </div>
         <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.storageRemaining') }}
           </span>
           <span class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
@@ -62,10 +60,10 @@ const eid = computed(() => {
         </div>
       </div>
     </summary>
-    <div class="border-t border-white/40 px-4 py-3 text-sm">
-      <div class="grid gap-2">
+    <div class="border-t border-border px-5 py-4 text-sm">
+      <div class="grid gap-3">
         <div v-if="euicc?.sasUp" class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.sasAccreditation') }}
           </span>
           <span class="text-right text-foreground">{{ euicc.sasUp }}</span>
@@ -74,45 +72,45 @@ const eid = computed(() => {
           v-if="euicc?.certificates && euicc.certificates.length > 0"
           class="flex flex-col gap-2"
         >
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.certificates') }}
           </span>
           <div class="flex flex-col gap-1">
             <span
               v-for="(cert, index) in euicc.certificates"
               :key="index"
-              class="rounded bg-muted/50 px-2 py-1 text-xs text-foreground"
+              class="rounded-md bg-muted px-2 py-1 text-xs text-foreground"
             >
               {{ cert }}
             </span>
           </div>
         </div>
         <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.manufacturer') }}
           </span>
           <span class="text-foreground">{{ props.modem.manufacturer }}</span>
         </div>
         <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.carrier') }}
           </span>
           <span class="text-foreground">{{ props.modem.sim.operatorName }}</span>
         </div>
         <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.iccid') }}
           </span>
           <span class="font-mono text-foreground">{{ props.modem.sim.identifier }}</span>
         </div>
         <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.active') }}
           </span>
           <span class="text-foreground">{{ props.modem.sim.active ? 'Yes' : 'No' }}</span>
         </div>
         <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.roamingCarrier') }}
           </span>
           <span class="text-muted-foreground">
@@ -120,7 +118,7 @@ const eid = computed(() => {
           </span>
         </div>
         <div class="flex items-center justify-between gap-4">
-          <span class="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span class="text-xs font-medium text-muted-foreground">
             {{ t('modemDetail.fields.signal') }}
           </span>
           <div class="flex items-center gap-2">

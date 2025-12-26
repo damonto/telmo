@@ -2,6 +2,17 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import type { SlotInfo } from '@/types/modem'
 
 const props = defineProps<{
@@ -21,6 +32,11 @@ const openDialog = (identifier: string) => {
   if (identifier === selectedIdentifier.value) return
   pendingIdentifier.value = identifier
   dialogOpen.value = true
+}
+
+const handleSelect = (identifier: string) => {
+  if (identifier === selectedIdentifier.value) return
+  openDialog(identifier)
 }
 
 const closeDialog = () => {
@@ -43,56 +59,47 @@ const getPendingSlotInfo = computed(() => {
   if (!pendingIdentifier.value) return null
   return props.slots.find((slot) => slot.identifier === pendingIdentifier.value)
 })
+
+const confirmTitle = computed(() => {
+  const operatorName = getPendingSlotInfo.value?.operatorName || 'SIM'
+  return `Switch to ${operatorName}?`
+})
 </script>
 
 <template>
   <div v-if="hasMultipleSlots && slots.length > 0">
     <!-- SIM Slot Switcher -->
-    <div
-      class="inline-flex w-fit self-start rounded-full border border-white/50 bg-white/80 p-0.5 shadow-sm"
+    <RadioGroup
+      :model-value="selectedIdentifier"
+      class="flex flex-wrap gap-4"
+      @update:model-value="handleSelect"
     >
-      <button
-        v-for="(slot, index) in slots"
-        :key="slot.identifier"
-        type="button"
-        class="rounded-full px-2 py-1 text-[10px] font-semibold tracking-[0.16em] transition"
-        :class="
-          selectedIdentifier === slot.identifier
-            ? 'bg-white text-foreground shadow-sm'
-            : 'text-muted-foreground hover:text-foreground'
-        "
-        @click="openDialog(slot.identifier)"
-      >
-        {{ getSlotLabel(slot, index) }}
-      </button>
-    </div>
+      <div v-for="(slot, index) in slots" :key="slot.identifier" class="flex items-center gap-2">
+        <RadioGroupItem :id="`sim-slot-${slot.identifier}`" :value="slot.identifier" />
+        <Label
+          :for="`sim-slot-${slot.identifier}`"
+          class="text-[10px] font-semibold uppercase tracking-[0.16em]"
+        >
+          {{ getSlotLabel(slot, index) }}
+        </Label>
+      </div>
+    </RadioGroup>
 
     <!-- Confirmation Dialog -->
-    <div
-      v-if="dialogOpen"
-      class="fixed inset-0 z-30 flex items-center justify-center bg-black/30 px-4 backdrop-blur-sm"
-    >
-      <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
-        <h3 class="text-sm font-semibold text-foreground">
-          Switch to {{ getPendingSlotInfo?.operatorName || 'SIM' }}?
-        </h3>
-        <div class="mt-6 flex gap-3">
-          <button
-            type="button"
-            class="flex-1 rounded-full border border-border px-4 py-2 text-sm font-semibold text-muted-foreground"
-            @click="closeDialog"
-          >
+    <AlertDialog v-model:open="dialogOpen">
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{{ confirmTitle }}</AlertDialogTitle>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel @click="closeDialog">
             {{ t('modemDetail.actions.cancel') }}
-          </button>
-          <button
-            type="button"
-            class="flex-1 rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background"
-            @click="confirmSwitch"
-          >
+          </AlertDialogCancel>
+          <AlertDialogAction @click="confirmSwitch">
             {{ t('modemDetail.actions.confirm') }}
-          </button>
-        </div>
-      </div>
-    </div>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   </div>
 </template>
