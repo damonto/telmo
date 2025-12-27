@@ -35,7 +35,7 @@ export const useModemApi = () => {
   const switchSimSlot = (id: string, identifier: string) => {
     return useFetch<string>(`modems/${id}/sim-slots/${identifier}`, {
       method: 'PUT',
-    }).text()
+    })
   }
 
   /**
@@ -46,7 +46,7 @@ export const useModemApi = () => {
     return useFetch<string>(`modems/${id}/msisdn`, {
       method: 'PUT',
       body: JSON.stringify({ number }),
-    }).text()
+    })
   }
 
   /**
@@ -65,7 +65,7 @@ export const useModemApi = () => {
     return useFetch<string>(`modems/${id}/settings`, {
       method: 'PUT',
       body: JSON.stringify(payload),
-    }).text()
+    })
   }
 
   return {

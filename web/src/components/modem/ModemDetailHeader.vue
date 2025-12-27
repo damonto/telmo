@@ -24,10 +24,6 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const router = useRouter()
-
-const handleBack = () => {
-  router.back()
-}
 </script>
 
 <template>
@@ -38,7 +34,7 @@ const handleBack = () => {
         size="sm"
         type="button"
         class="px-0 text-muted-foreground"
-        @click="handleBack"
+        @click="router.push('/')"
       >
         ← {{ t('modemDetail.back') }}
       </Button>
@@ -57,10 +53,7 @@ const handleBack = () => {
 
     <header class="space-y-2">
       <div class="flex flex-wrap items-center gap-3">
-        <h1
-          v-if="!props.isLoading"
-          class="text-3xl font-semibold tracking-tight text-foreground"
-        >
+        <h1 v-if="!props.isLoading" class="text-3xl font-semibold tracking-tight text-foreground">
           {{ props.modem?.name ?? t('modemDetail.unknown') }}
         </h1>
         <div v-else class="h-9 w-48 animate-pulse rounded bg-muted" />

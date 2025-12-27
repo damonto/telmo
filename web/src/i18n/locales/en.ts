@@ -44,6 +44,8 @@ const en = {
       sim1: 'SIM 1',
       sim2: 'SIM 2',
       confirm: 'Switch to SIM {sim}?',
+      switchSuccess: 'Switched to {sim}.',
+      switchSuccessFallback: 'SIM slot switched.',
     },
     fields: {
       moduleName: 'Module Name',
@@ -96,6 +98,7 @@ const en = {
       downloadErrorTitle: 'Download failed',
       downloadErrorFallback: 'The download could not be completed.',
       downloadDisconnected: 'Connection lost. The download may still be running.',
+      enableSuccess: 'Enabled “{name}”.',
     },
     actions: {
       rename: 'Rename',

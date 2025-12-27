@@ -43,6 +43,10 @@ export const useFetch = createFetch({
     },
 
     onFetchError({ response, error, data }) {
+      if (response && response.status <= 299) {
+        return { response, error, data }
+      }
+
       if (response) {
         handleResponseError(response, data)
         console.error('[API] Response error:', response.status, data)

@@ -11,7 +11,7 @@ export const useNetworkApi = () => {
     const encoded = encodeURIComponent(operatorCode)
     return useFetch<string>(`modems/${id}/networks/${encoded}`, {
       method: 'PUT',
-    }).text()
+    })
   }
 
   return {

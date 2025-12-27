@@ -6,7 +6,7 @@ import ModemDeviceSettingsSection from '@/components/modem/settings/ModemDeviceS
 import ModemMsisdnSection from '@/components/modem/settings/ModemMsisdnSection.vue'
 import ModemNetworkDialog from '@/components/modem/settings/ModemNetworkDialog.vue'
 import ModemNetworkSection from '@/components/modem/settings/ModemNetworkSection.vue'
-import ModemSettingsFeedbackDialog from '@/components/modem/settings/ModemSettingsFeedbackDialog.vue'
+import SuccessBanner from '@/components/feedback/SuccessBanner.vue'
 import ModemSettingsHeader from '@/components/modem/settings/ModemSettingsHeader.vue'
 import { useModemSettings } from '@/composables/useModemSettings'
 
@@ -86,5 +86,5 @@ const {
     @register="handleNetworkRegister"
   />
 
-  <ModemSettingsFeedbackDialog v-model:open="feedbackOpen" :message="feedbackMessage" />
+  <SuccessBanner v-model:open="feedbackOpen" :message="feedbackMessage" />
 </template>

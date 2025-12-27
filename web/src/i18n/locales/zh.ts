@@ -44,6 +44,8 @@ const zh = {
       sim1: 'SIM 1',
       sim2: 'SIM 2',
       confirm: '是否确认切换至 SIM {sim}？',
+      switchSuccess: '已切换至 {sim}。',
+      switchSuccessFallback: '已切换 SIM 卡槽。',
     },
     fields: {
       moduleName: '模块名称',
@@ -96,6 +98,7 @@ const zh = {
       downloadErrorTitle: '下载失败',
       downloadErrorFallback: '下载未完成，请稍后重试。',
       downloadDisconnected: '连接已断开，下载可能仍在进行。',
+      enableSuccess: '已启用“{name}”。',
     },
     actions: {
       rename: '更改名称',

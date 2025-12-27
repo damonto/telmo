@@ -54,6 +54,9 @@ const props = withDefaults(
     loading: false,
   },
 )
+const emit = defineEmits<{
+  (event: 'success', message: string): void
+}>()
 
 const { t } = useI18n()
 const esimApi = useEsimApi()
@@ -104,6 +107,11 @@ const openToggleDialog = (profile: EsimProfile, nextValue: boolean) => {
   toggleNextValue.value = nextValue
 }
 
+const handleToggle = (profile: EsimProfile, nextValue: boolean) => {
+  if (!nextValue) return
+  openToggleDialog(profile, nextValue)
+}
+
 const closeToggleDialog = () => {
   toggleOpen.value = false
   toggleProfile.value = null
@@ -119,6 +127,8 @@ const confirmToggle = async () => {
   }
   toggleLoading.value = true
   try {
+    const profileName =
+      toggleProfile.value?.name ?? t('modemDetail.esim.downloadCompletedFallbackName')
     await esimApi.enableEsim(props.modemId, toggleProfile.value.iccid)
     if (!props.refreshModem) {
       toggleProfile.value.enabled = true
@@ -127,6 +137,7 @@ const confirmToggle = async () => {
     if (props.refreshModem) {
       await props.refreshModem()
     }
+    emit('success', t('modemDetail.esim.enableSuccess', { name: profileName }))
   } catch (err) {
     console.error('[EsimProfileSection] Failed to enable profile:', err)
   } finally {
@@ -285,7 +296,8 @@ watch(renameOpen, (value) => {
         <div class="flex items-center gap-3">
           <Switch
             :model-value="profile.enabled"
-            @update:model-value="(nextValue) => openToggleDialog(profile, nextValue)"
+            :disabled="profile.enabled"
+            @update:model-value="(nextValue) => handleToggle(profile, nextValue)"
           />
 
           <DropdownMenu>

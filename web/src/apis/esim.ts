@@ -11,19 +11,19 @@ export const useEsimApi = () => {
     return useFetch<string>(`modems/${id}/esims/${iccid}/nickname`, {
       method: 'PUT',
       body: JSON.stringify({ nickname }),
-    }).text()
+    })
   }
 
   const enableEsim = (id: string, iccid: string) => {
     return useFetch<string>(`modems/${id}/esims/${iccid}/enabling`, {
       method: 'POST',
-    }).text()
+    })
   }
 
   const deleteEsim = (id: string, iccid: string) => {
     return useFetch<string>(`modems/${id}/esims/${iccid}`, {
       method: 'DELETE',
-    }).text()
+    })
   }
 
   return {

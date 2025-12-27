@@ -215,7 +215,7 @@ func (s *Service) buildModemResponse(m *mmodem.Modem) (*ModemResponse, error) {
 
 func (s *Service) buildSimSlotsResponse(m *mmodem.Modem) ([]SlotResponse, error) {
 	if len(m.SimSlots) == 0 {
-		return nil, nil
+		return []SlotResponse{}, nil
 	}
 	simSlots := make([]SlotResponse, 0, len(m.SimSlots))
 	for _, slotPath := range m.SimSlots {

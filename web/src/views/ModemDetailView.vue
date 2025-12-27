@@ -12,6 +12,7 @@ import EsimDownloadResultModal from '@/components/esim/EsimDownloadResultModal.v
 import EsimInstallDialog from '@/components/esim/EsimInstallDialog.vue'
 import EsimProfileSection from '@/components/esim/EsimProfileSection.vue'
 import EsimSummaryCard from '@/components/esim/EsimSummaryCard.vue'
+import SuccessBanner from '@/components/feedback/SuccessBanner.vue'
 import ModemDetailCard from '@/components/modem/ModemDetailCard.vue'
 import ModemDetailHeader from '@/components/modem/ModemDetailHeader.vue'
 import SimSlotSwitcher from '@/components/modem/SimSlotSwitcher.vue'
@@ -61,6 +62,8 @@ watch(
 const installDialogOpen = ref(false)
 const detailDialogOpen = ref(false)
 const confirmationCode = ref('')
+const feedbackOpen = ref(false)
+const feedbackMessage = ref('')
 
 const {
   downloadState,
@@ -126,6 +129,19 @@ const refreshModem = async () => {
   await fetchModemDetail(modemId.value)
 }
 
+const showSuccess = (message: string) => {
+  feedbackMessage.value = message
+  feedbackOpen.value = true
+}
+
+const getSimLabel = (identifier: string) => {
+  const index = simSlots.value.findIndex((slot) => slot.identifier === identifier)
+  if (index === 0) return t('modemDetail.sim.sim1')
+  if (index === 1) return t('modemDetail.sim.sim2')
+  if (index >= 0) return `SIM ${index + 1}`
+  return ''
+}
+
 watch(downloadState, (value) => {
   if (value === 'confirmation') {
     confirmationCode.value = ''
@@ -164,6 +180,12 @@ const handleSimSwitch = async (identifier: string) => {
   }
   await modemApi.switchSimSlot(modemId.value, identifier)
   await refreshModem()
+  const simLabel = getSimLabel(identifier)
+  if (simLabel) {
+    showSuccess(t('modemDetail.sim.switchSuccess', { sim: simLabel }))
+  } else {
+    showSuccess(t('modemDetail.sim.switchSuccessFallback'))
+  }
 }
 </script>
 
@@ -198,6 +220,7 @@ const handleSimSwitch = async (identifier: string) => {
       :loading="isEsimProfilesLoading"
       :modem-id="modemId"
       :refresh-modem="refreshModem"
+      @success="showSuccess"
     />
   </div>
 
@@ -271,4 +294,6 @@ const handleSimSwitch = async (identifier: string) => {
     :tone="resultTone"
     @confirm="handleResultConfirm"
   />
+
+  <SuccessBanner v-model:open="feedbackOpen" :message="feedbackMessage" />
 </template>
