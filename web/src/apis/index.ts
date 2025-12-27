@@ -1,3 +1,6 @@
 export * from './modem'
+export * from './message'
 export * from './esim'
 export * from './euicc'
+export * from './ussd'
+export * from './network'

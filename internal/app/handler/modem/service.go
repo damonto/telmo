@@ -1,20 +1,36 @@
 package modem
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"log/slog"
+	"regexp"
 	"slices"
+	"strings"
 
 	"github.com/damonto/sigmo/internal/pkg/carrier"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/lpa"
 	mmodem "github.com/damonto/sigmo/internal/pkg/modem"
+	"github.com/damonto/sigmo/internal/pkg/modem/msisdn"
 )
 
 type Service struct {
 	cfg     *config.Config
 	manager *mmodem.Manager
 }
+
+var (
+	errSimIdentifierRequired = errors.New("identifier is required")
+	errSimSlotsUnavailable   = errors.New("sim slots not available")
+	errSimSlotNotFound       = errors.New("sim slot not found")
+	errSimSlotAlreadyActive  = errors.New("sim slot already active")
+	errMSISDNInvalidNumber   = errors.New("invalid phone number")
+	errCompatibleRequired    = errors.New("compatible is required")
+)
+
+var msisdnPhoneRE = regexp.MustCompile(`^\+?[0-9]{1,15}$`)
 
 func NewService(cfg *config.Config, manager *mmodem.Manager) *Service {
 	return &Service{
@@ -36,6 +52,9 @@ func (s *Service) List() ([]*ModemResponse, error) {
 		}
 		response = append(response, modemResp)
 	}
+	slices.SortFunc(response, func(a, b *ModemResponse) int {
+		return strings.Compare(a.ID, b.ID)
+	})
 	return response, nil
 }
 
@@ -45,6 +64,75 @@ func (s *Service) Get(modem *mmodem.Modem) (*ModemResponse, error) {
 		return nil, err
 	}
 	return resp, nil
+}
+
+func (s *Service) SwitchSimSlot(ctx context.Context, modem *mmodem.Modem, identifier string) (*ModemResponse, error) {
+	if identifier == "" {
+		return nil, errSimIdentifierRequired
+	}
+	slotIndex, err := s.findSimSlotIndex(modem, identifier)
+	if err != nil {
+		return nil, err
+	}
+	if err := modem.SetPrimarySimSlot(slotIndex); err != nil {
+		return nil, fmt.Errorf("setting primary SIM slot for %s: %w", modem.EquipmentIdentifier, err)
+	}
+	target, err := s.manager.WaitForModem(ctx, modem.EquipmentIdentifier)
+	if err != nil {
+		return nil, err
+	}
+	return s.buildModemResponse(target)
+}
+
+func (s *Service) UpdateMSISDN(modem *mmodem.Modem, number string) error {
+	number = strings.TrimSpace(number)
+	if !msisdnPhoneRE.MatchString(number) {
+		return errMSISDNInvalidNumber
+	}
+	port, err := modem.Port(mmodem.ModemPortTypeAt)
+	if err != nil {
+		return fmt.Errorf("finding AT port for modem %s: %w", modem.EquipmentIdentifier, err)
+	}
+	client, err := msisdn.New(port.Device)
+	if err != nil {
+		return fmt.Errorf("opening MSISDN client for modem %s: %w", modem.EquipmentIdentifier, err)
+	}
+	defer func() {
+		if cerr := client.Close(); cerr != nil {
+			slog.Warn("failed to close MSISDN client", "error", cerr, "modem", modem.EquipmentIdentifier)
+		}
+	}()
+	if err := client.Update("", number); err != nil {
+		return fmt.Errorf("updating MSISDN for modem %s: %w", modem.EquipmentIdentifier, err)
+	}
+	return nil
+}
+
+func (s *Service) UpdateSettings(modemID string, req UpdateModemSettingsRequest) error {
+	if req.Compatible == nil {
+		return errCompatibleRequired
+	}
+	modem := s.cfg.FindModem(modemID)
+	modem.Alias = strings.TrimSpace(req.Alias)
+	modem.Compatible = *req.Compatible
+	modem.MSS = req.MSS
+	if s.cfg.Modems == nil {
+		s.cfg.Modems = make(map[string]config.Modem)
+	}
+	s.cfg.Modems[modemID] = modem
+	if err := s.cfg.Save(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *Service) GetSettings(modemID string) *ModemSettingsResponse {
+	modem := s.cfg.FindModem(modemID)
+	return &ModemSettingsResponse{
+		Alias:      modem.Alias,
+		Compatible: modem.Compatible,
+		MSS:        modem.MSS,
+	}
 }
 
 func (s *Service) buildModemResponse(m *mmodem.Modem) (*ModemResponse, error) {
@@ -151,6 +239,22 @@ func (s *Service) buildSimSlotsResponse(m *mmodem.Modem) ([]SlotResponse, error)
 	return simSlots, nil
 }
 
+func (s *Service) findSimSlotIndex(modem *mmodem.Modem, identifier string) (uint32, error) {
+	if len(modem.SimSlots) == 0 {
+		return 0, errSimSlotsUnavailable
+	}
+	for index, slotPath := range modem.SimSlots {
+		sim, err := modem.SIMs().Get(slotPath)
+		if err != nil {
+			return 0, fmt.Errorf("fetching SIM for slot %s: %w", slotPath, err)
+		}
+		if sim.Identifier == identifier && !sim.Active {
+			return uint32(index + 1), nil
+		}
+	}
+	return 0, fmt.Errorf("sim slot %q not found: %w", identifier, errSimSlotNotFound)
+}
+
 func supportsEsim(m *mmodem.Modem, cfg *config.Config) (bool, error) {
 	client, err := lpa.New(m, cfg)
 	if err != nil {
@@ -159,9 +263,11 @@ func supportsEsim(m *mmodem.Modem, cfg *config.Config) (bool, error) {
 		}
 		return false, fmt.Errorf("creating LPA client for %s: %w", m.EquipmentIdentifier, err)
 	}
-	if err := client.Close(); err != nil {
-		return false, fmt.Errorf("closing LPA client for %s: %w", m.EquipmentIdentifier, err)
-	}
+	defer func() {
+		if cerr := client.Close(); cerr != nil {
+			slog.Warn("failed to close LPA client", "error", cerr)
+		}
+	}()
 	return true, nil
 }
 

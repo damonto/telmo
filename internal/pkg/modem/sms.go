@@ -16,6 +16,10 @@ type SMS struct {
 	Timestamp  time.Time
 }
 
+func (sms *SMS) Path() dbus.ObjectPath {
+	return sms.objectPath
+}
+
 func (msg *Messaging) Retrieve(objectPath dbus.ObjectPath) (*SMS, error) {
 	dbusObject, err := privateDBusObject(objectPath)
 	if err != nil {

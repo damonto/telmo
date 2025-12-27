@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
 import { Download } from 'lucide-vue-next'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
+import { useModemApi } from '@/apis/modem'
 import EsimDownloadConfirmationModal from '@/components/esim/EsimDownloadConfirmationModal.vue'
 import EsimDownloadPreviewModal from '@/components/esim/EsimDownloadPreviewModal.vue'
 import EsimDownloadProgressModal from '@/components/esim/EsimDownloadProgressModal.vue'
@@ -15,6 +16,7 @@ import ModemDetailCard from '@/components/modem/ModemDetailCard.vue'
 import ModemDetailHeader from '@/components/modem/ModemDetailHeader.vue'
 import SimSlotSwitcher from '@/components/modem/SimSlotSwitcher.vue'
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useEsimDownload } from '@/composables/useEsimDownload'
 import { useModemDetail } from '@/composables/useModemDetail'
 
@@ -33,6 +35,7 @@ const {
   fetchModemDetail,
   fetchEsimProfiles,
 } = useModemDetail()
+const modemApi = useModemApi()
 
 // SIM slot switching logic
 const currentSimIdentifier = ref('')
@@ -55,11 +58,8 @@ watch(
   { immediate: true },
 )
 
-// Determine modem type
-const physicalModem = computed(() => (isPhysicalModem.value ? modem.value : null))
-const esimModem = computed(() => (isEsimModem.value ? modem.value : null))
-
 const installDialogOpen = ref(false)
+const detailDialogOpen = ref(false)
 const confirmationCode = ref('')
 
 const {
@@ -117,7 +117,9 @@ const resultMessage = computed(() => {
 
 const confirmationTitle = computed(() => t('modemDetail.esim.downloadConfirmationTitle'))
 const confirmationHint = computed(() => t('modemDetail.esim.downloadConfirmationHint'))
-const confirmationPlaceholder = computed(() => t('modemDetail.esim.downloadConfirmationPlaceholder'))
+const confirmationPlaceholder = computed(() =>
+  t('modemDetail.esim.downloadConfirmationPlaceholder'),
+)
 
 const refreshModem = async () => {
   if (!modemId.value || modemId.value === 'unknown') return
@@ -155,10 +157,23 @@ const handlePreviewCancel = () => {
 const handleResultConfirm = () => {
   closeDialog()
 }
+
+const handleSimSwitch = async (identifier: string) => {
+  if (!modemId.value || modemId.value === 'unknown') {
+    throw new Error('Modem ID is unavailable')
+  }
+  await modemApi.switchSimSlot(modemId.value, identifier)
+  await refreshModem()
+}
 </script>
 
 <template>
-  <ModemDetailHeader :modem="modem" :is-loading="isLoading" />
+  <ModemDetailHeader
+    :modem="modem"
+    :is-loading="isLoading"
+    :show-details-action="isEsimModem"
+    @open-details="detailDialogOpen = true"
+  />
 
   <div
     v-if="!modem && !isLoading"
@@ -168,11 +183,16 @@ const handleResultConfirm = () => {
   </div>
 
   <!-- SIM Slot Switcher -->
-  <SimSlotSwitcher v-if="modem" v-model="currentSimIdentifier" :slots="simSlots" />
+  <SimSlotSwitcher
+    v-if="modem"
+    v-model="currentSimIdentifier"
+    :slots="simSlots"
+    :on-switch="handleSimSwitch"
+  />
 
   <!-- eSIM modem: show original layout -->
-  <div v-if="esimModem" class="space-y-4">
-    <EsimSummaryCard :modem="esimModem" :euicc="euicc" />
+  <div v-if="modem && isEsimModem" class="space-y-4">
+    <EsimSummaryCard :modem="modem" :euicc="euicc" />
     <EsimProfileSection
       v-model:profiles="esimProfiles"
       :loading="isEsimProfilesLoading"
@@ -182,12 +202,23 @@ const handleResultConfirm = () => {
   </div>
 
   <!-- Physical modem: show detail card -->
-  <div v-if="physicalModem" class="space-y-4">
-    <ModemDetailCard :modem="physicalModem" />
+  <div v-if="modem && isPhysicalModem" class="space-y-4">
+    <ModemDetailCard :modem="modem" :euicc="null" />
   </div>
 
+  <Dialog v-model:open="detailDialogOpen">
+    <DialogContent v-if="modem && isEsimModem" class="sm:max-w-lg">
+      <DialogHeader>
+        <DialogTitle>{{ t('modemDetail.tabs.detail') }}</DialogTitle>
+      </DialogHeader>
+      <div class="max-h-[70vh] overflow-y-auto pr-2">
+        <ModemDetailCard :modem="modem" :euicc="euicc" />
+      </div>
+    </DialogContent>
+  </Dialog>
+
   <Button
-    v-if="esimModem"
+    v-if="modem && isEsimModem"
     type="button"
     size="icon-lg"
     class="fixed bottom-24 right-6 z-20 rounded-full shadow-xl transition hover:-translate-y-0.5"

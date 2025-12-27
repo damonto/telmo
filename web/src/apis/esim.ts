@@ -1,6 +1,5 @@
 import { useFetch } from '@/lib/fetch'
 
-import type { ApiResponse, EmptyObject } from '@/types/api'
 import type { EsimProfilesResponse } from '@/types/esim'
 
 export const useEsimApi = () => {
@@ -9,22 +8,22 @@ export const useEsimApi = () => {
   }
 
   const updateEsimNickname = (id: string, iccid: string, nickname: string) => {
-    return useFetch<ApiResponse<EmptyObject>>(`modems/${id}/esims/${iccid}/nickname`, {
+    return useFetch<string>(`modems/${id}/esims/${iccid}/nickname`, {
       method: 'PUT',
       body: JSON.stringify({ nickname }),
-    }).json()
+    }).text()
   }
 
   const enableEsim = (id: string, iccid: string) => {
-    return useFetch<ApiResponse<EmptyObject>>(`modems/${id}/esims/${iccid}/enabling`, {
+    return useFetch<string>(`modems/${id}/esims/${iccid}/enabling`, {
       method: 'POST',
-    }).json()
+    }).text()
   }
 
   const deleteEsim = (id: string, iccid: string) => {
-    return useFetch<ApiResponse<EmptyObject>>(`modems/${id}/esims/${iccid}`, {
+    return useFetch<string>(`modems/${id}/esims/${iccid}`, {
       method: 'DELETE',
-    }).json()
+    }).text()
   }
 
   return {

@@ -1,6 +1,8 @@
 package config
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"os"
 
@@ -13,6 +15,7 @@ type Config struct {
 	Database Database           `toml:"database"`
 	Channels map[string]Channel `toml:"channels"`
 	Modems   map[string]Modem   `toml:"modems"`
+	Path     string             `toml:"-"`
 }
 
 type App struct {
@@ -45,6 +48,7 @@ func Load(path string) (*Config, error) {
 	if _, err := toml.Decode(string(data), &config); err != nil {
 		return nil, fmt.Errorf("parsing config file: %w", err)
 	}
+	config.Path = path
 	return &config, nil
 }
 
@@ -60,4 +64,18 @@ func (c *Config) FindModem(id string) Modem {
 		Compatible: false,
 		MSS:        240,
 	}
+}
+
+func (c *Config) Save() error {
+	if c.Path == "" {
+		return errors.New("config path is required")
+	}
+	var buf bytes.Buffer
+	if err := toml.NewEncoder(&buf).Encode(c); err != nil {
+		return fmt.Errorf("encoding config file: %w", err)
+	}
+	if err := os.WriteFile(c.Path, buf.Bytes(), 0644); err != nil {
+		return fmt.Errorf("writing config file: %w", err)
+	}
+	return nil
 }

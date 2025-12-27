@@ -8,8 +8,6 @@ import (
 	"log/slog"
 	"unicode/utf8"
 
-	"github.com/godbus/dbus/v5"
-
 	elpa "github.com/damonto/euicc-go/lpa"
 	sgp22 "github.com/damonto/euicc-go/v2"
 	"github.com/damonto/sigmo/internal/pkg/carrier"
@@ -100,7 +98,7 @@ func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.I
 		return fmt.Errorf("restarting modem %s: %w", modem.EquipmentIdentifier, err)
 	}
 
-	target, err := s.waitForModem(ctx, modem.EquipmentIdentifier)
+	target, err := s.manager.WaitForModem(ctx, modem.EquipmentIdentifier)
 	if err != nil {
 		return err
 	}
@@ -172,50 +170,6 @@ func validateNickname(nickname string) error {
 		return errInvalidNickname
 	}
 	return nil
-}
-
-func (s *Service) waitForModem(ctx context.Context, modemID string) (*mmodem.Modem, error) {
-	ready := make(chan *mmodem.Modem, 1)
-	notify := func(modems map[dbus.ObjectPath]*mmodem.Modem) error {
-		for _, modem := range modems {
-			if modem.EquipmentIdentifier == modemID {
-				select {
-				case ready <- modem:
-				default:
-				}
-				break
-			}
-		}
-		return nil
-	}
-
-	unsubscribe, err := s.manager.Subscribe(notify)
-	if err != nil {
-		return nil, err
-	}
-	defer unsubscribe()
-
-	modems, err := s.manager.Modems()
-	if err != nil {
-		slog.Warn("failed to refresh modems after restart", "error", err, "modem", modemID)
-	} else {
-		for _, modem := range modems {
-			if modem.EquipmentIdentifier == modemID {
-				select {
-				case ready <- modem:
-				default:
-				}
-				break
-			}
-		}
-	}
-
-	select {
-	case modem := <-ready:
-		return modem, nil
-	case <-ctx.Done():
-		return nil, ctx.Err()
-	}
 }
 
 func (s *Service) sendPendingNotifications(modem *mmodem.Modem, lastSeq sgp22.SequenceNumber) error {

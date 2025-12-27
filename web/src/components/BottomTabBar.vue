@@ -9,6 +9,7 @@ export type TabBarItem = {
   key: string
   to: RouteLocationRaw
   routeName: string
+  activeRouteNames?: string[]
   label: string
   icon: Component
 }
@@ -28,7 +29,9 @@ const route = useRoute()
 const tabs = computed(() =>
   props.items.map((item) => ({
     ...item,
-    isActive: route.name === item.routeName,
+    isActive:
+      route.name === item.routeName ||
+      (item.activeRouteNames ?? []).includes(route.name as string),
   })),
 )
 </script>

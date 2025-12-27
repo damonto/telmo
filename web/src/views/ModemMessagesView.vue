@@ -1,43 +1,78 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
-import ModemDetailHeader from '@/components/modem/ModemDetailHeader.vue'
-import { Card, CardContent } from '@/components/ui/card'
-import { useModemDetail } from '@/composables/useModemDetail'
+import ModemMessagesDeleteDialog from '@/components/modem/messages/ModemMessagesDeleteDialog.vue'
+import ModemMessagesFab from '@/components/modem/messages/ModemMessagesFab.vue'
+import ModemMessagesHeader from '@/components/modem/messages/ModemMessagesHeader.vue'
+import ModemMessagesList from '@/components/modem/messages/ModemMessagesList.vue'
+import { useModemMessages, type ConversationItem } from '@/composables/useModemMessages'
 
 const route = useRoute()
-const { t } = useI18n()
+const router = useRouter()
 
 const modemId = computed(() => (route.params.id ?? 'unknown') as string)
-const { modem, isLoading, fetchModemDetail } = useModemDetail()
 
-watch(
-  modemId,
-  async (id) => {
-    if (!id || id === 'unknown') return
-    await fetchModemDetail(id)
-  },
-  { immediate: true },
-)
+const { items, count, isLoading, deleteConversation } = useModemMessages(modemId)
+
+const deleteOpen = ref(false)
+const deleteLoading = ref(false)
+const deleteTarget = ref<ConversationItem | null>(null)
+
+const deleteTargetLabel = computed(() => deleteTarget.value?.participantLabel ?? '')
+const isFabDisabled = computed(() => modemId.value === 'unknown')
+
+const openDeleteDialog = (item: ConversationItem) => {
+  deleteTarget.value = item
+  deleteOpen.value = true
+}
+
+const closeDeleteDialog = () => {
+  deleteOpen.value = false
+  deleteTarget.value = null
+}
+
+const confirmDelete = async () => {
+  if (!deleteTarget.value) return
+  deleteLoading.value = true
+  try {
+    await deleteConversation(deleteTarget.value.participantValue)
+  } catch (err) {
+    console.error('[ModemMessagesView] Failed to delete messages:', err)
+  } finally {
+    deleteLoading.value = false
+    closeDeleteDialog()
+  }
+}
+
+const startConversation = async () => {
+  if (!modemId.value || modemId.value === 'unknown') return
+  await router.push({
+    name: 'modem-message-thread',
+    params: { id: modemId.value, participant: 'new' },
+    query: { new: '1' },
+  })
+}
 </script>
 
 <template>
   <div class="space-y-6">
-    <ModemDetailHeader :modem="modem" :is-loading="isLoading" />
+    <ModemMessagesHeader :count="count" :is-loading="isLoading" />
 
-    <Card
-      class="gap-0 rounded-2xl border-white/40 bg-white/80 py-0 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/60"
-    >
-      <CardContent class="space-y-2 px-4 py-4">
-        <h2 class="text-lg font-semibold text-foreground">
-          {{ t('modemDetail.messages.title') }}
-        </h2>
-        <p class="text-sm text-muted-foreground">
-          {{ t('modemDetail.messages.description') }}
-        </p>
-      </CardContent>
-    </Card>
+    <ModemMessagesList
+      :items="items"
+      :modem-id="modemId"
+      :is-loading="isLoading"
+      @delete="openDeleteDialog"
+    />
   </div>
+
+  <ModemMessagesFab :disabled="isFabDisabled" @click="startConversation" />
+
+  <ModemMessagesDeleteDialog
+    v-model:open="deleteOpen"
+    :target-label="deleteTargetLabel"
+    :is-deleting="deleteLoading"
+    @confirm="confirmDelete"
+  />
 </template>

@@ -36,7 +36,7 @@ const progressValue = computed(() => Math.min(Math.max(props.progress, 0), 100))
       </DialogHeader>
       <Progress :model-value="progressValue" />
       <DialogFooter>
-        <Button variant="outline" type="button" @click="emit('cancel')">
+        <Button variant="ghost" type="button" @click="emit('cancel')">
           {{ cancelLabel }}
         </Button>
       </DialogFooter>

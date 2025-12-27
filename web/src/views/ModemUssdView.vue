@@ -1,43 +1,25 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-import ModemDetailHeader from '@/components/modem/ModemDetailHeader.vue'
-import { Card, CardContent } from '@/components/ui/card'
-import { useModemDetail } from '@/composables/useModemDetail'
+import ModemUssdComposer from '@/components/modem/ussd/ModemUssdComposer.vue'
+import ModemUssdConversation from '@/components/modem/ussd/ModemUssdConversation.vue'
+import ModemUssdHeader from '@/components/modem/ussd/ModemUssdHeader.vue'
+import { useUssdSession } from '@/composables/useUssdSession'
 
 const route = useRoute()
-const { t } = useI18n()
 
 const modemId = computed(() => (route.params.id ?? 'unknown') as string)
-const { modem, isLoading, fetchModemDetail } = useModemDetail()
 
-watch(
-  modemId,
-  async (id) => {
-    if (!id || id === 'unknown') return
-    await fetchModemDetail(id)
-  },
-  { immediate: true },
-)
+const { items, draft, isSending, hasEntries, sendMessage } = useUssdSession(modemId)
 </script>
 
 <template>
-  <div class="space-y-6">
-    <ModemDetailHeader :modem="modem" :is-loading="isLoading" />
+  <div class="flex h-[calc(100dvh-6.5rem)] flex-col overflow-hidden">
+    <ModemUssdHeader />
 
-    <Card
-      class="gap-0 rounded-2xl border-white/40 bg-white/80 py-0 shadow-[0_10px_30px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/60"
-    >
-      <CardContent class="space-y-2 px-4 py-4">
-        <h2 class="text-lg font-semibold text-foreground">
-          {{ t('modemDetail.ussd.title') }}
-        </h2>
-        <p class="text-sm text-muted-foreground">
-          {{ t('modemDetail.ussd.description') }}
-        </p>
-      </CardContent>
-    </Card>
+    <ModemUssdConversation :items="items" :has-entries="hasEntries" />
+
+    <ModemUssdComposer v-model="draft" :is-sending="isSending" @submit="sendMessage" />
   </div>
 </template>

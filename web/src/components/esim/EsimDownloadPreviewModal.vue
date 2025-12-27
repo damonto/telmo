@@ -61,7 +61,7 @@ const handleOpenChange = (nextOpen: boolean) => {
         <DialogTitle>{{ title }}</DialogTitle>
         <DialogDescription>{{ hint }}</DialogDescription>
       </DialogHeader>
-      <Card class="border-dashed">
+      <Card class="border-0 shadow-sm">
         <CardContent class="flex items-center gap-3 p-3">
           <div
             class="flex size-12 shrink-0 items-center justify-center rounded-md border border-border bg-muted/30"
@@ -81,11 +81,20 @@ const handleOpenChange = (nextOpen: boolean) => {
         </CardContent>
       </Card>
       <DialogFooter class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Button variant="outline" type="button" class="w-full" @click="emit('cancel')">
-          {{ cancelLabel }}
-        </Button>
-        <Button type="button" class="w-full" @click="emit('confirm')">
+        <Button
+          type="button"
+          class="order-1 w-full sm:order-2"
+          @click="emit('confirm')"
+        >
           {{ confirmLabel }}
+        </Button>
+        <Button
+          variant="ghost"
+          type="button"
+          class="order-2 w-full sm:order-1"
+          @click="emit('cancel')"
+        >
+          {{ cancelLabel }}
         </Button>
       </DialogFooter>
     </DialogContent>

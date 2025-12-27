@@ -53,7 +53,7 @@ func Lookup(mccmnc string) Carrier {
 	}
 	return Carrier{
 		Name:   "Unknown",
-		Region: "XX",
+		Region: "UN",
 		Mccmnc: mccmnc,
 	}
 }

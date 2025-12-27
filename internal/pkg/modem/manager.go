@@ -1,6 +1,7 @@
 package modem
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -162,6 +163,50 @@ func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) (
 		}
 	}
 	return unsubscribe, nil
+}
+
+func (m *Manager) WaitForModem(ctx context.Context, modemID string) (*Modem, error) {
+	ready := make(chan *Modem, 1)
+	notify := func(modems map[dbus.ObjectPath]*Modem) error {
+		for _, modem := range modems {
+			if modem.EquipmentIdentifier == modemID {
+				select {
+				case ready <- modem:
+				default:
+				}
+				break
+			}
+		}
+		return nil
+	}
+
+	unsubscribe, err := m.Subscribe(notify)
+	if err != nil {
+		return nil, err
+	}
+	defer unsubscribe()
+
+	modems, err := m.Modems()
+	if err != nil {
+		slog.Warn("failed to refresh modems while waiting", "error", err, "modem", modemID)
+	} else {
+		for _, modem := range modems {
+			if modem.EquipmentIdentifier == modemID {
+				select {
+				case ready <- modem:
+				default:
+				}
+				break
+			}
+		}
+	}
+
+	select {
+	case modem := <-ready:
+		return modem, nil
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	}
 }
 
 func (m *Manager) deleteAndUpdate(modem *Modem) {

@@ -1,6 +1,11 @@
 import { useFetch } from '@/lib/fetch'
 
-import type { ModemDetailResponse, ModemListResponse } from '@/types/modem'
+import type {
+  ModemDetailResponse,
+  ModemListResponse,
+  ModemSettings,
+  ModemSettingsResponse,
+} from '@/types/modem'
 
 /**
  * Modem API
@@ -23,8 +28,52 @@ export const useModemApi = () => {
     return useFetch<ModemDetailResponse>(`modems/${id}`).get().json()
   }
 
+  /**
+   * Switch active SIM slot by identifier
+   * PUT /api/v1/modems/:id/sim-slots/:identifier
+   */
+  const switchSimSlot = (id: string, identifier: string) => {
+    return useFetch<string>(`modems/${id}/sim-slots/${identifier}`, {
+      method: 'PUT',
+    }).text()
+  }
+
+  /**
+   * Update MSISDN
+   * PUT /api/v1/modems/:id/msisdn
+   */
+  const updateMsisdn = (id: string, number: string) => {
+    return useFetch<string>(`modems/${id}/msisdn`, {
+      method: 'PUT',
+      body: JSON.stringify({ number }),
+    }).text()
+  }
+
+  /**
+   * Fetch modem settings
+   * GET /api/v1/modems/:id/settings
+   */
+  const getSettings = (id: string) => {
+    return useFetch<ModemSettingsResponse>(`modems/${id}/settings`).get().json()
+  }
+
+  /**
+   * Update modem settings
+   * PUT /api/v1/modems/:id/settings
+   */
+  const updateSettings = (id: string, payload: ModemSettings) => {
+    return useFetch<string>(`modems/${id}/settings`, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    }).text()
+  }
+
   return {
     getModems,
     getModem,
+    switchSimSlot,
+    updateMsisdn,
+    getSettings,
+    updateSettings,
   }
 }

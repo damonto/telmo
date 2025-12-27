@@ -119,11 +119,7 @@ const confirmToggle = async () => {
   }
   toggleLoading.value = true
   try {
-    const { data } = await esimApi.enableEsim(props.modemId, toggleProfile.value.iccid)
-    if (!data.value) {
-      closeToggleDialog()
-      return
-    }
+    await esimApi.enableEsim(props.modemId, toggleProfile.value.iccid)
     if (!props.refreshModem) {
       toggleProfile.value.enabled = true
     }
@@ -153,15 +149,11 @@ const closeRenameDialog = () => {
 const confirmRename = handleRenameSubmit(async (values) => {
   if (!renameProfile.value) return
   try {
-    const { data } = await esimApi.updateEsimNickname(
+    await esimApi.updateEsimNickname(
       props.modemId,
       renameProfile.value.iccid,
       values.name,
     )
-    if (!data.value) {
-      closeRenameDialog()
-      return
-    }
     renameProfile.value.name = values.name
     closeRenameDialog()
   } catch (err) {
@@ -186,11 +178,7 @@ const confirmDelete = async (event?: Event) => {
   if (!deleteProfile.value) return
   deleteLoading.value = true
   try {
-    const { data } = await esimApi.deleteEsim(props.modemId, deleteProfile.value.iccid)
-    if (!data.value) {
-      closeDeleteDialog()
-      return
-    }
+    await esimApi.deleteEsim(props.modemId, deleteProfile.value.iccid)
     profiles.value = profiles.value.filter((profile) => profile.id !== deleteProfile.value?.id)
     closeDeleteDialog()
   } catch (err) {
@@ -241,7 +229,7 @@ watch(renameOpen, (value) => {
       <div
         v-for="i in 3"
         :key="`esim-profile-skeleton-${i}`"
-        class="flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3"
+        class="flex items-center justify-between rounded-lg bg-card px-4 py-3 shadow-sm"
       >
         <div class="flex min-w-0 items-center gap-3">
           <div class="h-11 w-11 shrink-0 animate-pulse rounded-md bg-muted/80" />
@@ -265,7 +253,7 @@ watch(renameOpen, (value) => {
       <div
         v-for="profile in profiles"
         :key="profile.id"
-        class="flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3"
+        class="flex items-center justify-between rounded-lg bg-card px-4 py-3 shadow-sm"
       >
         <div class="flex min-w-0 items-center gap-3">
           <div
@@ -368,16 +356,7 @@ watch(renameOpen, (value) => {
         </FormField>
 
         <DialogFooter class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Button
-            variant="outline"
-            type="button"
-            class="w-full"
-            @click="closeRenameDialog"
-            :disabled="renameSubmitting"
-          >
-            {{ t('modemDetail.actions.cancel') }}
-          </Button>
-          <Button type="submit" class="w-full" :disabled="renameSubmitting">
+          <Button type="submit" class="order-1 w-full sm:order-2" :disabled="renameSubmitting">
             <span v-if="renameSubmitting" class="inline-flex items-center gap-2">
               <span
                 class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
@@ -385,6 +364,15 @@ watch(renameOpen, (value) => {
               {{ t('modemDetail.actions.update') }}
             </span>
             <span v-else>{{ t('modemDetail.actions.update') }}</span>
+          </Button>
+          <Button
+            variant="ghost"
+            type="button"
+            class="order-2 w-full sm:order-1"
+            @click="closeRenameDialog"
+            :disabled="renameSubmitting"
+          >
+            {{ t('modemDetail.actions.cancel') }}
           </Button>
         </DialogFooter>
       </form>

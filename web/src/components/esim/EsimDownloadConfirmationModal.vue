@@ -106,11 +106,20 @@ watch(
         </FormField>
 
         <DialogFooter class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Button variant="outline" type="button" class="w-full" @click="emit('cancel')">
-            {{ cancelLabel }}
-          </Button>
-          <Button type="submit" class="w-full" :disabled="isSubmitting">
+          <Button
+            type="submit"
+            class="order-1 w-full sm:order-2"
+            :disabled="isSubmitting"
+          >
             {{ confirmLabel }}
+          </Button>
+          <Button
+            variant="ghost"
+            type="button"
+            class="order-2 w-full sm:order-1"
+            @click="emit('cancel')"
+          >
+            {{ cancelLabel }}
           </Button>
         </DialogFooter>
       </form>

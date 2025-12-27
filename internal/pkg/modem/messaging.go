@@ -71,7 +71,7 @@ func (msg *Messaging) Subscribe(ctx context.Context, subscriber func(message *SM
 			if !sig.Body[1].(bool) {
 				continue
 			}
-			s, err := msg.waitForSMSReceived(sig.Body[0].(dbus.ObjectPath))
+			s, err := msg.waitForSMSReceived(ctx, sig.Body[0].(dbus.ObjectPath), 100*time.Millisecond)
 			if err != nil {
 				slog.Error("failed to process message", "error", err, "path", sig.Path)
 				continue
@@ -86,7 +86,12 @@ func (msg *Messaging) Subscribe(ctx context.Context, subscriber func(message *SM
 	}
 }
 
-func (msg *Messaging) waitForSMSReceived(path dbus.ObjectPath) (*SMS, error) {
+func (msg *Messaging) waitForSMSReceived(ctx context.Context, path dbus.ObjectPath, interval time.Duration) (*SMS, error) {
+	if interval <= 0 {
+		interval = 100 * time.Millisecond
+	}
+	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
 	for {
 		s, err := msg.Retrieve(path)
 		if err != nil {
@@ -95,6 +100,10 @@ func (msg *Messaging) waitForSMSReceived(path dbus.ObjectPath) (*SMS, error) {
 		if s.State == SMSStateReceived {
 			return s, nil
 		}
-		time.Sleep(100 * time.Millisecond)
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		case <-ticker.C:
+		}
 	}
 }

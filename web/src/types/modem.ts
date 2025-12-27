@@ -33,3 +33,11 @@ export type ModemListResponse = ApiResponse<ModemApiResponse[]>
 export type ModemDetailResponse = ApiResponse<ModemApiResponse>
 
 export type Modem = ModemApiResponse
+
+export type ModemSettings = {
+  alias: string
+  compatible: boolean
+  mss: number
+}
+
+export type ModemSettingsResponse = ApiResponse<ModemSettings>

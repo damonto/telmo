@@ -42,6 +42,25 @@ const (
 	SMSStateSent                      // The message was successfully sent.
 )
 
+func (s SMSState) String() string {
+	switch s {
+	case SMSStateUnknown:
+		return "Unknown"
+	case SMSStateStored:
+		return "Stored"
+	case SMSStateReceiving:
+		return "Receiving"
+	case SMSStateReceived:
+		return "Received"
+	case SMSStateSending:
+		return "Sending"
+	case SMSStateSent:
+		return "Sent"
+	default:
+		return "Unknown"
+	}
+}
+
 type Modem3gppRegistrationState uint32
 
 const (
@@ -125,6 +144,9 @@ func (m ModemAccessTechnology) UnmarshalBitmask(bitmask uint32) []ModemAccessTec
 	if bitmask == 0 {
 		return nil
 	}
+	if bitmask == uint32(ModemAccessTechnologyAny) {
+		return []ModemAccessTechnology{ModemAccessTechnologyAny}
+	}
 	supported := []ModemAccessTechnology{
 		ModemAccessTechnologyPots,
 		ModemAccessTechnologyGsm,
@@ -144,12 +166,11 @@ func (m ModemAccessTechnology) UnmarshalBitmask(bitmask uint32) []ModemAccessTec
 		ModemAccessTechnology5GNR,
 		ModemAccessTechnologyLteCatM,
 		ModemAccessTechnologyLteNBIot,
-		ModemAccessTechnologyAny,
 	}
 	var accessTechnologies []ModemAccessTechnology
-	for idx, x := range supported {
-		if bitmask&(1<<idx) > 0 {
-			accessTechnologies = append(accessTechnologies, x)
+	for _, tech := range supported {
+		if bitmask&uint32(tech) != 0 {
+			accessTechnologies = append(accessTechnologies, tech)
 		}
 	}
 	return accessTechnologies

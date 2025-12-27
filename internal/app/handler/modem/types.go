@@ -13,6 +13,22 @@ type RegisteredOperatorResponse struct {
 	Code string `json:"code"`
 }
 
+type UpdateMSISDNRequest struct {
+	Number string `json:"number" validate:"required"`
+}
+
+type UpdateModemSettingsRequest struct {
+	Alias      string `json:"alias"`
+	Compatible *bool  `json:"compatible" validate:"required"`
+	MSS        int    `json:"mss" validate:"gte=64,lte=254"`
+}
+
+type ModemSettingsResponse struct {
+	Alias      string `json:"alias"`
+	Compatible bool   `json:"compatible"`
+	MSS        int    `json:"mss"`
+}
+
 type ModemResponse struct {
 	Manufacturer       string                     `json:"manufacturer"`
 	ID                 string                     `json:"id"`

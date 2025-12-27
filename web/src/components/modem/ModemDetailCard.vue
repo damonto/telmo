@@ -1,26 +1,46 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 import { Badge } from '@/components/ui/badge'
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import type { EuiccApiResponse } from '@/types/euicc'
 import type { Modem } from '@/types/modem'
 
-defineProps<{
+const props = defineProps<{
   modem: Modem
+  euicc?: EuiccApiResponse | null
 }>()
+
+const formatBytes = (bytes?: number) => {
+  if (bytes === null || bytes === undefined) return 'N/A'
+  if (bytes === 0) return '0 B'
+  const k = 1024
+  const sizes = ['B', 'KB', 'MB', 'GB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+  return `${Math.round((bytes / Math.pow(k, i)) * 100) / 100} ${sizes[i]}`
+}
+
+const storageRemaining = computed(() => formatBytes(props.euicc?.freeSpace))
+const eid = computed(() => props.euicc?.eid || 'N/A')
+const sasUp = computed(() => props.euicc?.sasUp || 'N/A')
+const certificates = computed(() => props.euicc?.certificates ?? [])
+
+const regionEmoji = computed(() => {
+  const code = props.modem.sim.regionCode?.trim().toUpperCase()
+  if (!code || code.length !== 2 || !/^[A-Z]{2}$/.test(code)) return ''
+  const base = 0x1f1e6
+  const offset = 'A'.codePointAt(0) ?? 65
+  const [first, second] = [code.codePointAt(0), code.codePointAt(1)]
+  if (first === undefined || second === undefined) return ''
+  return String.fromCodePoint(base + (first - offset), base + (second - offset))
+})
 </script>
 
 <template>
   <div class="space-y-6">
     <!-- Basic Info -->
-    <Card>
-      <CardHeader class="pb-0">
-        <CardTitle class="text-lg">Basic Information</CardTitle>
-      </CardHeader>
-      <CardContent class="grid gap-3 pt-4 text-sm">
+    <section class="space-y-3">
+      <h2 class="text-base font-semibold text-foreground">Basic Information</h2>
+      <div class="grid gap-3 text-sm">
         <div class="flex justify-between">
           <span class="text-muted-foreground">ID</span>
           <span class="font-mono">{{ modem.id }}</span>
@@ -45,15 +65,46 @@ defineProps<{
           <span class="text-muted-foreground">Number</span>
           <span class="font-mono">{{ modem.number }}</span>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
+
+    <section v-if="modem.supportsEsim" class="space-y-3">
+      <h2 class="text-base font-semibold text-foreground">eUICC Information</h2>
+      <div class="grid gap-3 text-sm">
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-muted-foreground">EID</span>
+          <span class="break-all font-mono">{{ eid }}</span>
+        </div>
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-muted-foreground">Storage Remaining</span>
+          <span class="font-semibold">
+            {{ storageRemaining }}
+          </span>
+        </div>
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-muted-foreground">SAS Accreditation</span>
+          <span class="text-right">{{ sasUp }}</span>
+        </div>
+        <div class="flex flex-col gap-2">
+          <span class="text-muted-foreground">Certificates</span>
+          <div v-if="certificates.length" class="flex flex-col gap-1">
+            <span
+              v-for="(cert, index) in certificates"
+              :key="index"
+              class="rounded-md bg-muted px-2 py-1 text-xs text-foreground"
+            >
+              {{ cert }}
+            </span>
+          </div>
+          <span v-else class="text-xs text-muted-foreground">N/A</span>
+        </div>
+      </div>
+    </section>
 
     <!-- SIM Info -->
-    <Card>
-      <CardHeader class="pb-0">
-        <CardTitle class="text-lg">SIM Information</CardTitle>
-      </CardHeader>
-      <CardContent class="grid gap-3 pt-4 text-sm">
+    <section class="space-y-3">
+      <h2 class="text-base font-semibold text-foreground">SIM Information</h2>
+      <div class="grid gap-3 text-sm">
         <div class="flex justify-between">
           <span class="text-muted-foreground">Operator</span>
           <span>{{ modem.sim.operatorName }}</span>
@@ -64,7 +115,10 @@ defineProps<{
         </div>
         <div class="flex justify-between">
           <span class="text-muted-foreground">Region</span>
-          <span class="font-mono">{{ modem.sim.regionCode }}</span>
+          <span class="flex items-center gap-2 font-mono">
+            {{ modem.sim.regionCode }}
+            <span v-if="regionEmoji" class="text-base">{{ regionEmoji }}</span>
+          </span>
         </div>
         <div class="flex justify-between">
           <span class="text-muted-foreground">ICCID</span>
@@ -74,15 +128,13 @@ defineProps<{
           <span class="text-muted-foreground">Active</span>
           <span>{{ modem.sim.active ? 'Yes' : 'No' }}</span>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
 
     <!-- Network Info -->
-    <Card>
-      <CardHeader class="pb-0">
-        <CardTitle class="text-lg">Network Information</CardTitle>
-      </CardHeader>
-      <CardContent class="grid gap-3 pt-4 text-sm">
+    <section class="space-y-3">
+      <h2 class="text-base font-semibold text-foreground">Network Information</h2>
+      <div class="grid gap-3 text-sm">
         <div class="flex justify-between">
           <span class="text-muted-foreground">Access Technology</span>
           <span>{{ modem.accessTechnology || 'N/A' }}</span>
@@ -103,18 +155,16 @@ defineProps<{
           <span class="text-muted-foreground">Signal Quality</span>
           <span class="font-mono">{{ modem.signalQuality }}%</span>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
 
     <!-- Features -->
-    <Card>
-      <CardHeader class="pb-0">
-        <CardTitle class="text-lg">Features</CardTitle>
-      </CardHeader>
-      <CardContent class="flex flex-wrap gap-2 pt-4">
+    <section class="space-y-3">
+      <h2 class="text-base font-semibold text-foreground">Features</h2>
+      <div class="flex flex-wrap gap-2">
         <Badge v-if="modem.supportsEsim">eSIM Support</Badge>
         <Badge v-else variant="secondary">Physical SIM Only</Badge>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   </div>
 </template>

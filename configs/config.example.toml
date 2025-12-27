@@ -2,14 +2,6 @@
 environment = "development"
 listen_address = "0.0.0.0:9527"
 
-[database]
-path = "./sqlite3"
-
 [channels.telegram]
 bot_token = "your_telegram_bot_token"
 to = [123456789]
-
-[modems.1231313131]
-alias = "EM12-G"
-compatible = true
-mss = 120

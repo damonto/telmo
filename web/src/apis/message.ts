@@ -1,0 +1,35 @@
+import { useFetch } from '@/lib/fetch'
+
+import type { MessagesResponse } from '@/types/message'
+
+export const useMessageApi = () => {
+  const getMessages = (id: string) => {
+    return useFetch<MessagesResponse>(`modems/${id}/messages`).get().json()
+  }
+
+  const getMessagesByParticipant = (id: string, participant: string) => {
+    const encoded = encodeURIComponent(participant)
+    return useFetch<MessagesResponse>(`modems/${id}/messages/${encoded}`).get().json()
+  }
+
+  const deleteMessagesByParticipant = (id: string, participant: string) => {
+    const encoded = encodeURIComponent(participant)
+    return useFetch<string>(`modems/${id}/messages/${encoded}`, {
+      method: 'DELETE',
+    }).text()
+  }
+
+  const sendMessage = (id: string, to: string, text: string) => {
+    return useFetch<string>(`modems/${id}/messages`, {
+      method: 'POST',
+      body: JSON.stringify({ to, text }),
+    }).text()
+  }
+
+  return {
+    getMessages,
+    getMessagesByParticipant,
+    deleteMessagesByParticipant,
+    sendMessage,
+  }
+}

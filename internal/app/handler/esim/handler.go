@@ -95,7 +95,7 @@ func (h *Handler) Enable(c echo.Context) error {
 		}
 		return h.InternalServerError(c, err)
 	}
-	return h.Respond(c, struct{}{})
+	return c.NoContent(http.StatusNoContent)
 }
 
 func (h *Handler) Delete(c echo.Context) error {
@@ -113,7 +113,7 @@ func (h *Handler) Delete(c echo.Context) error {
 		}
 		return h.InternalServerError(c, err)
 	}
-	return h.Respond(c, struct{}{})
+	return c.NoContent(http.StatusNoContent)
 }
 
 func (h *Handler) Download(c echo.Context) error {
@@ -202,7 +202,7 @@ func (h *Handler) UpdateNickname(c echo.Context) error {
 		}
 		return h.InternalServerError(c, err)
 	}
-	return h.Respond(c, struct{}{})
+	return c.NoContent(http.StatusNoContent)
 }
 
 func iccidFromParam(c echo.Context) (sgp22.ICCID, error) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Info, MessageSquare, Phone } from 'lucide-vue-next'
+import { Info, MessageSquare, Phone, Settings } from 'lucide-vue-next'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterView, useRoute } from 'vue-router'
@@ -22,6 +22,7 @@ const tabItems = computed(() => [
   {
     key: 'messages',
     routeName: 'modem-messages',
+    activeRouteNames: ['modem-message-thread'],
     to: { name: 'modem-messages', params: { id: modemId.value } },
     label: t('modemDetail.tabs.messages'),
     icon: MessageSquare,
@@ -33,12 +34,19 @@ const tabItems = computed(() => [
     label: t('modemDetail.tabs.ussd'),
     icon: Phone,
   },
+  {
+    key: 'settings',
+    routeName: 'modem-settings',
+    to: { name: 'modem-settings', params: { id: modemId.value } },
+    label: t('modemDetail.tabs.settings'),
+    icon: Settings,
+  },
 ])
 </script>
 
 <template>
   <div class="min-h-screen bg-background">
-    <div class="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-10 pb-24">
+    <div class="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-6 pb-24">
       <RouterView />
     </div>
   </div>

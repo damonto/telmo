@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -27,13 +28,17 @@ func New() *CustomValidator {
 
 func (v *CustomValidator) Validate(i any) error {
 	if err := v.validator.Struct(i); err != nil {
-		var errs []string
 		if validationErrors, ok := err.(validator.ValidationErrors); ok {
+			errs := make([]string, 0, len(validationErrors))
 			for _, e := range validationErrors {
 				errs = append(errs, e.Translate(v.trans))
 			}
+			if len(errs) == 0 {
+				return err
+			}
+			return errors.New(strings.Join(errs, ", "))
 		}
-		return fmt.Errorf("%v", strings.Join(errs, ", "))
+		return fmt.Errorf("validation failed: %w", err)
 	}
 	return nil
 }

@@ -5,19 +5,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/layouts/AppLayout.vue'),
-      children: [
-        {
-          path: '',
-          name: 'home',
-          component: () => import('@/views/HomeView.vue'),
-        },
-        {
-          path: 'messages',
-          name: 'messages',
-          component: () => import('@/views/MessagesView.vue'),
-        },
-      ],
+      name: 'home',
+      component: () => import('@/views/HomeView.vue'),
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: () => import('@/views/MessagesView.vue'),
     },
     {
       path: '/modems/:id',
@@ -34,9 +28,19 @@ const router = createRouter({
           component: () => import('@/views/ModemMessagesView.vue'),
         },
         {
+          path: 'messages/:participant',
+          name: 'modem-message-thread',
+          component: () => import('@/views/ModemMessageThreadView.vue'),
+        },
+        {
           path: 'ussd',
           name: 'modem-ussd',
           component: () => import('@/views/ModemUssdView.vue'),
+        },
+        {
+          path: 'settings',
+          name: 'modem-settings',
+          component: () => import('@/views/ModemSettingsView.vue'),
         },
       ],
     },
