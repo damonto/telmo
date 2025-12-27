@@ -75,11 +75,16 @@ func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.I
 	if err != nil {
 		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
 	}
-	defer func() {
+	closeClient := func() {
+		if client == nil {
+			return
+		}
 		if cerr := client.Close(); cerr != nil {
 			slog.Warn("failed to close LPA client", "error", cerr)
 		}
-	}()
+		client = nil
+	}
+	defer closeClient()
 
 	notifications, err := client.ListNotification()
 	if err != nil {
@@ -91,8 +96,11 @@ func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.I
 	}
 
 	if err := client.EnableProfile(iccid, true); err != nil {
+		slog.Error("enabling profile", "error", err)
 		return fmt.Errorf("enabling profile %s on modem %s: %w", iccid.String(), modem.EquipmentIdentifier, err)
 	}
+
+	closeClient()
 
 	if err := modem.Restart(s.cfg.FindModem(modem.EquipmentIdentifier).Compatible); err != nil {
 		return fmt.Errorf("restarting modem %s: %w", modem.EquipmentIdentifier, err)

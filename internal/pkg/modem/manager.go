@@ -31,9 +31,34 @@ type Manager struct {
 	subscribe  sync.Once
 }
 
+type ModemEventType int
+
+const (
+	ModemEventAdded ModemEventType = iota
+	ModemEventRemoved
+)
+
+func (t ModemEventType) String() string {
+	switch t {
+	case ModemEventAdded:
+		return "added"
+	case ModemEventRemoved:
+		return "removed"
+	default:
+		return "unknown"
+	}
+}
+
+type ModemEvent struct {
+	Type     ModemEventType
+	Modem    *Modem
+	Path     dbus.ObjectPath
+	Snapshot map[dbus.ObjectPath]*Modem
+}
+
 type subscription struct {
 	id uint64
-	fn func(map[dbus.ObjectPath]*Modem) error
+	fn func(ModemEvent) error
 }
 
 func NewManager() (*Manager, error) {
@@ -126,7 +151,7 @@ func (m *Manager) createModem(objectPath dbus.ObjectPath, data map[string]dbus.V
 	return &modem, nil
 }
 
-func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) (func(), error) {
+func (m *Manager) Subscribe(subscriber func(ModemEvent) error) (func(), error) {
 	if subscriber == nil {
 		return nil, errors.New("subscriber is required")
 	}
@@ -167,15 +192,16 @@ func (m *Manager) Subscribe(subscriber func(map[dbus.ObjectPath]*Modem) error) (
 
 func (m *Manager) WaitForModem(ctx context.Context, modemID string) (*Modem, error) {
 	ready := make(chan *Modem, 1)
-	notify := func(modems map[dbus.ObjectPath]*Modem) error {
-		for _, modem := range modems {
-			if modem.EquipmentIdentifier == modemID {
-				select {
-				case ready <- modem:
-				default:
-				}
-				break
-			}
+	notify := func(event ModemEvent) error {
+		if event.Type != ModemEventAdded || event.Modem == nil {
+			return nil
+		}
+		if event.Modem.EquipmentIdentifier != modemID {
+			return nil
+		}
+		select {
+		case ready <- event.Modem:
+		default:
 		}
 		return nil
 	}
@@ -185,21 +211,6 @@ func (m *Manager) WaitForModem(ctx context.Context, modemID string) (*Modem, err
 		return nil, err
 	}
 	defer unsubscribe()
-
-	modems, err := m.Modems()
-	if err != nil {
-		slog.Warn("failed to refresh modems while waiting", "error", err, "modem", modemID)
-	} else {
-		for _, modem := range modems {
-			if modem.EquipmentIdentifier == modemID {
-				select {
-				case ready <- modem:
-				default:
-				}
-				break
-			}
-		}
-	}
 
 	select {
 	case modem := <-ready:
@@ -247,8 +258,12 @@ func (m *Manager) startSubscription() error {
 func (m *Manager) handleSignals(sig <-chan *dbus.Signal) {
 	for event := range sig {
 		modemPath := event.Body[0].(dbus.ObjectPath)
-		var modem *Modem
+		var (
+			modem     *Modem
+			eventType ModemEventType
+		)
 		if event.Name == ModemManagerInterfacesAdded {
+			eventType = ModemEventAdded
 			slog.Info("new modem plugged in", "path", modemPath)
 			raw := event.Body[1].(map[string]map[string]dbus.Variant)
 			var err error
@@ -258,13 +273,15 @@ func (m *Manager) handleSignals(sig <-chan *dbus.Signal) {
 				continue
 			}
 		} else {
+			eventType = ModemEventRemoved
 			slog.Info("modem unplugged", "path", modemPath)
 		}
 
 		m.mu.Lock()
-		if event.Name == ModemManagerInterfacesAdded {
+		if eventType == ModemEventAdded {
 			m.deleteAndUpdate(modem)
 		} else {
+			modem = m.modems[modemPath]
 			delete(m.modems, modemPath)
 		}
 		snapshot := m.copyModemsLocked()
@@ -272,7 +289,12 @@ func (m *Manager) handleSignals(sig <-chan *dbus.Signal) {
 		m.mu.Unlock()
 
 		for _, subscriber := range subscribers {
-			if err := subscriber.fn(snapshot); err != nil {
+			if err := subscriber.fn(ModemEvent{
+				Type:     eventType,
+				Modem:    modem,
+				Path:     modemPath,
+				Snapshot: snapshot,
+			}); err != nil {
 				slog.Error("failed to process modem", "error", err)
 			}
 		}
