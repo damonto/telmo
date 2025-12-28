@@ -145,7 +145,7 @@ func (s *Service) Download(ctx context.Context, modem *mmodem.Modem, activationC
 	}()
 
 	if err := client.Download(ctx, activationCode, opts); err != nil {
-		return fmt.Errorf("downloading profile on modem %s: %w", modem.EquipmentIdentifier, err)
+		return err
 	}
 	return nil
 }

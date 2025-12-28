@@ -1,5 +1,7 @@
 import { computed, onBeforeUnmount, ref, type Ref } from 'vue'
 
+import { getStoredToken } from '@/lib/auth-storage'
+
 export type EsimDownloadState =
   | 'idle'
   | 'connecting'
@@ -61,6 +63,7 @@ export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
   const downloadStage = ref<EsimDownloadStage>('')
   const progress = ref(0)
   const errorType = ref<DownloadErrorType>('none')
+  const errorMessage = ref('')
   const previewProfile = ref<EsimDownloadPreview | null>(null)
 
   let ws: WebSocket | null = null
@@ -76,6 +79,7 @@ export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
     downloadStage.value = ''
     progress.value = 0
     errorType.value = 'none'
+    errorMessage.value = ''
     previewProfile.value = null
   }
 
@@ -124,10 +128,21 @@ export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
     const apiUrl = new URL(base, window.location.origin)
     apiUrl.protocol = apiUrl.protocol === 'https:' ? 'wss:' : 'ws:'
     apiUrl.pathname = `${apiUrl.pathname.replace(/\/$/, '')}/modems/${id}/esims/download`
+    const token = getStoredToken()
+    if (token) {
+      apiUrl.searchParams.set('token', token)
+    }
     return apiUrl.toString()
   }
 
   const handleServerMessage = (message: DownloadServerMessage) => {
+    if (
+      downloadState.value === 'idle' ||
+      downloadState.value === 'error' ||
+      downloadState.value === 'completed'
+    ) {
+      return
+    }
     switch (message.type) {
       case 'progress': {
         const nextStage = stageMap[message.stage ?? ''] ?? ''
@@ -156,6 +171,7 @@ export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
       case 'error':
         downloadState.value = 'error'
         errorType.value = 'failed'
+        errorMessage.value = message.message?.trim() ?? ''
         stopInstallingTimer()
         closeWebSocket()
         return
@@ -241,14 +257,15 @@ export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
     stopInstallingTimer()
   })
 
-  return {
-    downloadState,
-    downloadStage,
-    progress,
-    errorType,
-    previewProfile,
-    downloadedName,
-    startDownload,
+    return {
+      downloadState,
+      downloadStage,
+      progress,
+      errorType,
+      errorMessage,
+      previewProfile,
+      downloadedName,
+      startDownload,
     confirmPreview,
     submitConfirmationCode,
     cancelDownload,

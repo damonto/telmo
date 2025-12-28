@@ -1,11 +1,28 @@
 package notify
 
-type Sender interface {
-	Send(text string) error
+import (
+	"errors"
+	"fmt"
+)
+
+type Message interface {
+	fmt.Stringer
+	Markdown() string
 }
 
-type SenderFunc func(text string) error
+type Sender interface {
+	Send(message Message) error
+}
 
-func (f SenderFunc) Send(text string) error {
-	return f(text)
+type SenderFunc func(message Message) error
+
+func (f SenderFunc) Send(message Message) error {
+	return f(message)
+}
+
+func Send(sender Sender, message Message) error {
+	if sender == nil {
+		return errors.New("notify sender is required")
+	}
+	return sender.Send(message)
 }

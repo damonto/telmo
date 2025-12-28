@@ -40,10 +40,10 @@ func (s *Service) SendOTP() error {
 	if err != nil {
 		return err
 	}
-	text := fmt.Sprintf("Your verification code is %s", code)
+	msg := notify.TextMessage{Text: fmt.Sprintf("Your verification code is %s", code)}
 	var combined error
 	for name, channel := range channels {
-		if err := channel.Send(text); err != nil {
+		if err := notify.Send(channel, msg); err != nil {
 			combined = errors.Join(combined, fmt.Errorf("sending via %s: %w", name, err))
 		}
 	}
@@ -73,24 +73,17 @@ func buildChannels(cfg *config.Config) (map[string]notify.Sender, error) {
 		}
 		switch provider {
 		case "telegram":
-			if len(selected.AdminIDs) == 0 {
-				return nil, errors.New("telegram admin_ids is required")
-			}
-			telegram, err := notify.NewTelegram(selected.Endpoint, selected.BotToken, nil)
+			telegram, err := notify.NewTelegram(&selected)
 			if err != nil {
 				return nil, err
 			}
-			channels[provider] = notify.SenderFunc(func(text string) error {
-				return telegram.Send(selected.AdminIDs, text)
-			})
+			channels[provider] = telegram
 		case "http":
-			httpChannel, err := notify.NewHTTP(selected.Endpoint, selected.Headers, nil)
+			httpChannel, err := notify.NewHTTP(&selected)
 			if err != nil {
 				return nil, err
 			}
-			channels[provider] = notify.SenderFunc(func(text string) error {
-				return httpChannel.Send(nil, text)
-			})
+			channels[provider] = httpChannel
 		default:
 			return nil, fmt.Errorf("unsupported auth provider %s", provider)
 		}

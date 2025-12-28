@@ -7,7 +7,6 @@ import (
 	"log/slog"
 	"strings"
 	"sync"
-	"time"
 
 	"github.com/godbus/dbus/v5"
 
@@ -164,39 +163,31 @@ func (r *Relay) stopAll() {
 }
 
 func (r *Relay) forward(m *modem.Modem, message *modem.SMS) error {
-	text := r.formatMessage(m, message)
+	msg := r.formatMessage(m, message)
 	var combined error
 	for name, channel := range r.channels {
-		if err := channel.Send(text); err != nil {
+		if err := notify.Send(channel, msg); err != nil {
 			combined = errors.Join(combined, fmt.Errorf("sending via %s: %w", name, err))
 		}
 	}
 	return combined
 }
 
-func (r *Relay) formatMessage(m *modem.Modem, message *modem.SMS) string {
+func (r *Relay) formatMessage(m *modem.Modem, message *modem.SMS) notify.SMSMessage {
 	sender := message.Number
 	recipient := m.Number
 	incoming := message.State == modem.SMSStateReceived || message.State == modem.SMSStateReceiving
 	if !incoming {
 		sender, recipient = recipient, sender
 	}
-	timestamp := "unknown"
-	if !message.Timestamp.IsZero() {
-		timestamp = message.Timestamp.Format(time.RFC3339)
+	return notify.SMSMessage{
+		Modem:    r.modemName(m),
+		From:     sender,
+		To:       recipient,
+		Time:     message.Timestamp,
+		Text:     strings.TrimSpace(message.Text),
+		Incoming: incoming,
 	}
-	text := strings.TrimSpace(message.Text)
-	if text == "" {
-		text = "(empty message)"
-	}
-	return fmt.Sprintf(
-		"SMS received\nModem: %s\nFrom: %s\nTo: %s\nTime: %s\n\n%s",
-		r.modemName(m),
-		sender,
-		recipient,
-		timestamp,
-		text,
-	)
 }
 
 func (r *Relay) modemName(m *modem.Modem) string {
@@ -216,25 +207,17 @@ func buildChannels(cfg *config.Config) (map[string]notify.Sender, error) {
 		channelName := strings.ToLower(name)
 		switch channelName {
 		case "telegram":
-			if len(channel.AdminIDs) == 0 {
-				return nil, errors.New("telegram admin_ids is required")
-			}
-			telegram, err := notify.NewTelegram(channel.Endpoint, channel.BotToken, nil)
+			telegram, err := notify.NewTelegram(&channel)
 			if err != nil {
 				return nil, err
 			}
-			recipients := channel.AdminIDs
-			channels[channelName] = notify.SenderFunc(func(text string) error {
-				return telegram.Send(recipients, text)
-			})
+			channels[channelName] = telegram
 		case "http":
-			httpChannel, err := notify.NewHTTP(channel.Endpoint, channel.Headers, nil)
+			httpChannel, err := notify.NewHTTP(&channel)
 			if err != nil {
 				return nil, err
 			}
-			channels[channelName] = notify.SenderFunc(func(text string) error {
-				return httpChannel.Send(nil, text)
-			})
+			channels[channelName] = httpChannel
 		default:
 			slog.Warn("unsupported notification channel", "channel", name)
 		}

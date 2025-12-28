@@ -27,8 +27,8 @@ type Channel struct {
 	Endpoint string `toml:"endpoint"`
 
 	// Telegram
-	BotToken string  `toml:"bot_token"`
-	AdminIDs []int64 `toml:"admin_ids"`
+	BotToken   string     `toml:"bot_token"`
+	Recipients Recipients `toml:"recipients"`
 
 	// HTTP
 	Headers map[string]string `toml:"headers"`

@@ -11,26 +11,35 @@ import (
 	"path"
 	"strings"
 	"time"
+
+	"github.com/damonto/sigmo/internal/pkg/config"
 )
 
 const defaultTelegramEndpoint = "https://api.telegram.org"
+const telegramParseModeMarkdownV2 = "MarkdownV2"
 
 type Telegram struct {
-	client   *http.Client
-	baseURL  url.URL
-	botToken string
+	client     *http.Client
+	baseURL    url.URL
+	botToken   string
+	recipients []int64
 }
 
 type telegramMessage struct {
-	ChatID int64  `json:"chat_id"`
-	Text   string `json:"text"`
+	ChatID    int64  `json:"chat_id"`
+	Text      string `json:"text"`
+	ParseMode string `json:"parse_mode,omitempty"`
 }
 
-func NewTelegram(endpoint string, botToken string, client *http.Client) (*Telegram, error) {
-	if strings.TrimSpace(botToken) == "" {
+func NewTelegram(cfg *config.Channel) (*Telegram, error) {
+	if cfg == nil {
+		return nil, errors.New("telegram config is required")
+	}
+	if strings.TrimSpace(cfg.BotToken) == "" {
 		return nil, errors.New("telegram bot token is required")
 	}
-	if strings.TrimSpace(endpoint) == "" {
+	endpoint := strings.TrimSpace(cfg.Endpoint)
+	if endpoint == "" {
 		endpoint = defaultTelegramEndpoint
 	}
 	baseURL, err := url.Parse(endpoint)
@@ -40,23 +49,32 @@ func NewTelegram(endpoint string, botToken string, client *http.Client) (*Telegr
 	if baseURL.Scheme == "" || baseURL.Host == "" {
 		return nil, errors.New("telegram endpoint must include scheme and host")
 	}
-	if client == nil {
-		client = &http.Client{Timeout: 10 * time.Second}
+	recipients, err := cfg.Recipients.Int64s()
+	if err != nil {
+		return nil, fmt.Errorf("parsing telegram recipients: %w", err)
+	}
+	if len(recipients) == 0 {
+		return nil, errors.New("telegram recipients is required")
 	}
 	return &Telegram{
-		client:   client,
-		baseURL:  *baseURL,
-		botToken: botToken,
+		client:     &http.Client{Timeout: 10 * time.Second},
+		baseURL:    *baseURL,
+		botToken:   cfg.BotToken,
+		recipients: recipients,
 	}, nil
 }
 
-func (t *Telegram) Send(to []int64, text string) error {
-	if len(to) == 0 {
+func (t *Telegram) Send(message Message) error {
+	if message == nil {
+		return errors.New("telegram message is required")
+	}
+	if len(t.recipients) == 0 {
 		return errors.New("telegram recipients are required")
 	}
 	var combined error
-	for _, recipient := range to {
-		if err := t.sendOne(recipient, text); err != nil {
+	payload := message.Markdown()
+	for _, recipient := range t.recipients {
+		if err := t.sendOne(recipient, payload); err != nil {
 			combined = errors.Join(combined, err)
 		}
 	}
@@ -65,8 +83,9 @@ func (t *Telegram) Send(to []int64, text string) error {
 
 func (t *Telegram) sendOne(to int64, text string) error {
 	message := telegramMessage{
-		ChatID: to,
-		Text:   text,
+		ChatID:    to,
+		Text:      text,
+		ParseMode: telegramParseModeMarkdownV2,
 	}
 	body, err := json.Marshal(message)
 	if err != nil {

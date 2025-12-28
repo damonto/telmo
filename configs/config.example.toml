@@ -6,7 +6,7 @@
 [channels]
   [channels.telegram]
     bot_token = "Your Telegram Bot Token"
-    admin_ids = [1231321]
+    recipients = [1231321]
 
   [channels.http]
     endpoint = "https://httpbin.org/post"

@@ -16,14 +16,14 @@ func Auth(store *auth.Store) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			header := c.Request().Header.Get("Authorization")
-			if !strings.HasPrefix(header, bearerPrefix) {
-				return c.JSON(http.StatusUnauthorized, handler.HTTPError{
-					Code:    http.StatusUnauthorized,
-					Message: "missing or invalid token",
-				})
+			token := ""
+			if after, ok := strings.CutPrefix(header, bearerPrefix); ok {
+				token = strings.TrimSpace(after)
 			}
-			token := strings.TrimSpace(strings.TrimPrefix(header, bearerPrefix))
-			if !store.ValidateToken(token) {
+			if token == "" {
+				token = strings.TrimSpace(c.QueryParam("token"))
+			}
+			if token == "" || !store.ValidateToken(token) {
 				return c.JSON(http.StatusUnauthorized, handler.HTTPError{
 					Code:    http.StatusUnauthorized,
 					Message: "missing or invalid token",

@@ -202,19 +202,22 @@ func (l *LPA) SendNotification(searchCriteria any) error {
 func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, opts *lpa.DownloadOptions) error {
 	slog.Info("downloading profile", "activationCode", activationCode)
 	result, derr := l.DownloadProfile(ctx, activationCode, opts)
+	if derr != nil {
+		return derr
+	}
 	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {
 		slog.Info("sending download notification", "sequence", result.Notification.SequenceNumber)
 		filtered, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)
 		if err != nil {
-			return errors.Join(derr, err)
+			return err
 		}
 		if len(filtered) > 0 {
 			if err := l.HandleNotification(filtered[0]); err != nil {
-				return errors.Join(derr, fmt.Errorf("unable to handle notification: %d %w", result.Notification.SequenceNumber, err))
+				return err
 			}
 		}
 	}
-	return derr
+	return nil
 }
 
 func (l *LPA) Discover(imei sgp22.IMEI) ([]*sgp22.EventEntry, error) {

@@ -49,21 +49,27 @@ const confirmationPlaceholder = computed(() => t('modemDetail.esim.confirmationC
 
 const confirmationRequired = ref(false)
 
-const buildInstallSchemaDefinition = (requiresConfirmation: boolean) =>
-  z.object({
-    smdp: z
-      .string()
-      .trim()
-      .min(1, t('modemDetail.esim.validation.smdpRequired'))
-      .transform((value) => value.trim()),
-    activationCode: z.string().trim(),
-    confirmationCode: requiresConfirmation
-      ? z.string().trim().min(1, t('modemDetail.validation.required'))
-      : z
-          .string()
-          .optional()
-          .transform((value) => value?.trim() ?? ''),
-  })
+  const buildInstallSchemaDefinition = (requiresConfirmation: boolean) =>
+    z.object({
+      smdp: z
+        .string({ required_error: t('modemDetail.esim.validation.smdpRequired') })
+        .trim()
+        .min(1, t('modemDetail.esim.validation.smdpRequired'))
+        .transform((value) => value.trim()),
+      activationCode: z
+        .string()
+        .optional()
+        .transform((value) => value?.trim() ?? ''),
+      confirmationCode: requiresConfirmation
+        ? z
+            .string({ required_error: t('modemDetail.validation.required') })
+            .trim()
+            .min(1, t('modemDetail.validation.required'))
+        : z
+            .string()
+            .optional()
+            .transform((value) => value?.trim() ?? ''),
+    })
 
 const installSchema = computed(() =>
   toTypedSchema(buildInstallSchemaDefinition(confirmationRequired.value)),
@@ -263,10 +269,10 @@ watch(scanOpen, (value) => {
         <DialogTitle>{{ t('modemDetail.esim.scanTitle') }}</DialogTitle>
       </DialogHeader>
       <div class="space-y-3">
-        <div class="overflow-hidden rounded-lg bg-muted/40">
+        <div class="mx-auto aspect-square w-full max-w-sm overflow-hidden rounded-lg bg-muted/40">
           <QrcodeStream
             v-if="scanOpen"
-            class="h-64 w-full"
+            class="h-full w-full"
             :constraints="scanConstraints"
             :formats="scanFormats"
             :paused="scanPaused"

@@ -64,12 +64,17 @@ const detailDialogOpen = ref(false)
 const confirmationCode = ref('')
 const feedbackOpen = ref(false)
 const feedbackMessage = ref('')
+const resultState = ref<'completed' | 'error' | null>(null)
+const resultErrorMessage = ref('')
+const resultErrorType = ref<'none' | 'failed' | 'disconnected'>('none')
+const resultName = ref('')
 
 const {
   downloadState,
   downloadStage,
   progress,
   errorType,
+  errorMessage,
   previewProfile,
   downloadedName,
   startDownload,
@@ -101,21 +106,29 @@ const stageLabel = computed(() => {
 })
 
 const progressTitle = computed(() => t('modemDetail.esim.downloadTitle'))
-const resultTone = computed(() => (downloadState.value === 'error' ? 'error' : 'success'))
-const resultTitle = computed(() =>
-  downloadState.value === 'error'
-    ? t('modemDetail.esim.downloadErrorTitle')
-    : t('modemDetail.esim.downloadCompletedTitle'),
-)
+const resultTone = computed(() => (resultState.value === 'error' ? 'error' : 'success'))
+const resultTitle = computed(() => {
+  if (resultState.value === 'error') {
+    return t('modemDetail.esim.downloadErrorTitle')
+  }
+  if (resultState.value === 'completed') {
+    return t('modemDetail.esim.downloadCompletedTitle')
+  }
+  return ''
+})
 const resultMessage = computed(() => {
-  if (downloadState.value === 'error') {
-    return errorType.value === 'disconnected'
+  if (resultState.value === 'error') {
+    if (resultErrorMessage.value) return resultErrorMessage.value
+    return resultErrorType.value === 'disconnected'
       ? t('modemDetail.esim.downloadDisconnected')
       : t('modemDetail.esim.downloadErrorFallback')
   }
-  const fallbackName = t('modemDetail.esim.downloadCompletedFallbackName')
-  const name = downloadedName.value || fallbackName
-  return t('modemDetail.esim.downloadCompletedMessage', { name })
+  if (resultState.value === 'completed') {
+    const fallbackName = t('modemDetail.esim.downloadCompletedFallbackName')
+    const name = resultName.value || fallbackName
+    return t('modemDetail.esim.downloadCompletedMessage', { name })
+  }
+  return ''
 })
 
 const confirmationTitle = computed(() => t('modemDetail.esim.downloadConfirmationTitle'))
@@ -145,6 +158,21 @@ const getSimLabel = (identifier: string) => {
 watch(downloadState, (value) => {
   if (value === 'confirmation') {
     confirmationCode.value = ''
+  }
+  if (value === 'connecting') {
+    resultState.value = null
+    resultErrorMessage.value = ''
+    resultErrorType.value = 'none'
+    resultName.value = ''
+  }
+  if (value === 'error') {
+    resultState.value = 'error'
+    resultErrorMessage.value = errorMessage.value
+    resultErrorType.value = errorType.value
+  }
+  if (value === 'completed') {
+    resultState.value = 'completed'
+    resultName.value = downloadedName.value
   }
 })
 

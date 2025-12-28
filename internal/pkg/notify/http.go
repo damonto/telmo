@@ -10,6 +10,8 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
+	"github.com/damonto/sigmo/internal/pkg/config"
 )
 
 type HTTP struct {
@@ -18,37 +20,32 @@ type HTTP struct {
 	headers  map[string]string
 }
 
-type httpMessage struct {
-	To   []string `json:"to,omitempty"`
-	Text string   `json:"text"`
-}
-
-func NewHTTP(endpoint string, headers map[string]string, client *http.Client) (*HTTP, error) {
-	if strings.TrimSpace(endpoint) == "" {
+func NewHTTP(cfg *config.Channel) (*HTTP, error) {
+	if cfg == nil {
+		return nil, errors.New("http config is required")
+	}
+	if strings.TrimSpace(cfg.Endpoint) == "" {
 		return nil, errors.New("http endpoint is required")
 	}
-	parsed, err := url.Parse(endpoint)
+	parsed, err := url.Parse(cfg.Endpoint)
 	if err != nil {
 		return nil, fmt.Errorf("parsing http endpoint: %w", err)
 	}
 	if parsed.Scheme == "" || parsed.Host == "" {
 		return nil, errors.New("http endpoint must include scheme and host")
 	}
-	if client == nil {
-		client = &http.Client{Timeout: 10 * time.Second}
-	}
 	return &HTTP{
-		client:   client,
-		endpoint: endpoint,
-		headers:  headers,
+		client:   &http.Client{Timeout: 10 * time.Second},
+		endpoint: cfg.Endpoint,
+		headers:  cfg.Headers,
 	}, nil
 }
 
-func (h *HTTP) Send(to []string, text string) error {
-	body, err := json.Marshal(httpMessage{
-		To:   to,
-		Text: text,
-	})
+func (h *HTTP) Send(message Message) error {
+	if message == nil {
+		return errors.New("http message is required")
+	}
+	body, err := json.Marshal(message)
 	if err != nil {
 		return fmt.Errorf("encoding http message: %w", err)
 	}

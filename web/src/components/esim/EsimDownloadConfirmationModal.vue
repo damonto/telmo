@@ -41,7 +41,10 @@ const { t } = useI18n()
 const code = defineModel<string>('code', { required: true })
 
 const confirmationSchemaDefinition = z.object({
-  code: z.string().trim().min(1, t('modemDetail.validation.required')),
+  code: z
+    .string({ required_error: t('modemDetail.validation.required') })
+    .trim()
+    .min(1, t('modemDetail.validation.required')),
 })
 
 type ConfirmationValues = z.infer<typeof confirmationSchemaDefinition>

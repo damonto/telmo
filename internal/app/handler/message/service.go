@@ -30,8 +30,7 @@ func (s *Service) ListConversations(modem *mmodem.Modem) ([]MessageResponse, err
 
 	latest := make(map[string]*mmodem.SMS, len(messages))
 	for _, sms := range messages {
-		sender, recipient, _ := messageParticipants(modem, sms)
-		key := conversationKey(sender, recipient)
+		key := strings.TrimSpace(sms.Number)
 		existing, ok := latest[key]
 		if !ok || sms.Timestamp.After(existing.Timestamp) {
 			latest[key] = sms
@@ -40,7 +39,7 @@ func (s *Service) ListConversations(modem *mmodem.Modem) ([]MessageResponse, err
 
 	response := make([]MessageResponse, 0, len(latest))
 	for _, sms := range latest {
-		response = append(response, buildMessageResponse(modem, sms))
+		response = append(response, buildMessageResponse(sms))
 	}
 
 	slices.SortFunc(response, func(a, b MessageResponse) int {
@@ -66,11 +65,10 @@ func (s *Service) ListByParticipant(modem *mmodem.Modem, participant string) ([]
 
 	response := make([]MessageResponse, 0, len(messages))
 	for _, sms := range messages {
-		sender, recipient, _ := messageParticipants(modem, sms)
-		if sender != participant && recipient != participant {
+		if strings.TrimSpace(sms.Number) != participant {
 			continue
 		}
-		response = append(response, buildMessageResponse(modem, sms))
+		response = append(response, buildMessageResponse(sms))
 	}
 	slices.SortFunc(response, func(a, b MessageResponse) int {
 		if a.ID == b.ID {
@@ -95,7 +93,7 @@ func (s *Service) Send(modem *mmodem.Modem, to string, text string) (*MessageRes
 	if err != nil {
 		return nil, fmt.Errorf("sending SMS to %s on modem %s: %w", to, modem.EquipmentIdentifier, err)
 	}
-	response := buildMessageResponse(modem, sms)
+	response := buildMessageResponse(sms)
 	return &response, nil
 }
 
@@ -109,8 +107,7 @@ func (s *Service) DeleteByParticipant(modem *mmodem.Modem, participant string) e
 	}
 	messaging := modem.Messaging()
 	for _, sms := range messages {
-		sender, recipient, _ := messageParticipants(modem, sms)
-		if sender != participant && recipient != participant {
+		if strings.TrimSpace(sms.Number) != participant {
 			continue
 		}
 		if err := messaging.Delete(sms.Path()); err != nil {
@@ -120,27 +117,13 @@ func (s *Service) DeleteByParticipant(modem *mmodem.Modem, participant string) e
 	return nil
 }
 
-func messageParticipants(modem *mmodem.Modem, sms *mmodem.SMS) (string, string, bool) {
+func buildMessageResponse(sms *mmodem.SMS) MessageResponse {
 	incoming := sms.State == mmodem.SMSStateReceived || sms.State == mmodem.SMSStateReceiving
-	if incoming {
-		return sms.Number, modem.Number, true
-	}
-	return modem.Number, sms.Number, false
-}
-
-func conversationKey(sender string, recipient string) string {
-	if sender < recipient {
-		return sender + "|" + recipient
-	}
-	return recipient + "|" + sender
-}
-
-func buildMessageResponse(modem *mmodem.Modem, sms *mmodem.SMS) MessageResponse {
-	sender, recipient, incoming := messageParticipants(modem, sms)
+	remote := strings.TrimSpace(sms.Number)
 	return MessageResponse{
 		ID:        messageID(sms),
-		Sender:    sender,
-		Recipient: recipient,
+		Sender:    remote,
+		Recipient: remote,
 		Text:      sms.Text,
 		Timestamp: sms.Timestamp,
 		Status:    strings.ToLower(sms.State.String()),

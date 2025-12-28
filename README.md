@@ -63,7 +63,7 @@ be writable by the Sigmo process.
 [channels]
   [channels.telegram]
     bot_token = "Your Telegram Bot Token"
-    admin_ids = [123456789]
+    recipients = [123456789]
 
   [channels.http]
     endpoint = "https://httpbin.org/post"
