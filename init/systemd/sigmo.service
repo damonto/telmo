@@ -7,7 +7,7 @@ After=network.target ModemManager.service
 Type=simple
 User=root
 Restart=on-failure
-ExecStart=/usr/local/bin/sigmo
+ExecStart=/usr/local/bin/sigmo --config=/etc/sigmo/config.toml
 RestartSec=10s
 TimeoutStopSec=30s
 

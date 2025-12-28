@@ -2,15 +2,13 @@ module github.com/damonto/sigmo
 
 go 1.25.5
 
-replace github.com/damonto/euicc-go => ../euicc-go
-
 require (
 	github.com/BurntSushi/toml v1.6.0
-	github.com/damonto/euicc-go v1.1.0
+	github.com/damonto/euicc-go v1.1.1
 	github.com/go-playground/locales v0.14.1
 	github.com/go-playground/universal-translator v0.18.1
-	github.com/go-playground/validator/v10 v10.30.0
-	github.com/godbus/dbus/v5 v5.2.0
+	github.com/go-playground/validator/v10 v10.30.1
+	github.com/godbus/dbus/v5 v5.2.1
 	github.com/gorilla/websocket v1.5.3
 	github.com/labstack/echo/v4 v4.14.0
 	golang.org/x/sys v0.39.0
