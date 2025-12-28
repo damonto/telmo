@@ -49,7 +49,7 @@ const confirmDelete = async () => {
 </script>
 
 <template>
-  <div class="flex h-[calc(100dvh-7.5rem)] flex-col overflow-hidden">
+  <div class="flex h-[calc(100dvh-6.5rem)] flex-col overflow-hidden">
     <ModemMessageThreadHeader
       :title="participantLabel"
       :can-delete="canDelete"

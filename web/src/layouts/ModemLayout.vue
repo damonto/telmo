@@ -45,8 +45,8 @@ const tabItems = computed(() => [
 </script>
 
 <template>
-  <div class="min-h-screen bg-background">
-    <div class="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-6 pb-24">
+  <div class="min-h-[100dvh] bg-background">
+    <div class="mx-auto flex w-full max-w-4xl flex-col gap-6 px-6 py-6 pb-20">
       <RouterView />
     </div>
   </div>

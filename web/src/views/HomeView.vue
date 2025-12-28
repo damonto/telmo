@@ -39,7 +39,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-background">
+  <div class="min-h-[100dvh] bg-background">
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-10">
       <HomeHeader :subtitle="subtitle" :is-loading="isLoading" @refresh="handleRefresh" />
 

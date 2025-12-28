@@ -7,7 +7,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="min-h-screen bg-background">
+  <div class="min-h-[100dvh] bg-background">
     <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-10">
       <header class="flex flex-col gap-2">
         <h1 class="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">

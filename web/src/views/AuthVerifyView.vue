@@ -96,8 +96,8 @@ watch(
 </script>
 
 <template>
-  <div class="min-h-screen bg-background">
-    <div class="mx-auto flex min-h-screen w-full max-w-5xl items-center justify-center px-6 py-12">
+  <div class="min-h-[100dvh] bg-background">
+    <div class="mx-auto flex min-h-[100dvh] w-full max-w-5xl items-center justify-center px-6 py-12">
       <div class="w-full max-w-lg space-y-10">
         <header class="space-y-4 text-center">
           <p class="text-xs uppercase tracking-[0.45em] text-muted-foreground">
