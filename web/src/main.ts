@@ -5,8 +5,11 @@ import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 
 import App from './App.vue'
+import { useTheme } from './composables/useTheme'
 import i18n from './i18n'
 import router from './router'
+
+useTheme()
 
 const app = createApp(App)
 

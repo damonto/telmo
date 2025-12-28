@@ -134,6 +134,31 @@ const parseLpaCode = (raw: string) => {
   }
 }
 
+const applyLpaPayload = (payload: {
+  smdp: string
+  activationCode: string
+  confirmationRequired: boolean
+}) => {
+  confirmationRequired.value = payload.confirmationRequired
+  resetForm({
+    values: {
+      smdp: payload.smdp,
+      activationCode: payload.activationCode,
+      confirmationCode: '',
+    },
+  })
+}
+
+const handleSmdpInput = (event: Event) => {
+  const target = event.target
+  if (!(target instanceof HTMLInputElement)) return
+  const value = target.value.trim()
+  if (!value.startsWith('LPA:1')) return
+  const parsed = parseLpaCode(value)
+  if (!parsed) return
+  applyLpaPayload(parsed)
+}
+
 const handleScanResult = (value: string) => {
   const parsed = parseLpaCode(value)
   if (!parsed) {
@@ -141,14 +166,7 @@ const handleScanResult = (value: string) => {
     return
   }
   scanPaused.value = true
-  confirmationRequired.value = parsed.confirmationRequired
-  resetForm({
-    values: {
-      smdp: parsed.smdp,
-      activationCode: parsed.activationCode,
-      confirmationCode: '',
-    },
-  })
+  applyLpaPayload(parsed)
   scanOpen.value = false
 }
 
@@ -253,7 +271,12 @@ watch(scanOpen, (value) => {
           <FormItem>
             <FormLabel>{{ t('modemDetail.esim.smdp') }}</FormLabel>
             <FormControl>
-              <Input type="text" :placeholder="smdpPlaceholder" v-bind="componentField" />
+              <Input
+                type="text"
+                :placeholder="smdpPlaceholder"
+                v-bind="componentField"
+                @input="handleSmdpInput"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
