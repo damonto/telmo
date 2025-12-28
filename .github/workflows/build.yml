@@ -48,6 +48,7 @@ jobs:
 
       - name: Build frontend
         run: |
+          cd web
           bun install
           bun run build --mode prod
 
