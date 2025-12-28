@@ -1,10 +1,14 @@
 import { useFetch } from '@/lib/fetch'
 
-import type { EsimProfilesResponse } from '@/types/esim'
+import type { EsimDiscoverResponse, EsimProfilesResponse } from '@/types/esim'
 
 export const useEsimApi = () => {
   const getEsims = (id: string) => {
     return useFetch<EsimProfilesResponse>(`modems/${id}/esims`).get().json()
+  }
+
+  const discoverEsims = (id: string) => {
+    return useFetch<EsimDiscoverResponse>(`modems/${id}/esims/discover`).get().json()
   }
 
   const updateEsimNickname = (id: string, iccid: string, nickname: string) => {
@@ -28,6 +32,7 @@ export const useEsimApi = () => {
 
   return {
     getEsims,
+    discoverEsims,
     updateEsimNickname,
     enableEsim,
     deleteEsim,

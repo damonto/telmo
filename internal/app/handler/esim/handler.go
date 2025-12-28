@@ -72,6 +72,27 @@ func (h *Handler) List(c echo.Context) error {
 	return h.Respond(c, response)
 }
 
+func (h *Handler) Discover(c echo.Context) error {
+	modem, err := h.FindModem(h.manager, c.Param("id"))
+	if err != nil {
+		return h.NotFound(c, err)
+	}
+	response, err := h.service.Discover(modem)
+	if err != nil {
+		if errors.Is(err, lpa.ErrNoSupportedAID) {
+			return h.NotFound(c, err)
+		}
+		return h.InternalServerError(c, err)
+	}
+	response = []DiscoverResponse{
+		{
+			Address: "smdp.io",
+			EventID: "1234567890",
+		},
+	}
+	return h.Respond(c, response)
+}
+
 func (h *Handler) Enable(c echo.Context) error {
 	modem, err := h.FindModem(h.manager, c.Param("id"))
 	if err != nil {

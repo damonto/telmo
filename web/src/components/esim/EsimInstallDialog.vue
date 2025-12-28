@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod'
-import { ScanQrCode } from 'lucide-vue-next'
+import { RefreshCw, ScanQrCode } from 'lucide-vue-next'
 import { useForm } from 'vee-validate'
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -35,8 +35,18 @@ type InstallFormValues = {
   confirmationCode?: string
 }
 
+const props = withDefaults(
+  defineProps<{
+    isDiscovering?: boolean
+  }>(),
+  {
+    isDiscovering: false,
+  },
+)
+
 const emit = defineEmits<{
   (event: 'confirm', payload: InstallPayload): void
+  (event: 'discover'): void
 }>()
 
 const open = defineModel<boolean>('open', { required: true })
@@ -172,6 +182,22 @@ const onSubmit = handleSubmit((values) => {
   closeDialog()
 })
 
+const applyDiscoverAddress = (address: string) => {
+  const trimmed = address.trim()
+  if (!trimmed || isSubmitting.value) return
+  confirmationRequired.value = false
+  resetForm({
+    values: {
+      smdp: trimmed,
+      activationCode: '',
+      confirmationCode: '',
+    },
+  })
+  void onSubmit()
+}
+
+defineExpose({ applyDiscoverAddress })
+
 watch(open, (value) => {
   if (!value) {
     scanOpen.value = false
@@ -206,6 +232,18 @@ watch(scanOpen, (value) => {
             @click="openScanDialog"
           >
             <ScanQrCode class="size-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            type="button"
+            class="shrink-0"
+            :aria-label="t('modemDetail.esim.discover')"
+            :title="t('modemDetail.esim.discover')"
+            :disabled="props.isDiscovering"
+            @click="emit('discover')"
+          >
+            <RefreshCw class="size-4" />
           </Button>
         </div>
       </DialogHeader>

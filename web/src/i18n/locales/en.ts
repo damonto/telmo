@@ -78,6 +78,7 @@ const en = {
       installTitle: 'Install eSIM',
       installConfirm: 'Download',
       scan: 'Scan QR',
+      discover: 'Discover',
       scanTitle: 'Scan eSIM QR',
       scanDescription: 'Align the QR code inside the frame to fill the form.',
       scanInvalid: 'Invalid eSIM QR code.',
@@ -108,6 +109,10 @@ const en = {
       downloadErrorFallback: 'The download could not be completed.',
       downloadDisconnected: 'Connection lost. The download may still be running.',
       enableSuccess: 'Enabled “{name}”.',
+      discoverTitle: 'Discover eSIMs',
+      discoverDescription: 'Select a SM-DP+ address to install the eSIM.',
+      discoverConfirm: 'Download',
+      discoverEmpty: 'No SM-DP+ addresses found.',
     },
     actions: {
       rename: 'Rename',

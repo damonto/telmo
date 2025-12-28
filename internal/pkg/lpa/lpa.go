@@ -232,7 +232,12 @@ func (l *LPA) Discover(imei sgp22.IMEI) ([]*sgp22.EventEntry, error) {
 		if err != nil {
 			return nil, err
 		}
-		entries = append(entries, discovered...)
+		for _, entry := range discovered {
+			if entry == nil {
+				continue
+			}
+			entries = append(entries, entry)
+		}
 	}
 	return entries, nil
 }

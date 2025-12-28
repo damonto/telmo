@@ -70,6 +70,41 @@ func (s *Service) List(modem *mmodem.Modem) ([]ProfileResponse, error) {
 	return response, nil
 }
 
+func (s *Service) Discover(modem *mmodem.Modem) ([]DiscoverResponse, error) {
+	client, err := lpa.New(modem, s.cfg)
+	if err != nil {
+		return nil, fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+	}
+	defer func() {
+		if cerr := client.Close(); cerr != nil {
+			slog.Warn("failed to close LPA client", "error", cerr)
+		}
+	}()
+
+	imeiValue, err := modem.ThreeGPP().IMEI()
+	if err != nil {
+		return nil, fmt.Errorf("reading modem IMEI for %s: %w", modem.EquipmentIdentifier, err)
+	}
+	imei, err := sgp22.NewIMEI(imeiValue)
+	if err != nil {
+		return nil, fmt.Errorf("invalid IMEI %q for modem %s: %w", imeiValue, modem.EquipmentIdentifier, err)
+	}
+
+	entries, err := client.Discover(imei)
+	if err != nil {
+		return nil, fmt.Errorf("discovering profiles for modem %s: %w", modem.EquipmentIdentifier, err)
+	}
+
+	response := make([]DiscoverResponse, 0, len(entries))
+	for _, entry := range entries {
+		response = append(response, DiscoverResponse{
+			EventID: entry.EventID,
+			Address: entry.Address,
+		})
+	}
+	return response, nil
+}
+
 func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.ICCID) error {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {

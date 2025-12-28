@@ -9,6 +9,11 @@ type ProfileResponse struct {
 	RegionCode          string `json:"regionCode,omitempty"`
 }
 
+type DiscoverResponse struct {
+	EventID string `json:"eventId"`
+	Address string `json:"address"`
+}
+
 type UpdateNicknameRequest struct {
 	Nickname string `json:"nickname"`
 }

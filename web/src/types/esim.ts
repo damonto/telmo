@@ -11,6 +11,13 @@ export type EsimProfileApiResponse = {
 
 export type EsimProfilesResponse = ApiResponse<EsimProfileApiResponse[]>
 
+export type EsimDiscoverItem = {
+  eventId: string
+  address: string
+}
+
+export type EsimDiscoverResponse = ApiResponse<EsimDiscoverItem[]>
+
 export type EsimProfile = {
   id: string
   name: string

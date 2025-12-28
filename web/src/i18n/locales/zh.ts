@@ -78,6 +78,7 @@ const zh = {
       installTitle: '安装 eSIM',
       installConfirm: '确认下载',
       scan: '扫码识别',
+      discover: '发现',
       scanTitle: '扫码 eSIM',
       scanDescription: '将二维码放入取景框内自动识别并填充。',
       scanInvalid: '无效的 eSIM 二维码。',
@@ -108,6 +109,10 @@ const zh = {
       downloadErrorFallback: '下载未完成，请稍后重试。',
       downloadDisconnected: '连接已断开，下载可能仍在进行。',
       enableSuccess: '已启用“{name}”。',
+      discoverTitle: '发现 eSIMs',
+      discoverDescription: '选择一个 SM-DP+ 地址开始下载。',
+      discoverConfirm: '确认下载',
+      discoverEmpty: '未找到相关数据。',
     },
     actions: {
       rename: '更改名称',

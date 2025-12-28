@@ -2,7 +2,9 @@ package message
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/labstack/echo/v4"
 
@@ -40,9 +42,9 @@ func (h *Handler) ListByParticipant(c echo.Context) error {
 	if err != nil {
 		return h.NotFound(c, err)
 	}
-	participant := c.Param("participant")
-	if participant == "" {
-		return h.BadRequest(c, errParticipantRequired)
+	participant, err := participantFromParam(c)
+	if err != nil {
+		return h.BadRequest(c, err)
 	}
 	response, err := h.service.ListByParticipant(modem, participant)
 	if err != nil {
@@ -77,9 +79,9 @@ func (h *Handler) DeleteByParticipant(c echo.Context) error {
 	if err != nil {
 		return h.NotFound(c, err)
 	}
-	participant := c.Param("participant")
-	if participant == "" {
-		return h.BadRequest(c, errParticipantRequired)
+	participant, err := participantFromParam(c)
+	if err != nil {
+		return h.BadRequest(c, err)
 	}
 	if err := h.service.DeleteByParticipant(modem, participant); err != nil {
 		if errors.Is(err, errParticipantRequired) {
@@ -88,4 +90,16 @@ func (h *Handler) DeleteByParticipant(c echo.Context) error {
 		return h.InternalServerError(c, err)
 	}
 	return c.NoContent(http.StatusNoContent)
+}
+
+func participantFromParam(c echo.Context) (string, error) {
+	raw := c.Param("participant")
+	if raw == "" {
+		return "", errParticipantRequired
+	}
+	participant, err := url.PathUnescape(raw)
+	if err != nil {
+		return "", fmt.Errorf("invalid participant %q: %w", raw, err)
+	}
+	return participant, nil
 }

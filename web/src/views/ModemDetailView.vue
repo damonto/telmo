@@ -4,7 +4,9 @@ import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
+import { useEsimApi } from '@/apis/esim'
 import { useModemApi } from '@/apis/modem'
+import EsimDiscoverDialog from '@/components/esim/EsimDiscoverDialog.vue'
 import EsimDownloadConfirmationModal from '@/components/esim/EsimDownloadConfirmationModal.vue'
 import EsimDownloadPreviewModal from '@/components/esim/EsimDownloadPreviewModal.vue'
 import EsimDownloadProgressModal from '@/components/esim/EsimDownloadProgressModal.vue'
@@ -20,6 +22,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useEsimDownload } from '@/composables/useEsimDownload'
 import { useModemDetail } from '@/composables/useModemDetail'
+import type { EsimDiscoverItem } from '@/types/esim'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -37,6 +40,9 @@ const {
   fetchEsimProfiles,
 } = useModemDetail()
 const modemApi = useModemApi()
+const esimApi = useEsimApi()
+
+const installDialogRef = ref<{ applyDiscoverAddress: (address: string) => void } | null>(null)
 
 // SIM slot switching logic
 const currentSimIdentifier = ref('')
@@ -68,6 +74,11 @@ const resultState = ref<'completed' | 'error' | null>(null)
 const resultErrorMessage = ref('')
 const resultErrorType = ref<'none' | 'failed' | 'disconnected'>('none')
 const resultName = ref('')
+const discoverDialogOpen = ref(false)
+const discoverOptions = ref<EsimDiscoverItem[]>([])
+const selectedDiscoverAddress = ref('')
+const isDiscoverLoading = ref(false)
+const restoreInstallDialog = ref(false)
 
 const {
   downloadState,
@@ -97,6 +108,8 @@ const isConfirmationModalOpen = computed(() => downloadState.value === 'confirma
 const isResultModalOpen = computed(
   () => downloadState.value === 'completed' || downloadState.value === 'error',
 )
+const hasDiscoverOptions = computed(() => discoverOptions.value.length > 0)
+const hasDiscoverSelection = computed(() => selectedDiscoverAddress.value.trim().length > 0)
 
 const stageLabel = computed(() => {
   if (downloadStage.value === 'initializing') return t('modemDetail.esim.downloadStageInitializing')
@@ -176,6 +189,16 @@ watch(downloadState, (value) => {
   }
 })
 
+watch(discoverDialogOpen, (value) => {
+  if (!value) {
+    selectedDiscoverAddress.value = ''
+    if (restoreInstallDialog.value) {
+      installDialogOpen.value = true
+      restoreInstallDialog.value = false
+    }
+  }
+})
+
 // Fetch modem detail when route changes or on mount
 watch(
   modemId,
@@ -200,6 +223,36 @@ const handlePreviewCancel = () => {
 
 const handleResultConfirm = () => {
   closeDialog()
+}
+
+const handleDiscover = async () => {
+  if (isDiscoverLoading.value) return
+  if (!modemId.value || modemId.value === 'unknown') return
+  restoreInstallDialog.value = true
+  installDialogOpen.value = false
+  discoverDialogOpen.value = true
+  discoverOptions.value = []
+  selectedDiscoverAddress.value = ''
+  isDiscoverLoading.value = true
+  try {
+    const { data, error } = await esimApi.discoverEsims(modemId.value)
+    if (!discoverDialogOpen.value) return
+    if (error.value) {
+      discoverDialogOpen.value = false
+      return
+    }
+    discoverOptions.value = data.value?.data ?? []
+  } finally {
+    isDiscoverLoading.value = false
+  }
+}
+
+const handleDiscoverConfirm = () => {
+  const address = selectedDiscoverAddress.value.trim()
+  if (!address) return
+  restoreInstallDialog.value = false
+  installDialogRef.value?.applyDiscoverAddress(address)
+  discoverDialogOpen.value = false
 }
 
 const handleSimSwitch = async (identifier: string) => {
@@ -280,7 +333,23 @@ const handleSimSwitch = async (identifier: string) => {
     <Download class="size-5" />
   </Button>
 
-  <EsimInstallDialog v-model:open="installDialogOpen" @confirm="startDownload" />
+  <EsimInstallDialog
+    ref="installDialogRef"
+    v-model:open="installDialogOpen"
+    :is-discovering="isDiscoverLoading"
+    @confirm="startDownload"
+    @discover="handleDiscover"
+  />
+
+  <EsimDiscoverDialog
+    v-model:open="discoverDialogOpen"
+    v-model:selected-address="selectedDiscoverAddress"
+    :options="discoverOptions"
+    :is-loading="isDiscoverLoading"
+    :has-options="hasDiscoverOptions"
+    :has-selection="hasDiscoverSelection"
+    @confirm="handleDiscoverConfirm"
+  />
 
   <EsimDownloadProgressModal
     :open="isProgressModalOpen"

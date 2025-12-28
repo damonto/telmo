@@ -77,6 +77,7 @@ func Register(e *echo.Echo, cfg *config.Config, manager *modem.Manager) {
 		{
 			h := esim.New(cfg, manager)
 			protected.GET("/modems/:id/esims", h.List)
+			protected.GET("/modems/:id/esims/discover", h.Discover)
 			protected.GET("/modems/:id/esims/download", h.Download)
 			protected.POST("/modems/:id/esims/:iccid/enabling", h.Enable)
 			protected.PUT("/modems/:id/esims/:iccid/nickname", h.UpdateNickname)
