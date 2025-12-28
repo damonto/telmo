@@ -84,12 +84,6 @@ func (h *Handler) Discover(c echo.Context) error {
 		}
 		return h.InternalServerError(c, err)
 	}
-	response = []DiscoverResponse{
-		{
-			Address: "smdp.io",
-			EventID: "1234567890",
-		},
-	}
 	return h.Respond(c, response)
 }
 
