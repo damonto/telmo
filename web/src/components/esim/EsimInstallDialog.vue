@@ -52,7 +52,7 @@ const confirmationRequired = ref(false)
   const buildInstallSchemaDefinition = (requiresConfirmation: boolean) =>
     z.object({
       smdp: z
-        .string({ required_error: t('modemDetail.esim.validation.smdpRequired') })
+        .string({ error: t('modemDetail.esim.validation.smdpRequired') })
         .trim()
         .min(1, t('modemDetail.esim.validation.smdpRequired'))
         .transform((value) => value.trim()),
@@ -62,7 +62,7 @@ const confirmationRequired = ref(false)
         .transform((value) => value?.trim() ?? ''),
       confirmationCode: requiresConfirmation
         ? z
-            .string({ required_error: t('modemDetail.validation.required') })
+            .string({ error: t('modemDetail.validation.required') })
             .trim()
             .min(1, t('modemDetail.validation.required'))
         : z

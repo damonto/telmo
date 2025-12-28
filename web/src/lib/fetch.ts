@@ -1,5 +1,7 @@
 import { createFetch } from '@vueuse/core'
 
+import router from '@/router'
+
 import { getStoredToken } from './auth-storage'
 import { handleError, handleResponseError } from './error-handler'
 
@@ -50,6 +52,9 @@ export const useFetch = createFetch({
 
       if (response) {
         handleResponseError(response, data)
+        if (response.status === 401 && router.currentRoute.value.name !== 'auth') {
+          router.replace({ name: 'auth' })
+        }
         console.error('[API] Response error:', response.status, data)
       } else {
         // Unified network error handling
