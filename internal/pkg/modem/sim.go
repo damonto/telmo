@@ -37,7 +37,7 @@ func (sims *SIMs) Get(path dbus.ObjectPath) (*SIM, error) {
 	var variant dbus.Variant
 	var err error
 	sim := &SIM{Path: path}
-	dbusObject, err := privateDBusObject(path)
+	dbusObject, err := systemBusObject(path)
 	if err != nil {
 		return nil, err
 	}

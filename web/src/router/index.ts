@@ -1,8 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import { getStoredToken } from '@/lib/auth-storage'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/auth',
+      name: 'auth',
+      component: () => import('@/views/AuthVerifyView.vue'),
+    },
     {
       path: '/',
       name: 'home',
@@ -45,6 +52,19 @@ const router = createRouter({
       ],
     },
   ],
+})
+
+const AUTH_ROUTE_NAME = 'auth'
+
+router.beforeEach((to) => {
+  const token = getStoredToken()
+  if (!token && to.name !== AUTH_ROUTE_NAME) {
+    return { name: AUTH_ROUTE_NAME }
+  }
+
+  if (token && to.name === AUTH_ROUTE_NAME) {
+    return { name: 'home' }
+  }
 })
 
 export default router

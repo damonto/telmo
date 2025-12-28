@@ -14,6 +14,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
+	"github.com/damonto/sigmo/internal/app/forwarder"
 	"github.com/damonto/sigmo/internal/app/router"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/modem"
@@ -39,6 +40,7 @@ func main() {
 	if !cfg.IsProduction() {
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 	}
+	slog.Info("server starting", "version", BuildVersion)
 
 	manager, err := modem.NewManager()
 	if err != nil {
@@ -61,6 +63,20 @@ func main() {
 
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
+
+	relay, err := forwarder.New(cfg, manager)
+	if err != nil {
+		slog.Error("unable to configure message relay", "error", err)
+		os.Exit(1)
+	}
+	if relay.Enabled() {
+		go func() {
+			if err := relay.Run(ctx); err != nil {
+				slog.Error("message relay stopped", "error", err)
+				stop()
+			}
+		}()
+	}
 
 	go func() {
 		if err := server.Start(cfg.App.ListenAddress); err != nil && !errors.Is(err, http.ErrServerClosed) {

@@ -47,7 +47,7 @@ func (msg *Messaging) Delete(path dbus.ObjectPath) error {
 }
 
 func (msg *Messaging) Subscribe(ctx context.Context, subscriber func(message *SMS) error) error {
-	dbusConn, err := msg.modem.SystemBusPrivate()
+	dbusConn, err := systemBusPrivate()
 	if err != nil {
 		return err
 	}

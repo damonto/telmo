@@ -1,5 +1,6 @@
 import { createFetch } from '@vueuse/core'
 
+import { getStoredToken } from './auth-storage'
 import { handleError, handleResponseError } from './error-handler'
 
 const rawBaseUrl = import.meta.env.VITE_API_BASE_URL
@@ -18,7 +19,7 @@ export const useFetch = createFetch({
       const headers = new Headers(options.headers)
 
       // Add authentication token if available
-      const token = localStorage.getItem('auth_token')
+      const token = getStoredToken()
       if (token) {
         headers.set('Authorization', `Bearer ${token}`)
       }

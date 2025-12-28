@@ -29,6 +29,15 @@ const en = {
     emptyDescription: 'Messages page is not ready yet.',
     emptyPlaceholder: 'Coming soon.',
   },
+  auth: {
+    kicker: 'Sigmo',
+    title: 'Verify Access',
+    subtitle: 'We sent a code to your configured notification channel.',
+    prompt: 'Enter the 6-digit code',
+    resend: 'Resend',
+    resendCountdown: 'Resend ({seconds}s)',
+    resendHint: "Didn't get the code?",
+  },
   modemDetail: {
     back: 'Back',
     kicker: 'Sigmo',

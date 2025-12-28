@@ -1,3 +1,5 @@
+import { clearStoredToken } from './auth-storage'
+
 export interface ApiError {
   code: number
   message: string
@@ -63,7 +65,7 @@ export const handleResponseError = (response: Response, data?: unknown) => {
   }
 
   if (response.status === 401) {
-    localStorage.removeItem('auth_token')
+    clearStoredToken()
   }
 
   handleError({ code: response.status, message })

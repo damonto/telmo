@@ -1,7 +1,13 @@
 [app]
-environment = "development"
-listen_address = "0.0.0.0:9527"
+  environment = "development"
+  listen_address = "0.0.0.0:9527"
+  auth_providers = ["telegram"]
 
-[channels.telegram]
-bot_token = "your_telegram_bot_token"
-to = [123456789]
+[channels]
+  [channels.telegram]
+    bot_token = "Your Telegram Bot Token"
+    admin_ids = [1231321]
+
+  [channels.http]
+    endpoint = "https://httpbin.org/post"
+    headers = { "Content-Type" = "application/json", "Authorization" = "Bearer 1234567890" }

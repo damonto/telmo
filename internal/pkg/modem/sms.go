@@ -21,7 +21,7 @@ func (sms *SMS) Path() dbus.ObjectPath {
 }
 
 func (msg *Messaging) Retrieve(objectPath dbus.ObjectPath) (*SMS, error) {
-	dbusObject, err := privateDBusObject(objectPath)
+	dbusObject, err := systemBusObject(objectPath)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (msg *Messaging) Send(to string, text string) (*SMS, error) {
 	if err != nil {
 		return nil, err
 	}
-	dbusObject, err := privateDBusObject(path)
+	dbusObject, err := systemBusObject(path)
 	if err != nil {
 		return nil, err
 	}

@@ -7,12 +7,15 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
+	"github.com/damonto/sigmo/internal/app/auth"
+	hauth "github.com/damonto/sigmo/internal/app/handler/auth"
 	"github.com/damonto/sigmo/internal/app/handler/esim"
 	"github.com/damonto/sigmo/internal/app/handler/euicc"
-	hmessage "github.com/damonto/sigmo/internal/app/handler/message"
+	"github.com/damonto/sigmo/internal/app/handler/message"
 	hmodem "github.com/damonto/sigmo/internal/app/handler/modem"
-	hnetwork "github.com/damonto/sigmo/internal/app/handler/network"
-	hussd "github.com/damonto/sigmo/internal/app/handler/ussd"
+	"github.com/damonto/sigmo/internal/app/handler/network"
+	"github.com/damonto/sigmo/internal/app/handler/ussd"
+	appmiddleware "github.com/damonto/sigmo/internal/app/middleware"
 	"github.com/damonto/sigmo/internal/pkg/config"
 	"github.com/damonto/sigmo/internal/pkg/modem"
 	"github.com/damonto/sigmo/web"
@@ -31,46 +34,53 @@ func Register(e *echo.Echo, cfg *config.Config, manager *modem.Manager) {
 
 	v1 := e.Group("/api/v1")
 
+	authStore := auth.NewStore()
+	authHandler := hauth.New(cfg, authStore)
+	v1.POST("/auth/otp", authHandler.SendOTP)
+	v1.POST("/auth/otp/verify", authHandler.VerifyOTP)
+	protected := v1.Group("")
+	protected.Use(appmiddleware.Auth(authStore))
+
 	{
 		h := hmodem.New(cfg, manager)
-		v1.GET("/modems", h.List)
-		v1.GET("/modems/:id", h.Get)
-		v1.PUT("/modems/:id/sim-slots/:identifier", h.SwitchSimSlot)
-		v1.PUT("/modems/:id/msisdn", h.UpdateMSISDN)
-		v1.GET("/modems/:id/settings", h.GetSettings)
-		v1.PUT("/modems/:id/settings", h.UpdateSettings)
+		protected.GET("/modems", h.List)
+		protected.GET("/modems/:id", h.Get)
+		protected.PUT("/modems/:id/sim-slots/:identifier", h.SwitchSimSlot)
+		protected.PUT("/modems/:id/msisdn", h.UpdateMSISDN)
+		protected.GET("/modems/:id/settings", h.GetSettings)
+		protected.PUT("/modems/:id/settings", h.UpdateSettings)
 
 		{
-			h := hmessage.New(manager)
-			v1.GET("/modems/:id/messages", h.List)
-			v1.GET("/modems/:id/messages/:participant", h.ListByParticipant)
-			v1.POST("/modems/:id/messages", h.Send)
-			v1.DELETE("/modems/:id/messages/:participant", h.DeleteByParticipant)
+			h := message.New(manager)
+			protected.GET("/modems/:id/messages", h.List)
+			protected.GET("/modems/:id/messages/:participant", h.ListByParticipant)
+			protected.POST("/modems/:id/messages", h.Send)
+			protected.DELETE("/modems/:id/messages/:participant", h.DeleteByParticipant)
 		}
 
 		{
-			h := hussd.New(manager)
-			v1.POST("/modems/:id/ussd", h.Execute)
+			h := ussd.New(manager)
+			protected.POST("/modems/:id/ussd", h.Execute)
 		}
 
 		{
-			h := hnetwork.New(manager)
-			v1.GET("/modems/:id/networks", h.List)
-			v1.PUT("/modems/:id/networks/:operatorCode", h.Register)
+			h := network.New(manager)
+			protected.GET("/modems/:id/networks", h.List)
+			protected.PUT("/modems/:id/networks/:operatorCode", h.Register)
 		}
 
 		{
 			h := euicc.New(cfg, manager)
-			v1.GET("/modems/:id/euicc", h.Get)
+			protected.GET("/modems/:id/euicc", h.Get)
 		}
 
 		{
 			h := esim.New(cfg, manager)
-			v1.GET("/modems/:id/esims", h.List)
-			v1.GET("/modems/:id/esims/download", h.Download)
-			v1.POST("/modems/:id/esims/:iccid/enabling", h.Enable)
-			v1.PUT("/modems/:id/esims/:iccid/nickname", h.UpdateNickname)
-			v1.DELETE("/modems/:id/esims/:iccid", h.Delete)
+			protected.GET("/modems/:id/esims", h.List)
+			protected.GET("/modems/:id/esims/download", h.Download)
+			protected.POST("/modems/:id/esims/:iccid/enabling", h.Enable)
+			protected.PUT("/modems/:id/esims/:iccid/nickname", h.UpdateNickname)
+			protected.DELETE("/modems/:id/esims/:iccid", h.Delete)
 		}
 	}
 }

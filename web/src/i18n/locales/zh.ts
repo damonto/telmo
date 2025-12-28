@@ -29,6 +29,15 @@ const zh = {
     emptyDescription: '短信页面暂未实现，后续会在这里展示所有短信内容。',
     emptyPlaceholder: '敬请期待。',
   },
+  auth: {
+    kicker: 'Sigmo',
+    title: '验证身份',
+    subtitle: '验证码已经发送到你配置的通知渠道',
+    prompt: '请输入 6 位验证码',
+    resend: '重发',
+    resendCountdown: '重发 ({seconds}s)',
+    resendHint: '未收到验证码？',
+  },
   modemDetail: {
     back: '返回列表',
     kicker: 'Sigmo',

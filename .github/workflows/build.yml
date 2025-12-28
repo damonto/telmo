@@ -38,10 +38,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
           go-version: "stable"
+
+      - name: Build frontend
+        run: |
+          bun install
+          bun run build --mode prod
 
       - name: Build for ${{ matrix.target.name }}
         run: |

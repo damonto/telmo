@@ -12,24 +12,26 @@ import (
 // Config represents the application configuration
 type Config struct {
 	App      App                `toml:"app"`
-	Database Database           `toml:"database"`
 	Channels map[string]Channel `toml:"channels"`
 	Modems   map[string]Modem   `toml:"modems"`
 	Path     string             `toml:"-"`
 }
 
 type App struct {
-	Environment   string `toml:"environment"`
-	ListenAddress string `toml:"listen_address"`
-}
-
-type Database struct {
-	Path string `toml:"path"`
+	Environment   string   `toml:"environment"`
+	ListenAddress string   `toml:"listen_address"`
+	AuthProviders []string `toml:"auth_providers"`
 }
 
 type Channel struct {
+	Endpoint string `toml:"endpoint"`
+
+	// Telegram
 	BotToken string  `toml:"bot_token"`
-	AdminID  []int64 `toml:"admin_id"`
+	AdminIDs []int64 `toml:"admin_ids"`
+
+	// HTTP
+	Headers map[string]string `toml:"headers"`
 }
 
 type Modem struct {

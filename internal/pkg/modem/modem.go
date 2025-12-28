@@ -67,7 +67,7 @@ func (m *Modem) SignalQuality() (percent uint32, recent bool, err error) {
 func (m *Modem) Restart(compatible bool) error {
 	if compatible {
 		var err error
-		// Some older modems require the modem to be disabled and enabled to take effect.
+		// Some legacy modems require the modem to be disabled and enabled to take effect.
 		if e := m.dbusObject.Call(ModemInterface+".Simple.GetStatus", 0).Err; e == nil {
 			err = errors.Join(err, m.Disable(), m.Enable())
 		}
@@ -99,20 +99,4 @@ func (m *Modem) Port(portType ModemPortType) (*ModemPort, error) {
 		}
 	}
 	return nil, errors.New("port not found")
-}
-
-func (m *Modem) SystemBusPrivate() (*dbus.Conn, error) {
-	dbusConn, err := dbus.SystemBusPrivate()
-	if err != nil {
-		return nil, err
-	}
-	if err := dbusConn.Auth(nil); err != nil {
-		dbusConn.Close()
-		return nil, err
-	}
-	if err := dbusConn.Hello(); err != nil {
-		dbusConn.Close()
-		return nil, err
-	}
-	return dbusConn, nil
 }
