@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import ModemMessageComposer from '@/components/modem/messages/ModemMessageComposer.vue'
@@ -30,8 +30,17 @@ const {
 } = useModemMessageThread({ modemId, participant, isNewConversation })
 
 const deleteOpen = ref(false)
+const messagesContainerRef = ref<HTMLElement | null>(null)
 
 const canDelete = computed(() => !isNewConversation.value && participant.value.trim().length > 0)
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    if (messagesContainerRef.value) {
+      messagesContainerRef.value.scrollTop = messagesContainerRef.value.scrollHeight
+    }
+  })
+}
 
 const handleBack = () => {
   router.back()
@@ -46,6 +55,16 @@ const confirmDelete = async () => {
   await deleteThread()
   deleteOpen.value = false
 }
+
+watch(
+  () => [items.value, isLoading.value],
+  () => {
+    if (!isLoading.value && items.value.length > 0) {
+      scrollToBottom()
+    }
+  },
+  { flush: 'post' },
+)
 </script>
 
 <template>
@@ -57,7 +76,7 @@ const confirmDelete = async () => {
       @delete="openDeleteDialog"
     />
 
-    <div class="flex-1 min-h-0 overflow-y-auto py-3 pr-1">
+    <div ref="messagesContainerRef" class="flex-1 min-h-0 overflow-y-auto py-3 pr-1">
       <ModemMessageThreadList
         :items="items"
         :is-loading="isLoading"
