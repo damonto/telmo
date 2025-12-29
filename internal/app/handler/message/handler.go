@@ -65,7 +65,7 @@ func (h *Handler) Send(c echo.Context) error {
 	if err := h.BindAndValidate(c, &req); err != nil {
 		return err
 	}
-	if _, err := h.service.Send(modem, req.To, req.Text); err != nil {
+	if err := h.service.Send(modem, req.To, req.Text); err != nil {
 		if errors.Is(err, errRecipientRequired) || errors.Is(err, errTextRequired) {
 			return h.BadRequest(c, err)
 		}

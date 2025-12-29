@@ -82,19 +82,18 @@ func (s *Service) ListByParticipant(modem *mmodem.Modem, participant string) ([]
 	return response, nil
 }
 
-func (s *Service) Send(modem *mmodem.Modem, to string, text string) (*MessageResponse, error) {
+func (s *Service) Send(modem *mmodem.Modem, to string, text string) error {
 	if strings.TrimSpace(to) == "" {
-		return nil, errRecipientRequired
+		return errRecipientRequired
 	}
 	if strings.TrimSpace(text) == "" {
-		return nil, errTextRequired
+		return errTextRequired
 	}
-	sms, err := modem.Messaging().Send(to, text)
+	_, err := modem.Messaging().Send(to, text)
 	if err != nil {
-		return nil, fmt.Errorf("sending SMS to %s on modem %s: %w", to, modem.EquipmentIdentifier, err)
+		return fmt.Errorf("sending SMS to %s on modem %s: %w", to, modem.EquipmentIdentifier, err)
 	}
-	response := buildMessageResponse(sms)
-	return &response, nil
+	return nil
 }
 
 func (s *Service) DeleteByParticipant(modem *mmodem.Modem, participant string) error {
