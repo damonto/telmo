@@ -17,7 +17,7 @@ const { t } = useI18n()
 
 <template>
   <DraggableFab
-    :aria-label="t('modemDetail.messages.newConversation')"
+    :ariaLabel="t('modemDetail.messages.newConversation')"
     :title="t('modemDetail.messages.newConversation')"
     :disabled="props.disabled"
     @click="emit('click')"
