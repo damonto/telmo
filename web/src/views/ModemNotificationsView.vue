@@ -65,18 +65,16 @@ const handleResend = async (item: NotificationItem) => {
 </script>
 
 <template>
-  <div class="flex h-[calc(100dvh-6.5rem)] flex-col overflow-hidden">
+  <div class="space-y-6">
     <ModemNotificationsHeader :count="count" :is-loading="isLoading" :modem-id="modemId" />
 
-    <div class="flex-1 min-h-0 overflow-y-auto pr-1">
-      <ModemNotificationsList
-        :items="items"
-        :is-loading="isLoading"
-        :resending-sequence="resendSequence"
-        @resend="handleResend"
-        @delete="openDeleteDialog"
-      />
-    </div>
+    <ModemNotificationsList
+      :items="items"
+      :is-loading="isLoading"
+      :resending-sequence="resendSequence"
+      @resend="handleResend"
+      @delete="openDeleteDialog"
+    />
   </div>
 
   <ModemNotificationsDeleteDialog
