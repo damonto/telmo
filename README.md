@@ -59,6 +59,7 @@ be writable by the Sigmo process.
   environment = "production"
   listen_address = "0.0.0.0:9527"
   auth_providers = ["telegram"]
+  otp_required = true
 
 [channels]
   [channels.telegram]

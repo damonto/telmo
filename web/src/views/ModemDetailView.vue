@@ -18,7 +18,7 @@ import SuccessBanner from '@/components/feedback/SuccessBanner.vue'
 import ModemDetailCard from '@/components/modem/ModemDetailCard.vue'
 import ModemDetailHeader from '@/components/modem/ModemDetailHeader.vue'
 import SimSlotSwitcher from '@/components/modem/SimSlotSwitcher.vue'
-import { Button } from '@/components/ui/button'
+import DraggableFab from '@/components/fab/DraggableFab.vue'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useEsimDownload } from '@/composables/useEsimDownload'
 import { useModemDetail } from '@/composables/useModemDetail'
@@ -321,17 +321,14 @@ const handleSimSwitch = async (identifier: string) => {
     </DialogContent>
   </Dialog>
 
-  <Button
+  <DraggableFab
     v-if="modem && isEsimModem"
-    type="button"
-    size="icon-lg"
-    class="fixed bottom-24 right-6 z-20 rounded-full shadow-xl transition hover:-translate-y-0.5"
-    @click="installDialogOpen = true"
     :aria-label="t('modemDetail.esim.installButton')"
     :title="t('modemDetail.esim.installButton')"
+    @click="installDialogOpen = true"
   >
     <Download class="size-5" />
-  </Button>
+  </DraggableFab>
 
   <EsimInstallDialog
     ref="installDialogRef"

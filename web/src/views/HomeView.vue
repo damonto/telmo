@@ -17,6 +17,7 @@ const subtitle = computed(() => t('home.subtitle', { count: modemCount.value }))
 const modemItems = computed<HomeModemItem[]>(() =>
   modems.value.map((modem) => ({
     id: modem.id,
+    name: modem.name,
     regionCode: modem.sim.regionCode,
     operatorName: modem.sim.operatorName,
     registeredOperatorName: modem.registeredOperator.name,

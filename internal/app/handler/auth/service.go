@@ -28,7 +28,14 @@ func NewService(cfg *config.Config, store *auth.Store) *Service {
 	}
 }
 
+func (s *Service) OTPRequired() bool {
+	return s.cfg.App.OTPRequired
+}
+
 func (s *Service) SendOTP() error {
+	if !s.OTPRequired() {
+		return nil
+	}
 	channels, err := buildChannels(s.cfg)
 	if err != nil {
 		return err
@@ -51,7 +58,7 @@ func (s *Service) SendOTP() error {
 }
 
 func (s *Service) VerifyOTP(code string) (string, error) {
-	if !s.store.VerifyOTP(code) {
+	if s.OTPRequired() && !s.store.VerifyOTP(code) {
 		return "", errInvalidOTP
 	}
 	token, _, err := s.store.IssueToken()

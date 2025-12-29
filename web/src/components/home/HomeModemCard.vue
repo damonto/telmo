@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useModemDisplay } from '@/composables/useModemDisplay'
 
 const props = defineProps<{
+  name: string
   regionCode: string
   operatorName: string
   registeredOperatorName: string
@@ -37,6 +38,9 @@ const isRoaming = computed(() => props.registrationState === 'Roaming')
 const showRoamingLabel = computed(() => isRoaming.value && Boolean(props.registeredOperatorCode))
 const roamingLabel = computed(() => props.registeredOperatorName || props.registeredOperatorCode)
 const esimLabel = computed(() => (props.supportsEsim ? t('labels.esim') : t('labels.psim')))
+const displayName = computed(() =>
+  props.name.trim().length > 0 ? props.name : props.operatorName,
+)
 const displayNumber = computed(() => (props.number.trim() ? props.number : t('home.noNumber')))
 const signalValue = computed(() => formatSignal(props.signalQuality))
 const signalIconComponent = computed(() => signalIcon(props.signalQuality))
@@ -47,32 +51,32 @@ const signalTitle = computed(() => `${t('labels.signal')}: ${signalValue.value}`
 <template>
   <Card class="h-full border-0 py-4 shadow-sm transition duration-300 group-hover:-translate-y-0.5">
     <CardContent class="flex items-center gap-3 px-4">
-      <div class="flex size-9 shrink-0 items-center justify-center rounded-lg border bg-background">
+      <div class="flex size-12 shrink-0 items-center justify-center rounded-xl border bg-background">
         <span
           v-if="regionFlagClass"
           :class="regionFlagClass"
-          class="rounded-sm text-base"
+          class="rounded-sm text-xl"
           :aria-label="props.regionCode"
           :title="props.regionCode"
         />
         <span
           v-else
-          class="rounded-sm text-xs font-semibold text-muted-foreground"
+          class="rounded-sm text-base font-semibold text-muted-foreground"
           :aria-label="props.regionCode"
           :title="props.regionCode"
         >
           {{ props.regionCode }}
         </span>
       </div>
-      <div class="flex min-w-0 flex-1 flex-col gap-1">
+      <div class="flex min-w-0 flex-1 flex-col gap-0.5">
         <div class="flex items-center justify-between gap-2">
-          <p class="truncate text-sm font-semibold text-foreground">
-            <span class="text-foreground">{{ props.operatorName }}</span>
-            <span v-if="showRoamingLabel" class="text-xs text-muted-foreground">
-              ({{ roamingLabel }})
-            </span>
+          <p
+            class="min-w-0 flex-1 truncate text-sm font-semibold text-foreground"
+            :title="displayName"
+          >
+            {{ displayName }}
           </p>
-          <div class="flex items-center gap-1.5">
+          <div class="flex shrink-0 items-center gap-1.5">
             <Badge :variant="techVariant">
               {{ tech }}
             </Badge>
@@ -81,6 +85,12 @@ const signalTitle = computed(() => `${t('labels.signal')}: ${signalValue.value}`
             </Badge>
           </div>
         </div>
+        <p class="truncate text-xs font-normal text-foreground/70">
+          <span>{{ props.operatorName }}</span>
+          <span v-if="showRoamingLabel" class="ml-1 text-muted-foreground">
+            ({{ roamingLabel }})
+          </span>
+        </p>
         <div class="mt-auto flex items-center justify-between gap-3">
           <p class="truncate text-xs text-muted-foreground">
             {{ displayNumber }}

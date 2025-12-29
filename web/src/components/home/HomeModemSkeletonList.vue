@@ -19,10 +19,11 @@ const props = withDefaults(
       class="h-full border-0 shadow-sm transition duration-300 group-hover:-translate-y-0.5 py-4"
     >
       <CardContent class="flex items-center gap-3 px-3 py-2.5">
-        <div class="h-11 w-11 shrink-0 animate-pulse rounded-2xl bg-muted/80" />
+        <div class="h-12 w-12 shrink-0 animate-pulse rounded-2xl bg-muted/80" />
         <div class="flex flex-1 flex-col gap-1.5">
-          <div class="h-4 w-32 animate-pulse rounded bg-muted/60" />
-          <div class="h-3.5 w-48 animate-pulse rounded bg-muted/40" />
+          <div class="h-4 w-36 animate-pulse rounded bg-muted/60" />
+          <div class="h-3.5 w-40 animate-pulse rounded bg-muted/40" />
+          <div class="h-3 w-28 animate-pulse rounded bg-muted/30" />
         </div>
       </CardContent>
     </Card>

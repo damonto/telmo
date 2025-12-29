@@ -1,6 +1,7 @@
 [app]
   environment = "development"
   listen_address = "0.0.0.0:9527"
+  otp_required = true
   auth_providers = ["telegram"]
 
 [channels]

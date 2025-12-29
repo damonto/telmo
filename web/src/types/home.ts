@@ -1,5 +1,6 @@
 export type HomeModemItem = {
   id: string
+  name: string
   regionCode: string
   operatorName: string
   registeredOperatorName: string

@@ -47,7 +47,9 @@ const resendRemaining = computed(() => {
   return Math.max(0, Math.ceil(remainingMs / 1000))
 })
 
-const canResend = computed(() => resendRemaining.value === 0 && !authStore.isSending)
+const canResend = computed(
+  () => authStore.otpRequired && resendRemaining.value === 0 && !authStore.isSending,
+)
 const resendLabel = computed(() =>
   resendRemaining.value > 0
     ? t('auth.resendCountdown', { seconds: resendRemaining.value })
@@ -61,6 +63,10 @@ const handleResend = async () => {
 }
 
 onMounted(async () => {
+  if (!authStore.otpRequired) {
+    await router.replace({ name: 'home' })
+    return
+  }
   await authStore.sendCode()
   ensureTicker()
 })

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import { getStoredToken } from '@/lib/auth-storage'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,15 +56,32 @@ const router = createRouter({
 })
 
 const AUTH_ROUTE_NAME = 'auth'
+const FALLBACK_CODE = '000000'
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   const token = getStoredToken()
-  if (!token && to.name !== AUTH_ROUTE_NAME) {
-    return { name: AUTH_ROUTE_NAME }
-  }
-
   if (token && to.name === AUTH_ROUTE_NAME) {
     return { name: 'home' }
+  }
+
+  if (token) {
+    return
+  }
+
+  const authStore = useAuthStore()
+  const otpRequired = await authStore.fetchOtpRequirement()
+  if (!otpRequired) {
+    const issuedToken = await authStore.verifyCode(FALLBACK_CODE)
+    if (issuedToken) {
+      if (to.name === AUTH_ROUTE_NAME) {
+        return { name: 'home' }
+      }
+      return
+    }
+  }
+
+  if (to.name !== AUTH_ROUTE_NAME) {
+    return { name: AUTH_ROUTE_NAME }
   }
 })
 

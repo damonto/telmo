@@ -21,6 +21,7 @@ type App struct {
 	Environment   string   `toml:"environment"`
 	ListenAddress string   `toml:"listen_address"`
 	AuthProviders []string `toml:"auth_providers"`
+	OTPRequired   bool     `toml:"otp_required"`
 }
 
 type Channel struct {
@@ -47,8 +48,12 @@ func Load(path string) (*Config, error) {
 		return nil, fmt.Errorf("reading config file: %w", err)
 	}
 	var config Config
-	if _, err := toml.Decode(string(data), &config); err != nil {
+	meta, err := toml.Decode(string(data), &config)
+	if err != nil {
 		return nil, fmt.Errorf("parsing config file: %w", err)
+	}
+	if !meta.IsDefined("app", "otp_required") {
+		config.App.OTPRequired = true
 	}
 	config.Path = path
 	return &config, nil

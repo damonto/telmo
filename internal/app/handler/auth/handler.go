@@ -22,6 +22,10 @@ func New(cfg *config.Config, store *auth.Store) *Handler {
 	}
 }
 
+func (h *Handler) OTPRequirement(c echo.Context) error {
+	return h.Respond(c, OTPRequirementResponse{OTPRequired: h.service.OTPRequired()})
+}
+
 func (h *Handler) SendOTP(c echo.Context) error {
 	if err := h.service.SendOTP(); err != nil {
 		if errors.Is(err, auth.ErrOTPCooldown) {

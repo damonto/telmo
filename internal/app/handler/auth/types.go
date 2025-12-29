@@ -7,3 +7,7 @@ type VerifyOTPRequest struct {
 type VerifyOTPResponse struct {
 	Token string `json:"token"`
 }
+
+type OTPRequirementResponse struct {
+	OTPRequired bool `json:"otpRequired"`
+}

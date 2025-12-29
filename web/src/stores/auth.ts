@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('auth', {
     isSending: false,
     isVerifying: false,
     resendAvailableAt: 0,
+    otpRequired: true,
   }),
   getters: {
     isAuthenticated: (state) => Boolean(state.token),
@@ -25,8 +26,20 @@ export const useAuthStore = defineStore('auth', {
       this.token = null
       clearStoredToken()
     },
+    async fetchOtpRequirement() {
+      const { data, error } = await useAuthApi().getOtpRequirement()
+      if (error.value) {
+        this.otpRequired = true
+        return this.otpRequired
+      }
+
+      const required = data.value?.data?.otpRequired
+      this.otpRequired = required ?? true
+      return this.otpRequired
+    },
     async sendCode() {
       if (this.isSending) return
+      if (!this.otpRequired) return
       if (this.resendAvailableAt > Date.now()) return
 
       this.isSending = true

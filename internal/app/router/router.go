@@ -36,6 +36,7 @@ func Register(e *echo.Echo, cfg *config.Config, manager *modem.Manager) {
 
 	authStore := auth.NewStore()
 	authHandler := hauth.New(cfg, authStore)
+	v1.GET("/auth/otp/required", authHandler.OTPRequirement)
 	v1.POST("/auth/otp", authHandler.SendOTP)
 	v1.POST("/auth/otp/verify", authHandler.VerifyOTP)
 	protected := v1.Group("")
