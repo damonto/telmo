@@ -66,25 +66,22 @@ func (s *Service) Get(modem *mmodem.Modem) (*ModemResponse, error) {
 	return resp, nil
 }
 
-func (s *Service) SwitchSimSlot(ctx context.Context, modem *mmodem.Modem, identifier string) (*ModemResponse, error) {
+func (s *Service) SwitchSimSlot(ctx context.Context, modem *mmodem.Modem, identifier string) error {
 	if identifier == "" {
-		return nil, errSimIdentifierRequired
+		return errSimIdentifierRequired
 	}
 	slotIndex, err := s.findSimSlotIndex(modem, identifier)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	if err := modem.SetPrimarySimSlot(slotIndex); err != nil {
-		return nil, fmt.Errorf("setting primary SIM slot for %s: %w", modem.EquipmentIdentifier, err)
+		return fmt.Errorf("setting primary SIM slot for %s: %w", modem.EquipmentIdentifier, err)
 	}
-	target, err := s.manager.WaitForModem(ctx, modem.EquipmentIdentifier)
-	if err != nil {
-		return nil, err
-	}
-	return s.buildModemResponse(target)
+	_, err = s.manager.WaitForModem(ctx, modem.EquipmentIdentifier)
+	return err
 }
 
-func (s *Service) UpdateMSISDN(modem *mmodem.Modem, number string) error {
+func (s *Service) UpdateMSISDN(ctx context.Context, modem *mmodem.Modem, number string) error {
 	number = strings.TrimSpace(number)
 	if !msisdnPhoneRE.MatchString(number) {
 		return errMSISDNInvalidNumber
@@ -105,7 +102,11 @@ func (s *Service) UpdateMSISDN(modem *mmodem.Modem, number string) error {
 	if err := client.Update("", number); err != nil {
 		return fmt.Errorf("updating MSISDN for modem %s: %w", modem.EquipmentIdentifier, err)
 	}
-	return nil
+	if err := modem.Restart(s.cfg.FindModem(modem.EquipmentIdentifier).Compatible); err != nil {
+		return fmt.Errorf("restarting modem %s: %w", modem.EquipmentIdentifier, err)
+	}
+	_, err = s.manager.WaitForModem(ctx, modem.EquipmentIdentifier)
+	return err
 }
 
 func (s *Service) UpdateSettings(modemID string, req UpdateModemSettingsRequest) error {

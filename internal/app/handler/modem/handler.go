@@ -19,9 +19,15 @@ type Handler struct {
 	service *Service
 }
 
-const switchSimSlotTimeout = time.Minute
+const (
+	switchSimSlotTimeout = time.Minute
+	updateMSISDNTimeout  = time.Minute
+)
 
-var errSwitchSimSlotTimeout = errors.New("switching SIM slot timed out, please refresh to confirm the active slot")
+var (
+	errSwitchSimSlotTimeout = errors.New("switching SIM slot timed out, please refresh to confirm the active slot")
+	errUpdateMSISDNTimeout  = errors.New("updating MSISDN timed out, please refresh to confirm the active slot")
+)
 
 func New(cfg *config.Config, manager *mmodem.Manager) *Handler {
 	return &Handler{
@@ -63,7 +69,7 @@ func (h *Handler) SwitchSimSlot(c echo.Context) error {
 	ctx, cancel := context.WithTimeout(c.Request().Context(), switchSimSlotTimeout)
 	defer cancel()
 
-	if _, err := h.service.SwitchSimSlot(ctx, modem, identifier); err != nil {
+	if err := h.service.SwitchSimSlot(ctx, modem, identifier); err != nil {
 		if errors.Is(err, context.DeadlineExceeded) {
 			return h.Error(c, http.StatusRequestTimeout, errSwitchSimSlotTimeout)
 		}
@@ -87,7 +93,14 @@ func (h *Handler) UpdateMSISDN(c echo.Context) error {
 	if err := h.BindAndValidate(c, &req); err != nil {
 		return err
 	}
-	if err := h.service.UpdateMSISDN(modem, req.Number); err != nil {
+
+	ctx, cancel := context.WithTimeout(c.Request().Context(), updateMSISDNTimeout)
+	defer cancel()
+
+	if err := h.service.UpdateMSISDN(ctx, modem, req.Number); err != nil {
+		if errors.Is(err, context.DeadlineExceeded) {
+			return h.Error(c, http.StatusRequestTimeout, errUpdateMSISDNTimeout)
+		}
 		if errors.Is(err, errMSISDNInvalidNumber) {
 			return h.BadRequest(c, err)
 		}
