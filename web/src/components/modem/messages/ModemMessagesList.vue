@@ -22,10 +22,10 @@ const hasItems = computed(() => props.items.length > 0)
 </script>
 
 <template>
-  <section class="space-y-2">
+  <section class="space-y-3">
     <ModemMessagesSkeletonList v-if="props.isLoading" />
 
-    <div v-else-if="hasItems" class="space-y-2">
+    <div v-else-if="hasItems" class="space-y-3">
       <ModemMessagesItem
         v-for="item in props.items"
         :key="item.key"

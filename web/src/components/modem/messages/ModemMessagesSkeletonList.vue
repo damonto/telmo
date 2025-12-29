@@ -10,7 +10,7 @@ const props = withDefaults(
 </script>
 
 <template>
-  <div class="space-y-2">
+  <div class="space-y-3">
     <div
       v-for="index in props.count"
       :key="`message-skeleton-${index}`"

@@ -294,7 +294,7 @@ const handleSimSwitch = async (identifier: string) => {
   />
 
   <!-- eSIM modem: show original layout -->
-  <div v-if="modem && isEsimModem" class="space-y-4">
+  <div v-if="modem && isEsimModem" class="space-y-3">
     <EsimSummaryCard :modem="modem" :euicc="euicc" />
     <EsimProfileSection
       v-model:profiles="esimProfiles"
@@ -306,7 +306,7 @@ const handleSimSwitch = async (identifier: string) => {
   </div>
 
   <!-- Physical modem: show detail card -->
-  <div v-if="modem && isPhysicalModem" class="space-y-4">
+  <div v-if="modem && isPhysicalModem" class="space-y-3">
     <ModemDetailCard :modem="modem" :euicc="null" />
   </div>
 

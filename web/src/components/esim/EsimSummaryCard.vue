@@ -48,7 +48,7 @@ const eid = computed(() => {
       <span class="text-xs font-medium text-muted-foreground">
         {{ t('modemDetail.fields.storageRemaining') }}
       </span>
-      <span class="text-sm font-semibold dark:text-emerald-400">
+      <span class="text-sm font-semibold">
         {{ storageRemaining }}
       </span>
     </div>

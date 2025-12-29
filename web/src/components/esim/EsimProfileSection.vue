@@ -226,7 +226,7 @@ watch(renameOpen, (value) => {
 </script>
 
 <template>
-  <section class="space-y-2">
+  <section class="space-y-3">
     <div class="flex items-center justify-between">
       <h2 class="text-sm font-semibold text-muted-foreground">
         {{ t('modemDetail.esim.listTitle') }}
@@ -236,7 +236,7 @@ watch(renameOpen, (value) => {
       </Badge>
     </div>
 
-    <div v-if="isLoading" class="space-y-2">
+    <div v-if="isLoading" class="space-y-3">
       <div
         v-for="i in 3"
         :key="`esim-profile-skeleton-${i}`"
@@ -260,7 +260,7 @@ watch(renameOpen, (value) => {
       {{ t('modemDetail.esim.noProfiles') }}
     </div>
 
-    <div v-else class="space-y-2">
+    <div v-else class="space-y-3">
       <div
         v-for="profile in profiles"
         :key="profile.id"
