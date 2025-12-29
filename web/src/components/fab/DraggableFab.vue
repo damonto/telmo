@@ -75,6 +75,7 @@ const handlePointerUp = (event: PointerEvent) => {
 }
 
 const handleClick = () => {
+  if (props.disabled) return
   if (hasDragged.value) {
     hasDragged.value = false
     return
@@ -92,6 +93,7 @@ const handleClick = () => {
     @pointermove="handlePointerMove"
     @pointerup="handlePointerUp"
     @pointercancel="handlePointerUp"
+    @click.self="handleClick"
   >
     <Button
       type="button"
