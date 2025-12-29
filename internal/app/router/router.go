@@ -13,6 +13,7 @@ import (
 	"github.com/damonto/sigmo/internal/app/handler/euicc"
 	"github.com/damonto/sigmo/internal/app/handler/message"
 	hmodem "github.com/damonto/sigmo/internal/app/handler/modem"
+	"github.com/damonto/sigmo/internal/app/handler/notification"
 	"github.com/damonto/sigmo/internal/app/handler/network"
 	"github.com/damonto/sigmo/internal/app/handler/ussd"
 	appmiddleware "github.com/damonto/sigmo/internal/app/middleware"
@@ -40,7 +41,9 @@ func Register(e *echo.Echo, cfg *config.Config, manager *modem.Manager) {
 	v1.POST("/auth/otp", authHandler.SendOTP)
 	v1.POST("/auth/otp/verify", authHandler.VerifyOTP)
 	protected := v1.Group("")
-	protected.Use(appmiddleware.Auth(authStore))
+	if cfg.App.OTPRequired {
+		protected.Use(appmiddleware.Auth(authStore))
+	}
 
 	{
 		h := hmodem.New(cfg, manager)
@@ -83,6 +86,13 @@ func Register(e *echo.Echo, cfg *config.Config, manager *modem.Manager) {
 			protected.POST("/modems/:id/esims/:iccid/enabling", h.Enable)
 			protected.PUT("/modems/:id/esims/:iccid/nickname", h.UpdateNickname)
 			protected.DELETE("/modems/:id/esims/:iccid", h.Delete)
+		}
+
+		{
+			h := notification.New(cfg, manager)
+			protected.GET("/modems/:id/notifications", h.List)
+			protected.POST("/modems/:id/notifications/:sequence/resend", h.Resend)
+			protected.DELETE("/modems/:id/notifications/:sequence", h.Delete)
 		}
 	}
 }

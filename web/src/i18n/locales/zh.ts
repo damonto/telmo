@@ -117,6 +117,7 @@ const zh = {
     actions: {
       rename: '更改名称',
       delete: '删除',
+      resend: '重发',
       cancel: '取消',
       confirm: '确认',
       update: '更新',
@@ -148,6 +149,23 @@ const zh = {
       threadSubtitle: '与 {participant} 的短信记录。',
       threadEmpty: '暂无与 {participant} 的短信。',
       unknownParticipant: '未知号码',
+    },
+    notifications: {
+      title: '通知',
+      subtitle: '查看当前 Modem 的 eSIM 通知。',
+      empty: '暂无待处理的 eSIM 通知。',
+      deleteTitle: '删除 ICCID 为 {iccid} 的通知？',
+      deleteDescription: '该通知将从 eUICC 列表中移除。',
+      resendSuccess: '通知已重发。',
+      unknownIccid: '未知 ICCID',
+      unknownSmdp: '未知 SM-DP+',
+      operationUnknown: '未知',
+      operations: {
+        install: '安装',
+        enable: '启用',
+        disable: '停用',
+        delete: '删除',
+      },
     },
     ussd: {
       title: 'USSD',

@@ -117,6 +117,7 @@ const en = {
     actions: {
       rename: 'Rename',
       delete: 'Delete',
+      resend: 'Resend',
       cancel: 'Cancel',
       confirm: 'Confirm',
       update: 'Update',
@@ -148,6 +149,23 @@ const en = {
       threadSubtitle: 'Chat with {participant}.',
       threadEmpty: 'No messages with {participant}.',
       unknownParticipant: 'Unknown number',
+    },
+    notifications: {
+      title: 'Notifications',
+      subtitle: 'Pending eSIM notifications for this modem.',
+      empty: 'No pending eSIM notifications.',
+      deleteTitle: 'Delete notification for {iccid}?',
+      deleteDescription: 'This will remove the notification from the eUICC list.',
+      resendSuccess: 'Notification resent.',
+      unknownIccid: 'Unknown ICCID',
+      unknownSmdp: 'Unknown SM-DP+',
+      operationUnknown: 'Unknown',
+      operations: {
+        install: 'Install',
+        enable: 'Enable',
+        disable: 'Disable',
+        delete: 'Delete',
+      },
     },
     ussd: {
       title: 'USSD',

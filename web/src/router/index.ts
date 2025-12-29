@@ -41,6 +41,11 @@ const router = createRouter({
           component: () => import('@/views/ModemMessageThreadView.vue'),
         },
         {
+          path: 'notifications',
+          name: 'modem-notifications',
+          component: () => import('@/views/ModemNotificationsView.vue'),
+        },
+        {
           path: 'ussd',
           name: 'modem-ussd',
           component: () => import('@/views/ModemUssdView.vue'),
