@@ -61,14 +61,15 @@ func main() {
 	}))
 	router.Register(server, cfg, manager)
 
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
-
 	relay, err := forwarder.New(cfg, manager)
 	if err != nil {
 		slog.Error("unable to configure message relay", "error", err)
 		os.Exit(1)
 	}
+
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
 	if relay.Enabled() {
 		go func() {
 			if err := relay.Run(ctx); err != nil {
