@@ -213,7 +213,11 @@ export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
       closeWebSocket()
     }
     ws.onclose = () => {
-      if (downloadState.value === 'completed' || downloadState.value === 'error' || downloadState.value === 'idle') {
+      if (
+        downloadState.value === 'completed' ||
+        downloadState.value === 'error' ||
+        downloadState.value === 'idle'
+      ) {
         return
       }
       downloadState.value = 'error'
@@ -257,15 +261,15 @@ export const useEsimDownload = (modemId: Ref<string>, options?: Options) => {
     stopInstallingTimer()
   })
 
-    return {
-      downloadState,
-      downloadStage,
-      progress,
-      errorType,
-      errorMessage,
-      previewProfile,
-      downloadedName,
-      startDownload,
+  return {
+    downloadState,
+    downloadStage,
+    progress,
+    errorType,
+    errorMessage,
+    previewProfile,
+    downloadedName,
+    startDownload,
     confirmPreview,
     submitConfirmationCode,
     cancelDownload,

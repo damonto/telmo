@@ -11,6 +11,24 @@ export interface ApiError {
  */
 let showErrorFunction: ((message: string, title?: string) => void) | null = null
 
+const extractErrorMessage = (data: unknown) => {
+  if (data && typeof data === 'object') {
+    const record = data as Record<string, unknown>
+    if (typeof record.message === 'string') {
+      return record.message
+    }
+  }
+
+  if (typeof data === 'string') {
+    try {
+      const parsed = JSON.parse(data) as Record<string, unknown>
+      if (typeof parsed.message === 'string') return parsed.message
+    } catch { }
+  }
+
+  return null
+}
+
 const resolveErrorInfo = (error: unknown, defaultMessage: string) => {
   let message = defaultMessage
   let title = 'Error'
@@ -57,12 +75,8 @@ export const handleError = (error: unknown, defaultMessage = 'An error occurred'
 export const handleResponseError = (response: Response, data?: unknown) => {
   let message = `Error ${response.status}: ${response.statusText}`
 
-  if (data && typeof data === 'object') {
-    const record = data as Record<string, unknown>
-    if (typeof record.message === 'string') {
-      message = record.message
-    }
-  }
+  const extractedMessage = extractErrorMessage(data)
+  if (extractedMessage) message = extractedMessage
 
   if (response.status === 401) {
     clearStoredToken()
