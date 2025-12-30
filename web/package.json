@@ -36,6 +36,7 @@
     "vue-input-otp": "^0.3.2",
     "vue-qrcode-reader": "^5.7.0",
     "vue-router": "^4.6.3",
+    "vue-sonner": "^2.0.9",
     "zod": "^4.2.1"
   },
   "devDependencies": {

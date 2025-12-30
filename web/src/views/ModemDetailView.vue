@@ -3,9 +3,8 @@ import { Download } from 'lucide-vue-next'
 import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { toast } from 'vue-sonner'
 
-import { useEsimApi } from '@/apis/esim'
-import { useModemApi } from '@/apis/modem'
 import EsimDiscoverDialog from '@/components/esim/EsimDiscoverDialog.vue'
 import EsimDownloadConfirmationModal from '@/components/esim/EsimDownloadConfirmationModal.vue'
 import EsimDownloadPreviewModal from '@/components/esim/EsimDownloadPreviewModal.vue'
@@ -15,14 +14,14 @@ import EsimInstallDialog from '@/components/esim/EsimInstallDialog.vue'
 import EsimProfileSection from '@/components/esim/EsimProfileSection.vue'
 import EsimSummaryCard from '@/components/esim/EsimSummaryCard.vue'
 import DraggableFab from '@/components/fab/DraggableFab.vue'
-import SuccessBanner from '@/components/feedback/SuccessBanner.vue'
 import ModemDetailCard from '@/components/modem/ModemDetailCard.vue'
 import ModemDetailHeader from '@/components/modem/ModemDetailHeader.vue'
 import SimSlotSwitcher from '@/components/modem/SimSlotSwitcher.vue'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { useEsimDiscover } from '@/composables/useEsimDiscover'
 import { useEsimDownload } from '@/composables/useEsimDownload'
 import { useModemDetail } from '@/composables/useModemDetail'
-import type { EsimDiscoverItem } from '@/types/esim'
+import { useSimSlotSwitch } from '@/composables/useSimSlotSwitch'
 
 const route = useRoute()
 const { t } = useI18n()
@@ -39,46 +38,16 @@ const {
   fetchModemDetail,
   fetchEsimProfiles,
 } = useModemDetail()
-const modemApi = useModemApi()
-const esimApi = useEsimApi()
 
 const installDialogRef = ref<{ applyDiscoverAddress: (address: string) => void } | null>(null)
-
-// SIM slot switching logic
-const currentSimIdentifier = ref('')
-
-const simSlots = computed(() => modem.value?.slots ?? [])
-
-// Initialize current SIM identifier when modem data loads
-watch(
-  modem,
-  (newModem) => {
-    if (!newModem) {
-      currentSimIdentifier.value = ''
-      return
-    }
-
-    // Set to the first active slot, or first slot if none is active
-    const activeSlot = newModem.slots.find((slot) => slot.active)
-    currentSimIdentifier.value = activeSlot?.identifier ?? newModem.slots[0]?.identifier ?? ''
-  },
-  { immediate: true },
-)
 
 const installDialogOpen = ref(false)
 const detailDialogOpen = ref(false)
 const confirmationCode = ref('')
-const feedbackOpen = ref(false)
-const feedbackMessage = ref('')
 const resultState = ref<'completed' | 'error' | null>(null)
 const resultErrorMessage = ref('')
 const resultErrorType = ref<'none' | 'failed' | 'disconnected'>('none')
 const resultName = ref('')
-const discoverDialogOpen = ref(false)
-const discoverOptions = ref<EsimDiscoverItem[]>([])
-const selectedDiscoverAddress = ref('')
-const isDiscoverLoading = ref(false)
-const restoreInstallDialog = ref(false)
 
 const {
   downloadState,
@@ -108,8 +77,6 @@ const isConfirmationModalOpen = computed(() => downloadState.value === 'confirma
 const isResultModalOpen = computed(
   () => downloadState.value === 'completed' || downloadState.value === 'error',
 )
-const hasDiscoverOptions = computed(() => discoverOptions.value.length > 0)
-const hasDiscoverSelection = computed(() => selectedDiscoverAddress.value.trim().length > 0)
 
 const stageLabel = computed(() => {
   if (downloadStage.value === 'initializing') return t('modemDetail.esim.downloadStageInitializing')
@@ -156,17 +123,32 @@ const refreshModem = async () => {
 }
 
 const showSuccess = (message: string) => {
-  feedbackMessage.value = message
-  feedbackOpen.value = true
+  toast.success(message)
 }
 
-const getSimLabel = (identifier: string) => {
-  const index = simSlots.value.findIndex((slot) => slot.identifier === identifier)
-  if (index === 0) return t('modemDetail.sim.sim1')
-  if (index === 1) return t('modemDetail.sim.sim2')
-  if (index >= 0) return `SIM ${index + 1}`
-  return ''
-}
+const { currentSimIdentifier, simSlots, handleSimSwitch } = useSimSlotSwitch({
+  modemId,
+  modem,
+  refreshModem,
+  onSuccess: showSuccess,
+})
+
+const {
+  discoverDialogOpen,
+  discoverOptions,
+  selectedDiscoverAddress,
+  isDiscoverLoading,
+  hasDiscoverOptions,
+  hasDiscoverSelection,
+  openDiscoverDialog,
+  confirmDiscoverSelection,
+} = useEsimDiscover({
+  modemId,
+  installDialogOpen,
+  applyDiscoverAddress: (address: string) => {
+    installDialogRef.value?.applyDiscoverAddress(address)
+  },
+})
 
 watch(downloadState, (value) => {
   if (value === 'confirmation') {
@@ -186,16 +168,6 @@ watch(downloadState, (value) => {
   if (value === 'completed') {
     resultState.value = 'completed'
     resultName.value = downloadedName.value
-  }
-})
-
-watch(discoverDialogOpen, (value) => {
-  if (!value) {
-    selectedDiscoverAddress.value = ''
-    if (restoreInstallDialog.value) {
-      installDialogOpen.value = true
-      restoreInstallDialog.value = false
-    }
   }
 })
 
@@ -223,50 +195,6 @@ const handlePreviewCancel = () => {
 
 const handleResultConfirm = () => {
   closeDialog()
-}
-
-const handleDiscover = async () => {
-  if (isDiscoverLoading.value) return
-  if (!modemId.value || modemId.value === 'unknown') return
-  restoreInstallDialog.value = true
-  installDialogOpen.value = false
-  discoverDialogOpen.value = true
-  discoverOptions.value = []
-  selectedDiscoverAddress.value = ''
-  isDiscoverLoading.value = true
-  try {
-    const { data, error } = await esimApi.discoverEsims(modemId.value)
-    if (!discoverDialogOpen.value) return
-    if (error.value) {
-      discoverDialogOpen.value = false
-      return
-    }
-    discoverOptions.value = data.value?.data ?? []
-  } finally {
-    isDiscoverLoading.value = false
-  }
-}
-
-const handleDiscoverConfirm = () => {
-  const address = selectedDiscoverAddress.value.trim()
-  if (!address) return
-  restoreInstallDialog.value = false
-  installDialogRef.value?.applyDiscoverAddress(address)
-  discoverDialogOpen.value = false
-}
-
-const handleSimSwitch = async (identifier: string) => {
-  if (!modemId.value || modemId.value === 'unknown') {
-    throw new Error('Modem ID is unavailable')
-  }
-  await modemApi.switchSimSlot(modemId.value, identifier)
-  await refreshModem()
-  const simLabel = getSimLabel(identifier)
-  if (simLabel) {
-    showSuccess(t('modemDetail.sim.switchSuccess', { sim: simLabel }))
-  } else {
-    showSuccess(t('modemDetail.sim.switchSuccessFallback'))
-  }
 }
 </script>
 
@@ -335,7 +263,7 @@ const handleSimSwitch = async (identifier: string) => {
     v-model:open="installDialogOpen"
     :is-discovering="isDiscoverLoading"
     @confirm="startDownload"
-    @discover="handleDiscover"
+    @discover="openDiscoverDialog"
   />
 
   <EsimDiscoverDialog
@@ -345,7 +273,7 @@ const handleSimSwitch = async (identifier: string) => {
     :is-loading="isDiscoverLoading"
     :has-options="hasDiscoverOptions"
     :has-selection="hasDiscoverSelection"
-    @confirm="handleDiscoverConfirm"
+    @confirm="confirmDiscoverSelection"
   />
 
   <EsimDownloadProgressModal
@@ -388,6 +316,4 @@ const handleSimSwitch = async (identifier: string) => {
     :tone="resultTone"
     @confirm="handleResultConfirm"
   />
-
-  <SuccessBanner v-model:open="feedbackOpen" :message="feedbackMessage" />
 </template>

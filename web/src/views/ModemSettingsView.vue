@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-import SuccessBanner from '@/components/feedback/SuccessBanner.vue'
 import ModemDeviceSettingsSection from '@/components/modem/settings/ModemDeviceSettingsSection.vue'
 import ModemMsisdnSection from '@/components/modem/settings/ModemMsisdnSection.vue'
 import ModemNetworkDialog from '@/components/modem/settings/ModemNetworkDialog.vue'
@@ -18,7 +17,7 @@ const route = useRoute()
 
 const modemId = computed(() => (route.params.id ?? 'unknown') as string)
 
-const { feedbackOpen, feedbackMessage, showFeedback } = useFeedbackBanner()
+const { showFeedback } = useFeedbackBanner()
 
 const {
   modem,
@@ -107,6 +106,4 @@ const {
     :has-selection="hasNetworkSelection"
     @register="handleNetworkRegister"
   />
-
-  <SuccessBanner v-model:open="feedbackOpen" :message="feedbackMessage" />
 </template>

@@ -1,23 +1,13 @@
-import { ref } from 'vue'
+import { toast } from 'vue-sonner'
 
 export const useFeedbackBanner = () => {
-  const feedbackOpen = ref(false)
-  const feedbackMessage = ref('')
-
   const showFeedback = (message: string) => {
-    feedbackMessage.value = message
-    feedbackOpen.value = true
-  }
-
-  const clearFeedback = () => {
-    feedbackOpen.value = false
-    feedbackMessage.value = ''
+    const trimmed = message.trim()
+    if (!trimmed) return
+    toast.success(trimmed)
   }
 
   return {
-    feedbackOpen,
-    feedbackMessage,
     showFeedback,
-    clearFeedback,
   }
 }

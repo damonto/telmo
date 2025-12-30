@@ -2,8 +2,8 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { toast } from 'vue-sonner'
 
-import SuccessBanner from '@/components/feedback/SuccessBanner.vue'
 import ModemNotificationsDeleteDialog from '@/components/modem/notifications/ModemNotificationsDeleteDialog.vue'
 import ModemNotificationsHeader from '@/components/modem/notifications/ModemNotificationsHeader.vue'
 import ModemNotificationsList from '@/components/modem/notifications/ModemNotificationsList.vue'
@@ -21,8 +21,6 @@ const deleteOpen = ref(false)
 const deleteLoading = ref(false)
 const deleteTarget = ref<NotificationItem | null>(null)
 const resendSequence = ref<string | null>(null)
-const feedbackOpen = ref(false)
-const feedbackMessage = ref('')
 
 const deleteTargetLabel = computed(() => deleteTarget.value?.iccid ?? '')
 
@@ -54,8 +52,7 @@ const handleResend = async (item: NotificationItem) => {
   resendSequence.value = item.sequenceNumber
   try {
     await resendNotification(item.sequenceNumber)
-    feedbackMessage.value = t('modemDetail.notifications.resendSuccess')
-    feedbackOpen.value = true
+    toast.success(t('modemDetail.notifications.resendSuccess'))
   } catch (err) {
     console.error('[ModemNotificationsView] Failed to resend notification:', err)
   } finally {
@@ -83,6 +80,4 @@ const handleResend = async (item: NotificationItem) => {
     :is-deleting="deleteLoading"
     @confirm="confirmDelete"
   />
-
-  <SuccessBanner v-model:open="feedbackOpen" :message="feedbackMessage" />
 </template>
