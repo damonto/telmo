@@ -1,7 +1,6 @@
 package notification
 
 import (
-	"errors"
 	"fmt"
 	"log/slog"
 
@@ -14,8 +13,6 @@ import (
 type Service struct {
 	cfg *config.Config
 }
-
-var errNotificationNotFound = errors.New("notification not found")
 
 func NewService(cfg *config.Config) *Service {
 	return &Service{cfg: cfg}
@@ -44,7 +41,6 @@ func (s *Service) List(modem *mmodem.Modem) ([]NotificationResponse, error) {
 			Operation:      operationLabel(notification.ProfileManagementOperation),
 		})
 	}
-
 	return response, nil
 }
 
@@ -58,18 +54,7 @@ func (s *Service) Resend(modem *mmodem.Modem, sequence sgp22.SequenceNumber) err
 			slog.Warn("failed to close LPA client", "error", cerr)
 		}
 	}()
-	pending, err := client.RetrieveNotificationList(sequence)
-	if err != nil {
-		return fmt.Errorf("retrieving notification %v for modem %s: %w", sequence, modem.EquipmentIdentifier, err)
-	}
-	if len(pending) == 0 || pending[0] == nil {
-		return errNotificationNotFound
-	}
-
-	if err := client.HandleNotification(pending[0]); err != nil {
-		return fmt.Errorf("resending notification %v for modem %s: %w", sequence, modem.EquipmentIdentifier, err)
-	}
-	return nil
+	return client.SendNotification(sequence, false)
 }
 
 func (s *Service) Delete(modem *mmodem.Modem, sequence sgp22.SequenceNumber) error {
@@ -82,14 +67,6 @@ func (s *Service) Delete(modem *mmodem.Modem, sequence sgp22.SequenceNumber) err
 			slog.Warn("failed to close LPA client", "error", cerr)
 		}
 	}()
-
-	pending, err := client.RetrieveNotificationList(sequence)
-	if err != nil {
-		return fmt.Errorf("retrieving notification %v for modem %s: %w", sequence, modem.EquipmentIdentifier, err)
-	}
-	if len(pending) == 0 || pending[0] == nil {
-		return errNotificationNotFound
-	}
 	if err := client.RemoveNotificationFromList(sequence); err != nil {
 		return fmt.Errorf("removing notification %v for modem %s: %w", sequence, modem.EquipmentIdentifier, err)
 	}

@@ -54,9 +54,6 @@ func (h *Handler) Resend(c echo.Context) error {
 		return h.BadRequest(c, err)
 	}
 	if err := h.service.Resend(modem, sequence); err != nil {
-		if errors.Is(err, errNotificationNotFound) {
-			return h.NotFound(c, err)
-		}
 		if errors.Is(err, lpa.ErrNoSupportedAID) {
 			return h.NotFound(c, err)
 		}
@@ -75,9 +72,6 @@ func (h *Handler) Delete(c echo.Context) error {
 		return h.BadRequest(c, err)
 	}
 	if err := h.service.Delete(modem, sequence); err != nil {
-		if errors.Is(err, errNotificationNotFound) {
-			return h.NotFound(c, err)
-		}
 		if errors.Is(err, lpa.ErrNoSupportedAID) {
 			return h.NotFound(c, err)
 		}

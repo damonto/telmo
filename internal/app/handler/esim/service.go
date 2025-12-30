@@ -225,32 +225,18 @@ func (s *Service) sendPendingNotifications(modem *mmodem.Modem, lastSeq sgp22.Se
 			slog.Warn("failed to close LPA client", "error", cerr)
 		}
 	}()
-
 	notifications, err := client.ListNotification()
 	if err != nil {
 		return fmt.Errorf("listing notifications for modem %s: %w", modem.EquipmentIdentifier, err)
 	}
-
 	var errs error
 	for _, notification := range notifications {
 		if notification.SequenceNumber <= lastSeq {
 			continue
 		}
-		pending, err := client.RetrieveNotificationList(notification.SequenceNumber)
-		if err != nil {
-			errs = errors.Join(errs, fmt.Errorf("retrieve notification %d: %w", notification.SequenceNumber, err))
-			continue
-		}
-		if len(pending) == 0 {
-			continue
-		}
-		if err := client.HandleNotification(pending[0]); err != nil {
-			errs = errors.Join(errs, fmt.Errorf("handle notification %d: %w", notification.SequenceNumber, err))
-			continue
-		}
-		if err := client.RemoveNotificationFromList(notification.SequenceNumber); err != nil {
-			errs = errors.Join(errs, fmt.Errorf("remove notification %d: %w", notification.SequenceNumber, err))
-			continue
+		if err := client.SendNotification(notification.SequenceNumber, true); err != nil {
+			slog.Error("failed to send notification", "sequence", notification.SequenceNumber, "error", err)
+			errs = errors.Join(errs, fmt.Errorf("send notification %d: %w", notification.SequenceNumber, err))
 		}
 	}
 	return errs
