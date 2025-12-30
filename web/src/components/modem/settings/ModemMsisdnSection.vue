@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Spinner } from '@/components/ui/spinner'
 
 const msisdn = defineModel<string>({ required: true })
 
@@ -43,13 +44,10 @@ const isActionDisabled = computed(() => !props.isValid || props.isUpdating)
         size="icon"
         type="button"
         :disabled="isActionDisabled"
-        :aria-label="t('modemDetail.actions.update')"
-        @click="emit('update')"
-      >
-        <span
-          v-if="props.isUpdating"
-          class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-        />
+      :aria-label="t('modemDetail.actions.update')"
+      @click="emit('update')"
+    >
+        <Spinner v-if="props.isUpdating" class="size-4" />
         <Save v-else class="size-4" />
       </Button>
     </div>

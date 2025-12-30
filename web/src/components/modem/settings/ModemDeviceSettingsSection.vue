@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Spinner } from '@/components/ui/spinner'
 import { Switch } from '@/components/ui/switch'
 
 const alias = defineModel<string>('alias', { required: true })
@@ -88,9 +89,7 @@ const isActionDisabled = computed(() => !props.isValid || props.isUpdating)
         @click="emit('update')"
       >
         <span v-if="props.isUpdating" class="inline-flex items-center gap-2">
-          <span
-            class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-          />
+          <Spinner class="size-4" />
           {{ t('modemDetail.actions.update') }}
         </span>
         <span v-else>{{ t('modemDetail.actions.update') }}</span>

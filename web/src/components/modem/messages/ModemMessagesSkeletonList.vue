@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Skeleton } from '@/components/ui/skeleton'
 const props = withDefaults(
   defineProps<{
     count?: number
@@ -17,10 +18,10 @@ const props = withDefaults(
       class="flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3"
     >
       <div class="flex min-w-0 flex-1 flex-col gap-1.5">
-        <div class="h-4 w-40 animate-pulse rounded bg-muted/60" />
-        <div class="h-3 w-full animate-pulse rounded bg-muted/40" />
+        <Skeleton class="h-4 w-40 rounded bg-muted/60" />
+        <Skeleton class="h-3 w-full rounded bg-muted/40" />
       </div>
-      <div class="h-5 w-16 animate-pulse rounded-full bg-muted/50" />
+      <Skeleton class="h-5 w-16 rounded-full bg-muted/50" />
     </div>
   </div>
 </template>

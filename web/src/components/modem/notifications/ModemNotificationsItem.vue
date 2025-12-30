@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
 import type { NotificationItem } from '@/composables/useModemNotifications'
 
 const props = defineProps<{
@@ -60,10 +61,7 @@ const operationLabel = computed(() => props.item.operationLabel.toUpperCase())
             :aria-label="t('modemDetail.actions.resend')"
             @click="emit('resend', props.item)"
           >
-            <span
-              v-if="props.isResending"
-              class="size-4 animate-spin rounded-full border-2 border-foreground/40 border-t-foreground"
-            />
+            <Spinner v-if="props.isResending" class="size-4 text-muted-foreground" />
             <RefreshCw v-else class="size-4 text-muted-foreground" />
           </Button>
           <Button

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Skeleton } from '@/components/ui/skeleton'
 const props = withDefaults(
   defineProps<{
     count?: number
@@ -12,7 +13,7 @@ const props = withDefaults(
 <template>
   <div class="space-y-3">
     <div v-for="index in props.count" :key="`thread-skeleton-${index}`" class="flex">
-      <div class="h-8 w-2/3 animate-pulse rounded-2xl bg-muted/60" />
+      <Skeleton class="h-8 w-2/3 rounded-2xl bg-muted/60" />
     </div>
   </div>
 </template>

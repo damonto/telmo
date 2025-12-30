@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Spinner } from '@/components/ui/spinner'
 import { Textarea } from '@/components/ui/textarea'
 
 const message = defineModel<string>('message', { required: true })
@@ -53,9 +54,7 @@ const isSendDisabled = computed(() => props.isSending || props.isLoading || !has
       />
       <Button class="h-10" type="submit" :disabled="isSendDisabled">
         <span v-if="props.isSending" class="inline-flex items-center gap-2">
-          <span
-            class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-          />
+          <Spinner class="size-4" />
           {{ t('modemDetail.messages.send') }}
         </span>
         <span v-else>{{ t('modemDetail.messages.send') }}</span>

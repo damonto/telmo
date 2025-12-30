@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
 
 const props = defineProps<{
   operatorLabel: string
@@ -28,9 +29,7 @@ const isScanDisabled = computed(() => props.isScanning)
       </h2>
       <Button size="sm" type="button" :disabled="isScanDisabled" @click="emit('scan')">
         <span v-if="props.isScanning" class="inline-flex items-center gap-2">
-          <span
-            class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-          />
+          <Spinner class="size-4" />
           {{ t('modemDetail.settings.networkSearch') }}
         </span>
         <span v-else>{{ t('modemDetail.settings.networkSearch') }}</span>

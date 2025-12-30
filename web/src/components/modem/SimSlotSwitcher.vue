@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Spinner } from '@/components/ui/spinner'
 import { useModemDisplay } from '@/composables/useModemDisplay'
 import type { SlotInfo } from '@/types/modem'
 
@@ -148,9 +149,7 @@ const confirmTitle = computed(() => {
           </AlertDialogCancel>
           <Button type="button" @click="confirmSwitch" :disabled="isSwitching">
             <span v-if="isSwitching" class="inline-flex items-center gap-2">
-              <span
-                class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-              />
+              <Spinner class="size-4" />
               {{ t('modemDetail.actions.confirm') }}
             </span>
             <span v-else>{{ t('modemDetail.actions.confirm') }}</span>

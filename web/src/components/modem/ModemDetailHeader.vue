@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import type { Modem } from '@/types/modem'
 
@@ -71,7 +72,7 @@ const handleTitleClick = () => {
         >
           {{ props.modem?.name ?? t('modemDetail.unknown') }}
         </h1>
-        <div v-else class="h-9 w-48 animate-pulse rounded bg-muted" />
+        <Skeleton v-else class="h-9 w-48 rounded bg-muted" />
       </div>
       <p class="text-sm text-muted-foreground">
         {{ t('modemDetail.subtitle') }}

@@ -12,6 +12,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
 
 const open = defineModel<boolean>('open', { required: true })
 
@@ -51,7 +52,7 @@ const title = computed(() =>
           :disabled="props.isDeleting"
         >
           <span v-if="props.isDeleting" class="inline-flex items-center gap-2">
-            <span class="size-4 animate-spin rounded-full border-2 border-white/60 border-t-white" />
+            <Spinner class="size-4" />
             {{ t('modemDetail.actions.delete') }}
           </span>
           <span v-else>{{ t('modemDetail.actions.delete') }}</span>

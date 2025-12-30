@@ -38,6 +38,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Spinner } from '@/components/ui/spinner'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
 import { useEsimApi } from '@/apis/esim'
 import { useModemDisplay } from '@/composables/useModemDisplay'
@@ -243,13 +245,13 @@ watch(renameOpen, (value) => {
         class="flex items-center justify-between rounded-lg bg-card px-4 py-3 shadow-sm"
       >
         <div class="flex min-w-0 items-center gap-3">
-          <div class="h-11 w-11 shrink-0 animate-pulse rounded-md bg-muted/80" />
+          <Skeleton class="h-11 w-11 shrink-0 rounded-md bg-muted/80" />
           <div class="flex min-w-0 flex-col gap-1.5">
-            <div class="h-4 w-28 animate-pulse rounded bg-muted/60" />
-            <div class="h-3.5 w-40 animate-pulse rounded bg-muted/40" />
+            <Skeleton class="h-4 w-28 rounded bg-muted/60" />
+            <Skeleton class="h-3.5 w-40 rounded bg-muted/40" />
           </div>
         </div>
-        <div class="h-6 w-11 animate-pulse rounded-full bg-muted/60" />
+        <Skeleton class="h-6 w-11 rounded-full bg-muted/60" />
       </div>
     </div>
 
@@ -336,9 +338,7 @@ watch(renameOpen, (value) => {
         </AlertDialogCancel>
         <Button type="button" @click="confirmToggle" :disabled="toggleLoading">
           <span v-if="toggleLoading" class="inline-flex items-center gap-2">
-            <span
-              class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-            />
+            <Spinner class="size-4" />
             {{ t('modemDetail.actions.confirm') }}
           </span>
           <span v-else>{{ t('modemDetail.actions.confirm') }}</span>
@@ -370,9 +370,7 @@ watch(renameOpen, (value) => {
         <DialogFooter class="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <Button type="submit" class="order-1 w-full sm:order-2" :disabled="renameSubmitting">
             <span v-if="renameSubmitting" class="inline-flex items-center gap-2">
-              <span
-                class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-              />
+              <Spinner class="size-4" />
               {{ t('modemDetail.actions.update') }}
             </span>
             <span v-else>{{ t('modemDetail.actions.update') }}</span>
@@ -407,9 +405,7 @@ watch(renameOpen, (value) => {
           :disabled="deleteLoading"
         >
           <span v-if="deleteLoading" class="inline-flex items-center gap-2">
-            <span
-              class="size-4 animate-spin rounded-full border-2 border-white/60 border-t-white"
-            />
+            <Spinner class="size-4" />
             {{ t('modemDetail.actions.confirm') }}
           </span>
           <span v-else>{{ t('modemDetail.actions.confirm') }}</span>

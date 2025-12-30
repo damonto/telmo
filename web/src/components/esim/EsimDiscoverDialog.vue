@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Spinner } from '@/components/ui/spinner'
 import type { EsimDiscoverItem } from '@/types/esim'
 
 const open = defineModel<boolean>('open', { required: true })
@@ -42,10 +43,7 @@ const { t } = useI18n()
 
       <div class="max-h-[60vh] overflow-y-auto pr-1">
         <div v-if="props.isLoading" class="flex items-center justify-center py-10">
-          <span
-            class="size-6 animate-spin rounded-full border-2 border-muted-foreground/40 border-t-muted-foreground"
-            aria-hidden="true"
-          />
+          <Spinner class="size-6 text-muted-foreground" />
           <span class="sr-only">{{ t('modemDetail.actions.loading') }}</span>
         </div>
 

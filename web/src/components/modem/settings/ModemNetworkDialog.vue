@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { RadioGroup } from '@/components/ui/radio-group'
+import { Spinner } from '@/components/ui/spinner'
 import type { NetworkResponse } from '@/types/network'
 
 const open = defineModel<boolean>('open', { required: true })
@@ -44,10 +45,7 @@ const { t } = useI18n()
 
       <div class="max-h-[60vh] overflow-y-auto pr-1">
         <div v-if="props.isLoading" class="flex items-center justify-center py-10">
-          <span
-            class="size-6 animate-spin rounded-full border-2 border-muted-foreground/40 border-t-muted-foreground"
-            aria-hidden="true"
-          />
+          <Spinner class="size-6 text-muted-foreground" />
           <span class="sr-only">{{ t('modemDetail.actions.loading') }}</span>
         </div>
 
@@ -82,9 +80,7 @@ const { t } = useI18n()
           @click="emit('register')"
         >
           <span v-if="props.isRegistering" class="inline-flex items-center gap-2">
-            <span
-              class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-            />
+            <Spinner class="size-4" />
             {{ t('modemDetail.settings.networkRegister') }}
           </span>
           <span v-else>{{ t('modemDetail.settings.networkRegister') }}</span>

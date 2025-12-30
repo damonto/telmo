@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
 import { Textarea } from '@/components/ui/textarea'
 
 const draft = defineModel<string>({ required: true })
@@ -36,9 +37,7 @@ const isSendDisabled = computed(() => props.isSending || !hasDraft.value)
       />
       <Button class="h-10" type="submit" :disabled="isSendDisabled">
         <span v-if="props.isSending" class="inline-flex items-center gap-2">
-          <span
-            class="size-4 animate-spin rounded-full border-2 border-background/60 border-t-background"
-          />
+          <Spinner class="size-4" />
           {{ t('modemDetail.ussd.send') }}
         </span>
         <span v-else>{{ t('modemDetail.ussd.send') }}</span>

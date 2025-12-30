@@ -36,7 +36,37 @@ If you require more than 1MB of storage to install multiple eSIM profiles, we re
 - Go 1.25+ to build the backend.
 - Bun to build the web UI.
 
-## Quick Start
+## Install (Release)
+
+Release binaries already include the embedded web UI, so you only need a config file.
+
+1. Download the matching binary from the GitHub Releases page:
+   - https://github.com/damonto/sigmo/releases/latest
+2. Binaries are named by target (examples):
+   - `sigmo-linux-amd64`, `sigmo-linux-arm64`, `sigmo-linux-armhf`
+   - `sigmo-linux-i386`, `sigmo-linux-ppc64le`, `sigmo-linux-s390x`, `sigmo-linux-riscv64`
+3. Example install on Linux (amd64):
+   ```sh
+   curl -LO https://github.com/damonto/sigmo/releases/latest/download/sigmo-linux-amd64
+   chmod +x sigmo-linux-amd64
+   sudo install -m 0755 sigmo-linux-amd64 /usr/local/bin/sigmo
+   ```
+4. Create a config file (see Configuration below):
+   ```sh
+   sudo mkdir -p /etc/sigmo
+   sudo cp configs/config.example.toml /etc/sigmo/config.toml
+   ```
+   If you didn't clone the repo, download the example config:
+   ```sh
+   curl -L https://raw.githubusercontent.com/damonto/sigmo/main/configs/config.example.toml | sudo tee /etc/sigmo/config.toml >/dev/null
+   ```
+5. Run:
+   ```sh
+   /usr/local/bin/sigmo -config /etc/sigmo/config.toml
+   ```
+6. Open `http://localhost:9527`.
+
+## Build From Source
 
 1. Copy the example config and update credentials:
    `cp configs/config.example.toml config.toml`
@@ -54,6 +84,16 @@ Sigmo reads a TOML config file (default `config.toml`, override with `-config`).
 The file is also written back when you update modem settings in the UI, so it must
 be writable by the Sigmo process.
 
+### Config Files
+
+- `configs/config.example.toml`: starting point for a fresh install.
+- `config.toml`: runtime config used by `-config`/`--config`. This file is updated
+  when you change modem settings in the UI.
+- `init/systemd/sigmo.service`: systemd unit example.
+- `init/supervisor/supervisord.conf`: supervisor example.
+
+### Config Reference
+
 ```toml
 [app]
   environment = "production"
@@ -69,16 +109,27 @@ be writable by the Sigmo process.
   [channels.http]
     endpoint = "https://httpbin.org/post"
     headers = { "Content-Type" = "application/json", "Authorization" = "Bearer 1234567890" }
+
+[modems]
+  [modems."YOUR_MODEM_EQUIPMENT_ID"]
+    alias = "Office Modem"
+    compatible = false
+    mss = 240
 ```
 
 Notes:
 
-- `app.auth_providers` selects which channels are allowed for OTP login.
+- `app.environment` is used to decide log verbosity (`production` keeps logs quieter).
+- `app.listen_address` is the bind address for the HTTP server.
+- `app.auth_providers` selects which channels are allowed for OTP login (`telegram`, `http`).
 - `channels.*` are also used for SMS forwarding. If no channels are configured, OTP
   login and SMS forwarding are disabled.
-- `modems` is keyed by ModemManager EquipmentIdentifier.
-- `compatible` enables legacy modem restarts after profile changes.
-- `mss` controls the APDU payload size per transfer (64-254).
+- `modems` is keyed by ModemManager EquipmentIdentifier (the modem ID shown by the UI).
+- `modems.*.alias` is the display name shown in the UI.
+- `modems.*.compatible` enables legacy modem restarts after profile changes.
+- `modems.*.mss` controls APDU payload size per transfer (64-254, default 240).
+- `modems` entries are optional; they are created/updated automatically when you save
+  modem settings in the UI.
 
 ## Development
 
@@ -91,6 +142,28 @@ Notes:
 
 Sample service definitions are in `init/systemd/sigmo.service` and
 `init/supervisor/supervisord.conf`.
+
+### systemd (Example)
+
+1. Install the binary and config:
+   ```sh
+   sudo install -m 0755 sigmo /usr/local/bin/sigmo
+   sudo mkdir -p /etc/sigmo
+   sudo cp configs/config.example.toml /etc/sigmo/config.toml
+   ```
+2. Install the unit file:
+   ```sh
+   sudo install -m 0644 init/systemd/sigmo.service /etc/systemd/system/sigmo.service
+   ```
+3. Reload and start:
+   ```sh
+   sudo systemctl daemon-reload
+   sudo systemctl enable --now sigmo
+   ```
+
+Note: the default unit runs as `root` and expects `/usr/local/bin/sigmo` and
+`/etc/sigmo/config.toml`. Adjust `User=` and paths if you run as a dedicated user.
+Make sure the config file is writable by that user.
 
 ## License
 
