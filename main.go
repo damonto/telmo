@@ -51,7 +51,9 @@ func main() {
 	server := echo.New()
 	server.HideBanner = true
 	server.Validator = validator.New()
-	server.Use(middleware.RequestLogger())
+	if !cfg.IsProduction() {
+		server.Use(middleware.RequestLogger())
+	}
 	server.Use(middleware.RequestID())
 	server.Use(middleware.Recover())
 	server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
