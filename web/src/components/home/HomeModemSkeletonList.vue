@@ -18,7 +18,7 @@ const props = withDefaults(
       :key="`skeleton-${index}`"
       class="h-full border-0 shadow-sm transition duration-300 group-hover:-translate-y-0.5 py-4"
     >
-      <CardContent class="flex items-center gap-3 px-3 py-2.5">
+      <CardContent class="flex items-center gap-3 px-4">
         <div class="h-12 w-12 shrink-0 animate-pulse rounded-2xl bg-muted/80" />
         <div class="flex flex-1 flex-col gap-1.5">
           <div class="h-4 w-36 animate-pulse rounded bg-muted/60" />
