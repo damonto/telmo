@@ -355,11 +355,11 @@ watch(renameOpen, (value) => {
       <form class="space-y-4" @submit="confirmRename">
         <FormField v-slot="{ componentField }" name="name">
           <FormItem>
-            <FormLabel>{{ t('modemDetail.actions.rename') }}</FormLabel>
+            <FormLabel>{{ t('modemDetail.esim.nickname') }}</FormLabel>
             <FormControl>
               <Input
                 type="text"
-                :placeholder="t('modemDetail.actions.rename')"
+                :placeholder="t('modemDetail.esim.nickname')"
                 v-bind="componentField"
               />
             </FormControl>

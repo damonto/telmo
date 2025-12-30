@@ -87,6 +87,7 @@ const zh = {
       smdp: 'SM-DP+',
       activationCode: '激活码',
       confirmationCode: '确认码',
+      nickname: '昵称',
       validation: {
         smdpRequired: 'SM-DP+ 必须填写。',
         smdpInvalid: '请输入合法的 SM-DP+ 域名。',

@@ -87,6 +87,7 @@ const en = {
       smdp: 'SM-DP+',
       activationCode: 'Activation Code',
       confirmationCode: 'Confirmation Code',
+      nickname: 'Nickname',
       validation: {
         smdpRequired: 'SM-DP+ is required.',
         smdpInvalid: 'Enter a valid SM-DP+ domain.',
