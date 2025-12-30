@@ -162,7 +162,7 @@ func (s *Service) Delete(modem *mmodem.Modem, iccid sgp22.ICCID) error {
 		}
 	}()
 
-	if _, err := client.Delete(iccid); err != nil {
+	if err := client.Delete(iccid); err != nil {
 		return fmt.Errorf("deleting profile %s on modem %s: %w", iccid.String(), modem.EquipmentIdentifier, err)
 	}
 	return nil

@@ -147,10 +147,10 @@ func (l *LPA) Info() (*Info, error) {
 	return &info, nil
 }
 
-func (l *LPA) Delete(id sgp22.ICCID) ([]sgp22.SequenceNumber, error) {
+func (l *LPA) Delete(id sgp22.ICCID) error {
 	currentNotifications, err := l.ListNotification()
 	if err != nil {
-		return nil, err
+		return err
 	}
 	var lastSeq sgp22.SequenceNumber
 	for _, n := range currentNotifications {
@@ -158,31 +158,29 @@ func (l *LPA) Delete(id sgp22.ICCID) ([]sgp22.SequenceNumber, error) {
 	}
 
 	if err := l.DeleteProfile(id); err != nil {
-		return nil, err
+		return err
 	}
 
 	deletionNotifications, err := l.ListNotification(sgp22.NotificationEventDelete)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	var seqs []sgp22.SequenceNumber
 	var errs error
 	for _, n := range deletionNotifications {
 		if n.SequenceNumber > lastSeq && bytes.Equal(n.ICCID, id) {
 			slog.Info("sending deletion notification", "sequence", n.SequenceNumber)
-			found, err := l.RetrieveNotificationList(n.SequenceNumber)
+			pending, err := l.RetrieveNotificationList(n.SequenceNumber)
 			if err != nil {
 				errs = errors.Join(errs, fmt.Errorf("retrieve notification: %d %w", n.SequenceNumber, err))
 			}
-			if len(found) > 0 {
-				if err := l.HandleNotification(found[0]); err != nil {
+			if len(pending) > 0 {
+				if err := l.HandleNotification(pending[0]); err != nil {
 					errs = errors.Join(errs, fmt.Errorf("handle notification: %d %w", n.SequenceNumber, err))
 				}
 			}
-			seqs = append(seqs, n.SequenceNumber)
 		}
 	}
-	return seqs, errs
+	return errs
 }
 
 func (l *LPA) SendNotification(searchCriteria any) error {
@@ -207,13 +205,16 @@ func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, 
 	}
 	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {
 		slog.Info("sending download notification", "sequence", result.Notification.SequenceNumber)
-		filtered, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)
+		pending, err := l.RetrieveNotificationList(result.Notification.SequenceNumber)
 		if err != nil {
 			return err
 		}
-		if len(filtered) > 0 {
-			if err := l.HandleNotification(filtered[0]); err != nil {
+		if len(pending) > 0 {
+			if err := l.HandleNotification(pending[0]); err != nil {
 				return err
+			}
+			if err := l.RemoveNotificationFromList(result.Notification.SequenceNumber); err != nil {
+				slog.Error("failed to remove notification", "sequence", result.Notification.SequenceNumber, "error", err)
 			}
 		}
 	}
