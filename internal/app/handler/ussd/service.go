@@ -3,7 +3,7 @@ package ussd
 import (
 	"context"
 	"errors"
-	"fmt"
+	"log/slog"
 
 	mmodem "github.com/damonto/sigmo/internal/pkg/modem"
 )
@@ -40,17 +40,20 @@ func (s *Service) Execute(ctx context.Context, modem *mmodem.Modem, action strin
 func (s *Service) executeInitialize(ctx context.Context, modem *mmodem.Modem, ussd *mmodem.USSD, code string) (*ExecuteResponse, error) {
 	state, err := ussd.State()
 	if err != nil {
-		return nil, fmt.Errorf("reading ussd state for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to read ussd state", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	if state != mmodem.Modem3gppUssdSessionStateIdle {
 		if err := ussd.Cancel(); err != nil {
-			return nil, fmt.Errorf("canceling ussd session for modem %s: %w", modem.EquipmentIdentifier, err)
+			slog.Error("failed to cancel ussd session", "modem", modem.EquipmentIdentifier, "error", err)
+			return nil, err
 		}
 	}
 	reply, err := executeWithTimeout(ctx, func() (string, error) {
 		return ussd.Initiate(code)
 	})
 	if err != nil {
+		slog.Error("failed to initiate ussd", "modem", modem.EquipmentIdentifier, "code", code, "error", err)
 		return nil, err
 	}
 	return &ExecuteResponse{Reply: reply}, nil
@@ -59,7 +62,8 @@ func (s *Service) executeInitialize(ctx context.Context, modem *mmodem.Modem, us
 func (s *Service) executeReply(ctx context.Context, modem *mmodem.Modem, ussd *mmodem.USSD, code string) (*ExecuteResponse, error) {
 	state, err := ussd.State()
 	if err != nil {
-		return nil, fmt.Errorf("reading ussd state for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to read ussd state", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	if state == mmodem.Modem3gppUssdSessionStateUnknown {
 		return nil, errUnknownSessionStatus
@@ -71,6 +75,7 @@ func (s *Service) executeReply(ctx context.Context, modem *mmodem.Modem, ussd *m
 		return ussd.Respond(code)
 	})
 	if err != nil {
+		slog.Error("failed to respond to ussd", "modem", modem.EquipmentIdentifier, "code", code, "error", err)
 		return nil, err
 	}
 	return &ExecuteResponse{Reply: reply}, nil

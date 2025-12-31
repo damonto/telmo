@@ -62,8 +62,8 @@ export const useFetch = createFetch({
         console.error('[API] Network error:', error)
       }
 
-      // Don't throw - let callers handle error via error.value
-      return { response, error, data: null }
+      // Throw error to make it catchable by try-catch
+      throw error || new Error('Request failed')
     },
   },
   fetchOptions: {

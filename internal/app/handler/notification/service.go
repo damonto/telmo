@@ -3,6 +3,7 @@ package notification
 import (
 	"fmt"
 	"log/slog"
+	"strconv"
 
 	sgp22 "github.com/damonto/euicc-go/v2"
 	"github.com/damonto/sigmo/internal/pkg/config"
@@ -21,7 +22,8 @@ func NewService(cfg *config.Config) *Service {
 func (s *Service) List(modem *mmodem.Modem) ([]NotificationResponse, error) {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return nil, fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -30,12 +32,13 @@ func (s *Service) List(modem *mmodem.Modem) ([]NotificationResponse, error) {
 	}()
 	notifications, err := client.ListNotification()
 	if err != nil {
-		return nil, fmt.Errorf("listing notifications for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to list notifications", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	response := make([]NotificationResponse, 0, len(notifications))
 	for _, notification := range notifications {
 		response = append(response, NotificationResponse{
-			SequenceNumber: fmt.Sprint(notification.SequenceNumber),
+			SequenceNumber: strconv.FormatUint(uint64(notification.SequenceNumber), 10),
 			ICCID:          notification.ICCID.String(),
 			SMDP:           notification.Address,
 			Operation:      operationLabel(notification.ProfileManagementOperation),
@@ -47,20 +50,26 @@ func (s *Service) List(modem *mmodem.Modem) ([]NotificationResponse, error) {
 func (s *Service) Resend(modem *mmodem.Modem, sequence sgp22.SequenceNumber) error {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
 			slog.Warn("failed to close LPA client", "error", cerr)
 		}
 	}()
-	return client.SendNotification(sequence, false)
+	if err := client.SendNotification(sequence, false); err != nil {
+		slog.Error("failed to resend notification", "modem", modem.EquipmentIdentifier, "sequence", sequence, "error", err)
+		return err
+	}
+	return nil
 }
 
 func (s *Service) Delete(modem *mmodem.Modem, sequence sgp22.SequenceNumber) error {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -68,7 +77,8 @@ func (s *Service) Delete(modem *mmodem.Modem, sequence sgp22.SequenceNumber) err
 		}
 	}()
 	if err := client.RemoveNotificationFromList(sequence); err != nil {
-		return fmt.Errorf("removing notification %v for modem %s: %w", sequence, modem.EquipmentIdentifier, err)
+		slog.Error("failed to remove notification", "modem", modem.EquipmentIdentifier, "sequence", sequence, "error", err)
+		return err
 	}
 	return nil
 }

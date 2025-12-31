@@ -2,7 +2,7 @@
 import { toTypedSchema } from '@vee-validate/zod'
 import { RefreshCw, ScanQrCode } from 'lucide-vue-next'
 import { useForm } from 'vee-validate'
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import * as z from 'zod'
 
@@ -92,22 +92,28 @@ const { handleSubmit, resetForm, isSubmitting } = useForm<InstallFormValues>({
     activationCode: '',
     confirmationCode: '',
   },
+  validateOnMount: false,
 })
 
 const resetValues = () => {
+  confirmationRequired.value = false
   resetForm({
     values: {
       smdp: '',
       activationCode: '',
       confirmationCode: '',
     },
+    errors: {},
+    touched: {},
   })
-  confirmationRequired.value = false
 }
 
 const closeDialog = () => {
   open.value = false
-  resetValues()
+  // Reset form after dialog is closed to avoid visual flicker
+  void nextTick(() => {
+    resetValues()
+  })
 }
 
 const scanOpen = ref(false)
@@ -197,7 +203,11 @@ const onSubmit = handleSubmit((values) => {
     activationCode: values.activationCode,
     confirmationCode: values.confirmationCode ?? '',
   })
-  closeDialog()
+  open.value = false
+  // Reset form after dialog is closed
+  void nextTick(() => {
+    resetValues()
+  })
 })
 
 const applyDiscoverAddress = (address: string) => {
@@ -217,9 +227,13 @@ const applyDiscoverAddress = (address: string) => {
 defineExpose({ applyDiscoverAddress })
 
 watch(open, (value) => {
-  if (!value) {
+  if (value) {
+    // Reset form in next tick when dialog opens to avoid validation flicker
+    void nextTick(() => {
+      resetValues()
+    })
+  } else {
     scanOpen.value = false
-    resetValues()
   }
 })
 

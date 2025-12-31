@@ -9,9 +9,9 @@ export const useNetworkApi = () => {
 
   const registerNetwork = (id: string, operatorCode: string) => {
     const encoded = encodeURIComponent(operatorCode)
-    return useFetch<string>(`modems/${id}/networks/${encoded}`, {
+    return useFetch<void>(`modems/${id}/networks/${encoded}`, {
       method: 'PUT',
-    })
+    }).json()
   }
 
   return {

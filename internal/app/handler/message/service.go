@@ -2,7 +2,7 @@ package message
 
 import (
 	"errors"
-	"fmt"
+	"log/slog"
 	"slices"
 	"strconv"
 	"strings"
@@ -25,7 +25,8 @@ func NewService() *Service {
 func (s *Service) ListConversations(modem *mmodem.Modem) ([]MessageResponse, error) {
 	messages, err := modem.Messaging().List()
 	if err != nil {
-		return nil, fmt.Errorf("listing messages for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to list messages", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	latest := make(map[string]*mmodem.SMS, len(messages))
@@ -60,7 +61,8 @@ func (s *Service) ListByParticipant(modem *mmodem.Modem, participant string) ([]
 	}
 	messages, err := modem.Messaging().List()
 	if err != nil {
-		return nil, fmt.Errorf("listing messages for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to list messages", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	response := make([]MessageResponse, 0, len(messages))
@@ -91,7 +93,8 @@ func (s *Service) Send(modem *mmodem.Modem, to string, text string) error {
 	}
 	_, err := modem.Messaging().Send(to, text)
 	if err != nil {
-		return fmt.Errorf("sending SMS to %s on modem %s: %w", to, modem.EquipmentIdentifier, err)
+		slog.Error("failed to send SMS", "modem", modem.EquipmentIdentifier, "to", to, "error", err)
+		return err
 	}
 	return nil
 }
@@ -102,7 +105,8 @@ func (s *Service) DeleteByParticipant(modem *mmodem.Modem, participant string) e
 	}
 	messages, err := modem.Messaging().List()
 	if err != nil {
-		return fmt.Errorf("listing messages for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to list messages", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	messaging := modem.Messaging()
 	for _, sms := range messages {
@@ -110,7 +114,8 @@ func (s *Service) DeleteByParticipant(modem *mmodem.Modem, participant string) e
 			continue
 		}
 		if err := messaging.Delete(sms.Path()); err != nil {
-			return fmt.Errorf("deleting message for participant %s on modem %s: %w", participant, modem.EquipmentIdentifier, err)
+			slog.Error("failed to delete message", "modem", modem.EquipmentIdentifier, "participant", participant, "error", err)
+			return err
 		}
 	}
 	return nil

@@ -14,16 +14,16 @@ export const useMessageApi = () => {
 
   const deleteMessagesByParticipant = (id: string, participant: string) => {
     const encoded = encodeURIComponent(participant)
-    return useFetch<string>(`modems/${id}/messages/${encoded}`, {
+    return useFetch<void>(`modems/${id}/messages/${encoded}`, {
       method: 'DELETE',
-    })
+    }).json()
   }
 
   const sendMessage = (id: string, to: string, text: string) => {
-    return useFetch<string>(`modems/${id}/messages`, {
+    return useFetch<void>(`modems/${id}/messages`, {
       method: 'POST',
       body: JSON.stringify({ to, text }),
-    })
+    }).json()
   }
 
   return {

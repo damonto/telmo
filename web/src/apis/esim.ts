@@ -12,22 +12,22 @@ export const useEsimApi = () => {
   }
 
   const updateEsimNickname = (id: string, iccid: string, nickname: string) => {
-    return useFetch<string>(`modems/${id}/esims/${iccid}/nickname`, {
+    return useFetch<void>(`modems/${id}/esims/${iccid}/nickname`, {
       method: 'PUT',
       body: JSON.stringify({ nickname }),
-    })
+    }).json()
   }
 
   const enableEsim = (id: string, iccid: string) => {
-    return useFetch<string>(`modems/${id}/esims/${iccid}/enabling`, {
+    return useFetch<void>(`modems/${id}/esims/${iccid}/enabling`, {
       method: 'POST',
-    })
+    }).json()
   }
 
   const deleteEsim = (id: string, iccid: string) => {
-    return useFetch<string>(`modems/${id}/esims/${iccid}`, {
+    return useFetch<void>(`modems/${id}/esims/${iccid}`, {
       method: 'DELETE',
-    })
+    }).json()
   }
 
   return {

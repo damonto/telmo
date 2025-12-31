@@ -2,7 +2,6 @@ package euicc
 
 import (
 	"errors"
-	"fmt"
 	"log/slog"
 
 	"github.com/damonto/sigmo/internal/pkg/config"
@@ -24,9 +23,10 @@ func (s *Service) Get(modem *mmodem.Modem) (*EuiccResponse, error) {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
 		if errors.Is(err, lpa.ErrNoSupportedAID) {
-			return nil, fmt.Errorf("modem %s does not support eSIM: %w", modem.EquipmentIdentifier, err)
+			return nil, err
 		}
-		return nil, fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -36,7 +36,8 @@ func (s *Service) Get(modem *mmodem.Modem) (*EuiccResponse, error) {
 
 	info, err := client.Info()
 	if err != nil {
-		return nil, fmt.Errorf("fetching eUICC info for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to fetch eUICC info", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	return &EuiccResponse{
 		EID:          info.EID,

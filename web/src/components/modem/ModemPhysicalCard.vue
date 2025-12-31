@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { SignalHigh } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 
+import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { useModemDisplay } from '@/composables/useModemDisplay'
 import type { Modem } from '@/types/modem'
@@ -10,7 +13,39 @@ const props = defineProps<{
 }>()
 
 const { t } = useI18n()
-const { flagClass, formatSignal, signalIcon, signalTone } = useModemDisplay()
+const {
+  flagClass,
+  formatSignal,
+  signalIcon,
+  signalTone,
+  registrationStateIcon,
+  registrationStateLabel,
+  registrationStateTone,
+  shouldShowRegistrationIcon,
+  getSignalColorOverride,
+} = useModemDisplay()
+
+const isSearching = computed(() => props.modem.registrationState.trim() === 'Searching')
+const signalIconComponent = computed(() =>
+  isSearching.value ? SignalHigh : signalIcon(props.modem.signalQuality),
+)
+const signalToneClass = computed(() => {
+  if (isSearching.value) return 'text-amber-500'
+  const override = getSignalColorOverride(props.modem.registrationState)
+  return override ?? signalTone(props.modem.signalQuality)
+})
+const showRegistrationIcon = computed(() =>
+  shouldShowRegistrationIcon(props.modem.registrationState),
+)
+const registrationIcon = computed(() =>
+  registrationStateIcon(props.modem.registrationState),
+)
+const registrationLabel = computed(() =>
+  registrationStateLabel(props.modem.registrationState),
+)
+const registrationToneClass = computed(() =>
+  registrationStateTone(props.modem.registrationState),
+)
 </script>
 
 <template>
@@ -50,16 +85,28 @@ const { flagClass, formatSignal, signalIcon, signalTone } = useModemDisplay()
         </span>
         <div class="flex items-center gap-2">
           <component
-            :is="signalIcon(props.modem.signalQuality)"
+            :is="signalIconComponent"
             class="size-5"
-            :class="signalTone(props.modem.signalQuality)"
+            :class="[signalToneClass, isSearching && 'animate-pulse']"
           />
-          <span
-            v-if="props.modem.registrationState === 'Roaming'"
-            class="flex size-5 items-center justify-center rounded-full bg-amber-100 text-[10px] font-semibold text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
+          <component
+            v-if="showRegistrationIcon && registrationIcon"
+            :is="registrationIcon"
+            class="size-5"
+            :class="registrationToneClass"
+            :aria-label="props.modem.registrationState"
+            :title="props.modem.registrationState"
+          />
+          <Badge
+            v-else-if="showRegistrationIcon && registrationLabel"
+            variant="secondary"
+            class="h-5 px-1.5 text-xs font-semibold"
+            :class="registrationToneClass"
+            :aria-label="props.modem.registrationState"
+            :title="props.modem.registrationState"
           >
-            R
-          </span>
+            {{ registrationLabel }}
+          </Badge>
           <span class="font-mono text-xs text-muted-foreground">
             {{ formatSignal(props.modem.signalQuality) }}
           </span>

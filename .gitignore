@@ -36,3 +36,4 @@ configs/config.toml
 AGENTS*.md
 .mcp.json
 CLAUDE.md
+.claude

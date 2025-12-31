@@ -8,15 +8,15 @@ export const useNotificationApi = () => {
   }
 
   const resendNotification = (id: string, sequence: string) => {
-    return useFetch<string>(`modems/${id}/notifications/${sequence}/resend`, {
+    return useFetch<void>(`modems/${id}/notifications/${sequence}/resend`, {
       method: 'POST',
-    })
+    }).json()
   }
 
   const deleteNotification = (id: string, sequence: string) => {
-    return useFetch<string>(`modems/${id}/notifications/${sequence}`, {
+    return useFetch<void>(`modems/${id}/notifications/${sequence}`, {
       method: 'DELETE',
-    })
+    }).json()
   }
 
   return {

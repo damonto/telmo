@@ -3,7 +3,6 @@ package modem
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log/slog"
 	"regexp"
 	"slices"
@@ -42,7 +41,8 @@ func NewService(cfg *config.Config, manager *mmodem.Manager) *Service {
 func (s *Service) List() ([]*ModemResponse, error) {
 	modems, err := s.manager.Modems()
 	if err != nil {
-		return nil, fmt.Errorf("listing modems: %w", err)
+		slog.Error("failed to list modems", "error", err)
+		return nil, err
 	}
 	response := make([]*ModemResponse, 0, len(modems))
 	for _, m := range modems {
@@ -75,9 +75,13 @@ func (s *Service) SwitchSimSlot(ctx context.Context, modem *mmodem.Modem, identi
 		return err
 	}
 	if err := modem.SetPrimarySimSlot(slotIndex); err != nil {
-		return fmt.Errorf("setting primary SIM slot for %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to set primary SIM slot", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	_, err = s.manager.WaitForModem(ctx, modem.EquipmentIdentifier)
+	if err != nil {
+		slog.Error("failed to wait for modem", "modem", modem.EquipmentIdentifier, "error", err)
+	}
 	return err
 }
 
@@ -88,11 +92,13 @@ func (s *Service) UpdateMSISDN(ctx context.Context, modem *mmodem.Modem, number 
 	}
 	port, err := modem.Port(mmodem.ModemPortTypeAt)
 	if err != nil {
-		return fmt.Errorf("finding AT port for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to find AT port", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	client, err := msisdn.New(port.Device)
 	if err != nil {
-		return fmt.Errorf("opening MSISDN client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to open MSISDN client", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -100,12 +106,17 @@ func (s *Service) UpdateMSISDN(ctx context.Context, modem *mmodem.Modem, number 
 		}
 	}()
 	if err := client.Update("", number); err != nil {
-		return fmt.Errorf("updating MSISDN for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to update MSISDN", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	if err := modem.Restart(s.cfg.FindModem(modem.EquipmentIdentifier).Compatible); err != nil {
-		return fmt.Errorf("restarting modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to restart modem", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	_, err = s.manager.WaitForModem(ctx, modem.EquipmentIdentifier)
+	if err != nil {
+		slog.Error("failed to wait for modem", "modem", modem.EquipmentIdentifier, "error", err)
+	}
 	return err
 }
 
@@ -122,6 +133,7 @@ func (s *Service) UpdateSettings(modemID string, req UpdateModemSettingsRequest)
 	}
 	s.cfg.Modems[modemID] = modem
 	if err := s.cfg.Save(); err != nil {
+		slog.Error("failed to save config", "modem", modemID, "error", err)
 		return err
 	}
 	return nil
@@ -139,44 +151,52 @@ func (s *Service) GetSettings(modemID string) *ModemSettingsResponse {
 func (s *Service) buildModemResponse(m *mmodem.Modem) (*ModemResponse, error) {
 	sim, err := m.SIMs().Primary()
 	if err != nil {
-		return nil, fmt.Errorf("fetching SIM for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to fetch SIM", "modem", m.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	percent, _, err := m.SignalQuality()
 	if err != nil {
-		return nil, fmt.Errorf("fetching signal quality for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to fetch signal quality", "modem", m.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	access, err := m.AccessTechnologies()
 	if err != nil {
-		return nil, fmt.Errorf("fetching access technologies for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to fetch access technologies", "modem", m.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	threeGpp := m.ThreeGPP()
 	registrationState, err := threeGpp.RegistrationState()
 	if err != nil {
-		return nil, fmt.Errorf("fetching registration state for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to fetch registration state", "modem", m.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	registeredOperatorName, err := threeGpp.OperatorName()
 	if err != nil {
-		return nil, fmt.Errorf("fetching operator name for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to fetch operator name", "modem", m.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	operatorCode, err := threeGpp.OperatorCode()
 	if err != nil {
-		return nil, fmt.Errorf("fetching operator code for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to fetch operator code", "modem", m.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	carrierInfo := carrier.Lookup(sim.OperatorIdentifier)
 	supportsEsim, err := supportsEsim(m, s.cfg)
 	if err != nil {
-		return nil, fmt.Errorf("detecting eSIM support for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to detect eSIM support", "modem", m.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	simSlots, err := s.buildSimSlotsResponse(m)
 	if err != nil {
-		return nil, fmt.Errorf("fetching SIM slots for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to fetch SIM slots", "modem", m.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	alias := s.cfg.FindModem(m.EquipmentIdentifier).Alias
@@ -222,7 +242,8 @@ func (s *Service) buildSimSlotsResponse(m *mmodem.Modem) ([]SlotResponse, error)
 	for _, slotPath := range m.SimSlots {
 		sim, err := m.SIMs().Get(slotPath)
 		if err != nil {
-			return nil, fmt.Errorf("fetching SIM for slot %s: %w", slotPath, err)
+			slog.Error("failed to fetch SIM for slot", "modem", m.EquipmentIdentifier, "slot", slotPath, "error", err)
+			return nil, err
 		}
 		carrierInfo := carrier.Lookup(sim.OperatorIdentifier)
 		operatorName := carrierInfo.Name
@@ -247,13 +268,14 @@ func (s *Service) findSimSlotIndex(modem *mmodem.Modem, identifier string) (uint
 	for index, slotPath := range modem.SimSlots {
 		sim, err := modem.SIMs().Get(slotPath)
 		if err != nil {
-			return 0, fmt.Errorf("fetching SIM for slot %s: %w", slotPath, err)
+			slog.Error("failed to fetch SIM for slot", "modem", modem.EquipmentIdentifier, "slot", slotPath, "error", err)
+			return 0, err
 		}
 		if sim.Identifier == identifier && !sim.Active {
 			return uint32(index + 1), nil
 		}
 	}
-	return 0, fmt.Errorf("sim slot %q not found: %w", identifier, errSimSlotNotFound)
+	return 0, errSimSlotNotFound
 }
 
 func supportsEsim(m *mmodem.Modem, cfg *config.Config) (bool, error) {
@@ -262,7 +284,8 @@ func supportsEsim(m *mmodem.Modem, cfg *config.Config) (bool, error) {
 		if errors.Is(err, lpa.ErrNoSupportedAID) {
 			return false, nil
 		}
-		return false, fmt.Errorf("creating LPA client for %s: %w", m.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", m.EquipmentIdentifier, "error", err)
+		return false, err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {

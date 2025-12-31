@@ -3,6 +3,7 @@ package auth
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 
 	"github.com/damonto/sigmo/internal/app/auth"
 	"github.com/damonto/sigmo/internal/pkg/config"
@@ -39,13 +40,19 @@ func (s *Service) SendOTP() error {
 	}
 	code, _, err := s.store.IssueOTP()
 	if err != nil {
+		slog.Error("failed to issue OTP", "error", err)
 		return err
 	}
 	notifier, err := notify.New(s.cfg)
 	if err != nil {
-		return fmt.Errorf("creating notifier: %w", err)
+		slog.Error("failed to create notifier", "error", err)
+		return err
 	}
-	return notifier.Send(notify.TextMessage{Text: fmt.Sprintf("Your verification code is %s", code)}, s.cfg.App.AuthProviders...)
+	if err := notifier.Send(notify.TextMessage{Text: fmt.Sprintf("Your verification code is %s", code)}, s.cfg.App.AuthProviders...); err != nil {
+		slog.Error("failed to send OTP notification", "error", err)
+		return err
+	}
+	return nil
 }
 
 func (s *Service) VerifyOTP(code string) (string, error) {
@@ -54,6 +61,7 @@ func (s *Service) VerifyOTP(code string) (string, error) {
 	}
 	token, _, err := s.store.IssueToken()
 	if err != nil {
+		slog.Error("failed to issue token", "error", err)
 		return "", err
 	}
 	return token, nil

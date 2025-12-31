@@ -2,7 +2,7 @@ package network
 
 import (
 	"errors"
-	"fmt"
+	"log/slog"
 	"strings"
 
 	mmodem "github.com/damonto/sigmo/internal/pkg/modem"
@@ -19,7 +19,8 @@ func NewService() *Service {
 func (s *Service) List(modem *mmodem.Modem) ([]NetworkResponse, error) {
 	networks, err := modem.ThreeGPP().ScanNetworks()
 	if err != nil {
-		return nil, fmt.Errorf("scanning networks for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to scan networks", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	response := make([]NetworkResponse, 0, len(networks))
@@ -41,7 +42,8 @@ func (s *Service) Register(modem *mmodem.Modem, operatorCode string) error {
 		return errOperatorCodeRequired
 	}
 	if err := modem.ThreeGPP().RegisterNetwork(operatorCode); err != nil {
-		return fmt.Errorf("registering network %s for modem %s: %w", operatorCode, modem.EquipmentIdentifier, err)
+		slog.Error("failed to register network", "modem", modem.EquipmentIdentifier, "operator", operatorCode, "error", err)
+		return err
 	}
 	return nil
 }

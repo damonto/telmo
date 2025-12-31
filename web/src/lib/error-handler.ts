@@ -19,13 +19,6 @@ const extractErrorMessage = (data: unknown) => {
     }
   }
 
-  if (typeof data === 'string') {
-    try {
-      const parsed = JSON.parse(data) as Record<string, unknown>
-      if (typeof parsed.message === 'string') return parsed.message
-    } catch { }
-  }
-
   return null
 }
 

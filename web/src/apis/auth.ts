@@ -1,12 +1,11 @@
 import { useFetch } from '@/lib/fetch'
-import type { EmptyObject } from '@/types/api'
 import type { AuthOtpRequirementResponse, AuthVerifyPayload, AuthVerifyResponse } from '@/types/auth'
 
 export const useAuthApi = () => {
   const sendCode = () => {
-    return useFetch<EmptyObject>('auth/otp', {
+    return useFetch<void>('auth/otp', {
       method: 'POST',
-    })
+    }).json()
   }
 
   const getOtpRequirement = () => {

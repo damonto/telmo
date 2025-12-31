@@ -33,7 +33,8 @@ func NewService(cfg *config.Config, manager *mmodem.Manager) *Service {
 func (s *Service) List(modem *mmodem.Modem) ([]ProfileResponse, error) {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return nil, fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -43,7 +44,8 @@ func (s *Service) List(modem *mmodem.Modem) ([]ProfileResponse, error) {
 
 	profiles, err := client.ListProfile(nil, nil)
 	if err != nil {
-		return nil, fmt.Errorf("listing profiles for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to list profiles", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	response := make([]ProfileResponse, 0, len(profiles))
@@ -73,7 +75,8 @@ func (s *Service) List(modem *mmodem.Modem) ([]ProfileResponse, error) {
 func (s *Service) Discover(modem *mmodem.Modem) ([]DiscoverResponse, error) {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return nil, fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -83,16 +86,19 @@ func (s *Service) Discover(modem *mmodem.Modem) ([]DiscoverResponse, error) {
 
 	imeiValue, err := modem.ThreeGPP().IMEI()
 	if err != nil {
-		return nil, fmt.Errorf("reading modem IMEI for %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to read modem IMEI", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 	imei, err := sgp22.NewIMEI(imeiValue)
 	if err != nil {
-		return nil, fmt.Errorf("invalid IMEI %q for modem %s: %w", imeiValue, modem.EquipmentIdentifier, err)
+		slog.Error("invalid IMEI", "modem", modem.EquipmentIdentifier, "imei", imeiValue, "error", err)
+		return nil, err
 	}
 
 	entries, err := client.Discover(imei)
 	if err != nil {
-		return nil, fmt.Errorf("discovering profiles for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to discover profiles", "modem", modem.EquipmentIdentifier, "error", err)
+		return nil, err
 	}
 
 	response := make([]DiscoverResponse, 0, len(entries))
@@ -108,7 +114,8 @@ func (s *Service) Discover(modem *mmodem.Modem) ([]DiscoverResponse, error) {
 func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.ICCID) error {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	closeClient := func() {
 		if client == nil {
@@ -123,7 +130,8 @@ func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.I
 
 	notifications, err := client.ListNotification()
 	if err != nil {
-		return fmt.Errorf("listing notifications for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to list notifications", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	var lastSeq sgp22.SequenceNumber
 	for _, notification := range notifications {
@@ -131,18 +139,20 @@ func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.I
 	}
 
 	if err := client.EnableProfile(iccid, true); err != nil {
-		slog.Error("enabling profile", "error", err)
-		return fmt.Errorf("enabling profile %s on modem %s: %w", iccid.String(), modem.EquipmentIdentifier, err)
+		slog.Error("failed to enable profile", "modem", modem.EquipmentIdentifier, "iccid", iccid.String(), "error", err)
+		return err
 	}
 
 	closeClient()
 
 	if err := modem.Restart(s.cfg.FindModem(modem.EquipmentIdentifier).Compatible); err != nil {
-		return fmt.Errorf("restarting modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to restart modem", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 
 	target, err := s.manager.WaitForModem(ctx, modem.EquipmentIdentifier)
 	if err != nil {
+		slog.Error("failed to wait for modem", "modem", modem.EquipmentIdentifier, "error", err)
 		return err
 	}
 	if err := s.sendPendingNotifications(target, lastSeq); err != nil {
@@ -154,7 +164,8 @@ func (s *Service) Enable(ctx context.Context, modem *mmodem.Modem, iccid sgp22.I
 func (s *Service) Delete(modem *mmodem.Modem, iccid sgp22.ICCID) error {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -163,7 +174,8 @@ func (s *Service) Delete(modem *mmodem.Modem, iccid sgp22.ICCID) error {
 	}()
 
 	if err := client.Delete(iccid); err != nil {
-		return fmt.Errorf("deleting profile %s on modem %s: %w", iccid.String(), modem.EquipmentIdentifier, err)
+		slog.Error("failed to delete profile", "modem", modem.EquipmentIdentifier, "iccid", iccid.String(), "error", err)
+		return err
 	}
 	return nil
 }
@@ -171,7 +183,8 @@ func (s *Service) Delete(modem *mmodem.Modem, iccid sgp22.ICCID) error {
 func (s *Service) Download(ctx context.Context, modem *mmodem.Modem, activationCode *elpa.ActivationCode, opts *elpa.DownloadOptions) error {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -180,6 +193,7 @@ func (s *Service) Download(ctx context.Context, modem *mmodem.Modem, activationC
 	}()
 
 	if err := client.Download(ctx, activationCode, opts); err != nil {
+		slog.Error("failed to download profile", "modem", modem.EquipmentIdentifier, "error", err)
 		return err
 	}
 	return nil
@@ -191,7 +205,8 @@ func (s *Service) UpdateNickname(modem *mmodem.Modem, iccid sgp22.ICCID, nicknam
 	}
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -200,7 +215,8 @@ func (s *Service) UpdateNickname(modem *mmodem.Modem, iccid sgp22.ICCID, nicknam
 	}()
 
 	if err := client.SetNickname(iccid, nickname); err != nil {
-		return fmt.Errorf("setting nickname for profile %s on modem %s: %w", iccid.String(), modem.EquipmentIdentifier, err)
+		slog.Error("failed to set nickname", "modem", modem.EquipmentIdentifier, "iccid", iccid.String(), "error", err)
+		return err
 	}
 	return nil
 }
@@ -218,7 +234,8 @@ func validateNickname(nickname string) error {
 func (s *Service) sendPendingNotifications(modem *mmodem.Modem, lastSeq sgp22.SequenceNumber) error {
 	client, err := lpa.New(modem, s.cfg)
 	if err != nil {
-		return fmt.Errorf("creating LPA client for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to create LPA client", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	defer func() {
 		if cerr := client.Close(); cerr != nil {
@@ -227,7 +244,8 @@ func (s *Service) sendPendingNotifications(modem *mmodem.Modem, lastSeq sgp22.Se
 	}()
 	notifications, err := client.ListNotification()
 	if err != nil {
-		return fmt.Errorf("listing notifications for modem %s: %w", modem.EquipmentIdentifier, err)
+		slog.Error("failed to list notifications", "modem", modem.EquipmentIdentifier, "error", err)
+		return err
 	}
 	var errs error
 	for _, notification := range notifications {
@@ -236,7 +254,7 @@ func (s *Service) sendPendingNotifications(modem *mmodem.Modem, lastSeq sgp22.Se
 		}
 		if err := client.SendNotification(notification.SequenceNumber, true); err != nil {
 			slog.Error("failed to send notification", "sequence", notification.SequenceNumber, "error", err)
-			errs = errors.Join(errs, fmt.Errorf("send notification %d: %w", notification.SequenceNumber, err))
+			errs = errors.Join(errs, err)
 		}
 	}
 	return errs
