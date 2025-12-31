@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"path"
@@ -100,7 +101,8 @@ func (t *Telegram) sendOne(to int64, text string) error {
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := t.client.Do(req)
 	if err != nil {
-		return fmt.Errorf("sending telegram message to %d: %w", to, err)
+		slog.Error("failed to send telegram message", "recipient", to, "error", err)
+		return errors.New("telegram API request failed")
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
