@@ -204,7 +204,7 @@ func (l *LPA) Download(ctx context.Context, activationCode *lpa.ActivationCode, 
 	}
 	if result != nil && result.Notification != nil && result.Notification.SequenceNumber > 0 {
 		slog.Info("sending download notification", "sequence", result.Notification.SequenceNumber)
-		if err := l.SendNotification(result.Notification, false); err != nil {
+		if err := l.SendNotification(result.Notification.SequenceNumber, false); err != nil {
 			return err
 		}
 	}
